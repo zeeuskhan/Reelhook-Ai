@@ -1835,7 +1835,6 @@ export default function App() {
                       </div>
                     </div>
                   </section>
-                  <SEOIntro />
                 </>
               } />
               <Route path="/dashboard" element={<Dashboard />} />
@@ -1847,6 +1846,7 @@ export default function App() {
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
             </Routes>
+            <SEOIntro />
           </main>
           <Footer />
         </div>
