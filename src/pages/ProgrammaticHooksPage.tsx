@@ -3,7 +3,7 @@ import { NICHES } from "../data/niches";
 
 export default function ProgrammaticHooksPage() {
 
-  const { niche } = useParams();
+  const { slug } = useParams();
 
   const nicheData = NICHES.find(n => n.id === niche);
 
