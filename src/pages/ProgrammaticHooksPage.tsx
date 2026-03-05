@@ -5,7 +5,7 @@ export default function ProgrammaticHooksPage() {
 
   const { slug } = useParams();
 
-  const nicheData = NICHES.find(n => n.id === niche);
+  const nicheData = NICHES.find(n => n.id === slug);
 
   if (!nicheData) {
     return <div>Page not found</div>;
@@ -25,7 +25,7 @@ export default function ProgrammaticHooksPage() {
       <ul>
         {nicheData.subcategories.map((sub) => (
           <li key={sub}>
-            <a href={`/hooks/${niche}/${sub.toLowerCase().replace(/\s+/g,"-")}`}>
+            <a href={`/hooks/${slug}/${sub.toLowerCase().replace(/\s+/g,"-")}`}>
               {sub} Hooks
             </a>
           </li>
