@@ -1,3 +1,4 @@
+import ProgrammaticHooksPage from "./pages/ProgrammaticHooksPage";
 import SEOIntro from "./SEOIntro";
 import React, { useState, useEffect, useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from "react-router-dom";
