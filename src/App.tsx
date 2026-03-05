@@ -1808,6 +1808,31 @@ export default function App() {
                     }}
                   />
                   <Hero />
+                  <section className="py-10 text-center">
+
+<h2 className="text-2xl font-bold mb-6">Popular Reel Hook Niches</h2>
+
+<div className="flex flex-wrap justify-center gap-4">
+
+<a href="/hooks/fitness" className="px-4 py-2 bg-blue-600 text-white rounded">Fitness Hooks</a>
+
+<a href="/hooks/finance" className="px-4 py-2 bg-blue-600 text-white rounded">Finance Hooks</a>
+
+<a href="/hooks/business" className="px-4 py-2 bg-blue-600 text-white rounded">Business Hooks</a>
+
+<a href="/hooks/tech" className="px-4 py-2 bg-blue-600 text-white rounded">Tech Hooks</a>
+
+<a href="/hooks/health" className="px-4 py-2 bg-blue-600 text-white rounded">Health Hooks</a>
+
+<a href="/hooks/social-media" className="px-4 py-2 bg-blue-600 text-white rounded">Social Media Hooks</a>
+
+<a href="/hooks/motivation" className="px-4 py-2 bg-blue-600 text-white rounded">Motivation Hooks</a>
+
+<a href="/hooks/education" className="px-4 py-2 bg-blue-600 text-white rounded">Education Hooks</a>
+
+</div>
+
+</section>
                   <section id="features" className="py-20 px-4 bg-white/[0.02]">
                     <div className="max-w-7xl mx-auto">
                       <div className="text-center mb-16 space-y-4">
