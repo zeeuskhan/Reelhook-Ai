@@ -80,4 +80,24 @@
 <priority>0.7</priority>
 </url>
 
+<url>
+<loc>https://reelhooks.vercel.app/hooks/fitness</loc>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://reelhooks.vercel.app/hooks/finance</loc>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://reelhooks.vercel.app/hooks/business</loc>
+<priority>0.8</priority>
+</url>
+
+<url>
+<loc>https://reelhooks.vercel.app/hooks/tech</loc>
+<priority>0.8</priority>
+</url> 
+
 </urlset>
