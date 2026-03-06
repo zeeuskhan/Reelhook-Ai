@@ -1871,6 +1871,7 @@ export default function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
+              <Route path="/hooks/:slug/:subcategory" element={<ProgrammaticHooksPage />} />
             </Routes>
             <SEOIntro />
           </main>
