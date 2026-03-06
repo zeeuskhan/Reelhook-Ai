@@ -505,19 +505,19 @@ const ProgrammaticHooksPage = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://reelhook.ai/"
+        "item": "https://www.reelhooks.site/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Hooks",
-        "item": "https://reelhook.ai/dashboard"
+        "item": "https://www.reelhooks.site/dashboard"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": nicheName,
-        "item": `https://reelhook.ai/hooks/${slug}`
+        "item": `https://www.reelhooks.site/hooks/${slug}`
       }
     ]
   };
