@@ -1,4 +1,11 @@
 {
+  "redirects": [
+    {
+      "source": "http://reelhooks.site/:path*",
+      "destination": "https://reelhooks.site/:path*",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/(.*)", "destination": "/index.html" }
   ]
