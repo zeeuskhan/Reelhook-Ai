@@ -26,7 +26,7 @@ async function startServer() {
 `User-agent: *
 Allow: /
 
-Sitemap: https://reelhooks.site/sitemap.xml`
+Sitemap: https://www.reelhooks.site/sitemap.xml`
     );
   });
 
@@ -41,7 +41,7 @@ Sitemap: https://reelhooks.site/sitemap.xml`
     const mainNicheUrls = NICHES.flatMap(n =>
       variations.map(v =>
         `<url>
-          <loc>https://reelhooks.site/hooks/${n.id}-${v}</loc>
+          <loc>https://www.reelhooks.site/hooks/${n.id}-${v}</loc>
           <priority>0.7</priority>
         </url>`
       )
@@ -58,7 +58,7 @@ Sitemap: https://reelhooks.site/sitemap.xml`
 
         return variations.map(v =>
           `<url>
-            <loc>https://reelhooks.site/hooks/${subSlug}-${v}</loc>
+            <loc>https://www.reelhooks.site/hooks/${subSlug}-${v}</loc>
             <priority>0.6</priority>
           </url>`
         );
@@ -73,27 +73,27 @@ Sitemap: https://reelhooks.site/sitemap.xml`
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
 
 <url>
-<loc>https://reelhooks.site/</loc>
+<loc>https://www.reelhooks.site/</loc>
 <priority>1.0</priority>
 </url>
 
 <url>
-<loc>https://reelhooks.site/dashboard</loc>
+<loc>https://www.reelhooks.site/dashboard</loc>
 <priority>0.8</priority>
 </url>
 
 <url>
-<loc>https://reelhooks.site/pricing</loc>
+<loc>https://www.reelhooks.site/pricing</loc>
 <priority>0.8</priority>
 </url>
 
 <url>
-<loc>https://reelhooks.site/about</loc>
+<loc>https://www.reelhooks.site/about</loc>
 <priority>0.5</priority>
 </url>
 
 <url>
-<loc>https://reelhooks.site/blog</loc>
+<loc>https://www.reelhooks.site/blog</loc>
 <priority>0.7</priority>
 </url>
 
