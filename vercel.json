@@ -1,8 +1,8 @@
 {
   "redirects": [
     {
-      "source": "http://reelhooks.site/:path*",
-      "destination": "https://reelhooks.site/:path*",
+      "source": "http://www.reelhooks.site/:path*",
+      "destination": "https://www.reelhooks.site/:path*",
       "permanent": true
     }
   ],
