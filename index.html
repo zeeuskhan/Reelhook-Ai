@@ -98,58 +98,86 @@
   </script>
 
   <style>
-    body{
-      margin:0;
-      font-family:system-ui,-apple-system,Arial,sans-serif;
-      background:#0f172a;
-      color:white;
+    html, body {
+      margin: 0;
+      padding: 0;
+      min-height: 100%;
+      font-family: system-ui, -apple-system, Arial, sans-serif;
+      background: #0f172a;
+      color: white;
     }
 
-    #root{
-      min-height:100vh;
-      display:flex;
-      align-items:center;
-      justify-content:center;
-      flex-direction:column;
-      text-align:center;
-      padding:20px;
+    body {
+      overflow-x: hidden;
     }
 
-    .seo-content{
-      max-width:900px;
-      margin:40px auto 0;
-      text-align:left;
-      line-height:1.7;
+    #root {
+      min-height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      text-align: center;
+      padding: 20px;
+      position: relative;
+      z-index: 1;
+      pointer-events: auto;
     }
 
-    .seo-content h2{
-      font-size:24px;
-      margin:28px 0 12px;
-      color:#ffffff;
+    .seo-content {
+      max-width: 900px;
+      margin: 40px auto 0;
+      text-align: left;
+      line-height: 1.7;
+      position: relative;
+      z-index: 1;
+      pointer-events: auto;
+    }
+
+    .seo-content h2 {
+      font-size: 24px;
+      margin: 28px 0 12px;
+      color: #ffffff;
     }
 
     .seo-content p,
-    .seo-content li{
-      color:rgba(255,255,255,.85);
+    .seo-content li {
+      color: rgba(255, 255, 255, .85);
     }
 
-    .seo-content ul{
-      padding-left:20px;
+    .seo-content ul {
+      padding-left: 20px;
     }
 
-    .seo-content a{
-      color:#93c5fd;
-      text-decoration:none;
+    .seo-content a,
+    a {
+      color: #93c5fd;
+      text-decoration: none;
+      pointer-events: auto;
+      position: relative;
+      z-index: 2;
+      cursor: pointer;
     }
 
-    h1{
-      font-size:32px;
-      margin-bottom:10px;
+    .seo-content a:hover,
+    a:hover {
+      text-decoration: underline;
     }
 
-    p{
-      max-width:700px;
-      opacity:.9;
+    h1 {
+      font-size: 32px;
+      margin-bottom: 10px;
+    }
+
+    p {
+      max-width: 700px;
+      opacity: .9;
+    }
+
+    button,
+    a,
+    [role="button"] {
+      pointer-events: auto;
     }
   </style>
 </head>
