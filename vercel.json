@@ -1,12 +1,10 @@
 {
-  "redirects": [
-    {
-      "source": "http://www.reelhooks.site/:path*",
-      "destination": "https://www.reelhooks.site/:path*",
-      "permanent": true
-    }
-  ],
+  "cleanUrls": true,
+  "trailingSlash": false,
   "rewrites": [
-    { "source": "/(.*)", "destination": "/index.html" }
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
   ]
 }
