@@ -11,43 +11,27 @@ export default function ProgrammaticHooksPage() {
     return <div style={{padding:"40px"}}>Page not found</div>;
   }
 
-  // ✅ Dynamic FAQ System
-  const niche = slug || "general";
+  // ✅ Dynamic FAQ (AUTO for ALL pages)
+  const niche = (slug || "general").toLowerCase().replace(/-/g, " ");
 
-  const faqData: any = {
-    fitness: [
-      {
-        question: "What are fitness reel hooks?",
-        answer: "Fitness reel hooks are short lines used in workout videos to grab attention instantly."
-      },
-      {
-        question: "How to create viral fitness content?",
-        answer: "Use transformation, results and strong attention grabbing hooks."
-      }
-    ],
-    beauty: [
-      {
-        question: "What are beauty reel hooks?",
-        answer: "Beauty reel hooks are used in skincare and makeup videos to attract viewers."
-      },
-      {
-        question: "How to grow a beauty page on Instagram?",
-        answer: "Use trending hooks, before-after results and engaging captions."
-      }
-    ],
-    tech: [
-      {
-        question: "What are tech reel hooks?",
-        answer: "Tech hooks are short lines used in gadget and review videos to capture attention."
-      },
-      {
-        question: "How to make viral tech reels?",
-        answer: "Focus on unique features, comparisons and surprising facts."
-      }
-    ]
-  };
-
-  const currentFaq = faqData[niche] || faqData["fitness"];
+  const currentFaq = [
+    {
+      question: `What are ${niche} reel hooks?`,
+      answer: `${niche} reel hooks are short attention grabbing lines used in videos to stop scrolling and increase engagement.`
+    },
+    {
+      question: `How to create viral ${niche} content?`,
+      answer: `Focus on strong hooks, audience pain points and engaging storytelling in ${niche} content.`
+    },
+    {
+      question: `What works best in ${niche} reels?`,
+      answer: `Simple tips, relatable content and high value insights perform best in ${niche} reels.`
+    },
+    {
+      question: `How to grow a ${niche} page on Instagram?`,
+      answer: `Post consistently, use trending hooks and focus on high engagement content in the ${niche} niche.`
+    }
+  ];
 
   const hooks = [
     "Stop scrolling if you care about this",
@@ -65,14 +49,14 @@ export default function ProgrammaticHooksPage() {
   return (
     <div style={{padding:"40px", maxWidth:"900px", margin:"auto"}}>
 
-      {/* ✅ FAQ Schema Inject */}
+      {/* ✅ SEO FAQ Schema */}
       <script
         type="application/ld+json"
         dangerouslySetInnerHTML={{
           __html: JSON.stringify({
             "@context": "https://schema.org",
             "@type": "FAQPage",
-            mainEntity: currentFaq.map((faq: any) => ({
+            mainEntity: currentFaq.map(faq => ({
               "@type": "Question",
               name: faq.question,
               acceptedAnswer: {
@@ -126,9 +110,10 @@ export default function ProgrammaticHooksPage() {
         Open ReelHook AI Tool
       </a>
 
-      {/* ✅ Optional: Show FAQ on page (SEO boost) */}
+      {/* ✅ Visible FAQ (important for SEO) */}
       <h2>Frequently Asked Questions</h2>
-      {currentFaq.map((faq: any, i: number) => (
+
+      {currentFaq.map((faq, i) => (
         <div key={i} style={{marginBottom:"15px"}}>
           <strong>{faq.question}</strong>
           <p>{faq.answer}</p>
