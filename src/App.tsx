@@ -1,5 +1,3 @@
-import ProgrammaticHooksPage from "./pages/ProgrammaticHooksPage";
-import SEOIntro from "./SEOIntro";
 import React, { useState, useEffect, useMemo } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
@@ -36,7 +34,7 @@ import {
   Users,
   ChevronDown
 } from "lucide-react";
-import { motion, AnimatePresence } from "framer-motion";
+import { motion, AnimatePresence } from "motion/react";
 import { GoogleGenAI } from "@google/genai";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
@@ -505,19 +503,19 @@ const ProgrammaticHooksPage = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://www.reelhooks.site/"
+        "item": "https://reelhook.ai/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Hooks",
-        "item": "https://www.reelhooks.site/dashboard"
+        "item": "https://reelhook.ai/dashboard"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": nicheName,
-        "item": `https://www.reelhooks.site/hooks/${slug}`
+        "item": `https://reelhook.ai/hooks/${slug}`
       }
     ]
   };
@@ -594,7 +592,20 @@ const ProgrammaticHooksPage = () => {
       </div>
 
       <div className="space-y-8">
-        
+        <h2 className="text-3xl font-bold">FAQ: Viral Reel Hooks</h2>
+        <div className="space-y-4">
+          {[
+            { q: `What is a reel hook?`, a: "A reel hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on. It's the most important part of viral reel hooks." },
+            { q: "How to make reels viral?", a: "To make reels viral, you need a strong hook, high retention, and consistent posting. Using an instagram hook generator can help you find the best hooks for reels." },
+            { q: "What is the best hook for Instagram reels?", a: "The best hook depends on your niche, but generally, curiosity-based hooks or 'how-to' hooks perform best. Reel hooks in hindi are also very effective for reaching the Indian audience." },
+            { q: "How long should a reel hook be?", a: "A reel hook should be between 1 to 3 seconds. It needs to be punchy and provide immediate context to the viewer." }
+          ].map((faq, i) => (
+            <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/10">
+              <h4 className="font-bold mb-2">{faq.q}</h4>
+              <p className="text-sm text-text-secondary">{faq.a}</p>
+            </div>
+          ))}
+        </div>
       </div>
 
       <div className="space-y-8">
@@ -1795,31 +1806,6 @@ export default function App() {
                     }}
                   />
                   <Hero />
-                  <section className="py-10 text-center">
-
-<h2 className="text-2xl font-bold mb-6">Popular Reel Hook Niches</h2>
-
-<div className="flex flex-wrap justify-center gap-4">
-
-<a href="/hooks/fitness" className="px-4 py-2 bg-blue-600 text-white rounded">Fitness Hooks</a>
-
-<a href="/hooks/finance" className="px-4 py-2 bg-blue-600 text-white rounded">Finance Hooks</a>
-
-<a href="/hooks/business" className="px-4 py-2 bg-blue-600 text-white rounded">Business Hooks</a>
-
-<a href="/hooks/tech" className="px-4 py-2 bg-blue-600 text-white rounded">Tech Hooks</a>
-
-<a href="/hooks/health" className="px-4 py-2 bg-blue-600 text-white rounded">Health Hooks</a>
-
-<a href="/hooks/social-media" className="px-4 py-2 bg-blue-600 text-white rounded">Social Media Hooks</a>
-
-<a href="/hooks/motivation" className="px-4 py-2 bg-blue-600 text-white rounded">Motivation Hooks</a>
-
-<a href="/hooks/education" className="px-4 py-2 bg-blue-600 text-white rounded">Education Hooks</a>
-
-</div>
-
-</section>
                   <section id="features" className="py-20 px-4 bg-white/[0.02]">
                     <div className="max-w-7xl mx-auto">
                       <div className="text-center mb-16 space-y-4">
@@ -1848,6 +1834,7 @@ export default function App() {
                       </div>
                     </div>
                   </section>
+                  <SEOIntro />
                 </>
               } />
               <Route path="/dashboard" element={<Dashboard />} />
@@ -1858,9 +1845,7 @@ export default function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
-              <Route path="/hooks/:slug/:subcategory" element={<ProgrammaticHooksPage />} />
             </Routes>
-            <SEOIntro />
           </main>
           <Footer />
         </div>
