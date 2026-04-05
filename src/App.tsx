@@ -56,32 +56,41 @@ function safeJsonParse(text: string, fallback: any = []) {
 }
 
 // --- SEO Component ---
-const SEO = ({ title, description, canonical, schema }: { title: string, description: string, canonical?: string, schema?: any }) => (
-  <Helmet>
-    <title>{title} | ReelHook AI</title>
-    <meta name="description" content={description} />
-    <link rel="canonical" href={canonical || window.location.href} />
-    <meta property="og:title" content={title} />
-    <meta property="og:description" content={description} />
-    <meta property="og:type" content="website" />
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content={title} />
-    <meta name="twitter:description" content={description} />
-    {schema && (
-      Array.isArray(schema) ? (
-        schema.map((s, i) => (
-          <script key={i} type="application/ld+json">
-            {JSON.stringify(s)}
+const SEO = ({ title, description, canonical, schema }: { title: string, description: string, canonical?: string, schema?: any }) => {
+  const siteUrl = "https://www.reelhooks.site";
+  const fullTitle = `${title} | ReelHooks.site - Viral Reel Hook Generator`;
+  const fullCanonical = canonical || `${siteUrl}${window.location.pathname}`;
+  const keywords = "reel hooks, instagram hooks, viral hooks, reel generator, AI hook generator, content generator, instagram growth, viral content, best hooks for instagram reels, how to make viral reels, AI tool for reel scripts, instagram reel hook generator free, viral reel hooks for fitness, viral reel hooks for business, best hooks for reels 2024, instagram growth strategy 2024, AI caption generator for reels, viral hooks for short form video";
+
+  return (
+    <Helmet>
+      <title>{fullTitle}</title>
+      <meta name="description" content={description} />
+      <meta name="keywords" content={keywords} />
+      <link rel="canonical" href={fullCanonical} />
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description} />
+      <meta property="og:type" content="website" />
+      <meta property="og:url" content={fullCanonical} />
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description} />
+      {schema && (
+        Array.isArray(schema) ? (
+          schema.map((s, i) => (
+            <script key={i} type="application/ld+json">
+              {JSON.stringify(s)}
+            </script>
+          ))
+        ) : (
+          <script type="application/ld+json">
+            {JSON.stringify(schema)}
           </script>
-        ))
-      ) : (
-        <script type="application/ld+json">
-          {JSON.stringify(schema)}
-        </script>
-      )
-    )}
-  </Helmet>
-);
+        )
+      )}
+    </Helmet>
+  );
+};
 
 // --- Constants & Data ---
 import { NICHES, type Niche } from "./data/niches";
@@ -263,7 +272,7 @@ const Navbar = () => {
             <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
               <Zap className="text-white w-5 h-5" />
             </div>
-            <span className="text-xl font-bold font-display tracking-tight">ReelHook AI</span>
+            <span className="text-xl font-bold font-display tracking-tight">ReelHooks.site</span>
           </Link>
           
           <div className="hidden md:flex items-center space-x-8">
@@ -305,7 +314,7 @@ const Footer = () => (
             <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
               <Zap className="text-white w-4 h-4" />
             </div>
-            <span className="font-bold font-display">ReelHook AI</span>
+            <span className="font-bold font-display">ReelHooks.site</span>
           </div>
           <p className="text-text-secondary text-sm">
             AI-powered hooks that stop scrolling and boost engagement for creators worldwide.
@@ -330,13 +339,13 @@ const Footer = () => (
         <div>
           <h4 className="font-bold mb-4">Support</h4>
           <ul className="space-y-2 text-sm text-text-secondary">
-            <li><a href="mailto:support@reelhook.ai">Contact Us</a></li>
+            <li><a href="mailto:support@reelhooks.site">Contact Us</a></li>
             <li><Link to="/faq">FAQ</Link></li>
           </ul>
         </div>
       </div>
       <div className="mt-12 pt-8 border-t border-white/5 text-center text-text-secondary text-xs">
-        © {new Date().getFullYear()} ReelHook AI. All rights reserved.
+        © {new Date().getFullYear()} ReelHooks.site. All rights reserved.
       </div>
     </div>
   </footer>
@@ -441,9 +450,10 @@ const ProgrammaticHooksPage = () => {
   const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
-    "name": "ReelHook AI",
+    "name": "ReelHooks.site",
     "operatingSystem": "Web",
     "applicationCategory": "MultimediaApplication",
+    "url": "https://www.reelhooks.site",
     "offers": {
       "@type": "Offer",
       "price": "0",
@@ -473,7 +483,7 @@ const ProgrammaticHooksPage = () => {
         "name": "How to make reels viral?",
         "acceptedAnswer": {
           "@type": "Answer",
-          "text": "To make reels viral, use an instagram hook generator like ReelHook AI, focus on high retention, and use trending audio."
+          "text": "To make reels viral, use an instagram hook generator like ReelHooks.site, focus on high retention, and use trending audio."
         }
       },
       {
@@ -635,14 +645,14 @@ const ProgrammaticHooksPage = () => {
 
 const About = () => (
   <div className="pt-32 pb-20 px-4 max-w-3xl mx-auto space-y-8">
-    <SEO title="About Us" description="Learn more about the team behind ReelHook AI and our mission to empower creators." />
+    <SEO title="About Us" description="Learn more about the team behind ReelHooks.site and our mission to empower creators." />
     <h1 className="text-4xl font-bold font-display">Empowering the Next Generation of Creators</h1>
     <p className="text-lg text-text-secondary leading-relaxed">
-      ReelHook AI was born out of a simple observation: content creation is hard, but the "hook" shouldn't be. 
+      ReelHooks.site was born out of a simple observation: content creation is hard, but the "hook" shouldn't be. 
       In a world of infinite scrolling, the first few seconds of your video determine its success.
     </p>
     <p className="text-lg text-text-secondary leading-relaxed">
-      Our team of AI engineers and content strategists built ReelHook AI to level the playing field. 
+      Our team of AI engineers and content strategists built ReelHooks.site to level the playing field. 
       Whether you're a solo creator or a growing brand, we give you the tools to stop the scroll and share your message with the world.
     </p>
     <div className="grid grid-cols-2 gap-8 pt-8">
@@ -660,7 +670,7 @@ const About = () => (
 
 const Contact = () => (
   <div className="pt-32 pb-20 px-4 max-w-xl mx-auto space-y-8">
-    <SEO title="Contact Us" description="Get in touch with the ReelHook AI team for support or inquiries." />
+    <SEO title="Contact Us" description="Get in touch with the ReelHooks.site team for support or inquiries." />
     <div className="text-center space-y-4">
       <h1 className="text-4xl font-bold font-display">Get in Touch</h1>
       <p className="text-text-secondary">Have questions or feedback? We'd love to hear from you.</p>
@@ -697,14 +707,14 @@ const Contact = () => (
 
 const Legal = ({ title }: { title: string }) => (
   <div className="pt-32 pb-20 px-4 max-w-3xl mx-auto space-y-8">
-    <SEO title={title} description={`${title} for ReelHook AI.`} />
+    <SEO title={title} description={`${title} for ReelHooks.site.`} />
     <h1 className="text-4xl font-bold font-display">{title}</h1>
     <div className="prose prose-invert max-w-none text-text-secondary space-y-6">
-      <p>Last updated: March 2024</p>
+      <p>Last updated: April 2024</p>
       <h2 className="text-white font-bold text-xl">1. Introduction</h2>
-      <p>Welcome to ReelHook AI. These terms and conditions outline the rules and regulations for the use of our website and services.</p>
+      <p>Welcome to ReelHooks.site. These terms and conditions outline the rules and regulations for the use of our website and services.</p>
       <h2 className="text-white font-bold text-xl">2. Intellectual Property Rights</h2>
-      <p>Other than the content you own, under these Terms, ReelHook AI and/or its licensors own all the intellectual property rights and materials contained in this Website.</p>
+      <p>Other than the content you own, under these Terms, ReelHooks.site and/or its licensors own all the intellectual property rights and materials contained in this Website.</p>
       <h2 className="text-white font-bold text-xl">3. Restrictions</h2>
       <p>You are specifically restricted from all of the following: publishing any Website material in any other media; selling, sublicensing and/or otherwise commercializing any Website material.</p>
     </div>
@@ -719,21 +729,21 @@ const SEOIntro = () => (
         In the fast-paced world of social media, attention is the most valuable currency. With millions of videos being uploaded every single day, creators are in a constant battle for the viewer's gaze. This is where the "hook" comes in. A hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on to the next piece of content.
       </p>
       <p>
-        At ReelHook AI, we've spent thousands of hours analyzing viral content across Instagram, TikTok, and YouTube. We've discovered that viral hooks aren't just random luck; they follow specific psychological patterns. Our AI-powered generator is built on these principles, helping you craft opening lines that trigger curiosity, tap into FOMO (Fear Of Missing Out), or present a bold claim that demands an explanation.
+        At ReelHooks.site, we've spent thousands of hours analyzing viral content across Instagram, TikTok, and YouTube. We've discovered that viral hooks aren't just random luck; they follow specific psychological patterns. Our AI-powered generator is built on these principles, helping you craft opening lines that trigger curiosity, tap into FOMO (Fear Of Missing Out), or present a bold claim that demands an explanation.
       </p>
       <h3 className="text-white text-2xl font-bold mt-12 mb-6">Why Your Instagram Reels Need Better Hooks</h3>
       <p>
         Instagram's algorithm prioritizes retention. If users watch your video until the end, Instagram is more likely to push it to a wider audience on the Explore page. The hook is the gatekeeper of retention. Without a strong hook, your high-quality editing and valuable content will never be seen.
       </p>
       <p>
-        Using a tool like ReelHook AI allows you to experiment with different content angles. For example, a fitness creator might use a "Relatable Pain" hook like "Why your morning run is actually making you tired," or a "Bold Claim" hook like "Stop doing crunches if you want abs." Both hooks create a curiosity gap that the viewer feels compelled to close by watching the rest of the video.
+        Using a tool like ReelHooks.site allows you to experiment with different content angles. For example, a fitness creator might use a "Relatable Pain" hook like "Why your morning run is actually making you tired," or a "Bold Claim" hook like "Stop doing crunches if you want abs." Both hooks create a curiosity gap that the viewer feels compelled to close by watching the rest of the video.
       </p>
       <h3 className="text-white text-2xl font-bold mt-12 mb-6">Optimizing for Different Languages and Tones</h3>
       <p>
-        Cultural nuances play a huge role in content performance. A hook that works in English might not resonate the same way in Hindi or Hinglish. ReelHook AI supports multiple languages and tones, ensuring that your content feels authentic to your target audience. Whether you want to sound bold and authoritative or relatable and funny, our AI adapts to your brand voice.
+        Cultural nuances play a huge role in content performance. A hook that works in English might not resonate the same way in Hindi or Hinglish. ReelHooks.site supports multiple languages and tones, ensuring that your content feels authentic to your target audience. Whether you want to sound bold and authoritative or relatable and funny, our AI adapts to your brand voice.
       </p>
       <p>
-        Beyond just hooks, our content suite provides captions, hashtags, and scripts. This holistic approach ensures that your entire post is optimized for engagement. From the first second to the final call to action, ReelHook AI is your partner in content growth.
+        Beyond just hooks, our content suite provides captions, hashtags, and scripts. This holistic approach ensures that your entire post is optimized for engagement. From the first second to the final call to action, ReelHooks.site is your partner in content growth.
       </p>
       <div className="bg-primary/5 border border-primary/20 p-8 rounded-3xl mt-12">
         <h4 className="text-white font-bold mb-4">Key Takeaways for Creators:</h4>
@@ -748,7 +758,7 @@ const SEOIntro = () => (
           </li>
           <li className="flex items-start space-x-3">
             <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
-            <span><strong>Consistency:</strong> Use ReelHook AI to maintain a high standard across all your posts.</span>
+            <span><strong>Consistency:</strong> Use ReelHooks.site to maintain a high standard across all your posts.</span>
           </li>
         </ul>
       </div>
@@ -780,7 +790,7 @@ const BLOG_POSTS = [
     content: `
       In the fast-paced world of social media, attention is the most valuable currency. With millions of videos being uploaded every single day, creators are in a constant battle for the viewer's gaze. This is where the "hook" comes in. A hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on to the next piece of content.
 
-      At ReelHook AI, we've spent thousands of hours analyzing viral content across Instagram, TikTok, and YouTube. We've discovered that viral hooks aren't just random luck; they follow specific psychological patterns. Our AI-powered generator is built on these principles, helping you craft opening lines that trigger curiosity, tap into FOMO (Fear Of Missing Out), or present a bold claim that demands an explanation.
+      At ReelHooks.site, we've spent thousands of hours analyzing viral content across Instagram, TikTok, and YouTube. We've discovered that viral hooks aren't just random luck; they follow specific psychological patterns. Our AI-powered generator is built on these principles, helping you craft opening lines that trigger curiosity, tap into FOMO (Fear Of Missing Out), or present a bold claim that demands an explanation.
 
       ### Why Your Instagram Reels Need Better Hooks
       Instagram's algorithm prioritizes retention. If users watch your video until the end, Instagram is more likely to push it to a wider audience on the Explore page. The hook is the gatekeeper of retention. Without a strong hook, your high-quality editing and valuable content will never be seen.
@@ -1786,13 +1796,14 @@ export default function App() {
                 <>
                   <SEO 
                     title="Viral Reel Hook Generator" 
-                    description="Create high-converting Instagram Reel hooks, captions, and scripts in seconds with ReelHook AI." 
+                    description="Create high-converting Instagram Reel hooks, captions, and scripts in seconds with ReelHooks.site. The best AI tool for viral reel hooks, captions, and content strategy." 
                     schema={{
                       "@context": "https://schema.org",
                       "@type": "SoftwareApplication",
-                      "name": "ReelHook AI",
+                      "name": "ReelHooks.site",
                       "operatingSystem": "Web",
                       "applicationCategory": "MultimediaApplication",
+                      "url": "https://www.reelhooks.site",
                       "offers": {
                         "@type": "Offer",
                         "price": "0",
