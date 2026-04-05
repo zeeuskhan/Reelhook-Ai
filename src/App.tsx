@@ -472,6 +472,25 @@ const ProgrammaticHooksPage = () => {
     }
   };
 
+  const nicheStrategy = useMemo(() => {
+    const strategies: Record<string, { title: string, content: string }> = {
+      fitness: { title: "Fitness Content Strategy", content: "Focus on transformations and form corrections. Use hooks that challenge common myths or promise a specific result in a set timeframe." },
+      finance: { title: "Finance Content Strategy", content: "Trust is everything. Use hooks that mention specific numbers, percentages, or 'hidden' rules that the average person doesn't know." },
+      business: { title: "Business Content Strategy", content: "Focus on efficiency and ROI. Hooks should address common bottlenecks or share 'insider' secrets from successful founders." },
+      tech: { title: "Tech Content Strategy", content: "Show, don't just tell. Use hooks that highlight a 'mind-blowing' feature or a tool that saves hours of work." },
+      beauty: { title: "Beauty Content Strategy", content: "Visual hooks are key. Use 'Before vs After' hooks or 'Stop using this product' to trigger immediate curiosity." },
+      "social-media": { title: "Social Media Strategy", content: "Focus on growth hacks and algorithm updates. Use hooks that promise to 'double your reach' or 'fix your low engagement'." },
+      health: { title: "Health & Wellness Strategy", content: "Focus on holistic improvements. Use hooks that address common symptoms like fatigue or stress and offer a simple solution." },
+      parenting: { title: "Parenting Content Strategy", content: "Relatability is your superpower. Use hooks that describe a common 'parenting fail' or a 'life-saving' hack for toddlers." },
+      career: { title: "Career Growth Strategy", content: "Focus on professional advancement. Use hooks about salary negotiation, interview secrets, or corporate survival tips." },
+      "mental-health": { title: "Mental Health Strategy", content: "Be gentle and supportive. Use hooks that validate feelings or offer a 30-second grounding technique." }
+    };
+    return strategies[slugId] || { 
+      title: `${nicheName} Growth Strategy`, 
+      content: `To grow in the ${nicheName} niche, focus on providing consistent value and using pattern-interrupting hooks. Your audience wants to see authentic content that solves their specific ${nicheName} problems.` 
+    };
+  }, [slugId, nicheName]);
+
   const nicheFAQs = useMemo(() => [
     { 
       q: `What are the best ${nicheName} reel hooks?`, 
@@ -566,6 +585,23 @@ const ProgrammaticHooksPage = () => {
               <p className="font-medium italic">"{h.replace(/{niche}/g, nicheName).replace(/{result}/g, "success")}"</p>
             </div>
           ))}
+        </div>
+      </div>
+
+      <div className="glass p-8 rounded-3xl space-y-8 border-primary/20 bg-primary/5">
+        <h2 className="text-3xl font-bold">{nicheStrategy.title}</h2>
+        <p className="text-lg text-text-secondary leading-relaxed italic">
+          "{nicheStrategy.content}"
+        </p>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+          <div className="space-y-2">
+            <h3 className="font-bold text-primary">Target Audience</h3>
+            <p className="text-sm text-text-secondary">People interested in {nicheName} who are looking for quick, actionable, and entertaining content on Instagram.</p>
+          </div>
+          <div className="space-y-2">
+            <h3 className="font-bold text-primary">Content Pillar</h3>
+            <p className="text-sm text-text-secondary">Educational tutorials, relatable memes, and high-value {nicheName} tips that encourage saves and shares.</p>
+          </div>
         </div>
       </div>
 
@@ -982,60 +1018,56 @@ const Legal = ({ title }: { title: string }) => (
 );;
 
 const SEOIntro = () => (
-  <section className="py-20 px-4 bg-bg">
-    <div className="max-w-4xl mx-auto prose prose-invert prose-lg text-text-secondary">
-      <h2 className="text-white text-3xl font-bold font-display mb-8">The Science of Viral Reel Hooks</h2>
-      <p>
-        In the fast-paced world of social media, attention is the most valuable currency. With millions of videos being uploaded every single day, creators are in a constant battle for the viewer's gaze. This is where the "hook" comes in. A hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on to the next piece of content.
-      </p>
-      <p>
-        At ReelHooks.site, we've spent thousands of hours analyzing viral content across Instagram, TikTok, and YouTube. We've discovered that viral hooks aren't just random luck; they follow specific psychological patterns. Our AI-powered generator is built on these principles, helping you craft opening lines that trigger curiosity, tap into FOMO (Fear Of Missing Out), or present a bold claim that demands an explanation.
-      </p>
-      <h3 className="text-white text-2xl font-bold mt-12 mb-6">Why Your Instagram Reels Need Better Hooks</h3>
-      <p>
-        Instagram's algorithm prioritizes retention. If users watch your video until the end, Instagram is more likely to push it to a wider audience on the Explore page. The hook is the gatekeeper of retention. Without a strong hook, your high-quality editing and valuable content will never be seen.
-      </p>
-      <p>
-        Using a tool like ReelHooks.site allows you to experiment with different content angles. For example, a fitness creator might use a "Relatable Pain" hook like "Why your morning run is actually making you tired," or a "Bold Claim" hook like "Stop doing crunches if you want abs." Both hooks create a curiosity gap that the viewer feels compelled to close by watching the rest of the video.
-      </p>
-      <h3 className="text-white text-2xl font-bold mt-12 mb-6">Optimizing for Different Languages and Tones</h3>
-      <p>
-        Cultural nuances play a huge role in content performance. A hook that works in English might not resonate the same way in Hindi or Hinglish. ReelHooks.site supports multiple languages and tones, ensuring that your content feels authentic to your target audience. Whether you want to sound bold and authoritative or relatable and funny, our AI adapts to your brand voice.
-      </p>
-      <p>
-        Beyond just hooks, our content suite provides captions, hashtags, and scripts. This holistic approach ensures that your entire post is optimized for engagement. From the first second to the final call to action, ReelHooks.site is your partner in content growth.
-      </p>
-      <div className="bg-primary/5 border border-primary/20 p-8 rounded-3xl mt-12">
-        <h4 className="text-white font-bold mb-4">Key Takeaways for Creators:</h4>
-        <ul className="space-y-4">
-          <li className="flex items-start space-x-3">
-            <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
-            <span><strong>First 3 Seconds:</strong> This is your make-or-break window. Use pattern interrupts.</span>
-          </li>
-          <li className="flex items-start space-x-3">
-            <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
-            <span><strong>Curiosity Gaps:</strong> Ask a question or make a claim that requires the video to answer.</span>
-          </li>
-          <li className="flex items-start space-x-3">
-            <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
-            <span><strong>Consistency:</strong> Use ReelHooks.site to maintain a high standard across all your posts.</span>
-          </li>
-        </ul>
+  <section className="py-20 px-4 bg-bg relative overflow-hidden">
+    <div className="absolute inset-0 bg-primary/5 blur-[120px] -z-10" />
+    <div className="max-w-4xl mx-auto space-y-16">
+      <div className="text-center space-y-4">
+        <h2 className="text-4xl font-bold font-display tracking-tight">Why ReelHooks.site is the #1 Choice for Creators</h2>
+        <p className="text-xl text-text-secondary">We don't just generate hooks; we engineer viral moments.</p>
       </div>
 
-      <div className="mt-12 pt-12 border-t border-white/5">
-        <h4 className="text-white font-bold mb-6">Explore Viral Hooks by Niche:</h4>
-        <div className="flex flex-wrap gap-3">
-          {NICHES.slice(0, 20).map(n => (
-            <Link 
-              key={n.id} 
-              to={`/hooks/${n.id.toLowerCase()}-english`} 
-              className="text-xs bg-white/5 hover:bg-white/10 px-4 py-2 rounded-full border border-white/10 transition-all"
-            >
-              {n.name} Hooks
-            </Link>
-          ))}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold text-primary">Data-Driven Hook Engineering</h3>
+          <p className="text-text-secondary leading-relaxed">
+            Our <span className="text-white font-medium">instagram hook generator</span> isn't based on guesswork. We've analyzed over 100,000 viral reels across 50+ niches to identify the exact psychological triggers that stop the scroll. From curiosity gaps to pattern interrupts, every hook is designed to maximize your reach.
+          </p>
         </div>
+        <div className="space-y-6">
+          <h3 className="text-2xl font-bold text-primary">Multi-Language Viral Growth</h3>
+          <p className="text-text-secondary leading-relaxed">
+            The Indian market is unique. That's why we've optimized our tool for <span className="text-white font-medium">reel hooks in hindi</span> and Hinglish. We understand the cultural nuances that make a hook relatable in different regions, giving you a massive advantage over creators using generic English tools.
+          </p>
+        </div>
+      </div>
+
+      <div className="glass p-12 rounded-[3rem] border-primary/20 space-y-8">
+        <h3 className="text-3xl font-bold text-center">The 3-Second Rule of Retention</h3>
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="text-center space-y-3">
+            <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">1</div>
+            <h4 className="font-bold">Stop the Scroll</h4>
+            <p className="text-xs text-text-secondary">Use a visual or verbal hook that breaks the user's scrolling pattern immediately.</p>
+          </div>
+          <div className="text-center space-y-3">
+            <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">2</div>
+            <h4 className="font-bold">Open a Loop</h4>
+            <p className="text-xs text-text-secondary">Present a problem or a bold claim that the viewer needs to see the end to resolve.</p>
+          </div>
+          <div className="text-center space-y-3">
+            <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">3</div>
+            <h4 className="font-bold">Deliver Value</h4>
+            <p className="text-xs text-text-secondary">Ensure the rest of your reel delivers on the promise made in the first 3 seconds.</p>
+          </div>
+        </div>
+      </div>
+
+      <div className="text-center space-y-6">
+        <h3 className="text-2xl font-bold">Ready to Go Viral?</h3>
+        <p className="text-text-secondary">Join 10,000+ creators who are using ReelHooks.site to dominate the Instagram algorithm.</p>
+        <Link to="/dashboard" className="bg-primary text-white px-10 py-4 rounded-full font-bold inline-block hover:scale-105 transition-all shadow-xl shadow-primary/25">
+          Get Started for Free
+        </Link>
       </div>
     </div>
   </section>
