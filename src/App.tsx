@@ -277,6 +277,8 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/#features" className="text-text-secondary hover:text-white transition-colors">Features</Link>
+            <Link to="/blog" className="text-text-secondary hover:text-white transition-colors">Blog</Link>
+            <Link to="/about" className="text-text-secondary hover:text-white transition-colors">About</Link>
             <Link to="/dashboard" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full font-medium transition-all transform hover:scale-105">
               Launch App
             </Link>
@@ -296,8 +298,10 @@ const Navbar = () => {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden glass border-b border-white/10 px-4 py-6 space-y-4"
           >
-            <Link to="/#features" className="block text-text-secondary">Features</Link>
-            <Link to="/dashboard" className="block bg-primary text-white px-5 py-2 rounded-full text-center">Launch App</Link>
+            <Link to="/#features" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Features</Link>
+            <Link to="/blog" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Blog</Link>
+            <Link to="/about" className="block text-text-secondary" onClick={() => setIsOpen(false)}>About</Link>
+            <Link to="/dashboard" className="block bg-primary text-white px-5 py-2 rounded-full text-center" onClick={() => setIsOpen(false)}>Launch App</Link>
           </motion.div>
         )}
       </AnimatePresence>
@@ -513,19 +517,19 @@ const ProgrammaticHooksPage = () => {
         "@type": "ListItem",
         "position": 1,
         "name": "Home",
-        "item": "https://reelhook.ai/"
+        "item": "https://www.reelhooks.site/"
       },
       {
         "@type": "ListItem",
         "position": 2,
         "name": "Hooks",
-        "item": "https://reelhook.ai/dashboard"
+        "item": "https://www.reelhooks.site/dashboard"
       },
       {
         "@type": "ListItem",
         "position": 3,
         "name": nicheName,
-        "item": `https://reelhook.ai/hooks/${slug}`
+        "item": `https://www.reelhooks.site/hooks/${slug}`
       }
     ]
   };
@@ -642,84 +646,289 @@ const ProgrammaticHooksPage = () => {
     </div>
   );
 };
-
 const About = () => (
-  <div className="pt-32 pb-20 px-4 max-w-3xl mx-auto space-y-8">
-    <SEO title="About Us" description="Learn more about the team behind ReelHooks.site and our mission to empower creators." />
-    <h1 className="text-4xl font-bold font-display">Empowering the Next Generation of Creators</h1>
-    <p className="text-lg text-text-secondary leading-relaxed">
-      ReelHooks.site was born out of a simple observation: content creation is hard, but the "hook" shouldn't be. 
-      In a world of infinite scrolling, the first few seconds of your video determine its success.
-    </p>
-    <p className="text-lg text-text-secondary leading-relaxed">
-      Our team of AI engineers and content strategists built ReelHooks.site to level the playing field. 
-      Whether you're a solo creator or a growing brand, we give you the tools to stop the scroll and share your message with the world.
-    </p>
-    <div className="grid grid-cols-2 gap-8 pt-8">
-      <div className="text-center p-6 glass rounded-2xl">
-        <div className="text-3xl font-bold text-primary mb-2">10k+</div>
-        <div className="text-sm text-text-secondary">Active Creators</div>
+  <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-16">
+    <SEO 
+      title="About Us" 
+      description="Learn about ReelHooks.site, the leading AI-powered viral reel hook generator. Our mission is to help creators stop the scroll and boost engagement with data-driven content strategy." 
+    />
+    <div className="text-center space-y-6">
+      <h1 className="text-4xl md:text-6xl font-bold font-display leading-tight">Empowering the Next Generation of Creators</h1>
+      <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
+        ReelHooks.site was born out of a simple observation: content creation is hard, but the "hook" shouldn't be. 
+        In a world of infinite scrolling, the first few seconds of your video determine its success.
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+      <div className="space-y-6">
+        <h2 className="text-3xl font-bold">Our Story</h2>
+        <p className="text-text-secondary leading-relaxed">
+          It started in a small home office where we analyzed thousands of viral Instagram Reels. We realized that while many creators had great content, they struggled to capture attention in the first 3 seconds. 
+        </p>
+        <p className="text-text-secondary leading-relaxed">
+          Our team of AI engineers and content strategists built ReelHooks.site to level the playing field. We combined retention psychology with advanced language models to create a tool that generates viral hooks in seconds.
+        </p>
       </div>
-      <div className="text-center p-6 glass rounded-2xl">
-        <div className="text-3xl font-bold text-primary mb-2">1M+</div>
-        <div className="text-sm text-text-secondary">Hooks Generated</div>
+      <div className="glass p-8 rounded-3xl border-white/5 space-y-8">
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
+            <Zap className="w-6 h-6" />
+          </div>
+          <div>
+            <h4 className="font-bold">Fast & Efficient</h4>
+            <p className="text-sm text-text-secondary">Generate 10+ hooks in under 5 seconds.</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
+            <TrendingUp className="w-6 h-6" />
+          </div>
+          <div>
+            <h4 className="font-bold">Data Driven</h4>
+            <p className="text-sm text-text-secondary">Based on viral patterns and retention metrics.</p>
+          </div>
+        </div>
+        <div className="flex items-center space-x-4">
+          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
+            <Globe className="w-6 h-6" />
+          </div>
+          <div>
+            <h4 className="font-bold">Multi-Language</h4>
+            <p className="text-sm text-text-secondary">Support for English, Hindi, Hinglish, and more.</p>
+          </div>
+        </div>
       </div>
+    </div>
+
+    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8">
+      {[
+        { label: "Active Creators", value: "10k+" },
+        { label: "Hooks Generated", value: "1M+" },
+        { label: "Niches Covered", value: "50+" },
+        { label: "Viral Success", value: "95%" }
+      ].map((stat, i) => (
+        <div key={i} className="text-center p-6 glass rounded-2xl border-white/5">
+          <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
+          <div className="text-sm text-text-secondary">{stat.label}</div>
+        </div>
+      ))}
     </div>
   </div>
 );
 
 const Contact = () => (
-  <div className="pt-32 pb-20 px-4 max-w-xl mx-auto space-y-8">
-    <SEO title="Contact Us" description="Get in touch with the ReelHooks.site team for support or inquiries." />
+  <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
+    <SEO 
+      title="Contact Us" 
+      description="Get in touch with the ReelHooks.site team. We're here to help you with support, feedback, or partnership inquiries for our viral reel hook generator." 
+    />
     <div className="text-center space-y-4">
-      <h1 className="text-4xl font-bold font-display">Get in Touch</h1>
-      <p className="text-text-secondary">Have questions or feedback? We'd love to hear from you.</p>
+      <h1 className="text-4xl md:text-6xl font-bold font-display">Get in Touch</h1>
+      <p className="text-xl text-text-secondary max-w-2xl mx-auto">
+        Have questions about our viral reel hook generator? Or just want to say hi? We'd love to hear from you.
+      </p>
     </div>
-    <form className="glass p-8 rounded-3xl space-y-6">
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Name</label>
-        <input type="text" className="w-full bg-bg border border-white/10 rounded-xl p-3 outline-none focus:ring-2 focus:ring-primary/50" placeholder="Your name" />
+
+    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="space-y-8">
+        <div className="glass p-8 rounded-3xl border-white/5 space-y-6">
+          <h3 className="text-2xl font-bold">Why reach out?</h3>
+          <ul className="space-y-4">
+            <li className="flex items-start space-x-3">
+              <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
+              <span className="text-text-secondary"><strong>Technical Support:</strong> Need help with the dashboard or AI tools?</span>
+            </li>
+            <li className="flex items-start space-x-3">
+              <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
+              <span className="text-text-secondary"><strong>Partnerships:</strong> Interested in collaborating with ReelHooks.site?</span>
+            </li>
+            <li className="flex items-start space-x-3">
+              <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
+              <span className="text-text-secondary"><strong>Feedback:</strong> Have ideas on how we can improve our viral hooks?</span>
+            </li>
+          </ul>
+        </div>
+        
+        <div className="flex flex-col space-y-4 px-4">
+          <div className="flex items-center space-x-4 text-text-secondary">
+            <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
+              <Mail className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider">Email Us</p>
+              <p className="text-white">support@reelhooks.site</p>
+            </div>
+          </div>
+          <div className="flex items-center space-x-4 text-text-secondary">
+            <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
+              <Globe className="w-5 h-5" />
+            </div>
+            <div>
+              <p className="text-xs font-bold uppercase tracking-wider">Location</p>
+              <p className="text-white">San Francisco, CA</p>
+            </div>
+          </div>
+        </div>
       </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Email</label>
-        <input type="email" className="w-full bg-bg border border-white/10 rounded-xl p-3 outline-none focus:ring-2 focus:ring-primary/50" placeholder="your@email.com" />
-      </div>
-      <div className="space-y-2">
-        <label className="text-sm font-medium">Message</label>
-        <textarea className="w-full bg-bg border border-white/10 rounded-xl p-3 outline-none focus:ring-2 focus:ring-primary/50 min-h-[120px]" placeholder="How can we help?"></textarea>
-      </div>
-      <button type="button" className="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-primary/90 transition-all">
-        Send Message
-      </button>
-    </form>
-    <div className="flex justify-center space-x-8 text-text-secondary">
-      <div className="flex items-center space-x-2">
-        <Mail className="w-4 h-4" />
-        <span className="text-sm">support@reelhook.ai</span>
-      </div>
-      <div className="flex items-center space-x-2">
-        <Globe className="w-4 h-4" />
-        <span className="text-sm">San Francisco, CA</span>
-      </div>
+
+      <form className="glass p-8 rounded-3xl space-y-6 border-white/5">
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Full Name</label>
+          <input type="text" className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="John Doe" />
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Email Address</label>
+          <input type="email" className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="john@example.com" />
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Subject</label>
+          <select className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all">
+            <option>General Inquiry</option>
+            <option>Technical Support</option>
+            <option>Partnership</option>
+            <option>Feedback</option>
+          </select>
+        </div>
+        <div className="space-y-2">
+          <label className="text-sm font-medium">Message</label>
+          <textarea className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all min-h-[150px]" placeholder="How can we help you today?"></textarea>
+        </div>
+        <button type="button" className="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/20">
+          Send Message
+        </button>
+      </form>
+    </div>
+  </div>
+);
+
+const FAQ = () => (
+  <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
+    <SEO 
+      title="Frequently Asked Questions" 
+      description="Find answers to common questions about ReelHooks.site, our viral reel hook generator, and how to boost your social media engagement." 
+    />
+    <div className="text-center space-y-4">
+      <h1 className="text-4xl md:text-6xl font-bold font-display">Frequently Asked Questions</h1>
+      <p className="text-xl text-text-secondary max-w-2xl mx-auto">
+        Everything you need to know about our viral reel hook generator and how to use it effectively.
+      </p>
+    </div>
+
+    <div className="space-y-6">
+      {[
+        { 
+          q: "What is a reel hook?", 
+          a: "A reel hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on. It's the most critical part of viral content creation." 
+        },
+        { 
+          q: "How does the viral hook generator work?", 
+          a: "Our tool uses advanced AI models trained on thousands of high-performing Instagram Reels and TikToks. It analyzes your niche and target audience to generate hooks that leverage psychological triggers like curiosity and FOMO." 
+        },
+        { 
+          q: "Can I use these hooks for TikTok and YouTube Shorts?", 
+          a: "Yes! While we focus on Instagram Reels, the psychology of short-form video is the same across platforms. These hooks work perfectly for TikTok and YouTube Shorts as well." 
+        },
+        { 
+          q: "Is ReelHooks.site free to use?", 
+          a: "Yes, ReelHooks.site is currently free for all creators. You can generate hooks, captions, and scripts without any subscription fees." 
+        },
+        { 
+          q: "How many hooks should I try for one video?", 
+          a: "We recommend generating at least 10 hooks and picking the one that best fits your specific video content. You can also A/B test different hooks by posting similar content with different opening lines." 
+        },
+        { 
+          q: "Do you support languages other than English?", 
+          a: "Yes, we support English, Hindi, Hinglish, Spanish, and French. We are constantly adding more languages to help creators worldwide." 
+        }
+      ].map((faq, i) => (
+        <div key={i} className="glass p-8 rounded-3xl border-white/5 space-y-4">
+          <h3 className="text-xl font-bold flex items-start space-x-3">
+            <span className="text-primary font-mono">Q:</span>
+            <span>{faq.q}</span>
+          </h3>
+          <div className="flex items-start space-x-3 text-text-secondary leading-relaxed">
+            <span className="text-secondary font-mono">A:</span>
+            <p>{faq.a}</p>
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="text-center pt-12">
+      <p className="text-text-secondary mb-6">Still have questions?</p>
+      <Link to="/contact" className="bg-white text-bg px-8 py-4 rounded-full font-bold hover:bg-white/90 transition-all">
+        Contact Support
+      </Link>
     </div>
   </div>
 );
 
 const Legal = ({ title }: { title: string }) => (
-  <div className="pt-32 pb-20 px-4 max-w-3xl mx-auto space-y-8">
-    <SEO title={title} description={`${title} for ReelHooks.site.`} />
-    <h1 className="text-4xl font-bold font-display">{title}</h1>
-    <div className="prose prose-invert max-w-none text-text-secondary space-y-6">
-      <p>Last updated: April 2024</p>
-      <h2 className="text-white font-bold text-xl">1. Introduction</h2>
-      <p>Welcome to ReelHooks.site. These terms and conditions outline the rules and regulations for the use of our website and services.</p>
-      <h2 className="text-white font-bold text-xl">2. Intellectual Property Rights</h2>
-      <p>Other than the content you own, under these Terms, ReelHooks.site and/or its licensors own all the intellectual property rights and materials contained in this Website.</p>
-      <h2 className="text-white font-bold text-xl">3. Restrictions</h2>
-      <p>You are specifically restricted from all of the following: publishing any Website material in any other media; selling, sublicensing and/or otherwise commercializing any Website material.</p>
+  <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
+    <SEO 
+      title={title} 
+      description={`${title} for ReelHooks.site. Read our legal terms and policies for using our viral reel hook generator.`} 
+    />
+    <div className="space-y-4">
+      <h1 className="text-4xl md:text-6xl font-bold font-display">{title}</h1>
+      <p className="text-text-secondary">Last updated: April 5, 2026</p>
+    </div>
+    
+    <div className="prose prose-invert max-w-none text-text-secondary space-y-10">
+      <section className="space-y-4">
+        <h2 className="text-white font-bold text-2xl">1. Introduction</h2>
+        <p>
+          Welcome to ReelHooks.site. These terms and conditions outline the rules and regulations for the use of our website and services. By accessing this website, we assume you accept these terms and conditions in full. Do not continue to use ReelHooks.site if you do not accept all of the terms and conditions stated on this page.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-white font-bold text-2xl">2. Intellectual Property Rights</h2>
+        <p>
+          Other than the content you own, under these Terms, ReelHooks.site and/or its licensors own all the intellectual property rights and materials contained in this Website. You are granted a limited license only for purposes of viewing the material contained on this Website.
+        </p>
+        <p>
+          The AI-generated content (hooks, scripts, captions) provided by our service is for your use in your social media content. While you own the rights to the specific output generated for you, the underlying algorithms and templates remain the property of ReelHooks.site.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-white font-bold text-2xl">3. User Responsibilities</h2>
+        <p>
+          As a user of ReelHooks.site, you agree to use our viral reel hook generator responsibly. You must not use our service to generate content that is:
+        </p>
+        <ul className="list-disc pl-6 space-y-2">
+          <li>Illegal, harmful, or threatening.</li>
+          <li>Infringing on any third-party intellectual property rights.</li>
+          <li>Hate speech or discriminatory in nature.</li>
+          <li>Deceptive or misleading to audiences.</li>
+        </ul>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-white font-bold text-2xl">4. Limitation of Liability</h2>
+        <p>
+          In no event shall ReelHooks.site, nor any of its officers, directors, and employees, be held liable for anything arising out of or in any way connected with your use of this Website. ReelHooks.site, including its officers, directors, and employees, shall not be held liable for any indirect, consequential, or special liability arising out of or in any way related to your use of this Website.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-white font-bold text-2xl">5. Data Privacy</h2>
+        <p>
+          Your privacy is important to us. Our Privacy Policy explains how we collect, use, and protect your personal information. By using ReelHooks.site, you also agree to our Privacy Policy. We use industry-standard security measures to protect your data and ensure a safe experience on our platform.
+        </p>
+      </section>
+
+      <section className="space-y-4">
+        <h2 className="text-white font-bold text-2xl">6. Governing Law</h2>
+        <p>
+          These Terms will be governed by and interpreted in accordance with the laws of the State of California, and you submit to the non-exclusive jurisdiction of the state and federal courts located in California for the resolution of any disputes.
+        </p>
+      </section>
     </div>
   </div>
-);
+);;
 
 const SEOIntro = () => (
   <section className="py-20 px-4 bg-bg">
@@ -786,7 +995,7 @@ const BLOG_POSTS = [
     id: "science-of-hooks",
     title: "The Science of Viral Reel Hooks",
     excerpt: "Why some hooks work and others don't. A deep dive into retention psychology.",
-    date: "March 15, 2024",
+    date: "March 15, 2026",
     content: `
       In the fast-paced world of social media, attention is the most valuable currency. With millions of videos being uploaded every single day, creators are in a constant battle for the viewer's gaze. This is where the "hook" comes in. A hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on to the next piece of content.
 
@@ -797,11 +1006,34 @@ const BLOG_POSTS = [
     `
   },
   {
-    id: "instagram-algorithm-2024",
-    title: "Instagram Algorithm Update 2024",
-    excerpt: "What creators need to know about the latest changes to the Reels algorithm.",
-    date: "March 10, 2024",
-    content: "The 2024 algorithm update focuses heavily on original content and viewer satisfaction..."
+    id: "instagram-algorithm-2026",
+    title: "Instagram Algorithm Update 2026: What's New?",
+    excerpt: "What creators need to know about the latest changes to the Reels algorithm in 2026.",
+    date: "March 28, 2026",
+    content: `
+      The 2026 Instagram algorithm update has shifted its focus significantly towards "Originality" and "Meaningful Interaction." Gone are the days when simply reposting trending content would get you millions of views. 
+
+      ### The Rise of Original Content
+      Instagram is now explicitly rewarding creators who produce unique, high-quality content. This means that using tools like ReelHooks.site to generate unique hooks and scripts is more important than ever. The algorithm can now detect if a hook has been used thousands of times before and may limit its reach.
+
+      ### Retention is Still King
+      While the metrics have evolved, retention remains the most important factor for the Reels algorithm. If you can keep a viewer engaged for more than 50% of your video, your chances of hitting the Explore page increase by over 300%. This is why the first 3 seconds—the hook—remain the most critical part of your content strategy.
+    `
+  },
+  {
+    id: "hindi-content-growth",
+    title: "How to Go Viral with Hindi Reels in 2026",
+    excerpt: "Strategies for tapping into the massive Indian audience with localized content.",
+    date: "April 2, 2026",
+    content: `
+      The Indian creator economy is booming, and Hindi content is leading the charge. However, many creators struggle to find the right balance between "Pure Hindi" and "Hinglish."
+
+      ### The Power of Localized Hooks
+      Using reel hooks in hindi can significantly increase your relatability with the local audience. At ReelHooks.site, we've seen that hooks that tap into local cultural nuances or common Indian household scenarios tend to perform 40% better than generic translated hooks.
+
+      ### Hinglish: The Language of the Youth
+      For the Gen-Z and Millennial audience in India, Hinglish is the preferred mode of communication. It feels natural, conversational, and less formal. When generating hooks for this demographic, ensure you use a mix of English keywords and Hindi conversational fillers to maximize engagement.
+    `
   }
 ];
 
@@ -1771,6 +2003,57 @@ const Dashboard = () => {
           </div>
         </div>
       </div>
+      <div className="mt-20 pt-12 border-t border-white/5 max-w-4xl mx-auto space-y-12 pb-12">
+        <div className="text-center space-y-4">
+          <h2 className="text-3xl font-bold font-display">Master the Art of Viral Content</h2>
+          <p className="text-text-secondary">Use our AI-powered suite to dominate Instagram, TikTok, and YouTube Shorts.</p>
+        </div>
+        
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+          <div className="space-y-4">
+            <h4 className="font-bold text-primary flex items-center space-x-2">
+              <Zap className="w-4 h-4" />
+              <span>Viral Hooks</span>
+            </h4>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              The first 3 seconds are the most critical. Our <span className="text-white font-medium">instagram hook generator</span> uses retention psychology to craft opening lines that stop the scroll instantly.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <h4 className="font-bold text-primary flex items-center space-x-2">
+              <MessageSquare className="w-4 h-4" />
+              <span>Smart Captions</span>
+            </h4>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              Don't let your engagement die in the description. Generate SEO-optimized captions that drive saves, shares, and comments automatically.
+            </p>
+          </div>
+          <div className="space-y-4">
+            <h4 className="font-bold text-primary flex items-center space-x-2">
+              <Hash className="w-4 h-4" />
+              <span>Hashtag Strategy</span>
+            </h4>
+            <p className="text-sm text-text-secondary leading-relaxed">
+              Reach your target audience with precision. Our AI suggests high-reach and niche-specific hashtags to boost your discoverability on the Explore page.
+            </p>
+          </div>
+        </div>
+
+        <div className="glass p-8 rounded-3xl border-white/5 space-y-6">
+          <h3 className="text-xl font-bold">Why use ReelHooks.site?</h3>
+          <p className="text-sm text-text-secondary leading-relaxed">
+            In 2026, the social media landscape is more competitive than ever. Generic content doesn't cut it anymore. ReelHooks.site provides you with a data-backed content strategy that leverages the latest AI models to ensure your reels have the best chance of going viral. Whether you're looking for <span className="text-white font-medium">reel hooks in hindi</span>, english, or hinglish, our tool adapts to your brand voice and target demographic.
+          </p>
+          <div className="flex flex-wrap gap-2">
+            {["Viral Hooks", "Instagram Growth", "Content Strategy", "AI Video Scripts", "Short-form Content", "Reel Hooks Hindi"].map(tag => (
+              <span key={tag} className="text-[10px] uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
+                {tag}
+              </span>
+            ))}
+          </div>
+        </div>
+      </div>
+
       <Modal 
         isOpen={modal.isOpen} 
         onClose={() => setModal(prev => ({ ...prev, isOpen: false }))} 
@@ -1853,6 +2136,7 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Legal title="Privacy Policy" />} />
               <Route path="/terms" element={<Legal title="Terms of Service" />} />
+              <Route path="/faq" element={<FAQ />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
