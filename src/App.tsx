@@ -97,6 +97,7 @@ import { NICHES, type Niche } from "./data/niches";
 import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
 import BannerAd from "./components/BannerAd";
 import PopupAd from "./components/PopupAd";
+import FooterAd from "./components/FooterAd";
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -2040,6 +2041,7 @@ export default function App() {
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
             </Routes>
           </main>
+          <FooterAd />
           <Footer />
         </div>
       </Router>
