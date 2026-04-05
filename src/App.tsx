@@ -277,6 +277,7 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/#features" className="text-text-secondary hover:text-white transition-colors">Features</Link>
+            <Link to="/explore" className="text-text-secondary hover:text-white transition-colors">Explore</Link>
             <Link to="/blog" className="text-text-secondary hover:text-white transition-colors">Blog</Link>
             <Link to="/about" className="text-text-secondary hover:text-white transition-colors">About</Link>
             <Link to="/dashboard" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full font-medium transition-all transform hover:scale-105">
@@ -299,6 +300,7 @@ const Navbar = () => {
             className="md:hidden glass border-b border-white/10 px-4 py-6 space-y-4"
           >
             <Link to="/#features" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Features</Link>
+            <Link to="/explore" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Explore</Link>
             <Link to="/blog" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Blog</Link>
             <Link to="/about" className="block text-text-secondary" onClick={() => setIsOpen(false)}>About</Link>
             <Link to="/dashboard" className="block bg-primary text-white px-5 py-2 rounded-full text-center" onClick={() => setIsOpen(false)}>Launch App</Link>
@@ -606,6 +608,16 @@ const ProgrammaticHooksPage = () => {
       </div>
 
       <div className="space-y-8">
+        <h2 className="text-3xl font-bold">Why {nicheName} Hooks Matter for Your Growth</h2>
+        <p className="text-text-secondary leading-relaxed">
+          In the {nicheName} community, competition is fierce. Every day, thousands of creators post high-quality content, but only a few actually get the views they deserve. The difference? A compelling hook. 
+        </p>
+        <p className="text-text-secondary leading-relaxed">
+          When you use a <span className="text-white font-medium">viral reel hook</span>, you're not just tricking people into watching. You're respecting their time by immediately showing them why your video is worth their attention. Whether you're sharing a quick tip, a transformation story, or a behind-the-scenes look at your {nicheName} journey, your hook is the bridge between your content and your audience.
+        </p>
+      </div>
+
+      <div className="space-y-8">
         <h2 className="text-3xl font-bold">FAQ: Viral Reel Hooks</h2>
         <div className="space-y-4">
           {[
@@ -798,6 +810,57 @@ const Contact = () => (
           Send Message
         </button>
       </form>
+    </div>
+  </div>
+);
+
+const Explore = () => (
+  <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto space-y-16">
+    <SEO 
+      title="Explore All Content Categories" 
+      description="Browse all content niches and categories supported by ReelHooks.site. Find viral hooks for fitness, finance, tech, lifestyle, and more." 
+    />
+    <div className="text-center space-y-6">
+      <h1 className="text-4xl md:text-6xl font-bold font-display">Explore All Categories</h1>
+      <p className="text-xl text-text-secondary max-w-2xl mx-auto">
+        Find the perfect viral hooks for your specific niche. We cover over 50+ categories and hundreds of subcategories.
+      </p>
+    </div>
+
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+      {NICHES.map(n => (
+        <div key={n.id} className="glass p-8 rounded-3xl border-white/5 space-y-6 hover:border-primary/30 transition-all group">
+          <div className="flex items-center justify-between">
+            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{n.name}</h3>
+            <Link to={`/hooks/${n.id.toLowerCase()}-english`} className="text-primary hover:underline text-sm font-bold flex items-center">
+              <span>View Hooks</span>
+              <ArrowRight className="w-4 h-4 ml-1" />
+            </Link>
+          </div>
+          <div className="flex flex-wrap gap-2">
+            {n.subcategories.slice(0, 8).map(s => (
+              <span key={s} className="text-[10px] uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
+                {s}
+              </span>
+            ))}
+            {n.subcategories.length > 8 && (
+              <span className="text-[10px] uppercase tracking-widest font-bold px-3 py-1 text-text-secondary">
+                +{n.subcategories.length - 8} more
+              </span>
+            )}
+          </div>
+        </div>
+      ))}
+    </div>
+
+    <div className="bg-primary/5 border border-primary/20 p-12 rounded-[3rem] text-center space-y-6">
+      <h2 className="text-3xl font-bold">Can't find your niche?</h2>
+      <p className="text-text-secondary max-w-xl mx-auto">
+        Our AI can generate hooks for ANY niche, even if it's not listed here. Just head to the dashboard and type in your specific topic.
+      </p>
+      <Link to="/dashboard" className="bg-primary text-white px-10 py-4 rounded-full font-bold inline-block hover:scale-105 transition-all shadow-xl shadow-primary/25">
+        Go to Dashboard
+      </Link>
     </div>
   </div>
 );
@@ -2136,6 +2199,7 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Legal title="Privacy Policy" />} />
               <Route path="/terms" element={<Legal title="Terms of Service" />} />
+              <Route path="/explore" element={<Explore />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
