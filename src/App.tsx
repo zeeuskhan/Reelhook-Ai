@@ -94,6 +94,7 @@ const SEO = ({ title, description, canonical, schema }: { title: string, descrip
 
 // --- Constants & Data ---
 import { NICHES, type Niche } from "./data/niches";
+import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -548,21 +549,23 @@ const ProgrammaticHooksPage = () => {
     ]
   };
 
+  const richContent = SEO_CATEGORY_CONTENT[slugId];
+
   return (
     <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-16">
       <SEO 
-        title={`${nicheName} Reel Hooks in ${displayLang} | Viral Reel Hooks`}
-        description={`Get the best viral ${nicheName} reel hooks in ${displayLang}. Boost your Instagram engagement with our instagram hook generator. Best hooks for reels available.`}
+        title={richContent?.title || `${nicheName} Reel Hooks in ${displayLang} | Viral Reel Hooks`}
+        description={richContent?.metaDescription || `Get the best viral ${nicheName} reel hooks in ${displayLang}. Boost your Instagram engagement with our instagram hook generator. Best hooks for reels available.`}
         schema={[schema, faqSchema, breadcrumbSchema]}
       />
       
       <div className="space-y-6">
         <h1 className="text-4xl md:text-6xl font-bold font-display capitalize">{nicheName} Reel Hooks Generator</h1>
         <p className="text-xl text-text-secondary leading-relaxed">
-          Struggling to get views on your {nicheName} reels? The first 3 seconds are everything. 
-          Our <span className="text-primary font-bold">instagram hook generator</span> has analyzed thousands of viral videos to bring you 
-          these high-performing <span className="text-primary font-bold">viral reel hooks</span> specifically optimized for the {nicheName} niche. 
-          Whether you need <span className="text-primary font-bold">reel hooks in hindi</span> or english, we've got you covered.
+          {richContent?.introduction || `Struggling to get views on your ${nicheName} reels? The first 3 seconds are everything. 
+          Our instagram hook generator has analyzed thousands of viral videos to bring you 
+          these high-performing viral reel hooks specifically optimized for the ${nicheName} niche. 
+          Whether you need reel hooks in hindi or english, we've got you covered.`}
         </p>
       </div>
 
@@ -606,7 +609,7 @@ const ProgrammaticHooksPage = () => {
       </div>
 
       <div className="glass p-8 rounded-3xl space-y-8">
-        <h2 className="text-3xl font-bold">How to Make Viral Instagram Reels</h2>
+        <h2 className="text-3xl font-bold">Why Hooks Matter for Reels and Shorts</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <h3 className="font-bold text-primary">Hook Psychology</h3>
@@ -625,24 +628,34 @@ const ProgrammaticHooksPage = () => {
             <p className="text-sm text-text-secondary">Tell people exactly what to do next: follow, save, or comment to boost the algorithm.</p>
           </div>
         </div>
+        {richContent && (
+          <div className="pt-8 border-t border-white/10">
+            <p className="text-text-secondary leading-relaxed">{richContent.section1}</p>
+          </div>
+        )}
       </div>
 
       <div className="space-y-8">
-        <h2 className="text-3xl font-bold">Best Reel Hooks for {nicheName}</h2>
+        <h2 className="text-3xl font-bold">Best Hooks for the {nicheName} Niche</h2>
         <p className="text-text-secondary leading-relaxed">
-          The <span className="text-primary font-bold">best hooks for reels</span> in the {nicheName} niche are those that address specific pain points or offer immediate transformation. 
-          By using our <span className="text-primary font-bold">instagram hook generator</span>, you can ensure your content stands out in a crowded feed. 
-          These hooks work because they leverage human curiosity and the desire for self-improvement or entertainment.
+          {richContent?.section2 || `The best hooks for reels in the ${nicheName} niche are those that address specific pain points or offer immediate transformation. 
+          By using our instagram hook generator, you can ensure your content stands out in a crowded feed. 
+          These hooks work because they leverage human curiosity and the desire for self-improvement or entertainment.`}
         </p>
       </div>
 
       <div className="space-y-8">
-        <h2 className="text-3xl font-bold">Why {nicheName} Hooks Matter for Your Growth</h2>
+        <h2 className="text-3xl font-bold">How ReelHooks.site Helps You Generate Viral Hooks</h2>
         <p className="text-text-secondary leading-relaxed">
-          In the {nicheName} community, competition is fierce. Every day, thousands of creators post high-quality content, but only a few actually get the views they deserve. The difference? A compelling hook. 
+          {richContent?.section3 || `In the ${nicheName} community, competition is fierce. Every day, thousands of creators post high-quality content, but only a few actually get the views they deserve. The difference? A compelling hook. 
+          When you use a viral reel hook, you're not just tricking people into watching. You're respecting their time by immediately showing them why your video is worth their attention.`}
         </p>
+      </div>
+
+      <div className="space-y-8">
+        <h2 className="text-3xl font-bold">Conclusion</h2>
         <p className="text-text-secondary leading-relaxed">
-          When you use a <span className="text-white font-medium">viral reel hook</span>, you're not just tricking people into watching. You're respecting their time by immediately showing them why your video is worth their attention. Whether you're sharing a quick tip, a transformation story, or a behind-the-scenes look at your {nicheName} journey, your hook is the bridge between your content and your audience.
+          {richContent?.conclusion || `Whether you're sharing a quick tip, a transformation story, or a behind-the-scenes look at your ${nicheName} journey, your hook is the bridge between your content and your audience. Experiment with different hooks and see what works best for your audience.`}
         </p>
       </div>
 
