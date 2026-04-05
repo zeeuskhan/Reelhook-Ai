@@ -95,6 +95,7 @@ const SEO = ({ title, description, canonical, schema }: { title: string, descrip
 // --- Constants & Data ---
 import { NICHES, type Niche } from "./data/niches";
 import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
+import BannerAd from "./components/BannerAd";
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -1993,6 +1994,7 @@ export default function App() {
                     }}
                   />
                   <Hero />
+                  <BannerAd />
                   <section id="features" className="py-20 px-4 bg-white/[0.02]">
                     <div className="max-w-7xl mx-auto">
                       <div className="text-center mb-16 space-y-4">
