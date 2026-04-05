@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo } from "react";
+import BannerAd from "./components/BannerAd";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { 
@@ -1993,6 +1994,9 @@ export default function App() {
                     }}
                   />
                   <Hero />
+                  <BannerAd />
+
+<section id="features" className="py-20 px-4 bg-white/[0.02]">
                   <section id="features" className="py-20 px-4 bg-white/[0.02]">
                     <div className="max-w-7xl mx-auto">
                       <div className="text-center mb-16 space-y-4">
