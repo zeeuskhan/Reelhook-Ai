@@ -84,6 +84,56 @@ export const NICHES: Niche[] = [
     id: "career",
     name: "Career",
     subcategories: ["Resume Writing", "Interview Tips", "Salary Negotiation", "Career Pivot", "Networking", "Work-Life Balance", "Corporate Culture", "Remote Work Tips", "Soft Skills", "Executive Coaching", "Job Search Strategy", "LinkedIn Optimization", "Workplace Productivity", "Mentorship", "Industry Trends"]
+  },
+  {
+    id: "automotive",
+    name: "Automotive",
+    subcategories: ["Car Reviews", "Maintenance Tips", "Driving Skills", "Electric Vehicles", "Classic Cars", "Off-Roading", "Car Hacks", "Luxury Cars", "Motorcycles", "Auto Detailing", "Racing News", "Car Buying Guide", "Tire Care", "Engine Tuning", "Road Trips"]
+  },
+  {
+    id: "architecture",
+    name: "Architecture",
+    subcategories: ["Modern Design", "Sustainable Building", "Urban Planning", "Interior Architecture", "Skyscraper Design", "Historical Landmarks", "Tiny House Design", "Landscape Architecture", "Smart Cities", "Home Renovation", "Minimalist Architecture", "Architectural Sketching", "3D Modeling", "Building Materials", "Famous Architects"]
+  },
+  {
+    id: "sustainability",
+    name: "Sustainability",
+    subcategories: ["Zero Waste Living", "Renewable Energy", "Eco-Friendly Products", "Sustainable Fashion", "Composting", "Plastic-Free Tips", "Solar Power", "Green Building", "Circular Economy", "Ethical Investing", "Climate Action", "Organic Gardening", "Water Conservation", "Sustainable Travel", "Vegan Lifestyle"]
+  },
+  {
+    id: "music-production",
+    name: "Music Production",
+    subcategories: ["Beat Making", "Mixing & Mastering", "Songwriting", "Vocal Recording", "Home Studio Setup", "DAW Tutorials", "Sound Design", "Music Theory", "Synthesizers", "Music Marketing", "Independent Artist Tips", "Live Performance", "DJ Skills", "Sample Packs", "Film Scoring"]
+  },
+  {
+    id: "interior-design",
+    name: "Interior Design",
+    subcategories: ["Room Makeovers", "Color Palette Tips", "Furniture Selection", "Lighting Design", "Small Space Hacks", "Boho Style", "Modern Farmhouse", "Industrial Design", "Wall Art Ideas", "Kitchen Remodel", "Bathroom Design", "Home Office Setup", "Textile Selection", "Vintage Decor", "Seasonal Styling"]
+  },
+  {
+    id: "diy-crafts",
+    name: "DIY & Crafts",
+    subcategories: ["Woodworking", "Pottery", "Jewelry Making", "Paper Crafts", "Upcycling Projects", "Candle Making", "Soap Making", "Painting Techniques", "Calligraphy", "Leatherworking", "Sewing Tips", "Crochet Patterns", "Macrame", "Resin Art", "Holiday DIYs"]
+  },
+  {
+    id: "personal-branding",
+    name: "Personal Branding",
+    subcategories: ["Storytelling", "Authority Building", "LinkedIn Strategy", "Public Speaking", "Content Pillars", "Niche Selection", "Visual Identity", "Networking", "Thought Leadership", "Online Reputation", "Bio Writing", "Podcast Guesting", "Newsletter Growth", "Monetization", "Authenticity"]
+  },
+  {
+    id: "digital-marketing",
+    name: "Digital Marketing",
+    subcategories: ["SEO Strategy", "PPC Advertising", "Email Marketing", "Content Marketing", "Affiliate Marketing", "Conversion Rate Optimization", "Google Ads", "Facebook Ads", "TikTok Ads", "Marketing Analytics", "Influencer Outreach", "Copywriting", "Sales Funnels", "B2B Marketing", "Local SEO"]
+  },
+  {
+    id: "event-planning",
+    name: "Event Planning",
+    subcategories: ["Wedding Planning", "Corporate Events", "Birthday Parties", "Virtual Events", "Venue Selection", "Event Decor", "Budgeting", "Catering Tips", "Event Marketing", "Guest List Management", "Party Themes", "Networking Events", "Workshops", "Conferences", "Sustainability in Events"]
+  },
+  {
+    id: "mental-health",
+    name: "Mental Health",
+    subcategories: ["Anxiety Management", "Mindfulness", "Stress Relief", "Self Love", "Therapy Tips", "Emotional Intelligence", "Burnout Recovery", "Positive Psychology", "Meditation", "Journaling Prompts", "Sleep Hygiene", "Boundaries", "Coping Mechanisms", "Mental Wellness", "Inner Child Work"]
   }
 ];
 
