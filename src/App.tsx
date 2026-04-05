@@ -1178,7 +1178,7 @@ const Dashboard = () => {
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [hooks, setHooks] = useState<Hook[]>([]);
-  const [activeTab, setActiveTab] = useState<"hooks" | "ideas" | "improver" | "tools" | "logo" | "saved">("hooks");
+  const [activeTab, setActiveTab] = useState<"hooks" | "ideas" | "improver" | "tools" | "saved">("hooks");
   
   const filteredNiches = useMemo(() => {
     if (!nicheSearch) return NICHES;
@@ -1430,86 +1430,6 @@ const Dashboard = () => {
     });
   };
 
-  const [logoPrompt, setLogoPrompt] = useState("");
-  const [logoStyle, setLogoStyle] = useState("Minimalist");
-  const [logoImage, setLogoImage] = useState<string | null>(null);
-  const [isAnimating, setIsAnimating] = useState(false);
-  const [animatedVideo, setAnimatedVideo] = useState<string | null>(null);
-
-  const LOGO_STYLES = ["Minimalist", "Cyberpunk", "Vintage", "Corporate", "Playful", "Abstract"];
-
-  const handleGenerateLogo = async () => {
-    if (!logoPrompt) return;
-    setIsGenerating(true);
-    try {
-      const response = await genAI.models.generateContent({
-        model: "gemini-2.5-flash-image",
-        contents: { parts: [{ text: `Professional ${logoStyle.toLowerCase()} company logo for: ${logoPrompt}. High quality, vector style, clean background.` }] },
-        config: { imageConfig: { aspectRatio: "1:1" } }
-      });
-      
-      for (const part of response.candidates?.[0]?.content?.parts || []) {
-        if (part.inlineData) {
-          setLogoImage(`data:image/png;base64,${part.inlineData.data}`);
-          break;
-        }
-      }
-    } catch (error) {
-      console.error("Logo Error:", error);
-    }
-    setIsGenerating(false);
-  };
-
-  const handleAnimateLogo = async () => {
-    if (!logoImage) return;
-    
-    // Check for API key selection for Veo models
-    try {
-      const aistudio = (window as any).aistudio;
-      if (typeof window !== 'undefined' && aistudio) {
-        const hasKey = await aistudio.hasSelectedApiKey();
-        if (!hasKey) {
-          await aistudio.openSelectKey();
-          // Proceed after dialog (assuming success as per guidelines)
-        }
-      }
-    } catch (e) {
-      console.error("Key selection error:", e);
-    }
-
-    setIsAnimating(true);
-    try {
-      // Create fresh instance to use the latest key
-      const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
-      let operation = await ai.models.generateVideos({
-        model: "veo-3.1-fast-generate-preview",
-        prompt: "Smooth professional animation of this logo, cinematic lighting, 4k",
-        image: {
-          imageBytes: logoImage.split(",")[1],
-          mimeType: "image/png"
-        },
-        config: { numberOfVideos: 1, resolution: "1080p", aspectRatio: "1:1" }
-      });
-
-      while (!operation.done) {
-        await new Promise(resolve => setTimeout(resolve, 5000));
-        operation = await ai.operations.getVideosOperation({ operation });
-      }
-
-      const downloadLink = operation.response?.generatedVideos?.[0]?.video?.uri;
-      if (downloadLink) {
-        const response = await fetch(downloadLink, {
-          headers: { 'x-goog-api-key': process.env.GEMINI_API_KEY || "" }
-        });
-        const blob = await response.blob();
-        setAnimatedVideo(URL.createObjectURL(blob));
-      }
-    } catch (error) {
-      console.error("Animation Error:", error);
-    }
-    setIsAnimating(false);
-  };
-
   const handleGenerate = async () => {
     setIsGenerating(true);
     try {
@@ -1672,7 +1592,7 @@ const Dashboard = () => {
         <div className="lg:col-span-8 space-y-6">
           {/* Tabs */}
           <div className="flex space-x-1 bg-white/5 p-1 rounded-xl overflow-x-auto custom-scrollbar">
-            {(["hooks", "ideas", "improver", "tools", "logo", "saved"] as const).map((tab) => (
+            {(["hooks", "ideas", "improver", "tools", "saved"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -1854,129 +1774,6 @@ const Dashboard = () => {
                     <p className="text-text-secondary text-sm">{tool.desc}</p>
                   </button>
                 ))}
-              </div>
-            ) : activeTab === "logo" ? (
-              <div className="space-y-8 max-w-4xl mx-auto">
-                <div className="text-center space-y-2 mb-8">
-                  <div className="w-16 h-16 bg-primary/10 rounded-2xl flex items-center justify-center mx-auto mb-4">
-                    <Sparkles className="w-8 h-8 text-primary" />
-                  </div>
-                  <h3 className="text-3xl font-bold font-display">Brand Identity Studio</h3>
-                  <p className="text-text-secondary">Create a professional logo and bring it to life with cinematic animation.</p>
-                </div>
-
-                <div className="glass p-8 rounded-3xl space-y-6">
-                  <div className="space-y-4">
-                    <label className="text-sm font-medium text-text-secondary">1. Describe your brand</label>
-                    <textarea 
-                      placeholder="e.g., A futuristic AI startup called 'Nexus' that focuses on speed and connectivity..."
-                      className="w-full bg-bg border border-white/10 rounded-2xl p-4 min-h-[120px] focus:ring-2 focus:ring-primary/50 outline-none resize-none"
-                      value={logoPrompt}
-                      onChange={(e) => setLogoPrompt(e.target.value)}
-                    />
-                  </div>
-
-                  <div className="space-y-4">
-                    <label className="text-sm font-medium text-text-secondary">2. Select a style</label>
-                    <div className="flex flex-wrap gap-2">
-                      {LOGO_STYLES.map(style => (
-                        <button
-                          key={style}
-                          onClick={() => setLogoStyle(style)}
-                          className={cn(
-                            "px-4 py-2 rounded-xl text-sm font-medium transition-all cursor-pointer",
-                            logoStyle === style ? "bg-primary text-white" : "bg-white/5 text-text-secondary hover:bg-white/10 hover:text-white"
-                          )}
-                        >
-                          {style}
-                        </button>
-                      ))}
-                    </div>
-                  </div>
-
-                  <button 
-                    onClick={handleGenerateLogo}
-                    disabled={isGenerating || !logoPrompt}
-                    className="w-full bg-primary text-white py-4 rounded-2xl font-bold flex items-center justify-center space-x-2 disabled:opacity-50 cursor-pointer transition-all hover:bg-primary/90 shadow-lg shadow-primary/20"
-                  >
-                    {isGenerating ? <RefreshCw className="animate-spin w-5 h-5" /> : <Sparkles className="w-5 h-5" />}
-                    <span>{isGenerating ? "Designing your logo..." : "Generate Logo"}</span>
-                  </button>
-                </div>
-
-                <AnimatePresence>
-                  {logoImage && (
-                    <motion.div 
-                      initial={{ opacity: 0, y: 20 }}
-                      animate={{ opacity: 1, y: 0 }}
-                      className="grid grid-cols-1 md:grid-cols-2 gap-8"
-                    >
-                      <div className="glass p-6 rounded-3xl space-y-6 flex flex-col">
-                        <div className="flex items-center justify-between">
-                          <h4 className="font-bold flex items-center space-x-2">
-                            <span className="w-6 h-6 rounded-full bg-primary/20 flex items-center justify-center text-primary text-xs">3</span>
-                            <span>Your Logo</span>
-                          </h4>
-                          <button onClick={() => {
-                            const a = document.createElement('a');
-                            a.href = logoImage;
-                            a.download = 'logo.png';
-                            a.click();
-                          }} className="text-text-secondary hover:text-white transition-colors cursor-pointer">
-                            <Download className="w-5 h-5" />
-                          </button>
-                        </div>
-                        <div className="flex-1 bg-white/5 rounded-2xl p-4 flex items-center justify-center border border-white/10">
-                          <img src={logoImage} alt="Generated Logo" className="w-full max-w-[240px] aspect-square rounded-xl shadow-2xl object-contain" referrerPolicy="no-referrer" />
-                        </div>
-                        <button 
-                          onClick={handleAnimateLogo}
-                          disabled={isAnimating || animatedVideo !== null}
-                          className="w-full bg-white text-bg py-4 rounded-xl font-bold flex items-center justify-center space-x-2 disabled:opacity-50 cursor-pointer hover:bg-white/90 transition-all"
-                        >
-                          {isAnimating ? <RefreshCw className="animate-spin w-5 h-5" /> : <Zap className="w-5 h-5" />}
-                          <span>{isAnimating ? "Animating..." : animatedVideo ? "Animation Complete" : "Animate Logo"}</span>
-                        </button>
-                      </div>
-
-                      <div className="glass p-6 rounded-3xl space-y-6 flex flex-col">
-                        <h4 className="font-bold flex items-center space-x-2">
-                          <span className="w-6 h-6 rounded-full bg-secondary/20 flex items-center justify-center text-secondary text-xs">4</span>
-                          <span>Cinematic Animation</span>
-                        </h4>
-                        <div className="flex-1 bg-white/5 rounded-2xl flex items-center justify-center border border-dashed border-white/10 overflow-hidden relative min-h-[240px]">
-                          {isAnimating ? (
-                            <div className="absolute inset-0 flex flex-col items-center justify-center space-y-4 bg-bg/50 backdrop-blur-sm z-10">
-                              <RefreshCw className="animate-spin w-10 h-10 text-secondary" />
-                              <p className="text-sm font-medium text-secondary animate-pulse">Rendering 4K Animation...</p>
-                              <p className="text-xs text-text-secondary">This usually takes 1-2 minutes.</p>
-                            </div>
-                          ) : animatedVideo ? (
-                            <video src={animatedVideo} controls autoPlay loop className="w-full h-full object-cover" />
-                          ) : (
-                            <div className="text-center space-y-3 p-6">
-                              <div className="w-12 h-12 bg-white/5 rounded-full flex items-center justify-center mx-auto">
-                                <Zap className="w-6 h-6 text-text-secondary" />
-                              </div>
-                              <p className="text-sm text-text-secondary">Click 'Animate Logo' to transform your static design into a cinematic video reveal.</p>
-                            </div>
-                          )}
-                        </div>
-                        {animatedVideo && (
-                          <button onClick={() => {
-                            const a = document.createElement('a');
-                            a.href = animatedVideo;
-                            a.download = 'logo-animation.mp4';
-                            a.click();
-                          }} className="w-full bg-secondary text-bg py-4 rounded-xl font-bold flex items-center justify-center space-x-2 cursor-pointer hover:bg-secondary/90 transition-all">
-                            <Download className="w-5 h-5" />
-                            <span>Download Video</span>
-                          </button>
-                        )}
-                      </div>
-                    </motion.div>
-                  )}
-                </AnimatePresence>
               </div>
             ) : (
               <div className="space-y-6">
