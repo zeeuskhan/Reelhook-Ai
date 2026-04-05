@@ -1,0 +1,209 @@
+export interface FAQ {
+  q: string;
+  a: string;
+}
+
+export interface ToolSEOContent {
+  slug: string;
+  title: string;
+  metaTitle: string;
+  metaDescription: string;
+  h1: string;
+  introduction: string;
+  featuresTitle: string;
+  features: string;
+  guideTitle: string;
+  guide: string;
+  benefitsTitle: string;
+  benefits: string;
+  conclusion: string;
+  faqs: FAQ[];
+  ctaText: string;
+}
+
+export const TOOL_SEO_CONTENT: Record<string, ToolSEOContent> = {
+  "instagram-bio-generator": {
+    slug: "instagram-bio-generator",
+    title: "Instagram Bio Generator",
+    metaTitle: "Free Instagram Bio Generator: Create Viral Bios in Seconds",
+    metaDescription: "Use our free Instagram Bio Generator to create professional, catchy, and SEO-friendly bios. Boost your profile visibility and attract more followers today.",
+    h1: "Instagram Bio Generator: Craft the Perfect First Impression",
+    introduction: "Your Instagram bio is your digital business card. It's the first thing potential followers see when they land on your profile, and you only have 150 characters to make it count. A well-crafted bio can be the difference between a new follower and a missed opportunity. In 2026, simply stating your name and location isn't enough. You need a bio that reflects your brand personality, includes relevant keywords for searchability, and provides a clear call to action. Our Instagram Bio Generator is designed to help you solve this creative challenge by using advanced AI to generate bios that are not only catchy but also optimized for the Instagram algorithm.",
+    featuresTitle: "Key Features of Our AI Bio Generator",
+    features: "Our tool isn't just a random text generator; it's a strategic partner for your Instagram growth. First, it offers niche-specific templates. Whether you're a fitness coach, a tech enthusiast, or a lifestyle blogger, the AI understands the language and emojis that resonate with your specific audience. Second, it focuses on keyword optimization. By naturally integrating terms related to your industry, your profile becomes more discoverable in Instagram's search results. Third, it provides multiple tone options. You can choose from professional, funny, minimalist, or bold styles to match your brand's unique voice. Finally, our generator ensures that your bio is formatted perfectly, with clean line breaks and appropriate emoji placement that looks great on both iOS and Android devices.",
+    guideTitle: "How to Use the Instagram Bio Generator",
+    guide: "Using our tool is incredibly simple and takes less than a minute. Step 1: Enter your niche or a brief description of what you do. For example, 'Freelance graphic designer specializing in minimalist logos.' Step 2: Select your preferred tone. If you want to seem approachable, choose 'Friendly'; if you want to establish authority, choose 'Professional.' Step 3: Click 'Generate.' Our AI will provide you with several variations of bios tailored to your input. Step 4: Review the options and pick the one that fits best. You can even mix and match elements from different suggestions. Step 5: Copy and paste the final result into your Instagram profile settings. It's that easy to transform your profile from generic to viral-ready.",
+    benefitsTitle: "Why Every Creator Needs a Professional Bio",
+    benefits: "A professional bio does more than just look good; it drives real business results. One of the primary benefits is increased conversion. When a user understands exactly who you are and what value you provide within seconds, they are much more likely to hit that 'Follow' button. Another benefit is improved SEO. Instagram's search feature is becoming more like Google, and having the right keywords in your bio helps you show up when users search for topics in your niche. Additionally, a clear bio establishes trust. It shows that you are serious about your content and your brand. Lastly, a good bio with a strong CTA (Call to Action) can drive traffic to your website, YouTube channel, or store, turning your Instagram followers into loyal customers or subscribers.",
+    conclusion: "In conclusion, your Instagram bio is the foundation of your digital presence. It's the first thing people see and the last thing they remember before deciding to follow you. By using our AI-powered Instagram Bio Generator, you can ensure that every character is working toward your growth. Don't settle for a generic bio when you can have one that is optimized for both humans and algorithms. Start experimenting with different styles today and find the one that truly represents your brand. Remember, your bio is a living document—feel free to update it as your brand evolves and your goals change. With ReelHooks.site, you have a partner that helps you stay ahead of the trends and maintain a professional, viral-ready profile at all times.",
+    faqs: [
+      { q: "Is the Instagram Bio Generator free to use?", a: "Yes, our Instagram Bio Generator is completely free. You can generate as many bios as you need to find the perfect fit for your profile." },
+      { q: "How many characters can an Instagram bio have?", a: "Instagram allows a maximum of 150 characters for your bio. Our generator is programmed to stay within this limit while maximizing the impact of every character." },
+      { q: "Can I use emojis in the generated bios?", a: "Absolutely! Emojis are a great way to add personality and save space. Our AI suggests relevant emojis based on your niche and tone." },
+      { q: "Does a better bio really help with follower growth?", a: "Yes. Data shows that profiles with clear, keyword-optimized bios have a significantly higher follow-back rate compared to generic or empty profiles." },
+      { q: "Can I generate bios in different languages?", a: "Yes, our tool supports multiple languages including English, Hindi, and Hinglish to help you reach your specific target audience." }
+    ],
+    ctaText: "Generate Your Viral Bio Now"
+  },
+  "instagram-caption-generator": {
+    slug: "instagram-caption-generator",
+    title: "Instagram Caption Generator",
+    metaTitle: "AI Instagram Caption Generator: Viral Captions for Reels & Posts",
+    metaDescription: "Generate engaging, SEO-optimized Instagram captions in seconds. Boost your engagement, saves, and shares with our free AI caption tool.",
+    h1: "Instagram Caption Generator: Stop Struggling with Descriptions",
+    introduction: "We've all been there: you have the perfect photo or reel ready to post, but you're stuck staring at a blinking cursor, unable to think of a caption. Captions are often an afterthought, but they are crucial for engagement. A great caption tells a story, provides context, and most importantly, encourages the viewer to interact with your post. Whether it's through a question, a call to action, or a relatable joke, your caption is what turns a passive viewer into an active follower. Our Instagram Caption Generator uses the latest AI technology to craft descriptions that are tailored to your content, ensuring you never have to worry about 'caption block' again.",
+    featuresTitle: "Powerful Features for Viral Captions",
+    features: "Our generator is built with creators in mind. It doesn't just give you generic sentences; it provides SEO-optimized captions. This means your posts are more likely to appear in the 'Explore' feed and search results. The tool also includes a 'Call to Action' (CTA) engine. It suggests ways to ask your audience to comment, share, or save your post, which are the most important metrics for the Instagram algorithm. Furthermore, you can adjust the length of your captions. Whether you need a short, punchy one-liner or a long-form storytelling piece, the AI adapts to your needs. We also include hashtag suggestions that complement your caption, giving your post an extra boost in reach from the moment you hit share.",
+    guideTitle: "Step-by-Step Guide to Generating Captions",
+    guide: "Getting the perfect caption is a three-step process. First, describe your post or the main message you want to convey. For instance, 'A video of me hiking in the Himalayas during sunrise.' Second, choose the vibe of your post. Is it inspirational, funny, or educational? Selecting the right tone helps the AI match your brand's personality. Third, click 'Generate' and watch as the AI provides you with several high-quality options. You can then copy your favorite one, or use the 'Refine' feature to tweak it until it's perfect. Our tool even handles formatting, ensuring your captions have clean spacing that makes them easy to read on mobile devices.",
+    benefitsTitle: "The Benefits of AI-Powered Captions",
+    benefits: "Using an AI caption generator offers several key advantages. The most obvious is time-saving. Instead of spending 20 minutes brainstorming, you can have a viral-ready caption in 20 seconds. This allows you to focus more on creating content and less on the administrative side of posting. Another benefit is increased engagement. AI-generated captions are designed to trigger psychological responses that lead to more comments and shares. Additionally, our tool helps with consistency. By maintaining a high quality of writing across all your posts, you build a stronger, more professional brand image. Finally, the SEO benefits cannot be ignored; by using the right keywords in your captions, you're essentially telling the Instagram algorithm exactly who should see your content.",
+    conclusion: "To wrap up, captions are the voice of your Instagram profile. They provide the context and the call to action that turn a simple image or video into a powerful piece of marketing. Our Instagram Caption Generator is here to ensure that your voice is always clear, engaging, and optimized for success. Whether you're a seasoned influencer or just starting out, having a reliable tool to help with your writing can make a world of difference in your growth trajectory. Start using our AI generator today and see the impact that high-quality, SEO-friendly captions can have on your engagement metrics. Your audience is waiting to hear from you—make sure you have something great to say.",
+    faqs: [
+      { q: "How long should an Instagram caption be?", a: "While Instagram allows up to 2,200 characters, the 'sweet spot' for engagement is often either very short (under 50 characters) or long-form storytelling (over 500 characters). Our tool can generate both." },
+      { q: "Does the generator include hashtags?", a: "Yes, our tool provides relevant hashtag suggestions along with your caption to help maximize your post's reach." },
+      { q: "Can I generate captions for business posts?", a: "Absolutely. Our AI is trained on thousands of successful business posts and can generate professional, sales-focused captions that drive results." },
+      { q: "Is it safe to use AI-generated captions on Instagram?", a: "Yes, it is completely safe. Instagram encourages high-quality, engaging content, and our AI helps you produce exactly that." },
+      { q: "Can I generate captions in Hindi or Hinglish?", a: "Yes, we support multiple languages to help you connect with your local audience effectively." }
+    ],
+    ctaText: "Generate Viral Captions Now"
+  },
+  "instagram-hashtag-generator": {
+    slug: "instagram-hashtag-generator",
+    title: "Instagram Hashtag Generator",
+    metaTitle: "Best Instagram Hashtag Generator: Find Trending & Viral Tags",
+    metaDescription: "Find the best hashtags for your Instagram reels and posts. Our AI hashtag generator helps you reach more people and go viral for free.",
+    h1: "Instagram Hashtag Generator: Reach Your Perfect Audience",
+    introduction: "Hashtags are the primary way Instagram categorizes content. If you use the right ones, your post can reach thousands of people who don't follow you yet. If you use the wrong ones, your content might stay hidden in a corner of the internet. The challenge is that trending hashtags change every day, and using the same 30 tags on every post can actually hurt your reach. Our Instagram Hashtag Generator solves this by providing you with a dynamic, AI-powered list of tags that are specifically relevant to your current post. It analyzes your topic and suggests a mix of high-volume, medium-reach, and niche-specific tags to give you the best possible chance of hitting the Explore page.",
+    featuresTitle: "Features of Our AI Hashtag Tool",
+    features: "Our tool goes beyond simple keyword matching. It features a 'Reach Optimization' algorithm that balances your hashtag set. It ensures you're not just competing for the most popular tags (where your post might get buried) but also targeting niche tags where you can easily rank at the top. The generator also filters out 'banned' or 'shadowbanned' hashtags that could negatively impact your account's health. Another key feature is the ability to generate hashtags based on an image description or a specific keyword. You can also save your favorite hashtag sets into folders for easy access later. This makes your posting workflow much faster and more organized, allowing you to maintain a consistent hashtag strategy across all your content.",
+    guideTitle: "How to Generate Viral Hashtags",
+    guide: "Step 1: Enter a keyword or a short description of your post, such as 'vegan recipes' or 'travel vlogger in Japan.' Step 2: Choose the level of reach you're aiming for—whether you want to target broad audiences or a specific niche. Step 3: Click 'Generate.' The tool will provide you with a curated list of up to 30 hashtags. Step 4: Use our 'Copy' button to grab the entire set or select individual tags that you like. Step 5: Paste them into your caption or the first comment of your post. We recommend mixing these AI suggestions with a few of your own branded hashtags for the best results.",
+    benefitsTitle: "Why Hashtag Strategy Still Matters in 2026",
+    benefits: "Even as Instagram's algorithm evolves, hashtags remain a vital part of discovery. One major benefit is improved SEO. Hashtags act as keywords that help the algorithm understand the context of your video or photo. Another benefit is community building. By using niche tags, you're placing your content in front of people who are genuinely interested in your topic, leading to higher quality engagement and more loyal followers. Additionally, a good hashtag strategy helps you avoid the 'shadowban' by ensuring you're not using repetitive or flagged tags. Finally, hashtags are essential for tracking trends. By seeing which tags are currently performing well in our generator, you can adapt your content strategy to stay relevant and capitalize on viral moments as they happen.",
+    conclusion: "In summary, a smart hashtag strategy is one of the most effective ways to grow your reach organically on Instagram. While the algorithm is becoming more sophisticated, hashtags still provide the essential metadata that helps your content find its way to the right people. Our Instagram Hashtag Generator is designed to take the guesswork out of this process, providing you with a fresh, optimized set of tags for every post. Don't leave your reach to chance. Use our AI-powered tool to ensure that your hard work is seen by the thousands of potential followers who are searching for your niche every single day. Start generating your viral tags now and watch your impressions soar.",
+    faqs: [
+      { q: "How many hashtags should I use on Instagram?", a: "While you can use up to 30, many experts suggest that 3-5 highly relevant hashtags are now more effective for SEO. Our tool lets you choose the number that works for you." },
+      { q: "Should I put hashtags in the caption or the comments?", a: "Both work, but putting them in the caption is generally better for SEO as it helps the algorithm index your post faster." },
+      { q: "Does using the same hashtags every time hurt my reach?", a: "Yes, Instagram may view repetitive hashtag sets as spam. It's best to use our generator to get a fresh set for every post." },
+      { q: "What are 'niche' hashtags?", a: "Niche hashtags are specific tags with lower post counts (e.g., #delhifoodblogger instead of #food). They are easier to rank for and reach a more targeted audience." },
+      { q: "Is this hashtag generator free?", a: "Yes, our tool is free to use and updated daily with the latest trending tags." }
+    ],
+    ctaText: "Find Trending Hashtags Now"
+  },
+  "instagram-reel-generator": {
+    slug: "instagram-reel-generator",
+    title: "Instagram Reel Generator",
+    metaTitle: "AI Instagram Reel Generator: Create Viral Reel Scripts & Ideas",
+    metaDescription: "Turn your ideas into viral Instagram Reels. Our AI generator provides scripts, hooks, and ideas to help you grow your audience fast.",
+    h1: "Instagram Reel Generator: Your Shortcut to Viral Video Content",
+    introduction: "Reels are currently the most powerful way to grow on Instagram. The algorithm prioritizes short-form video more than any other content type, giving even small accounts the chance to reach millions. However, creating a viral reel requires more than just good lighting; it requires a strategic script, a compelling hook, and a clear message. Many creators struggle with the 'what to post' and 'how to say it' parts of the process. Our Instagram Reel Generator is designed to be your personal creative director. It uses AI to turn a simple topic into a full-blown viral video concept, complete with a script that is optimized for retention and engagement.",
+    featuresTitle: "Features of Our Reel Script Generator",
+    features: "Our tool provides a comprehensive suite for video creators. First, it generates 'Pattern Interrupt' hooks. These are the first 3 seconds of your video that stop the scroll and force the viewer to pay attention. Second, it provides structured scripts. Whether you're making a 15-second tip or a 60-second vlog, the AI structures the content to keep viewers watching until the end. Third, it offers 'Visual Cues.' The generator suggests what you should be doing on screen—like pointing to text or showing a specific b-roll shot—to complement the audio. Fourth, it includes a 'Viral Scoring' system that evaluates your idea's potential based on current trends. Finally, it supports multiple languages, allowing you to create content for global or local audiences with ease.",
+    guideTitle: "How to Create a Viral Reel in Minutes",
+    guide: "Step 1: Input your main topic or the goal of your video. For example, 'How to save money as a student.' Step 2: Select your target audience and the desired tone (e.g., 'Gen Z' and 'Funny'). Step 3: Click 'Generate.' The AI will provide you with a complete script, including a hook, the main body, and a call to action. Step 4: Review the 'Visual Suggestions' to plan your filming. Step 5: Record your video using the script as a guide. You don't have to follow it word-for-word, but the structure will ensure your video remains engaging. Step 6: Use our suggested hashtags and captions when you post to maximize your reach.",
+    benefitsTitle: "The Benefits of Using AI for Reels",
+    benefits: "The primary benefit of using an AI reel generator is the elimination of creative block. You'll never have to wonder what to film again. Another major benefit is improved retention. Our scripts are based on proven storytelling frameworks that keep people watching, which is the #1 factor the Instagram algorithm uses to promote videos. Additionally, using a generator helps you stay consistent. By having a steady stream of high-quality ideas, you can post more frequently, which is essential for long-term growth. Finally, it allows for better experimentation. You can quickly generate scripts for different niches or styles to see what resonates most with your audience without spending hours on research and writing.",
+    conclusion: "Ultimately, Reels are the future of Instagram, and those who master them will dominate the platform. Our Instagram Reel Generator is your secret weapon in this race for attention. By providing you with high-converting hooks, structured scripts, and visual ideas, we help you produce content that is designed to go viral. Don't let the complexity of video production stop you from reaching your full potential. Use our AI tool to streamline your workflow and start creating Reels that your audience will love and share. The algorithm is waiting for your next hit—let's make it together with ReelHooks.site.",
+    faqs: [
+      { q: "Do I need professional equipment to make viral reels?", a: "No, most viral reels are filmed on smartphones. The quality of your hook and script is much more important than your camera gear." },
+      { q: "How long should my Instagram Reels be?", a: "While they can be up to 90 seconds, the most viral reels are usually between 7 and 15 seconds long. Our generator optimizes for these lengths." },
+      { q: "Can I use this for TikTok and YouTube Shorts too?", a: "Yes! The scripts generated are perfect for any short-form video platform, including TikTok and Shorts." },
+      { q: "Does the generator suggest trending audio?", a: "While we don't provide the audio files, our scripts often suggest the 'vibe' of music that would work best for the content." },
+      { q: "Is the Reel Generator free?", a: "Yes, you can generate viral reel ideas and scripts for free on ReelHooks.site." }
+    ],
+    ctaText: "Generate Your Viral Reel Script"
+  },
+  "instagram-username-generator": {
+    slug: "instagram-username-generator",
+    title: "Instagram Username Generator",
+    metaTitle: "AI Instagram Username Generator: Find Unique & Catchy Names",
+    metaDescription: "Find the perfect Instagram username with our AI generator. Get unique, catchy, and available name ideas for your personal or brand account.",
+    h1: "Instagram Username Generator: Find Your Unique Digital Identity",
+    introduction: "Your username is your brand's first point of contact on Instagram. It needs to be memorable, easy to spell, and reflective of who you are or what you do. With over a billion users, finding a unique and available username can feel impossible. Most people end up adding random numbers or underscores, which makes their profile look unprofessional. Our Instagram Username Generator uses AI to brainstorm creative, catchy, and meaningful names that stand out. Whether you're starting a personal blog, a business page, or a fan account, our tool provides you with a list of options that are optimized for brandability and searchability.",
+    featuresTitle: "Features of Our Creative Name Generator",
+    features: "Our tool is more than just a random word combiner. It features 'Niche Integration,' where it takes your industry keywords and blends them with creative prefixes and suffixes. It also has a 'Personality Filter,' allowing you to choose if you want your name to sound 'Aesthetic,' 'Professional,' 'Funny,' or 'Minimalist.' Another key feature is the 'Availability Checker' (coming soon), which helps you see if the name is likely to be free. The generator also suggests variations that avoid messy punctuation, focusing on clean names that are easy for users to type and remember. Finally, it provides 'Branding Tips' for each suggestion, explaining why a certain name might work well for your specific goals.",
+    guideTitle: "How to Find the Perfect Username",
+    guide: "Step 1: Enter a few keywords related to your name, your niche, or your interests. For example, 'Sana' and 'Travel.' Step 2: Select the 'Vibe' you're going for. If you're a photographer, you might want something 'Aesthetic.' Step 3: Click 'Generate.' The AI will present you with dozens of unique combinations. Step 4: Shortlist your favorites and check their availability on Instagram. Step 5: Once you find 'the one,' secure it immediately. If your preferred name is taken, our tool can also suggest 'Smart Alternatives' that keep the core of your idea while adding a unique twist that is still professional.",
+    benefitsTitle: "Why Your Username Matters for Growth",
+    benefits: "A good username is a foundational element of your Instagram SEO. If your username contains a keyword related to your niche (e.g., @SanaTravels), you are much more likely to show up when people search for that topic. Another benefit is brand recall. A simple, punchy name is easier for people to remember and recommend to others. Additionally, a clean username without excessive numbers or symbols builds immediate trust and credibility. It shows that you are a serious creator or business. Finally, your username sets the tone for your entire profile. It's the first part of your story, and having a name that aligns with your content helps create a cohesive and professional brand experience from day one.",
+    conclusion: "To conclude, your Instagram username is more than just a label; it's a strategic asset. It's the core of your digital identity and a key driver of your discoverability. Our Instagram Username Generator is here to help you find a name that is not only unique but also perfectly aligned with your brand's goals. Don't settle for a name that is hard to remember or looks unprofessional. Use our AI tool to brainstorm ideas that will make you stand out in a sea of a billion users. Your journey on Instagram starts with your name—make sure it's a great one with ReelHooks.site.",
+    faqs: [
+      { q: "Should I use my real name in my Instagram username?", a: "It depends on your goals. For personal branding, using your name is great. For a business or theme page, a niche-based name is usually better." },
+      { q: "Can I change my Instagram username later?", a: "Yes, but it's not recommended once you have a following, as it can confuse your audience and break old links to your profile." },
+      { q: "What makes a 'good' username?", a: "A good username is short, easy to remember, easy to spell, and relevant to your content or brand." },
+      { q: "How do I handle a username that is already taken?", a: "Our generator can suggest smart variations like adding 'The', 'Real', or 'Official' in a way that still looks professional." },
+      { q: "Is the username generator free?", a: "Yes, it's completely free to use as many times as you need." }
+    ],
+    ctaText: "Generate Unique Usernames Now"
+  },
+  "instagram-dp-generator": {
+    slug: "instagram-dp-generator",
+    title: "Instagram DP Generator",
+    metaTitle: "Instagram DP Generator: Create Professional Profile Pictures",
+    metaDescription: "Create the perfect Instagram profile picture (DP) with our AI tool. Enhance your photos, add cool borders, and stand out for free.",
+    h1: "Instagram DP Generator: Stand Out with a Professional Profile Picture",
+    introduction: "Your profile picture, or 'DP' (Display Picture), is the small circle that represents you across the entire Instagram platform. It appears in the 'Stories' bar, in the comments section, and on the 'Explore' page. Because it's so small, it needs to be high-contrast, clear, and instantly recognizable. A blurry or cluttered DP can make even a great account look amateur. Our Instagram DP Generator helps you create a professional-grade profile picture in seconds. Whether you want to add a vibrant border to match your brand colors, remove a distracting background, or enhance the lighting of your photo, our tool provides you with the features needed to make your DP pop.",
+    featuresTitle: "Features of Our Profile Picture Tool",
+    features: "Our DP generator offers a variety of enhancement options. First is the 'Background Remover,' which uses AI to cleanly isolate your face or logo, allowing you to replace the background with a solid color or a professional gradient. Second is the 'Brand Border' feature. You can add a circular ring around your photo in any color, which is a proven way to increase Story views. Third, we offer 'Auto-Enhance' filters specifically tuned for the small circular format of Instagram, ensuring your features are sharp and clear. Fourth, the tool provides 'Logo Optimization' for business accounts, helping you center and scale your brand mark perfectly. Finally, you can download your finished DP in the exact resolution required by Instagram to avoid any pixelation.",
+    guideTitle: "How to Create Your Perfect Instagram DP",
+    guide: "Step 1: Upload the photo or logo you want to use. We recommend a high-resolution headshot with good lighting. Step 2: Use the 'Background' tool to clean up the image. A solid, bright background often works best for visibility. Step 3: Add a 'Profile Ring' or border if you want to stand out in the Stories bar. Step 4: Adjust the zoom and position to ensure your face or logo is perfectly centered within the circular frame. Step 5: Apply a subtle 'Clarity' filter to make the image sharper. Step 6: Click 'Download' and upload the result to your Instagram profile. You'll notice an immediate difference in how professional your account looks.",
+    benefitsTitle: "Why a High-Quality DP is Essential",
+    benefits: "A high-quality DP is a key factor in building trust and authority. When you leave a comment on a large account's post, your DP is what people see first. If it looks professional, they are much more likely to click on your profile. Another benefit is brand consistency. By using the same colors in your DP as you do in your content, you create a unified brand identity. Additionally, a clear DP helps with recognition. Your followers will start to recognize your small circular icon in their Stories bar, leading to higher view rates. Finally, a professional DP shows that you pay attention to detail, which is a quality that both followers and potential brand partners look for in a creator.",
+    conclusion: "In conclusion, your profile picture is the face of your Instagram account. It's a small but mighty element that can significantly impact your profile's click-through rate and overall brand perception. Our Instagram DP Generator provides you with the professional tools needed to ensure your display picture is always sharp, clear, and on-brand. Don't let a poor-quality photo hold you back from making a great first impression. Use our AI-powered enhancements and borders to create a DP that truly stands out. Start optimizing your profile picture today and see the difference it makes in your engagement and follower growth.",
+    faqs: [
+      { q: "What is the best size for an Instagram profile picture?", a: "Instagram displays DPs at 110x110 pixels, but it's best to upload an image that is at least 320x320 pixels for maximum clarity." },
+      { q: "Should I use a photo of myself or a logo?", a: "For personal brands and creators, a face photo is almost always better as it builds a human connection. For companies, a clean logo is the standard." },
+      { q: "Do profile borders really increase Story views?", a: "Yes, a colorful ring around your DP makes it stand out in the Stories tray, which naturally draws more clicks." },
+      { q: "Can I remove the background of my photo for free?", a: "Yes, our DP generator includes a free AI background removal tool." },
+      { q: "Is the DP generator mobile-friendly?", a: "Yes, you can create and download your new profile picture directly from your phone." }
+    ],
+    ctaText: "Create Your Professional DP"
+  },
+  "instagram-transcript-generator": {
+    slug: "instagram-transcript-generator",
+    title: "Instagram Transcript Generator",
+    metaTitle: "Instagram Transcript Generator: Turn Reels into Text & Blogs",
+    metaDescription: "Convert any Instagram Reel or video into a clean text transcript. Perfect for creating blogs, captions, and accessible content for free.",
+    h1: "Instagram Transcript Generator: Unlock the Value of Your Video Content",
+    introduction: "In 2026, content repurposing is the secret to staying relevant without burning out. If you've spent hours creating a high-quality Instagram Reel, you shouldn't just let it live as a video. You can turn that video into a blog post, a newsletter, a Twitter thread, or a LinkedIn article. The first step in this process is getting a clean, accurate transcript. Our Instagram Transcript Generator uses advanced speech-to-text AI to convert any Reel or video into written text in seconds. This not only helps you repurpose your content but also makes it more accessible to people who are hard of hearing or those who prefer to read rather than watch.",
+    featuresTitle: "Features of Our AI Transcription Tool",
+    features: "Our generator is built for speed and accuracy. It features 'Multi-Language Support,' allowing it to transcribe videos in English, Hindi, Spanish, and many other languages. It also includes 'Speaker Diarization' (coming soon), which can distinguish between different people talking in a video. Another key feature is 'Auto-Formatting,' which adds punctuation and paragraph breaks to the raw text, making it much easier to read and edit. The tool also provides a 'Summary' feature, which gives you a bulleted list of the main points covered in the video. Finally, you can export your transcript in various formats, including TXT, PDF, or directly into our 'Blog Generator' to turn your Reel into a full-length SEO article.",
+    guideTitle: "How to Transcribe an Instagram Reel",
+    guide: "Step 1: Copy the link to the Instagram Reel or upload your video file directly to our tool. Step 2: Select the primary language spoken in the video. Step 3: Click 'Generate Transcript.' Our AI will process the audio and provide the text in a few seconds. Step 4: Review the text and make any minor edits if necessary. Step 5: Use the 'Copy' button to take the text and use it for your captions, blog, or social media posts. Step 6: Try our 'Repurpose' options to automatically turn that transcript into other content formats with just one click. It's the ultimate productivity hack for busy creators.",
+    benefitsTitle: "The Benefits of Transcribing Your Reels",
+    benefits: "Transcribing your content offers massive SEO and accessibility benefits. First, it allows you to turn your videos into searchable text. Search engines like Google can't 'watch' a video, but they can index a transcript, helping your content show up in web searches. Second, it improves accessibility. Providing captions or a transcript ensures that everyone can enjoy your content, regardless of their hearing ability. Third, it makes content repurposing effortless. Having the text version of your video makes it easy to pull out quotes for graphics or expand on points for a newsletter. Finally, transcripts are great for your own records, allowing you to easily search through your past content to find specific ideas or information you've shared.",
+    conclusion: "To wrap up, transcription is the ultimate bridge between video and text content. It allows you to maximize the value of every Reel you create by making it accessible, searchable, and easy to repurpose. Our Instagram Transcript Generator is designed to make this process as fast and accurate as possible, giving you more time to focus on your next big idea. Don't let your video content stay locked in a single format. Use our AI tool to unlock its full potential and reach a wider audience across multiple platforms. Start transcribing your Reels today and watch your content strategy become more efficient and effective than ever before.",
+    faqs: [
+      { q: "Is the transcription accurate?", a: "Our AI uses state-of-the-art speech recognition and is over 95% accurate for clear audio. You may just need to do a quick check for brand names or slang." },
+      { q: "Can I transcribe Reels from other people?", a: "Yes, as long as you have the public link, you can use our tool to get a transcript for research or inspiration." },
+      { q: "How long does it take to transcribe a 60-second Reel?", a: "It usually takes less than 10 seconds to process a one-minute video." },
+      { q: "Does it work with music in the background?", a: "Yes, our AI is trained to filter out background music and focus on the spoken words." },
+      { q: "Is the transcript generator free?", a: "Yes, we offer free transcription for Instagram creators on ReelHooks.site." }
+    ],
+    ctaText: "Transcribe Your Reel Now"
+  },
+  "instagram-mockup-generator": {
+    slug: "instagram-mockup-generator",
+    title: "Instagram Mockup Generator",
+    metaTitle: "Instagram Mockup Generator: Preview Your Feed & Posts",
+    metaDescription: "Preview how your posts and reels will look on Instagram before you post. Use our free mockup tool to plan a perfect, aesthetic feed.",
+    h1: "Instagram Mockup Generator: Plan Your Perfect Aesthetic Feed",
+    introduction: "First impressions on Instagram happen at the feed level. When someone visits your profile, they see your 'grid' before they see any individual post. If your grid looks messy or inconsistent, they are less likely to follow you. This is why professional creators and brands use mockups to plan their content in advance. Our Instagram Mockup Generator allows you to see exactly how your next post, reel, or story will look within the Instagram UI. You can preview your profile layout, test different cover images, and ensure your aesthetic is consistent before you ever hit the 'Share' button. It's the ultimate tool for anyone serious about their Instagram visual strategy.",
+    featuresTitle: "Features of Our AI Mockup Tool",
+    features: "Our generator provides a realistic preview of the entire Instagram experience. First is the 'Grid Planner,' where you can upload multiple images and drag-and-drop them to find the perfect arrangement for your profile. Second is the 'Post Preview,' which shows how your photo and caption will look in the main feed, including how the text will be truncated. Third is the 'Reel Cover Tester.' Since Reel covers are often cropped differently in the grid vs. the feed, our tool helps you ensure your text and face are always visible. Fourth, we offer 'Dark Mode vs. Light Mode' toggles, so you can see how your content looks for all users. Finally, you can save your mockup as an image to share with clients or team members for approval.",
+    guideTitle: "How to Use the Instagram Mockup Generator",
+    guide: "Step 1: Choose the type of mockup you want to create (Profile Grid, Feed Post, or Story). Step 2: Upload your images or videos. Step 3: Enter your placeholder caption and username to make the mockup look real. Step 4: Arrange your images in the grid to see how the colors and compositions flow together. Step 5: Check the 'Safe Zones' for Reels to ensure your important content isn't covered by the UI elements like the 'Like' button or caption. Step 6: Once you're happy with the look, you can proceed to post on the real app with confidence, knowing exactly how your content will appear to your audience.",
+    benefitsTitle: "Why Mockups are Essential for Brands",
+    benefits: "Using mockups offers several strategic benefits. The most important is 'Aesthetic Consistency.' By seeing your posts together, you can ensure your color palette and editing style remain unified. Another benefit is 'Error Prevention.' You can catch issues like awkward crops or text that is too small before they go live. Additionally, mockups are a great communication tool. If you're a social media manager, showing a mockup to a client is much more professional than just sending a folder of images. Finally, planning with mockups reduces 'Posting Anxiety.' When you know your content looks great and fits perfectly into your strategy, you can post with confidence and focus on engaging with your community.",
+    conclusion: "In summary, planning is the key to a successful Instagram presence, and mockups are the best tool for the job. Our Instagram Mockup Generator allows you to visualize your strategy before you execute it, ensuring that every post contributes to a beautiful and cohesive feed. Don't leave your aesthetic to chance. Use our AI-powered preview tool to refine your grid, test your covers, and perfect your posts. A well-planned feed is a magnet for new followers and a hallmark of a professional brand. Start planning your perfect Instagram aesthetic today with ReelHooks.site and take your content to the next level.",
+    faqs: [
+      { q: "Does this tool post directly to Instagram?", a: "No, this is a planning and preview tool. You still need to post your content manually or through a scheduler." },
+      { q: "Can I preview my Reel covers?", a: "Yes, this is one of our most popular features. You can see how your cover looks in both the 9:16 and 1:1 formats." },
+      { q: "Is the mockup generator free?", a: "Yes, our mockup tool is free for all creators on ReelHooks.site." },
+      { q: "Can I save my grid layout?", a: "Yes, you can save your planned grid to come back and edit it later." },
+      { q: "Does it support video previews?", a: "Yes, you can upload video files to see how they look in the Reel and Story mockups." }
+    ],
+    ctaText: "Plan Your Perfect Feed Now"
+  }
+};

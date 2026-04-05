@@ -98,6 +98,7 @@ import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
 import BannerAd from "./components/BannerAd";
 import PopupAd from "./components/PopupAd";
 import FooterAd from "./components/FooterAd";
+import ToolSEOPage from "./components/ToolSEOPage";
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -2039,6 +2040,14 @@ export default function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
+              <Route path="/instagram-bio-generator" element={<ToolSEOPage />} />
+              <Route path="/instagram-caption-generator" element={<ToolSEOPage />} />
+              <Route path="/instagram-hashtag-generator" element={<ToolSEOPage />} />
+              <Route path="/instagram-reel-generator" element={<ToolSEOPage />} />
+              <Route path="/instagram-username-generator" element={<ToolSEOPage />} />
+              <Route path="/instagram-dp-generator" element={<ToolSEOPage />} />
+              <Route path="/instagram-transcript-generator" element={<ToolSEOPage />} />
+              <Route path="/instagram-mockup-generator" element={<ToolSEOPage />} />
             </Routes>
           </main>
           <FooterAd />
