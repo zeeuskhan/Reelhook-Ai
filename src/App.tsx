@@ -96,6 +96,7 @@ const SEO = ({ title, description, canonical, schema }: { title: string, descrip
 import { NICHES, type Niche } from "./data/niches";
 import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
 import BannerAd from "./components/BannerAd";
+import PopupAd from "./components/PopupAd";
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -1966,6 +1967,7 @@ export default function App() {
     <HelmetProvider>
       <Router>
         <div className="min-h-screen flex flex-col">
+          <PopupAd />
           <Navbar />
           <main className="flex-1">
             <Routes>
