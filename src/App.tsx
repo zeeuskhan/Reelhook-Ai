@@ -472,43 +472,36 @@ const ProgrammaticHooksPage = () => {
     }
   };
 
+  const nicheFAQs = useMemo(() => [
+    { 
+      q: `What are the best ${nicheName} reel hooks?`, 
+      a: `The best ${nicheName} reel hooks are those that create a curiosity gap or offer immediate value to your audience. For example, starting with "The secret to ${nicheName}..." or "Stop doing ${nicheName} like this."` 
+    },
+    { 
+      q: `How can I grow my ${nicheName} page on Instagram?`, 
+      a: `Consistency and high-quality hooks are key. By using our ${nicheName} hook generator, you can ensure your ${displayLang} reels stop the scroll and keep viewers engaged longer.` 
+    },
+    { 
+      q: `Do ${nicheName} hooks work in ${displayLang}?`, 
+      a: `Yes, absolutely! Whether you're using English, Hindi, or Hinglish, the psychology of a hook remains the same. Our tool is optimized for ${displayLang} to help you reach a wider audience.` 
+    },
+    { 
+      q: `How often should I use new hooks for ${nicheName} reels?`, 
+      a: `You should try to use a unique hook for every single reel. This keeps your content fresh and prevents the algorithm from flagging your videos as repetitive.` 
+    }
+  ], [nicheName, displayLang]);
+
   const faqSchema = {
     "@context": "https://schema.org",
     "@type": "FAQPage",
-    "mainEntity": [
-      {
-        "@type": "Question",
-        "name": "What is a reel hook?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A reel hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on. It's crucial for viral reel hooks."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How to make reels viral?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "To make reels viral, use an instagram hook generator like ReelHooks.site, focus on high retention, and use trending audio."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "What is the best hook for Instagram reels?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "The best hooks for reels are those that create a curiosity gap or offer immediate value, especially reel hooks in hindi for the Indian market."
-        }
-      },
-      {
-        "@type": "Question",
-        "name": "How long should a reel hook be?",
-        "acceptedAnswer": {
-          "@type": "Answer",
-          "text": "A reel hook should ideally be between 1 to 3 seconds. It needs to be fast enough to stop the scroll but clear enough to convey the message."
-        }
+    "mainEntity": nicheFAQs.map(faq => ({
+      "@type": "Question",
+      "name": faq.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": faq.a
       }
-    ]
+    }))
   };
 
   const breadcrumbSchema = {
@@ -618,14 +611,9 @@ const ProgrammaticHooksPage = () => {
       </div>
 
       <div className="space-y-8">
-        <h2 className="text-3xl font-bold">FAQ: Viral Reel Hooks</h2>
+        <h2 className="text-3xl font-bold">FAQ: Viral {nicheName} Reel Hooks</h2>
         <div className="space-y-4">
-          {[
-            { q: `What is a reel hook?`, a: "A reel hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on. It's the most important part of viral reel hooks." },
-            { q: "How to make reels viral?", a: "To make reels viral, you need a strong hook, high retention, and consistent posting. Using an instagram hook generator can help you find the best hooks for reels." },
-            { q: "What is the best hook for Instagram reels?", a: "The best hook depends on your niche, but generally, curiosity-based hooks or 'how-to' hooks perform best. Reel hooks in hindi are also very effective for reaching the Indian audience." },
-            { q: "How long should a reel hook be?", a: "A reel hook should be between 1 to 3 seconds. It needs to be punchy and provide immediate context to the viewer." }
-          ].map((faq, i) => (
+          {nicheFAQs.map((faq, i) => (
             <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/10">
               <h4 className="font-bold mb-2">{faq.q}</h4>
               <p className="text-sm text-text-secondary">{faq.a}</p>
