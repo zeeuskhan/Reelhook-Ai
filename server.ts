@@ -1,6 +1,7 @@
 import express from "express";
 import { createServer as createViteServer } from "vite";
 import path from "path";
+import fs from "fs";
 import { fileURLToPath } from "url";
 import { NICHES } from "./src/data/niches"; // Note: removed .js extension
 
@@ -21,7 +22,7 @@ async function startServer() {
   // robots.txt
   app.get("/robots.txt", (req, res) => {
     res.type("text/plain");
-    res.send("User-agent: *\nAllow: /\nSitemap: https://reelhook.ai/sitemap.xml");
+    res.send("User-agent: *\nAllow: /\nSitemap: https://www.reelhooks.site/sitemap.xml");
   });
 
   // sitemap.xml
@@ -32,14 +33,14 @@ async function startServer() {
     
     // Generate URLs for main niches
     const mainNicheUrls = NICHES.flatMap(n => 
-      variations.map(v => `<url><loc>https://reelhook.ai/hooks/${n.id}-${v}</loc><priority>0.7</priority></url>`)
+      variations.map(v => `<url><loc>https://www.reelhooks.site/hooks/${n.id}-${v}</loc><priority>0.7</priority></url>`)
     );
 
     // Generate URLs for subcategories
     const subcategoryUrls = NICHES.flatMap(n => 
       n.subcategories.flatMap(s => {
         const subSlug = s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-        return variations.map(v => `<url><loc>https://reelhook.ai/hooks/${subSlug}-${v}</loc><priority>0.6</priority></url>`);
+        return variations.map(v => `<url><loc>https://www.reelhooks.site/hooks/${subSlug}-${v}</loc><priority>0.6</priority></url>`);
       })
     );
 
@@ -47,11 +48,11 @@ async function startServer() {
 
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://reelhook.ai/</loc><priority>1.0</priority></url>
-  <url><loc>https://reelhook.ai/dashboard</loc><priority>0.8</priority></url>
-  <url><loc>https://reelhook.ai/pricing</loc><priority>0.8</priority></url>
-  <url><loc>https://reelhook.ai/about</loc><priority>0.5</priority></url>
-  <url><loc>https://reelhook.ai/blog</loc><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/</loc><priority>1.0</priority></url>
+  <url><loc>https://www.reelhooks.site/dashboard</loc><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/explore</loc><priority>0.9</priority></url>
+  <url><loc>https://www.reelhooks.site/about</loc><priority>0.5</priority></url>
+  <url><loc>https://www.reelhooks.site/blog</loc><priority>0.7</priority></url>
   ${allUrls}
 </urlset>`);
   });
@@ -73,6 +74,19 @@ async function startServer() {
       appType: "spa",
     });
     app.use(vite.middlewares);
+    
+    // Fallback for SPA in dev mode if vite middleware doesn't catch it
+    app.get("*", async (req, res, next) => {
+      const url = req.originalUrl;
+      try {
+        const indexHtml = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
+        let template = await vite.transformIndexHtml(url, indexHtml);
+        res.status(200).set({ "Content-Type": "text/html" }).end(template);
+      } catch (e) {
+        vite.ssrFixStacktrace(e as Error);
+        next(e);
+      }
+    });
   } else {
     // Serve static files in production
     app.use(express.static(path.join(__dirname, "dist")));
