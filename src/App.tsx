@@ -85,6 +85,7 @@ const SEO = ({
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <link rel="canonical" href={fullCanonical} />
+      <link rel="icon" type="image/png" href="https://drive.google.com/uc?export=view&id=1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       
       {/* Hreflang (Future-proofing for Hindi/Hinglish) */}
