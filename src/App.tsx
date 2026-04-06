@@ -635,6 +635,8 @@ const ProgrammaticHooksPage = () => {
         </p>
       </div>
 
+      <BannerAd />
+
       <div className="space-y-8">
         <h2 className="text-3xl font-bold">Examples of Viral Reel Hooks for {nicheName}</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -2147,6 +2149,7 @@ export default function App() {
                     ]}
                   />
                   <Hero />
+                  <BannerAd />
                   
                   {/* Examples Section */}
                   <section className="py-20 px-4 bg-white/[0.02]">

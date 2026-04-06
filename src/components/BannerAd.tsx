@@ -30,16 +30,7 @@ const BannerAd: React.FC = () => {
     <div className="flex justify-center my-8 overflow-hidden">
       <div 
         ref={adRef} 
-        id="<script>
-  atOptions = {
-    'key' : '6b6777c4248ba9b31f1a7f8087ca4b49',
-    'format' : 'iframe',
-    'height' : 90,
-    'width' : 728,
-    'params' : {}
-  };
-</script>
-<script src='https://www.highperformanceformat.com/6b6777c4248ba9b31f1a7f8087ca4b49/invoke.js'></script>"
+        id="banner-ad-container"
         className="max-w-full overflow-x-auto"
         style={{ minHeight: '90px', minWidth: '728px' }}
       >

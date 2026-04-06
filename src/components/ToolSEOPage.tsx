@@ -18,6 +18,7 @@ import {
 import { motion } from "motion/react";
 import { TOOL_SEO_CONTENT } from '../data/toolSEOContent';
 import FooterAd from './FooterAd';
+import BannerAd from './BannerAd';
 
 const ToolSEOPage: React.FC = () => {
   const location = useLocation();
@@ -146,6 +147,7 @@ const ToolSEOPage: React.FC = () => {
                       className="w-8 h-8 rounded-full border-2 border-background object-cover" 
                       alt="User"
                       referrerPolicy="no-referrer"
+                      loading="lazy"
                     />
                   ))}
                 </div>
@@ -155,6 +157,8 @@ const ToolSEOPage: React.FC = () => {
           </motion.div>
         </div>
       </section>
+
+      <BannerAd />
 
       {/* Features Section */}
       <section className="py-20 px-4 bg-white/[0.02]">
