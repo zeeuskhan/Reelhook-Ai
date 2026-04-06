@@ -17,10 +17,11 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { TOOL_SEO_CONTENT } from '../data/toolSEOContent';
+import FooterAd from './FooterAd';
 
 const ToolSEOPage: React.FC = () => {
   const location = useLocation();
-  const slug = location.pathname.substring(1); // Remove leading slash
+  const slug = location.pathname.split('/').pop() || "";
   
   const content = useMemo(() => {
     if (!slug) return null;
@@ -74,14 +75,41 @@ const ToolSEOPage: React.FC = () => {
     }))
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.reelhooks.site"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": content.title,
+        "item": `https://www.reelhooks.site/${content.slug}`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background text-text-primary">
       <Helmet>
         <title>{content.metaTitle} | ReelHooks.site</title>
         <meta name="description" content={content.metaDescription} />
         <link rel="canonical" href={`https://www.reelhooks.site/${content.slug}`} />
+        <meta property="og:title" content={`${content.metaTitle} | ReelHooks.site`} />
+        <meta property="og:description" content={content.metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://www.reelhooks.site/${content.slug}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${content.metaTitle} | ReelHooks.site`} />
+        <meta name="twitter:description" content={content.metaDescription} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       {/* Hero Section */}
@@ -264,7 +292,7 @@ const ToolSEOPage: React.FC = () => {
             {Object.values(TOOL_SEO_CONTENT).filter(t => t.slug !== content.slug).map(tool => (
               <Link 
                 key={tool.slug} 
-                to={`/${tool.slug}`}
+                to={`/tools/${tool.slug}`}
                 className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-sm font-medium"
               >
                 {tool.title}
@@ -273,6 +301,8 @@ const ToolSEOPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+      <FooterAd />
     </div>
   );
 };

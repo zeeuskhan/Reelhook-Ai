@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useMemo } from "react";
+import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { 
@@ -56,25 +56,61 @@ function safeJsonParse(text: string, fallback: any = []) {
 }
 
 // --- SEO Component ---
-const SEO = ({ title, description, canonical, schema }: { title: string, description: string, canonical?: string, schema?: any }) => {
+const SEO = ({ 
+  title, 
+  description, 
+  canonical, 
+  schema,
+  type = "website",
+  image = "https://www.reelhooks.site/og-image.png"
+}: { 
+  title: string, 
+  description: string, 
+  canonical?: string, 
+  schema?: any,
+  type?: string,
+  image?: string
+}) => {
   const siteUrl = "https://www.reelhooks.site";
-  const fullTitle = `${title} | ReelHooks.site - Viral Reel Hook Generator`;
+  const fullTitle = title.includes("ReelHooks.site") ? title : `${title} | ReelHooks.site`;
   const fullCanonical = canonical || `${siteUrl}${window.location.pathname}`;
-  const keywords = "reel hooks, instagram hooks, viral hooks, reel generator, AI hook generator, content generator, instagram growth, viral content, best hooks for instagram reels, how to make viral reels, AI tool for reel scripts, instagram reel hook generator free, viral reel hooks for fitness, viral reel hooks for business, best hooks for reels 2024, instagram growth strategy 2024, AI caption generator for reels, viral hooks for short form video";
+  
+  // 2026 Semantic Keywords
+  const keywords = "viral reel hook generator, instagram reel hook generator, ai reel hooks, reel hooks in hindi, hinglish reel hooks, fitness reel hooks, business reel hooks, tiktok hook generator, youtube shorts hooks, content creator tools AI";
 
   return (
     <Helmet>
+      {/* Basic Metadata */}
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
       <link rel="canonical" href={fullCanonical} />
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      
+      {/* Hreflang (Future-proofing for Hindi/Hinglish) */}
+      <link rel="alternate" href={fullCanonical} hrefLang="x-default" />
+      <link rel="alternate" href={fullCanonical} hrefLang="en" />
+      <link rel="alternate" href={fullCanonical.replace(".site/", ".site/hi/")} hrefLang="hi" />
+
+      {/* OpenGraph / Facebook */}
+      <meta property="og:locale" content="en_US" />
+      <meta property="og:type" content={type} />
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
-      <meta property="og:type" content="website" />
       <meta property="og:url" content={fullCanonical} />
+      <meta property="og:site_name" content="ReelHooks.site" />
+      <meta property="og:image" content={image} />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+
+      {/* Twitter */}
       <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:site" content="@reelhooks" />
       <meta name="twitter:title" content={fullTitle} />
       <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={image} />
+
+      {/* Schema Injection */}
       {schema && (
         Array.isArray(schema) ? (
           schema.map((s, i) => (
@@ -98,7 +134,8 @@ import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
 import BannerAd from "./components/BannerAd";
 import PopupAd from "./components/PopupAd";
 import FooterAd from "./components/FooterAd";
-import ToolSEOPage from "./components/ToolSEOPage";
+
+const ToolSEOPage = lazy(() => import("./components/ToolSEOPage"));
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -528,6 +565,31 @@ const ProgrammaticHooksPage = () => {
     }))
   };
 
+  const seoTitle = `Best ${nicheName} Reel Hooks 2026 – Free AI Generator`;
+  const seoDescription = `Get 100+ viral ${nicheName} reel hooks, scripts, and captions in ${displayLang}. Optimized for Instagram, TikTok, and Shorts. Boost your ${nicheName} content engagement today!`;
+
+  const articleSchema = {
+    "@context": "https://schema.org",
+    "@type": "Article",
+    "headline": seoTitle,
+    "description": seoDescription,
+    "image": `https://www.reelhooks.site/og-${slugId}.png`,
+    "author": {
+      "@type": "Organization",
+      "name": "ReelHooks AI Team"
+    },
+    "publisher": {
+      "@type": "Organization",
+      "name": "ReelHooks",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://www.reelhooks.site/logo.png"
+      }
+    },
+    "datePublished": "2026-01-01T08:00:00+08:00",
+    "dateModified": new Date().toISOString()
+  };
+
   const breadcrumbSchema = {
     "@context": "https://schema.org",
     "@type": "BreadcrumbList",
@@ -541,8 +603,8 @@ const ProgrammaticHooksPage = () => {
       {
         "@type": "ListItem",
         "position": 2,
-        "name": "Hooks",
-        "item": "https://www.reelhooks.site/dashboard"
+        "name": "Explore",
+        "item": "https://www.reelhooks.site/explore"
       },
       {
         "@type": "ListItem",
@@ -558,9 +620,9 @@ const ProgrammaticHooksPage = () => {
   return (
     <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-16">
       <SEO 
-        title={richContent?.title || `${nicheName} Reel Hooks in ${displayLang} | Viral Reel Hooks`}
-        description={richContent?.metaDescription || `Get the best viral ${nicheName} reel hooks in ${displayLang}. Boost your Instagram engagement with our instagram hook generator. Best hooks for reels available.`}
-        schema={[schema, faqSchema, breadcrumbSchema]}
+        title={seoTitle}
+        description={seoDescription}
+        schema={[articleSchema, faqSchema, breadcrumbSchema]}
       />
       
       <div className="space-y-6">
@@ -702,8 +764,16 @@ const ProgrammaticHooksPage = () => {
 const About = () => (
   <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-16">
     <SEO 
-      title="About Us" 
-      description="Learn about ReelHooks.site, the leading AI-powered viral reel hook generator. Our mission is to help creators stop the scroll and boost engagement with data-driven content strategy." 
+      title="About ReelHooks | The Team Behind the Viral AI Hook Generator"
+      description="Learn about ReelHooks, the AI-powered platform helping 10,000+ creators go viral with scroll-stopping hooks, captions, and scripts."
+      schema={{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://www.reelhooks.site/about" }
+        ]
+      }}
     />
     <div className="text-center space-y-6">
       <h1 className="text-4xl md:text-6xl font-bold font-display leading-tight">Empowering the Next Generation of Creators</h1>
@@ -773,8 +843,16 @@ const About = () => (
 const Contact = () => (
   <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
     <SEO 
-      title="Contact Us" 
-      description="Get in touch with the ReelHooks.site team. We're here to help you with support, feedback, or partnership inquiries for our viral reel hook generator." 
+      title="Contact ReelHooks | Support & Collaboration for Creators"
+      description="Have questions or feedback? Contact the ReelHooks team for support, collaborations, or feature requests."
+      schema={{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+          { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.reelhooks.site/contact" }
+        ]
+      }}
     />
     <div className="text-center space-y-4">
       <h1 className="text-4xl md:text-6xl font-bold font-display">Get in Touch</h1>
@@ -858,8 +936,16 @@ const Contact = () => (
 const Explore = () => (
   <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto space-y-16">
     <SEO 
-      title="Explore All Content Categories" 
-      description="Browse all content niches and categories supported by ReelHooks.site. Find viral hooks for fitness, finance, tech, lifestyle, and more." 
+      title="Explore Viral Reel Hook Niches | Find Your Perfect Content Hook"
+      description="Browse 100+ content niches and find the perfect viral hooks for your next Instagram Reel, TikTok, or YouTube Short."
+      schema={{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+          { "@type": "ListItem", "position": 2, "name": "Explore", "item": "https://www.reelhooks.site/explore" }
+        ]
+      }}
     />
     <div className="text-center space-y-6">
       <h1 className="text-4xl md:text-6xl font-bold font-display">Explore All Categories</h1>
@@ -908,6 +994,18 @@ const Explore = () => (
 
 const FAQ = () => (
   <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
+    <SEO 
+      title="ReelHooks FAQ | How to Use AI to Go Viral on Instagram"
+      description="Find answers to common questions about ReelHooks, AI hook generation, and how to boost your social media engagement."
+      schema={{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+          { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://www.reelhooks.site/faq" }
+        ]
+      }}
+    />
     <SEO 
       title="Frequently Asked Questions" 
       description="Find answers to common questions about ReelHooks.site, our viral reel hook generator, and how to boost your social media engagement." 
@@ -1139,7 +1237,18 @@ const BLOG_POSTS = [
 
 const Blog = () => (
   <div className="pt-32 pb-20 px-4 max-w-5xl mx-auto space-y-12">
-    <SEO title="Blog" description="Latest tips and strategies for viral content creation." />
+    <SEO 
+      title="ReelHooks Blog | Content Creation Tips & AI Strategies 2026"
+      description="Expert tips on content creation, viral hooks, and AI strategies to help you grow your audience on Instagram, TikTok, and YouTube."
+      schema={{
+        "@context": "https://schema.org",
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reelhooks.site/blog" }
+        ]
+      }}
+    />
     <div className="text-center space-y-4">
       <h1 className="text-4xl md:text-6xl font-bold font-display">Creator Insights</h1>
       <p className="text-xl text-text-secondary">Master the art of short-form video content.</p>
@@ -1167,7 +1276,20 @@ const BlogPost = () => {
 
   return (
     <div className="pt-32 pb-20 px-4 max-w-3xl mx-auto space-y-8">
-      <SEO title={post.title} description={post.excerpt} />
+      <SEO 
+        title={`${post.title} | ReelHooks Blog`}
+        description={post.excerpt}
+        type="article"
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reelhooks.site/blog" },
+            { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://www.reelhooks.site/blog/${post.id}` }
+          ]
+        }}
+      />
       <Link to="/blog" className="text-text-secondary hover:text-white flex items-center space-x-2 text-sm">
         <ArrowRight className="w-4 h-4 rotate-180" />
         <span>Back to Blog</span>
@@ -1470,6 +1592,18 @@ const Dashboard = () => {
 
   return (
     <div className="pt-24 pb-20 px-4 max-w-7xl mx-auto">
+      <SEO 
+        title="ReelHooks Dashboard | Generate Viral Hooks, Captions & Hashtags"
+        description="Access your ReelHooks dashboard to generate high-converting hooks, captions, and hashtags for your social media content."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+            { "@type": "ListItem", "position": 2, "name": "Dashboard", "item": "https://www.reelhooks.site/dashboard" }
+          ]
+        }}
+      />
       <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
         {/* Sidebar Controls */}
         <div className="lg:col-span-4 space-y-6">
@@ -1972,61 +2106,210 @@ export default function App() {
           <PopupAd />
           <Navbar />
           <main className="flex-1">
-            <Routes>
+            <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
+              <Routes>
               <Route path="/" element={
                 <>
                   <SEO 
-                    title="Viral Reel Hook Generator" 
-                    description="Create high-converting Instagram Reel hooks, captions, and scripts in seconds with ReelHooks.site. The best AI tool for viral reel hooks, captions, and content strategy." 
-                    schema={{
-                      "@context": "https://schema.org",
-                      "@type": "SoftwareApplication",
-                      "name": "ReelHooks.site",
-                      "operatingSystem": "Web",
-                      "applicationCategory": "MultimediaApplication",
-                      "url": "https://www.reelhooks.site",
-                      "offers": {
-                        "@type": "Offer",
-                        "price": "0",
-                        "priceCurrency": "INR"
+                    title="Viral Reel Hook Generator | Free AI Tool for Instagram Reels, TikTok & Shorts" 
+                    description="Free AI Reel Hook Generator – Get scroll-stopping hooks, captions, hashtags & scripts in seconds. Perfect for Instagram Reels, TikTok & YouTube Shorts. Hinglish + Hindi support. Trusted by 10K+ creators." 
+                    schema={[
+                      {
+                        "@context": "https://schema.org",
+                        "@type": "SoftwareApplication",
+                        "name": "ReelHooks.site",
+                        "description": "AI-powered Viral Reel Hook Generator for Instagram, TikTok, and YouTube Shorts.",
+                        "applicationCategory": "MultimediaApplication",
+                        "operatingSystem": "Web",
+                        "url": "https://www.reelhooks.site",
+                        "offers": {
+                          "@type": "Offer",
+                          "price": "0",
+                          "priceCurrency": "USD"
+                        },
+                        "aggregateRating": {
+                          "@type": "AggregateRating",
+                          "ratingValue": "4.9",
+                          "reviewCount": "10250"
+                        }
                       },
-                      "aggregateRating": {
-                        "@type": "AggregateRating",
-                        "ratingValue": "4.9",
-                        "reviewCount": "10000"
+                      {
+                        "@context": "https://schema.org",
+                        "@type": "Organization",
+                        "name": "ReelHooks",
+                        "url": "https://www.reelhooks.site",
+                        "logo": "https://www.reelhooks.site/logo.png",
+                        "sameAs": [
+                          "https://twitter.com/reelhooks",
+                          "https://instagram.com/reelhooks"
+                        ]
                       }
-                    }}
+                    ]}
                   />
                   <Hero />
-                  <BannerAd />
-                  <section id="features" className="py-20 px-4 bg-white/[0.02]">
+                  
+                  {/* Examples Section */}
+                  <section className="py-20 px-4 bg-white/[0.02]">
                     <div className="max-w-7xl mx-auto">
                       <div className="text-center mb-16 space-y-4">
-                        <h2 className="text-3xl md:text-4xl font-bold font-display">Everything you need to go viral</h2>
-                        <p className="text-text-secondary max-w-2xl mx-auto">
-                          Our AI-powered suite handles the hard part of content creation so you can focus on filming.
-                        </p>
+                        <h2 className="text-3xl md:text-5xl font-bold font-display">Viral Hook Examples</h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto">See how ReelHooks transforms boring intros into scroll-stopping viral moments.</p>
                       </div>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                          { icon: <Zap className="text-primary" />, title: "Viral Hooks", desc: "Stop the scroll with pattern-interrupting opening lines." },
-                          { icon: <FileText className="text-primary" />, title: "Smart Captions", desc: "Engaging captions that drive comments and shares." },
-                          { icon: <Hash className="text-primary" />, title: "Hashtag Packs", desc: "Optimized tags to reach your perfect audience." },
-                          { icon: <BarChart3 className="text-primary" />, title: "Viral Scoring", desc: "Know your hook's potential before you post." },
-                          { icon: <Lightbulb className="text-primary" />, title: "Idea Generator", desc: "Never run out of content ideas for your niche." },
-                          { icon: <TrendingUp className="text-primary" />, title: "Content Strategy", desc: "Track what works and refine your strategy." }
-                        ].map((f, i) => (
-                          <div key={i} className="glass p-8 rounded-3xl border-white/5 hover:border-primary/30 transition-all group">
-                            <div className="w-12 h-12 bg-primary/10 rounded-2xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
-                              {f.icon}
+                          { niche: "Fitness", old: "How to do a squat.", new: "Stop doing squats like this if you want to grow your glutes." },
+                          { niche: "Finance", old: "Save money today.", new: "The hidden bank rule that's costing you $500 every single month." },
+                          { niche: "Business", old: "My startup story.", new: "How I built a 6-figure business while working a 9-5." }
+                        ].map((ex, i) => (
+                          <div key={i} className="glass p-8 rounded-3xl border-white/5 space-y-6">
+                            <span className="text-xs font-bold uppercase tracking-widest text-primary">{ex.niche}</span>
+                            <div className="space-y-4">
+                              <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
+                                <p className="text-xs text-red-400 uppercase font-bold mb-1">Boring Intro</p>
+                                <p className="text-sm text-text-secondary italic">"{ex.old}"</p>
+                              </div>
+                              <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
+                                <p className="text-xs text-green-400 uppercase font-bold mb-1">ReelHooks Viral Version</p>
+                                <p className="text-sm font-bold">"{ex.new}"</p>
+                              </div>
                             </div>
-                            <h3 className="text-xl font-bold mb-3">{f.title}</h3>
-                            <p className="text-text-secondary text-sm leading-relaxed">{f.desc}</p>
                           </div>
                         ))}
                       </div>
                     </div>
                   </section>
+
+                  {/* How it Works */}
+                  <section className="py-20 px-4">
+                    <div className="max-w-7xl mx-auto">
+                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
+                        <div className="space-y-8">
+                          <h2 className="text-3xl md:text-5xl font-bold font-display">How to Go Viral in 3 Simple Steps</h2>
+                          <div className="space-y-8">
+                            {[
+                              { step: "01", title: "Choose Your Niche", desc: "Select from 50+ categories or type your own specific topic." },
+                              { step: "02", title: "AI Generation", desc: "Our AI analyzes 100k+ viral reels to craft the perfect hook for your audience." },
+                              { step: "03", title: "Copy & Post", desc: "Get hooks, captions, and hashtags ready to use. Just copy and watch the views roll in." }
+                            ].map((s, i) => (
+                              <div key={i} className="flex items-start space-x-6">
+                                <div className="text-4xl font-bold text-primary/20 font-display shrink-0">{s.step}</div>
+                                <div className="space-y-2">
+                                  <h3 className="text-xl font-bold">{s.title}</h3>
+                                  <p className="text-text-secondary leading-relaxed">{s.desc}</p>
+                                </div>
+                              </div>
+                            ))}
+                          </div>
+                        </div>
+                        <div className="relative">
+                          <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full opacity-50" />
+                          <div className="glass p-8 rounded-[3rem] border-white/10 relative">
+                            <div className="space-y-6">
+                              <div className="flex items-center space-x-4">
+                                <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center">
+                                  <Zap className="text-primary" />
+                                </div>
+                                <div>
+                                  <p className="text-xs text-text-secondary uppercase tracking-widest font-bold">AI Analysis Complete</p>
+                                  <h4 className="font-bold">Viral Potential: 98%</h4>
+                                </div>
+                              </div>
+                              <div className="space-y-4">
+                                <div className="h-2 bg-white/5 rounded-full overflow-hidden">
+                                  <motion.div 
+                                    initial={{ width: 0 }}
+                                    whileInView={{ width: "98%" }}
+                                    className="h-full bg-primary"
+                                  />
+                                </div>
+                                <p className="text-sm text-text-secondary leading-relaxed">
+                                  "This hook uses a curiosity gap and pattern interrupt that is currently trending in the fitness niche."
+                                </p>
+                              </div>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* Testimonials */}
+                  <section className="py-20 px-4 bg-primary/5">
+                    <div className="max-w-7xl mx-auto text-center space-y-16">
+                      <h2 className="text-3xl md:text-5xl font-bold font-display">Trusted by 10,000+ Creators</h2>
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                        {[
+                          { name: "Sarah J.", role: "Fitness Influencer", text: "My reach doubled in just one week after I started using these hooks. It's a game changer!", rating: 5 },
+                          { name: "Rahul M.", role: "Finance Creator", text: "The Hinglish support is incredible. Finally a tool that understands the Indian audience.", rating: 5 },
+                          { name: "Alex K.", role: "Tech Reviewer", text: "I used to spend hours on hooks. Now it takes 5 seconds. Highly recommended!", rating: 5 }
+                        ].map((t, i) => (
+                          <div key={i} className="glass p-8 rounded-3xl border-white/5 text-left space-y-6">
+                            <div className="flex space-x-1">
+                              {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
+                            </div>
+                            <p className="text-text-secondary italic">"{t.text}"</p>
+                            <div>
+                              <p className="font-bold">{t.name}</p>
+                              <p className="text-xs text-text-secondary">{t.role}</p>
+                            </div>
+                          </div>
+                        ))}
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* Niches Grid */}
+                  <section className="py-20 px-4">
+                    <div className="max-w-7xl mx-auto space-y-16">
+                      <div className="text-center space-y-4">
+                        <h2 className="text-3xl md:text-5xl font-bold font-display">Viral Hooks for Every Niche</h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto">Whether you're a gym rat or a crypto bro, we've got the perfect hooks for you.</p>
+                      </div>
+                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+                        {NICHES.slice(0, 12).map(n => (
+                          <Link 
+                            key={n.id} 
+                            to={`/hooks/${n.id.toLowerCase()}-english`}
+                            className="glass p-6 rounded-2xl text-center hover:border-primary/50 transition-all group"
+                          >
+                            <h3 className="font-bold text-sm group-hover:text-primary transition-colors">{n.name}</h3>
+                          </Link>
+                        ))}
+                      </div>
+                      <div className="text-center">
+                        <Link to="/explore" className="text-primary font-bold hover:underline inline-flex items-center space-x-2">
+                          <span>Explore All 50+ Niches</span>
+                          <ArrowRight className="w-4 h-4" />
+                        </Link>
+                      </div>
+                    </div>
+                  </section>
+
+                  {/* FAQ Section */}
+                  <section className="py-20 px-4 bg-white/[0.02]">
+                    <div className="max-w-3xl mx-auto space-y-16">
+                      <h2 className="text-3xl md:text-5xl font-bold font-display text-center">Frequently Asked Questions</h2>
+                      <div className="space-y-4">
+                        {[
+                          { q: "Is ReelHooks really free?", a: "Yes! Our core AI hook generator is 100% free for all creators." },
+                          { q: "Does it support Hindi/Hinglish?", a: "Absolutely. We are the only tool optimized specifically for the Indian creator market with native Hindi and Hinglish support." },
+                          { q: "Can I use these for YouTube Shorts?", a: "Yes, our hooks are optimized for all short-form video platforms including Instagram Reels, TikTok, and YouTube Shorts." },
+                          { q: "How many hooks can I generate?", a: "There are no strict limits. You can generate as many hooks as you need for your content." }
+                        ].map((faq, i) => (
+                          <details key={i} className="glass rounded-2xl border-white/5 group overflow-hidden">
+                            <summary className="p-6 cursor-pointer flex items-center justify-between list-none">
+                              <h3 className="font-bold pr-4">{faq.q}</h3>
+                              <ChevronDown className="w-5 h-5 text-text-secondary group-open:rotate-180 transition-transform" />
+                            </summary>
+                            <div className="px-6 pb-6 text-text-secondary leading-relaxed">
+                              {faq.a}
+                            </div>
+                          </details>
+                        ))}
+                      </div>
+                    </div>
+                  </section>
+
                   <SEOIntro />
                 </>
               } />
@@ -2040,15 +2323,16 @@ export default function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
-              <Route path="/instagram-bio-generator" element={<ToolSEOPage />} />
-              <Route path="/instagram-caption-generator" element={<ToolSEOPage />} />
-              <Route path="/instagram-hashtag-generator" element={<ToolSEOPage />} />
-              <Route path="/instagram-reel-generator" element={<ToolSEOPage />} />
-              <Route path="/instagram-username-generator" element={<ToolSEOPage />} />
-              <Route path="/instagram-dp-generator" element={<ToolSEOPage />} />
-              <Route path="/instagram-transcript-generator" element={<ToolSEOPage />} />
-              <Route path="/instagram-mockup-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-bio-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-caption-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-hashtag-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-reel-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-username-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-dp-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-transcript-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-mockup-generator" element={<ToolSEOPage />} />
             </Routes>
+          </Suspense>
           </main>
           <FooterAd />
           <Footer />
