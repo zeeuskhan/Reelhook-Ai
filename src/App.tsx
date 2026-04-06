@@ -310,11 +310,13 @@ const Navbar = () => {
     <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="flex justify-between h-16 items-center">
-          <Link to="/" className="flex items-center space-x-2">
-            <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
-              <Zap className="text-white w-5 h-5" />
-            </div>
-            <span className="text-xl font-bold font-display tracking-tight">ReelHooks.site</span>
+          <Link to="/" className="flex items-center">
+            <img 
+              src="https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy" 
+              alt="ReelHooks Logo" 
+              className="h-10 w-auto"
+              referrerPolicy="no-referrer"
+            />
           </Link>
           
           <div className="hidden md:flex items-center space-x-8">
@@ -358,12 +360,14 @@ const Footer = () => (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
       <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
         <div className="space-y-4">
-          <div className="flex items-center space-x-2">
-            <div className="w-6 h-6 bg-primary rounded flex items-center justify-center">
-              <Zap className="text-white w-4 h-4" />
-            </div>
-            <span className="font-bold font-display">ReelHooks.site</span>
-          </div>
+          <Link to="/" className="flex items-center">
+            <img 
+              src="https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy" 
+              alt="ReelHooks Logo" 
+              className="h-8 w-auto"
+              referrerPolicy="no-referrer"
+            />
+          </Link>
           <p className="text-text-secondary text-sm">
             AI-powered hooks that stop scrolling and boost engagement for creators worldwide.
           </p>
@@ -583,7 +587,7 @@ const ProgrammaticHooksPage = () => {
       "name": "ReelHooks",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://www.reelhooks.site/logo.png"
+        "url": "https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy"
       }
     },
     "datePublished": "2026-01-01T08:00:00+08:00",
@@ -2140,7 +2144,7 @@ export default function App() {
                         "@type": "Organization",
                         "name": "ReelHooks",
                         "url": "https://www.reelhooks.site",
-                        "logo": "https://www.reelhooks.site/logo.png",
+                        "logo": "https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy",
                         "sameAs": [
                           "https://twitter.com/reelhooks",
                           "https://instagram.com/reelhooks"
