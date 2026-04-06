@@ -101,6 +101,8 @@ const ToolSEOPage: React.FC = () => {
         <title>{content.metaTitle} | ReelHooks.site</title>
         <meta name="description" content={content.metaDescription} />
         <link rel="canonical" href={`https://www.reelhooks.site/${content.slug}`} />
+        <link rel="icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
+        <link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
         <meta property="og:title" content={`${content.metaTitle} | ReelHooks.site`} />
         <meta property="og:description" content={content.metaDescription} />
         <meta property="og:type" content="website" />
