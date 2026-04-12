@@ -84,6 +84,7 @@ const SEO = ({
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
       <meta name="keywords" content={keywords} />
+      <meta name="google-site-verification" content="X3VhNru6pUg4Jwkr9GZDBtGK_m0u8SK7rOe7md4LAZ8" />
       <link rel="canonical" href={fullCanonical} />
       <link rel="icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
       <link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
@@ -433,8 +434,8 @@ const Hero = () => {
           transition={{ delay: 0.1 }}
           className="text-5xl md:text-7xl font-bold font-display leading-tight tracking-tight"
         >
-          Create Viral Reel Hooks <br />
-          <span className="text-primary">in Seconds</span>
+          Viral AI Hook Generator <br />
+          <span className="text-primary">for Instagram Reels</span>
         </motion.h1>
         
         <motion.p 
@@ -1145,8 +1146,8 @@ const SEOIntro = () => (
     <div className="absolute inset-0 bg-primary/5 blur-[120px] -z-10" />
     <div className="max-w-4xl mx-auto space-y-16">
       <div className="text-center space-y-4">
-        <h2 className="text-4xl font-bold font-display tracking-tight">Why ReelHooks.site is the #1 Choice for Creators</h2>
-        <p className="text-xl text-text-secondary">We don't just generate hooks; we engineer viral moments.</p>
+        <h2 className="text-4xl font-bold font-display tracking-tight">The Best AI Hook Generator for Viral Growth</h2>
+        <p className="text-xl text-text-secondary">We don't just generate hooks; we engineer viral moments with our advanced AI hook generator.</p>
       </div>
 
       <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
@@ -2119,8 +2120,8 @@ export default function App() {
               <Route path="/" element={
                 <>
                   <SEO 
-                    title="Viral Reel Hook Generator | Free AI Tool for Instagram Reels, TikTok & Shorts" 
-                    description="Free AI Reel Hook Generator – Get scroll-stopping hooks, captions, hashtags & scripts in seconds. Perfect for Instagram Reels, TikTok & YouTube Shorts. Hinglish + Hindi support. Trusted by 10K+ creators." 
+                    title="Viral AI Hook Generator | Free Reel Hook Maker for Instagram & TikTok" 
+                    description="Best AI Hook Generator for creators. Get scroll-stopping viral hooks, captions, and hashtags in seconds. Free AI reel hook maker with Hinglish & Hindi support." 
                     schema={[
                       {
                         "@context": "https://schema.org",
