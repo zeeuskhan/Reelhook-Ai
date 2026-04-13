@@ -320,6 +320,7 @@ const Navbar = () => {
               alt="ReelHooks Logo" 
               className="h-10 w-auto"
               referrerPolicy="no-referrer"
+              loading="lazy"
             />
           </Link>
           
@@ -370,6 +371,7 @@ const Footer = () => (
               alt="ReelHooks Logo" 
               className="h-8 w-auto"
               referrerPolicy="no-referrer"
+              loading="lazy"
             />
           </Link>
           <p className="text-text-secondary text-sm">
