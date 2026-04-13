@@ -20,6 +20,7 @@ const SkyscraperAd: React.FC = () => {
       const invokeScript = document.createElement('script');
       invokeScript.type = 'text/javascript';
       invokeScript.src = 'https://www.highperformanceformat.com/8a88a488fc0002bebafce38bde5ddaf7/invoke.js';
+      invokeScript.async = true;
 
       adRef.current.appendChild(atOptionsScript);
       adRef.current.appendChild(invokeScript);

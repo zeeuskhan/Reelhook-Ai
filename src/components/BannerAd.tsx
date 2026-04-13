@@ -20,6 +20,7 @@ const BannerAd: React.FC = () => {
       const invokeScript = document.createElement('script');
       invokeScript.type = 'text/javascript';
       invokeScript.src = 'https://www.highperformanceformat.com/6b6777c4248ba9b31f1a7f8087ca4b49/invoke.js';
+      invokeScript.async = true;
 
       adRef.current.appendChild(atOptionsScript);
       adRef.current.appendChild(invokeScript);

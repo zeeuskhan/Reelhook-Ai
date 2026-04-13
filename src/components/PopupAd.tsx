@@ -19,8 +19,8 @@ const PopupAd: React.FC = () => {
         // Set flag to prevent showing again
         localStorage.setItem('popupAdShown', 'true');
         
-        console.log('Popup ad script injected after 8s delay');
-      }, 8000);
+        console.log('Popup ad script injected after 4s delay');
+      }, 4000);
 
       return () => clearTimeout(timer);
     }
