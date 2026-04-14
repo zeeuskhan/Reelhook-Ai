@@ -140,6 +140,7 @@ import FooterAd from "./components/FooterAd";
 import SkyscraperAd from "./components/SkyscraperAd";
 
 const ToolSEOPage = lazy(() => import("./components/ToolSEOPage"));
+const SEOArticlePage = lazy(() => import("./components/SEOArticlePage"));
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -2346,6 +2347,7 @@ export default function App() {
               <Route path="/tools/instagram-dp-generator" element={<ToolSEOPage />} />
               <Route path="/tools/instagram-transcript-generator" element={<ToolSEOPage />} />
               <Route path="/tools/instagram-mockup-generator" element={<ToolSEOPage />} />
+              <Route path="/:slug" element={<SEOArticlePage />} />
             </Routes>
           </Suspense>
           </main>
