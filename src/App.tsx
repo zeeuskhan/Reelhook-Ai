@@ -134,6 +134,7 @@ const SEO = ({
 // --- Constants & Data ---
 import { NICHES, type Niche } from "./data/niches";
 import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
+import { SEO_ARTICLES } from "./data/seoArticles";
 import BannerAd from "./components/BannerAd";
 import PopupAd from "./components/PopupAd";
 import FooterAd from "./components/FooterAd";
@@ -1249,39 +1250,65 @@ const BLOG_POSTS = [
   }
 ];
 
-const Blog = () => (
-  <div className="pt-32 pb-20 px-4 max-w-5xl mx-auto space-y-12">
-    <SEO 
-      title="ReelHooks Blog | Content Creation Tips & AI Strategies 2026"
-      description="Expert tips on content creation, viral hooks, and AI strategies to help you grow your audience on Instagram, TikTok, and YouTube."
-      schema={{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
-          { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reelhooks.site/blog" }
-        ]
-      }}
-    />
-    <div className="text-center space-y-4">
-      <h1 className="text-4xl md:text-6xl font-bold font-display">Creator Insights</h1>
-      <p className="text-xl text-text-secondary">Master the art of short-form video content.</p>
+const Blog = () => {
+  const allPosts = useMemo(() => {
+    const seoPosts = Object.values(SEO_ARTICLES).map(article => ({
+      id: article.slug,
+      title: article.title,
+      excerpt: article.metaDescription,
+      date: "April 2026",
+      isSEO: true
+    }));
+    
+    const regularPosts = BLOG_POSTS.map(post => ({
+      ...post,
+      isSEO: false
+    }));
+    
+    return [...regularPosts, ...seoPosts];
+  }, []);
+
+  return (
+    <div className="pt-32 pb-20 px-4 max-w-5xl mx-auto space-y-12">
+      <SEO 
+        title="ReelHooks Blog | Content Creation Tips & AI Strategies 2026"
+        description="Expert tips on content creation, viral hooks, and AI strategies to help you grow your audience on Instagram, TikTok, and YouTube."
+        schema={{
+          "@context": "https://schema.org",
+          "@type": "BreadcrumbList",
+          "itemListElement": [
+            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
+            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reelhooks.site/blog" }
+          ]
+        }}
+      />
+      <div className="text-center space-y-4">
+        <h1 className="text-4xl md:text-6xl font-bold font-display">Creator Insights</h1>
+        <p className="text-xl text-text-secondary">Master the art of short-form video content with our 50+ expert guides.</p>
+      </div>
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        {allPosts.map(post => (
+          <Link 
+            key={post.id} 
+            to={post.isSEO ? `/${post.id}` : `/blog/${post.id}`} 
+            className="glass p-8 rounded-3xl border-white/5 hover:border-primary/30 transition-all group flex flex-col h-full"
+          >
+            <div className="flex justify-between items-start mb-4">
+              <p className="text-xs text-primary font-bold">{post.date}</p>
+              {post.isSEO && <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase font-bold">Guide</span>}
+            </div>
+            <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
+            <p className="text-text-secondary text-sm leading-relaxed mb-6 line-clamp-3 flex-1">{post.excerpt}</p>
+            <div className="flex items-center text-sm font-bold text-white group-hover:translate-x-2 transition-transform mt-auto">
+              <span>Read Full Article</span>
+              <ArrowRight className="w-4 h-4 ml-2" />
+            </div>
+          </Link>
+        ))}
+      </div>
     </div>
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-      {BLOG_POSTS.map(post => (
-        <Link key={post.id} to={`/blog/${post.id}`} className="glass p-8 rounded-3xl border-white/5 hover:border-primary/30 transition-all group">
-          <p className="text-xs text-primary font-bold mb-2">{post.date}</p>
-          <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors">{post.title}</h3>
-          <p className="text-text-secondary text-sm leading-relaxed mb-6">{post.excerpt}</p>
-          <div className="flex items-center text-sm font-bold text-white group-hover:translate-x-2 transition-transform">
-            <span>Read More</span>
-            <ArrowRight className="w-4 h-4 ml-2" />
-          </div>
-        </Link>
-      ))}
-    </div>
-  </div>
-);
+  );
+};
 
 const BlogPost = () => {
   const { id } = useParams();
