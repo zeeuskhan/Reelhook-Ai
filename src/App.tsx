@@ -163,6 +163,16 @@ import SkyscraperAd from "./components/SkyscraperAd";
 const ToolSEOPage = lazy(() => import("./components/ToolSEOPage"));
 const SEOArticlePage = lazy(() => import("./components/SEOArticlePage"));
 
+// Specialized Tools
+const BioGenerator = lazy(() => import("./components/tools/BioGenerator"));
+const CaptionGenerator = lazy(() => import("./components/tools/CaptionGenerator"));
+const HashtagGenerator = lazy(() => import("./components/tools/HashtagGenerator"));
+const ReelGenerator = lazy(() => import("./components/tools/ReelGenerator"));
+const UsernameGenerator = lazy(() => import("./components/tools/UsernameGenerator"));
+const DPGenerator = lazy(() => import("./components/tools/DPGenerator"));
+const TranscriptGenerator = lazy(() => import("./components/tools/TranscriptGenerator"));
+const MockupGenerator = lazy(() => import("./components/tools/MockupGenerator"));
+
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
 
@@ -175,102 +185,8 @@ interface Hook {
 }
 
 // --- AI Service ---
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+import { generateHooksAI, generateExtraAI } from "./services/ai";
 
-async function generateHooksAI(niche: string, sub: string, lang: string, tone: string) {
-  const model = "gemini-3-flash-preview";
-  const prompt = `You are a viral short-form content strategist. 
-  Generate 10 unique, high-retention Instagram Reel hooks for the niche: ${niche} (${sub}).
-  Language: ${lang}. Tone: ${tone}.
-  
-  Each hook must:
-  - Be under 10 words.
-  - Use psychological triggers (Curiosity gap, FOMO, Pattern interrupt, Bold claim).
-  - Include a viral percentage score (60-98%) based on retention psychology.
-  
-  Return ONLY a JSON array of objects with "text" and "score" properties. No explanation.`;
-
-  try {
-    const response = await genAI.models.generateContent({
-      model,
-      contents: prompt,
-      config: { responseMimeType: "application/json" }
-    });
-    const data = safeJsonParse(response.text || "[]");
-    return data.map((h: any) => {
-      const score = typeof h.score === 'string' ? parseInt(h.score) : h.score;
-      return {
-        id: Math.random().toString(36).substr(2, 9),
-        text: h.text,
-        score: score,
-        category: score >= 90 ? "High Viral Potential" : score >= 75 ? "Strong Hook" : "Needs Improvement"
-      };
-    });
-  } catch (error) {
-    console.error("AI Error:", error);
-    return [];
-  }
-}
-
-async function generateExtraAI(type: "caption" | "hashtags" | "script" | "ideas" | "improve" | "analyze" | "angle" | "time" | "calendar", context: string) {
-  const model = "gemini-3-flash-preview";
-  let prompt = "";
-  
-  if (type === "caption") {
-    prompt = `Generate 3 Instagram Reel captions for this hook: "${context}". 
-    Include: 1 short, 1 storytelling, 1 CTA style. Use emojis. Return JSON: { captions: string[] }`;
-  } else if (type === "hashtags") {
-    prompt = `Generate 15 optimized hashtags for this hook: "${context}". 
-    Mix high reach, medium competition, and niche-specific. Return JSON: { hashtags: string[] }`;
-  } else if (type === "script") {
-    prompt = `Generate a 30-second Reel script for this hook: "${context}". 
-    Include talking points and a strong closing CTA. Return JSON: { script: string }`;
-  } else if (type === "ideas") {
-    prompt = `Generate 10 trending Reel ideas for the niche: "${context}". 
-    Include emotional trigger and difficulty level. Return JSON: { ideas: { title: string, trigger: string, difficulty: string }[] }`;
-  } else if (type === "improve") {
-    prompt = `Improve this hook: "${context}". 
-    Provide 5 viral variations with scores. Return JSON: { variations: { text: string, score: number }[] }`;
-  } else if (type === "analyze") {
-    prompt = `Analyze this hook: "${context}". 
-    Provide viral potential score (0-100), explanation, psychological trigger used, and curiosity gap strength. 
-    Return JSON: { score: number, explanation: string, trigger: string, gapStrength: string }`;
-  } else if (type === "angle") {
-    prompt = `Generate 5 different content angles for the topic: "${context}". 
-    Include title, description, and a sample hook for each. 
-    Return JSON: { angles: { title: string, description: string, hook: string }[] }`;
-  } else if (type === "time") {
-    prompt = `Suggest the best posting time and day for the niche: "${context}". 
-    Include bestDay, bestTime, and a strategy tip. 
-    Return JSON: { bestDay: string, bestTime: string, strategy: string }`;
-  } else if (type === "calendar") {
-    prompt = `Generate a 7-day viral content roadmap for the niche: "${context}". 
-    Include topic and hookType for each day. 
-    Return JSON: { plan: { topic: string, hookType: string }[] }`;
-  }
-
-  try {
-    const response = await genAI.models.generateContent({
-      model,
-      contents: prompt,
-      config: { responseMimeType: "application/json" }
-    });
-    const data = safeJsonParse(response.text || "{}", {});
-    if (data.variations) {
-      data.variations = data.variations.map((v: any) => ({
-        ...v,
-        score: typeof v.score === 'string' ? parseInt(v.score) : v.score
-      }));
-    }
-    if (data.score) {
-      data.score = typeof data.score === 'string' ? parseInt(data.score) : data.score;
-    }
-    return data;
-  } catch (error) {
-    console.error("AI Error:", error);
-    return {};
-  }
-}
 
 // --- Components ---
 
@@ -2497,14 +2413,14 @@ export default function App() {
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
-              <Route path="/tools/instagram-bio-generator" element={<ToolSEOPage />} />
-              <Route path="/tools/instagram-caption-generator" element={<ToolSEOPage />} />
-              <Route path="/tools/instagram-hashtag-generator" element={<ToolSEOPage />} />
-              <Route path="/tools/instagram-reel-generator" element={<ToolSEOPage />} />
-              <Route path="/tools/instagram-username-generator" element={<ToolSEOPage />} />
-              <Route path="/tools/instagram-dp-generator" element={<ToolSEOPage />} />
-              <Route path="/tools/instagram-transcript-generator" element={<ToolSEOPage />} />
-              <Route path="/tools/instagram-mockup-generator" element={<ToolSEOPage />} />
+              <Route path="/tools/instagram-bio-generator" element={<BioGenerator />} />
+              <Route path="/tools/instagram-caption-generator" element={<CaptionGenerator />} />
+              <Route path="/tools/instagram-hashtag-generator" element={<HashtagGenerator />} />
+              <Route path="/tools/instagram-reel-generator" element={<ReelGenerator />} />
+              <Route path="/tools/instagram-username-generator" element={<UsernameGenerator />} />
+              <Route path="/tools/instagram-dp-generator" element={<DPGenerator />} />
+              <Route path="/tools/instagram-transcript-generator" element={<TranscriptGenerator />} />
+              <Route path="/tools/instagram-mockup-generator" element={<MockupGenerator />} />
               <Route path="/:slug" element={<SEOArticlePage />} />
             </Routes>
           </Suspense>
