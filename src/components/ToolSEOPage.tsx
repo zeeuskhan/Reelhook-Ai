@@ -126,8 +126,8 @@ const ToolSEOPage: React.FC = () => {
             transition={{ duration: 0.5 }}
             className="space-y-6"
           >
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
-              <Zap className="w-4 h-4" />
+            <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-primary/10 border border-primary/20 text-primary text-base font-medium">
+              <Zap className="w-5 h-5" />
               <span>Free AI Tool for Creators</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold font-display tracking-tight leading-tight max-w-4xl mx-auto">
@@ -141,13 +141,13 @@ const ToolSEOPage: React.FC = () => {
                 <span>{content.ctaText}</span>
                 <ArrowRight className="w-5 h-5" />
               </Link>
-              <div className="flex items-center space-x-4 text-sm text-text-secondary">
+              <div className="flex items-center space-x-4 text-base text-text-secondary">
                 <div className="flex -space-x-2">
                   {[1, 2, 3, 4].map(i => (
                     <img 
                       key={i} 
                       src={`https://picsum.photos/seed/user${i}/100/100`} 
-                      className="w-8 h-8 rounded-full border-2 border-background object-cover" 
+                      className="w-10 h-10 rounded-full border-2 border-background object-cover" 
                       alt="User"
                       referrerPolicy="no-referrer"
                       loading="lazy"
@@ -191,8 +191,8 @@ const ToolSEOPage: React.FC = () => {
                     <TrendingUp className="text-primary" />
                   </div>
                   <div>
-                    <h4 className="font-bold">Viral Potential</h4>
-                    <p className="text-xs text-text-secondary">Optimized for 2026 algorithm</p>
+                    <h4 className="font-bold text-lg">Viral Potential</h4>
+                    <p className="text-sm text-text-secondary">Optimized for 2026 algorithm</p>
                   </div>
                 </div>
                 <div className="h-48 bg-white/5 rounded-2xl border border-white/10 flex items-center justify-center">
@@ -200,8 +200,8 @@ const ToolSEOPage: React.FC = () => {
                     <div className="flex justify-center space-x-1">
                       {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
                     </div>
-                    <p className="text-sm font-medium">4.9/5 Rating</p>
-                    <p className="text-[10px] text-text-secondary uppercase tracking-widest">Based on 10,000+ reviews</p>
+                    <p className="text-base font-medium">4.9/5 Rating</p>
+                    <p className="text-sm text-text-secondary uppercase tracking-widest">Based on 10,000+ reviews</p>
                   </div>
                 </div>
               </div>
@@ -248,7 +248,7 @@ const ToolSEOPage: React.FC = () => {
                     <div className="w-10 h-10 bg-primary/20 rounded-xl flex items-center justify-center mx-auto text-primary">
                       {item.icon}
                     </div>
-                    <span className="text-xs font-bold uppercase tracking-widest">{item.label}</span>
+                    <span className="text-sm font-bold uppercase tracking-widest">{item.label}</span>
                   </div>
                 ))}
               </div>
@@ -301,7 +301,7 @@ const ToolSEOPage: React.FC = () => {
               <Link 
                 key={tool.slug} 
                 to={`/tools/${tool.slug}`}
-                className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-sm font-medium"
+                className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-base font-medium"
               >
                 {tool.title}
               </Link>

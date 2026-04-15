@@ -354,11 +354,11 @@ const Navbar = () => {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden glass border-b border-white/10 px-4 py-6 space-y-4"
           >
-            <Link to="/#features" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Features</Link>
-            <Link to="/explore" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Explore</Link>
-            <Link to="/blog" className="block text-text-secondary" onClick={() => setIsOpen(false)}>Blog</Link>
-            <Link to="/about" className="block text-text-secondary" onClick={() => setIsOpen(false)}>About</Link>
-            <Link to="/dashboard" className="block bg-primary text-white px-5 py-2 rounded-full text-center" onClick={() => setIsOpen(false)}>Launch App</Link>
+          <Link to="/#features" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Features</Link>
+          <Link to="/explore" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Explore</Link>
+          <Link to="/blog" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Blog</Link>
+          <Link to="/about" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>About</Link>
+          <Link to="/dashboard" className="block bg-primary text-white px-5 py-4 rounded-full text-center font-bold text-lg" onClick={() => setIsOpen(false)}>Launch App</Link>
           </motion.div>
         )}
       </AnimatePresence>
@@ -380,7 +380,7 @@ const Footer = () => (
               loading="lazy"
             />
           </Link>
-          <p className="text-text-secondary text-sm">
+          <p className="text-text-secondary text-base">
             AI-powered hooks that stop scrolling and boost engagement for creators worldwide.
           </p>
           <div className="flex space-x-4 pt-2">
@@ -398,31 +398,31 @@ const Footer = () => (
             </a>
           </div>
         </div>
-        <div>
-          <h4 className="font-bold mb-4">Product</h4>
-          <ul className="space-y-2 text-sm text-text-secondary">
-            <li><Link to="/dashboard">Hook Generator</Link></li>
-            <li><Link to="/dashboard">Caption Builder</Link></li>
-            <li><Link to="/dashboard">Hashtag Packs</Link></li>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Product</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/dashboard" className="hover:text-primary transition-colors py-1 block">Hook Generator</Link></li>
+            <li><Link to="/dashboard" className="hover:text-primary transition-colors py-1 block">Caption Builder</Link></li>
+            <li><Link to="/dashboard" className="hover:text-primary transition-colors py-1 block">Hashtag Packs</Link></li>
           </ul>
         </div>
-        <div>
-          <h4 className="font-bold mb-4">Company</h4>
-          <ul className="space-y-2 text-sm text-text-secondary">
-            <li><Link to="/about">About Us</Link></li>
-            <li><Link to="/privacy">Privacy Policy</Link></li>
-            <li><Link to="/terms">Terms of Service</Link></li>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Company</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/about" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
+            <li><Link to="/privacy" className="hover:text-primary transition-colors py-1 block">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="hover:text-primary transition-colors py-1 block">Terms of Service</Link></li>
           </ul>
         </div>
-        <div>
-          <h4 className="font-bold mb-4">Support</h4>
-          <ul className="space-y-2 text-sm text-text-secondary">
-            <li><a href="mailto:support@reelhooks.site">Contact Us</a></li>
-            <li><Link to="/faq">FAQ</Link></li>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Support</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><a href="mailto:support@reelhooks.site" className="hover:text-primary transition-colors py-1 block">Contact Us</a></li>
+            <li><Link to="/faq" className="hover:text-primary transition-colors py-1 block">FAQ</Link></li>
           </ul>
         </div>
       </div>
-      <div className="mt-12 pt-8 border-t border-white/5 text-center text-text-secondary text-xs">
+      <div className="mt-12 pt-8 border-t border-white/5 text-center text-text-secondary text-sm">
         © {new Date().getFullYear()} ReelHooks.site. All rights reserved.
       </div>
     </div>
@@ -445,9 +445,9 @@ const Hero = () => {
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 px-4 py-1.5 rounded-full text-primary text-sm font-medium"
+          className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 px-6 py-3 rounded-full text-primary text-base font-medium"
         >
-          <Sparkles className="w-4 h-4" />
+          <Sparkles className="w-5 h-5" />
           <span>Trusted by {count.toLocaleString()}+ creators</span>
         </motion.div>
         
@@ -490,12 +490,12 @@ const Hero = () => {
           className="pt-12 flex flex-wrap justify-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all"
         >
           <div className="flex items-center space-x-2">
-            <Award className="w-5 h-5" />
-            <span className="text-sm font-bold">4.9/5 Rating</span>
+            <Award className="w-6 h-6" />
+            <span className="text-base font-bold">4.9/5 Rating</span>
           </div>
           <div className="flex items-center space-x-2">
-            <Users className="w-5 h-5" />
-            <span className="text-sm font-bold">10k+ Creators</span>
+            <Users className="w-6 h-6" />
+            <span className="text-base font-bold">10k+ Creators</span>
           </div>
         </motion.div>
       </div>
@@ -695,36 +695,36 @@ const ProgrammaticHooksPage = () => {
         <p className="text-lg text-text-secondary leading-relaxed italic">
           "{nicheStrategy.content}"
         </p>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-          <div className="space-y-2">
-            <h3 className="font-bold text-primary">Target Audience</h3>
-            <p className="text-sm text-text-secondary">People interested in {nicheName} who are looking for quick, actionable, and entertaining content on Instagram.</p>
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
+            <div className="space-y-2">
+              <h3 className="font-bold text-primary text-lg">Target Audience</h3>
+              <p className="text-base text-text-secondary">People interested in {nicheName} who are looking for quick, actionable, and entertaining content on Instagram.</p>
+            </div>
+            <div className="space-y-2">
+              <h3 className="font-bold text-primary text-lg">Content Pillar</h3>
+              <p className="text-base text-text-secondary">Educational tutorials, relatable memes, and high-value {nicheName} tips that encourage saves and shares.</p>
+            </div>
           </div>
-          <div className="space-y-2">
-            <h3 className="font-bold text-primary">Content Pillar</h3>
-            <p className="text-sm text-text-secondary">Educational tutorials, relatable memes, and high-value {nicheName} tips that encourage saves and shares.</p>
-          </div>
-        </div>
       </div>
 
       <div className="glass p-8 rounded-3xl space-y-8">
         <h2 className="text-3xl font-bold">Why Hooks Matter for Reels and Shorts</h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
-            <h3 className="font-bold text-primary">Hook Psychology</h3>
-            <p className="text-sm text-text-secondary">Start with a visual or verbal shock to stop the scroll immediately. This is the core of viral reel hooks.</p>
+            <h3 className="font-bold text-primary text-lg">Hook Psychology</h3>
+            <p className="text-base text-text-secondary">Start with a visual or verbal shock to stop the scroll immediately. This is the core of viral reel hooks.</p>
           </div>
           <div className="space-y-2">
-            <h3 className="font-bold text-primary">Attention Grabbing Intros</h3>
-            <p className="text-sm text-text-secondary">Open a loop in the viewer's mind that can only be closed by watching the full reel. Use bold text overlays.</p>
+            <h3 className="font-bold text-primary text-lg">Attention Grabbing Intros</h3>
+            <p className="text-base text-text-secondary">Open a loop in the viewer's mind that can only be closed by watching the full reel. Use bold text overlays.</p>
           </div>
           <div className="space-y-2">
-            <h3 className="font-bold text-primary">Short-form Storytelling</h3>
-            <p className="text-sm text-text-secondary">Keep it fast-paced. Every second must provide value or build tension to keep retention high.</p>
+            <h3 className="font-bold text-primary text-lg">Short-form Storytelling</h3>
+            <p className="text-base text-text-secondary">Keep it fast-paced. Every second must provide value or build tension to keep retention high.</p>
           </div>
           <div className="space-y-2">
-            <h3 className="font-bold text-primary">Strong Call to Action</h3>
-            <p className="text-sm text-text-secondary">Tell people exactly what to do next: follow, save, or comment to boost the algorithm.</p>
+            <h3 className="font-bold text-primary text-lg">Strong Call to Action</h3>
+            <p className="text-base text-text-secondary">Tell people exactly what to do next: follow, save, or comment to boost the algorithm.</p>
           </div>
         </div>
         {richContent && (
@@ -763,8 +763,8 @@ const ProgrammaticHooksPage = () => {
         <div className="space-y-4">
           {nicheFAQs.map((faq, i) => (
             <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/10">
-              <h4 className="font-bold mb-2">{faq.q}</h4>
-              <p className="text-sm text-text-secondary">{faq.a}</p>
+              <h4 className="font-bold mb-2 text-lg">{faq.q}</h4>
+              <p className="text-base text-text-secondary">{faq.a}</p>
             </div>
           ))}
         </div>
@@ -777,7 +777,7 @@ const ProgrammaticHooksPage = () => {
             <Link 
               key={rn.id} 
               to={`/hooks/${rn.id}-${lang}`}
-              className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-sm hover:bg-primary/10 hover:border-primary/30 transition-all"
+              className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-base hover:bg-primary/10 hover:border-primary/30 transition-all"
             >
               {rn.name} Hooks
             </Link>
@@ -832,8 +832,8 @@ const About = () => (
             <Zap className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="font-bold">Fast & Efficient</h4>
-            <p className="text-sm text-text-secondary">Generate 10+ hooks in under 5 seconds.</p>
+            <h4 className="font-bold text-lg">Fast & Efficient</h4>
+            <p className="text-base text-text-secondary">Generate 10+ hooks in under 5 seconds.</p>
           </div>
         </div>
         <div className="flex items-center space-x-4">
@@ -841,8 +841,8 @@ const About = () => (
             <TrendingUp className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="font-bold">Data Driven</h4>
-            <p className="text-sm text-text-secondary">Based on viral patterns and retention metrics.</p>
+            <h4 className="font-bold text-lg">Data Driven</h4>
+            <p className="text-base text-text-secondary">Based on viral patterns and retention metrics.</p>
           </div>
         </div>
         <div className="flex items-center space-x-4">
@@ -850,8 +850,8 @@ const About = () => (
             <Globe className="w-6 h-6" />
           </div>
           <div>
-            <h4 className="font-bold">Multi-Language</h4>
-            <p className="text-sm text-text-secondary">Support for English, Hindi, Hinglish, and more.</p>
+            <h4 className="font-bold text-lg">Multi-Language</h4>
+            <p className="text-base text-text-secondary">Support for English, Hindi, Hinglish, and more.</p>
           </div>
         </div>
       </div>
@@ -866,7 +866,7 @@ const About = () => (
       ].map((stat, i) => (
         <div key={i} className="text-center p-6 glass rounded-2xl border-white/5">
           <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
-          <div className="text-sm text-text-secondary">{stat.label}</div>
+          <div className="text-base text-text-secondary">{stat.label}</div>
         </div>
       ))}
     </div>
@@ -920,8 +920,8 @@ const Contact = () => (
               <Mail className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider">Email Us</p>
-              <p className="text-white">support@reelhooks.site</p>
+              <p className="text-sm font-bold uppercase tracking-wider">Email Us</p>
+              <p className="text-white text-base">support@reelhooks.site</p>
             </div>
           </div>
           <div className="flex items-center space-x-4 text-text-secondary">
@@ -929,8 +929,8 @@ const Contact = () => (
               <Globe className="w-5 h-5" />
             </div>
             <div>
-              <p className="text-xs font-bold uppercase tracking-wider">Location</p>
-              <p className="text-white">San Francisco, CA</p>
+              <p className="text-sm font-bold uppercase tracking-wider">Location</p>
+              <p className="text-white text-base">San Francisco, CA</p>
             </div>
           </div>
         </div>
@@ -938,16 +938,16 @@ const Contact = () => (
 
       <form className="glass p-8 rounded-3xl space-y-6 border-white/5">
         <div className="space-y-2">
-          <label className="text-sm font-medium">Full Name</label>
-          <input type="text" className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="John Doe" />
+          <label className="text-base font-medium">Full Name</label>
+          <input type="text" className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="John Doe" />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Email Address</label>
-          <input type="email" className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="john@example.com" />
+          <label className="text-base font-medium">Email Address</label>
+          <input type="email" className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="john@example.com" />
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Subject</label>
-          <select className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all">
+          <label className="text-base font-medium">Subject</label>
+          <select className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all">
             <option>General Inquiry</option>
             <option>Technical Support</option>
             <option>Partnership</option>
@@ -955,8 +955,8 @@ const Contact = () => (
           </select>
         </div>
         <div className="space-y-2">
-          <label className="text-sm font-medium">Message</label>
-          <textarea className="w-full bg-bg border border-white/10 rounded-xl p-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all min-h-[150px]" placeholder="How can we help you today?"></textarea>
+          <label className="text-base font-medium">Message</label>
+          <textarea className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all min-h-[150px]" placeholder="How can we help you today?"></textarea>
         </div>
         <button type="button" className="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/20">
           Send Message
@@ -992,19 +992,19 @@ const Explore = () => (
         <div key={n.id} className="glass p-8 rounded-3xl border-white/5 space-y-6 hover:border-primary/30 transition-all group">
           <div className="flex items-center justify-between">
             <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{n.name}</h3>
-            <Link to={`/hooks/${n.id.toLowerCase()}-english`} className="text-primary hover:underline text-sm font-bold flex items-center">
+            <Link to={`/hooks/${n.id.toLowerCase()}-english`} className="text-primary hover:underline text-base font-bold flex items-center">
               <span>View Hooks</span>
-              <ArrowRight className="w-4 h-4 ml-1" />
+              <ArrowRight className="w-5 h-5 ml-1" />
             </Link>
           </div>
           <div className="flex flex-wrap gap-2">
             {n.subcategories.slice(0, 8).map(s => (
-              <span key={s} className="text-[10px] uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
+              <span key={s} className="text-sm uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
                 {s}
               </span>
             ))}
             {n.subcategories.length > 8 && (
-              <span className="text-[10px] uppercase tracking-widest font-bold px-3 py-1 text-text-secondary">
+              <span className="text-sm uppercase tracking-widest font-bold px-3 py-1 text-text-secondary">
                 +{n.subcategories.length - 8} more
               </span>
             )}
@@ -1208,18 +1208,18 @@ const SEOIntro = () => (
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             <div className="text-center space-y-3">
               <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">1</div>
-              <h4 className="font-bold">The Pattern Interrupt</h4>
-              <p className="text-xs text-text-secondary">Break the user's scrolling habit with a bold claim or a visual surprise.</p>
+              <h4 className="font-bold text-lg">The Pattern Interrupt</h4>
+              <p className="text-sm text-text-secondary">Break the user's scrolling habit with a bold claim or a visual surprise.</p>
             </div>
             <div className="text-center space-y-3">
               <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">2</div>
-              <h4 className="font-bold">The Curiosity Gap</h4>
-              <p className="text-xs text-text-secondary">Ask a question or present a problem that the viewer *needs* to see the answer to.</p>
+              <h4 className="font-bold text-lg">The Curiosity Gap</h4>
+              <p className="text-sm text-text-secondary">Ask a question or present a problem that the viewer *needs* to see the answer to.</p>
             </div>
             <div className="text-center space-y-3">
               <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">3</div>
-              <h4 className="font-bold">The Value Promise</h4>
-              <p className="text-xs text-text-secondary">Clearly state what the viewer will gain by watching until the end of the video.</p>
+              <h4 className="font-bold text-lg">The Value Promise</h4>
+              <p className="text-sm text-text-secondary">Clearly state what the viewer will gain by watching until the end of the video.</p>
             </div>
           </div>
         </div>
@@ -1413,14 +1413,14 @@ const Blog = () => {
             className="glass p-8 rounded-3xl border-white/5 hover:border-primary/30 transition-all group flex flex-col h-full"
           >
             <div className="flex justify-between items-start mb-4">
-              <p className="text-xs text-primary font-bold">{post.date}</p>
-              {post.isSEO && <span className="text-[10px] bg-primary/20 text-primary px-2 py-0.5 rounded-full uppercase font-bold">Guide</span>}
+              <p className="text-sm text-primary font-bold">{post.date}</p>
+              {post.isSEO && <span className="text-sm bg-primary/20 text-primary px-2 py-1 rounded-full uppercase font-bold">Guide</span>}
             </div>
-            <h3 className="text-xl font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
-            <p className="text-text-secondary text-sm leading-relaxed mb-6 line-clamp-3 flex-1">{post.excerpt}</p>
-            <div className="flex items-center text-sm font-bold text-white group-hover:translate-x-2 transition-transform mt-auto">
+            <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
+            <p className="text-text-secondary text-base leading-relaxed mb-6 line-clamp-3 flex-1">{post.excerpt}</p>
+            <div className="flex items-center text-base font-bold text-white group-hover:translate-x-2 transition-transform mt-auto">
               <span>Read Full Article</span>
-              <ArrowRight className="w-4 h-4 ml-2" />
+              <ArrowRight className="w-5 h-5 ml-2" />
             </div>
           </Link>
         ))}
@@ -1450,8 +1450,8 @@ const BlogPost = () => {
           ]
         }}
       />
-      <Link to="/blog" className="text-text-secondary hover:text-white flex items-center space-x-2 text-sm">
-        <ArrowRight className="w-4 h-4 rotate-180" />
+      <Link to="/blog" className="text-text-secondary hover:text-white flex items-center space-x-2 text-base">
+        <ArrowRight className="w-5 h-5 rotate-180" />
         <span>Back to Blog</span>
       </Link>
       <div className="space-y-4">
@@ -1585,7 +1585,7 @@ const Dashboard = () => {
         <div className="space-y-4">
           {result.captions?.map((c: string, i: number) => (
             <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/10 relative group">
-              <p className="text-sm leading-relaxed pr-8">{c}</p>
+              <p className="text-base leading-relaxed pr-8">{c}</p>
               <CopyButton text={c} className="absolute top-4 right-4 text-text-secondary hover:text-white" />
             </div>
           ))}
@@ -1595,7 +1595,7 @@ const Dashboard = () => {
       content = (
         <div className="space-y-4">
           <div className="bg-white/5 p-4 rounded-xl border border-white/10 relative">
-            <p className="text-primary font-mono text-sm leading-relaxed">{result.hashtags?.join(" ")}</p>
+            <p className="text-primary font-mono text-base leading-relaxed">{result.hashtags?.join(" ")}</p>
             <CopyButton text={result.hashtags?.join(" ") || ""} className="absolute top-4 right-4 text-text-secondary hover:text-white" />
           </div>
         </div>
@@ -1603,7 +1603,7 @@ const Dashboard = () => {
     } else if (type === "script") {
       content = (
         <div className="bg-white/5 p-6 rounded-xl border border-white/10 relative">
-          <pre className="text-sm whitespace-pre-wrap font-sans leading-relaxed">{result.script}</pre>
+          <pre className="text-base whitespace-pre-wrap font-sans leading-relaxed">{result.script}</pre>
           <CopyButton text={result.script || ""} className="absolute top-6 right-6 text-text-secondary hover:text-white" />
         </div>
       );
@@ -1612,21 +1612,21 @@ const Dashboard = () => {
         <div className="space-y-4">
           <div className="bg-white/5 p-6 rounded-xl border border-white/10 space-y-4">
             <div className="flex justify-between items-center">
-              <span className="text-sm text-text-secondary">Viral Potential</span>
+              <span className="text-base text-text-secondary">Viral Potential</span>
               <span className={cn(
-                "font-bold",
+                "font-bold text-lg",
                 result.score >= 90 ? "text-[#22C55E]" : result.score >= 75 ? "text-[#F59E0B]" : "text-[#EF4444]"
               )}>{result.score}%</span>
             </div>
-            <p className="text-sm leading-relaxed">{result.explanation}</p>
+            <p className="text-base leading-relaxed">{result.explanation}</p>
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-bg p-3 rounded-lg border border-white/5">
-                <p className="text-[10px] uppercase tracking-widest text-text-secondary mb-1">Trigger</p>
-                <p className="text-xs font-bold">{result.trigger}</p>
+                <p className="text-xs uppercase tracking-widest text-text-secondary mb-1">Trigger</p>
+                <p className="text-base font-bold">{result.trigger}</p>
               </div>
               <div className="bg-bg p-3 rounded-lg border border-white/5">
-                <p className="text-[10px] uppercase tracking-widest text-text-secondary mb-1">Gap Strength</p>
-                <p className="text-xs font-bold">{result.gapStrength}</p>
+                <p className="text-xs uppercase tracking-widest text-text-secondary mb-1">Gap Strength</p>
+                <p className="text-base font-bold">{result.gapStrength}</p>
               </div>
             </div>
           </div>
@@ -1637,9 +1637,9 @@ const Dashboard = () => {
         <div className="space-y-4">
           {result.angles?.map((a: any, i: number) => (
             <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/10 space-y-2">
-              <h4 className="font-bold text-primary">{a.title}</h4>
-              <p className="text-xs text-text-secondary">{a.description}</p>
-              <p className="text-xs italic text-white/60">Hook: {a.hook}</p>
+              <h4 className="font-bold text-primary text-lg">{a.title}</h4>
+              <p className="text-base text-text-secondary">{a.description}</p>
+              <p className="text-sm italic text-white/60">Hook: {a.hook}</p>
             </div>
           ))}
         </div>
@@ -1650,17 +1650,17 @@ const Dashboard = () => {
           <div className="bg-white/5 p-6 rounded-xl border border-white/10 space-y-6">
             <div className="grid grid-cols-2 gap-4">
               <div className="bg-bg p-4 rounded-xl border border-white/5 text-center">
-                <p className="text-xs text-text-secondary mb-1">Best Day</p>
-                <p className="font-bold text-primary">{result.bestDay}</p>
+                <p className="text-sm text-text-secondary mb-1">Best Day</p>
+                <p className="font-bold text-primary text-lg">{result.bestDay}</p>
               </div>
               <div className="bg-bg p-4 rounded-xl border border-white/5 text-center">
-                <p className="text-xs text-text-secondary mb-1">Best Time</p>
-                <p className="font-bold text-primary">{result.bestTime}</p>
+                <p className="text-sm text-text-secondary mb-1">Best Time</p>
+                <p className="font-bold text-primary text-lg">{result.bestTime}</p>
               </div>
             </div>
             <div className="space-y-2">
-              <p className="text-xs font-bold">Strategy Tip</p>
-              <p className="text-xs text-text-secondary leading-relaxed">{result.strategy}</p>
+              <p className="text-base font-bold">Strategy Tip</p>
+              <p className="text-base text-text-secondary leading-relaxed">{result.strategy}</p>
             </div>
           </div>
         </div>
@@ -1670,12 +1670,12 @@ const Dashboard = () => {
         <div className="space-y-4">
           {result.plan?.map((p: any, i: number) => (
             <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/10 flex items-start space-x-4">
-              <div className="bg-primary/20 text-primary w-8 h-8 rounded-lg flex items-center justify-center font-bold text-xs shrink-0">
+              <div className="bg-primary/20 text-primary w-10 h-10 rounded-lg flex items-center justify-center font-bold text-base shrink-0">
                 D{i+1}
               </div>
               <div className="space-y-1">
-                <p className="text-sm font-bold">{p.topic}</p>
-                <p className="text-xs text-text-secondary">{p.hookType}</p>
+                <p className="text-base font-bold">{p.topic}</p>
+                <p className="text-sm text-text-secondary">{p.hookType}</p>
               </div>
             </div>
           ))}
@@ -1777,10 +1777,10 @@ const Dashboard = () => {
               {/* Niche Selection */}
               <div className="space-y-4">
                 <div className="space-y-2 relative">
-                  <label className="text-sm font-medium text-text-secondary">Niche / Category</label>
+                  <label className="text-base font-medium text-text-secondary">Niche / Category</label>
                   <div className="relative">
                     <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                      <Search className="w-4 h-4 text-text-secondary" />
+                      <Search className="w-5 h-5 text-text-secondary" />
                     </div>
                     <input 
                       type="text"
@@ -1792,7 +1792,7 @@ const Dashboard = () => {
                       onFocus={() => setIsNicheDropdownOpen(true)}
                       onKeyDown={handleKeyDown}
                       placeholder="Search niche..."
-                      className="w-full bg-bg border border-white/10 rounded-xl py-3 pl-10 pr-4 outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      className="w-full bg-bg border border-white/10 rounded-xl py-4 pl-12 pr-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     />
                     {isNicheDropdownOpen && (
                       <div className="absolute top-full left-0 right-0 mt-2 max-h-64 overflow-y-auto glass rounded-xl border border-white/10 z-50 custom-scrollbar shadow-2xl">
@@ -1814,7 +1814,7 @@ const Dashboard = () => {
                                   <button 
                                     key={s}
                                     onClick={() => handleNicheSelect(n, s)}
-                                    className="w-full text-left px-8 py-1.5 text-xs text-text-secondary hover:text-white hover:bg-primary/10 transition-all"
+                                    className="w-full text-left px-8 py-2 text-sm text-text-secondary hover:text-white hover:bg-primary/10 transition-all"
                                   >
                                     {s}
                                   </button>
@@ -1831,19 +1831,19 @@ const Dashboard = () => {
                 </div>
 
                 {/* Selected Info */}
-                <div className="flex items-center space-x-2 text-xs text-text-secondary bg-white/5 p-3 rounded-lg border border-white/10">
+                <div className="flex items-center space-x-2 text-sm text-text-secondary bg-white/5 p-3 rounded-lg border border-white/10">
                   <span className="font-bold text-primary">Selected:</span>
                   <span>{niche.name}</span>
-                  <ArrowRight className="w-3 h-3" />
+                  <ArrowRight className="w-4 h-4" />
                   <span>{sub}</span>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-text-secondary">Language</label>
+                  <label className="text-base font-medium text-text-secondary">Language</label>
                   <select 
-                    className="w-full bg-bg border border-white/10 rounded-xl py-2 px-4 focus:ring-2 focus:ring-primary/50 outline-none"
+                    className="w-full bg-bg border border-white/10 rounded-xl py-3 px-4 text-base focus:ring-2 focus:ring-primary/50 outline-none"
                     value={lang}
                     onChange={(e) => setLang(e.target.value)}
                   >
@@ -1851,9 +1851,9 @@ const Dashboard = () => {
                   </select>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-sm font-medium text-text-secondary">Tone</label>
+                  <label className="text-base font-medium text-text-secondary">Tone</label>
                   <select 
-                    className="w-full bg-bg border border-white/10 rounded-xl py-2 px-4 focus:ring-2 focus:ring-primary/50 outline-none"
+                    className="w-full bg-bg border border-white/10 rounded-xl py-3 px-4 text-base focus:ring-2 focus:ring-primary/50 outline-none"
                     value={tone}
                     onChange={(e) => setTone(e.target.value)}
                   >
@@ -1881,18 +1881,18 @@ const Dashboard = () => {
 
           {/* Sidebar Info */}
           <div className="bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 p-6 rounded-2xl space-y-4">
-            <h3 className="font-bold text-lg">Viral Content Suite</h3>
-            <ul className="text-sm space-y-2 text-text-secondary">
+            <h3 className="font-bold text-xl">Viral Content Suite</h3>
+            <ul className="text-base space-y-3 text-text-secondary">
               <li className="flex items-center space-x-2">
-                <CheckCircle2 className="w-4 h-4 text-primary" />
+                <CheckCircle2 className="w-5 h-5 text-primary" />
                 <span>Unlimited generations</span>
               </li>
               <li className="flex items-center space-x-2">
-                <CheckCircle2 className="w-4 h-4 text-primary" />
+                <CheckCircle2 className="w-5 h-5 text-primary" />
                 <span>Access all viral hooks</span>
               </li>
               <li className="flex items-center space-x-2">
-                <CheckCircle2 className="w-4 h-4 text-primary" />
+                <CheckCircle2 className="w-5 h-5 text-primary" />
                 <span>Caption & Hashtag generator</span>
               </li>
             </ul>
@@ -2237,7 +2237,7 @@ const Dashboard = () => {
           </p>
           <div className="flex flex-wrap gap-2">
             {["Viral Hooks", "Instagram Growth", "Content Strategy", "AI Video Scripts", "Short-form Content", "Reel Hooks Hindi"].map(tag => (
-              <span key={tag} className="text-[10px] uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
+              <span key={tag} className="text-sm uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
                 {tag}
               </span>
             ))}

@@ -75,16 +75,16 @@ const SEOArticlePage: React.FC = () => {
             animate={{ opacity: 1, y: 0 }}
             className="space-y-6"
           >
-            <div className="inline-flex items-center space-x-2 px-4 py-2 rounded-full bg-primary/10 border border-primary/20 text-primary text-sm font-medium">
-              <Zap className="w-4 h-4" />
+            <div className="inline-flex items-center space-x-2 px-6 py-3 rounded-full bg-primary/10 border border-primary/20 text-primary text-base font-medium">
+              <Zap className="w-5 h-5" />
               <span>Free AI Creator Tool</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold font-display tracking-tight leading-tight">
               {article.h1}
             </h1>
-            <div className="flex items-center justify-center space-x-4 text-sm text-text-secondary">
+            <div className="flex items-center justify-center space-x-4 text-base text-text-secondary">
               <div className="flex items-center space-x-1">
-                <Star className="w-4 h-4 text-yellow-500 fill-yellow-500" />
+                <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
                 <span className="font-bold">4.9/5 Rating</span>
               </div>
               <span>•</span>
@@ -165,19 +165,19 @@ const SEOArticlePage: React.FC = () => {
               <Link 
                 key={a.slug} 
                 to={`/${a.slug}`}
-                className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-sm font-medium"
+                className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-base font-medium"
               >
                 {a.title}
               </Link>
             ))}
-            <Link to="/" className="px-6 py-3 rounded-xl bg-primary/10 hover:bg-primary/20 border border-primary/20 transition-all text-sm font-medium text-primary">
+            <Link to="/" className="px-6 py-3 rounded-xl bg-primary/10 hover:bg-primary/20 border border-primary/20 transition-all text-base font-medium text-primary">
               Main Hook Generator
             </Link>
           </div>
         </div>
       </section>
 
-      <p className="text-center py-10 text-xs text-text-secondary">
+      <p className="text-center py-10 text-sm text-text-secondary">
         Powered by ReelHooks.site – India’s #1 Free AI Tool for Viral Reels
       </p>
 
