@@ -32,7 +32,11 @@ import {
   Bookmark,
   Download,
   Users,
-  ChevronDown
+  ChevronDown,
+  Instagram,
+  Youtube,
+  Twitter,
+  Linkedin
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { GoogleGenAI } from "@google/genai";
@@ -379,6 +383,20 @@ const Footer = () => (
           <p className="text-text-secondary text-sm">
             AI-powered hooks that stop scrolling and boost engagement for creators worldwide.
           </p>
+          <div className="flex space-x-4 pt-2">
+            <a href="https://instagram.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+              <Instagram className="w-5 h-5" />
+            </a>
+            <a href="https://twitter.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+              <Twitter className="w-5 h-5" />
+            </a>
+            <a href="https://youtube.com/@reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+              <Youtube className="w-5 h-5" />
+            </a>
+            <a href="https://linkedin.com/company/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+              <Linkedin className="w-5 h-5" />
+            </a>
+          </div>
         </div>
         <div>
           <h4 className="font-bold mb-4">Product</h4>
@@ -1150,56 +1168,157 @@ const Legal = ({ title }: { title: string }) => (
 const SEOIntro = () => (
   <section className="py-20 px-4 bg-bg relative overflow-hidden">
     <div className="absolute inset-0 bg-primary/5 blur-[120px] -z-10" />
-    <div className="max-w-4xl mx-auto space-y-16">
+    <div className="max-w-4xl mx-auto space-y-20">
       <div className="text-center space-y-4">
-        <h2 className="text-4xl font-bold font-display tracking-tight">The Best AI Hook Generator for Viral Growth</h2>
-        <p className="text-xl text-text-secondary">We don't just generate hooks; we engineer viral moments with our advanced AI hook generator.</p>
+        <h2 className="text-4xl md:text-6xl font-bold font-display tracking-tight">The #1 AI Hook Generator for Viral Reels</h2>
+        <p className="text-xl text-text-secondary">Stop guessing and start growing. Our AI hook generator is engineered for maximum retention.</p>
       </div>
 
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+      <div className="space-y-12">
         <div className="space-y-6">
-          <h3 className="text-2xl font-bold text-primary">Data-Driven Hook Engineering</h3>
+          <h3 className="text-3xl font-bold">Why Every Creator Needs a Viral Hook Generator</h3>
           <p className="text-text-secondary leading-relaxed">
-            Our <span className="text-white font-medium">instagram hook generator</span> isn't based on guesswork. We've analyzed over 100,000 viral reels across 50+ niches to identify the exact psychological triggers that stop the scroll. From curiosity gaps to pattern interrupts, every hook is designed to maximize your reach.
+            In 2026, the attention span of the average social media user has dropped to less than 3 seconds. This means that the first few moments of your Instagram Reel, TikTok, or YouTube Short are the most critical. If you don't capture attention immediately, your content—no matter how high-quality it is—will be ignored. This is where a <span className="text-white font-medium">viral hook generator</span> becomes your most powerful tool.
+          </p>
+          <p className="text-text-secondary leading-relaxed">
+            ReelHooks.site isn't just another AI tool. It's a specialized engine trained on the psychology of viral content. We analyze patterns from millions of successful videos to provide you with hooks that are mathematically more likely to stop the scroll. Whether you're looking for <span className="text-white font-medium">best hooks for instagram reels</span> or high-converting TikTok intros, our platform delivers results in seconds.
           </p>
         </div>
-        <div className="space-y-6">
-          <h3 className="text-2xl font-bold text-primary">Multi-Language Viral Growth</h3>
-          <p className="text-text-secondary leading-relaxed">
-            The Indian market is unique. That's why we've optimized our tool for <span className="text-white font-medium">reel hooks in hindi</span> and Hinglish. We understand the cultural nuances that make a hook relatable in different regions, giving you a massive advantage over creators using generic English tools.
+
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-primary">Data-Driven Hook Engineering</h3>
+            <p className="text-text-secondary leading-relaxed">
+              Our <span className="text-white font-medium">instagram hook generator</span> leverages advanced machine learning to identify trending "pattern interrupts." These are visual or verbal cues that break a user's scrolling trance. By using our tool, you're not just getting a sentence; you're getting a scientifically backed opening designed to trigger curiosity and drive engagement.
+            </p>
+          </div>
+          <div className="space-y-6">
+            <h3 className="text-2xl font-bold text-primary">Hindi & Hinglish Optimization</h3>
+            <p className="text-text-secondary leading-relaxed">
+              We understand the nuances of the Indian creator economy. That's why we've built the world's first <span className="text-white font-medium">reel hooks in hindi</span> and Hinglish generator. Generic English hooks often fail to resonate with local audiences. Our AI understands cultural context, slang, and emotional triggers specific to the Indian demographic, giving you a massive edge over the competition.
+            </p>
+          </div>
+        </div>
+
+        <div className="glass p-12 rounded-[3rem] border-primary/20 space-y-8">
+          <h3 className="text-3xl font-bold text-center">Mastering the 3-Second Retention Rule</h3>
+          <p className="text-center text-text-secondary max-w-2xl mx-auto">
+            The Instagram algorithm rewards one thing above all else: Watch Time. If you can keep a viewer engaged for the first 3 seconds, the chances of them watching the entire video increase by over 70%.
           </p>
-        </div>
-      </div>
-
-      <div className="glass p-12 rounded-[3rem] border-primary/20 space-y-8">
-        <h3 className="text-3xl font-bold text-center">The 3-Second Rule of Retention</h3>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">1</div>
-            <h4 className="font-bold">Stop the Scroll</h4>
-            <p className="text-xs text-text-secondary">Use a visual or verbal hook that breaks the user's scrolling pattern immediately.</p>
-          </div>
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">2</div>
-            <h4 className="font-bold">Open a Loop</h4>
-            <p className="text-xs text-text-secondary">Present a problem or a bold claim that the viewer needs to see the end to resolve.</p>
-          </div>
-          <div className="text-center space-y-3">
-            <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">3</div>
-            <h4 className="font-bold">Deliver Value</h4>
-            <p className="text-xs text-text-secondary">Ensure the rest of your reel delivers on the promise made in the first 3 seconds.</p>
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+            <div className="text-center space-y-3">
+              <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">1</div>
+              <h4 className="font-bold">The Pattern Interrupt</h4>
+              <p className="text-xs text-text-secondary">Break the user's scrolling habit with a bold claim or a visual surprise.</p>
+            </div>
+            <div className="text-center space-y-3">
+              <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">2</div>
+              <h4 className="font-bold">The Curiosity Gap</h4>
+              <p className="text-xs text-text-secondary">Ask a question or present a problem that the viewer *needs* to see the answer to.</p>
+            </div>
+            <div className="text-center space-y-3">
+              <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center mx-auto text-primary font-bold text-xl">3</div>
+              <h4 className="font-bold">The Value Promise</h4>
+              <p className="text-xs text-text-secondary">Clearly state what the viewer will gain by watching until the end of the video.</p>
+            </div>
           </div>
         </div>
-      </div>
 
-      <div className="text-center space-y-6">
-        <h3 className="text-2xl font-bold">Ready to Go Viral?</h3>
-        <p className="text-text-secondary">Join 10,000+ creators who are using ReelHooks.site to dominate the Instagram algorithm.</p>
-        <Link to="/dashboard" className="bg-primary text-white px-10 py-4 rounded-full font-bold inline-block hover:scale-105 transition-all shadow-xl shadow-primary/25">
-          Get Started for Free
-        </Link>
+        <div className="space-y-8">
+          <h3 className="text-3xl font-bold">Best Niches for Viral Hooks</h3>
+          <p className="text-text-secondary leading-relaxed">
+            While our <span className="text-white font-medium">free reel hook maker</span> works for any topic, certain niches see explosive growth when using optimized hooks. Here's how different creators are using ReelHooks.site:
+          </p>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
+            {[
+              { title: "Fitness & Health", desc: "Stop using generic 'workout tips' and start using hooks like 'Why your squats aren't working'." },
+              { title: "Finance & Crypto", desc: "Leverage FOMO and authority with hooks like 'The hidden bank rule costing you thousands'." },
+              { title: "Business & SaaS", desc: "Build trust and curiosity with 'How I built a 6-figure business in 90 days'." },
+              { title: "Beauty & Fashion", desc: "Use transformation hooks like 'The 5-minute glow up secret nobody tells you'." },
+              { title: "Tech & Gadgets", desc: "Trigger curiosity with 'Stop buying iPhones until you see this hidden feature'." },
+              { title: "Food & Cooking", desc: "Create instant cravings with 'The secret ingredient that makes any dish viral'." }
+            ].map((niche, i) => (
+              <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/10 space-y-2">
+                <h4 className="font-bold text-primary">{niche.title}</h4>
+                <p className="text-xs text-text-secondary leading-relaxed">{niche.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <div className="space-y-8">
+          <h3 className="text-3xl font-bold">How to Use the ReelHooks AI Suite</h3>
+          <div className="space-y-6">
+            <div className="flex items-start space-x-4">
+              <div className="bg-primary/20 p-3 rounded-xl text-primary shrink-0"><Sparkles className="w-6 h-6" /></div>
+              <div>
+                <h4 className="font-bold">Step 1: Define Your Niche</h4>
+                <p className="text-sm text-text-secondary">Our AI works best when it knows your target audience. Select from our 50+ pre-defined niches or enter your custom topic.</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <div className="bg-primary/20 p-3 rounded-xl text-primary shrink-0"><Zap className="w-6 h-6" /></div>
+              <div>
+                <h4 className="font-bold">Step 2: Generate & Iterate</h4>
+                <p className="text-sm text-text-secondary">Get 10+ viral hook options in seconds. Use the 'Hook Improver' to refine your own ideas or the 'Analyzer' to check viral potential.</p>
+              </div>
+            </div>
+            <div className="flex items-start space-x-4">
+              <div className="bg-primary/20 p-3 rounded-xl text-primary shrink-0"><CheckCircle2 className="w-6 h-6" /></div>
+              <div>
+                <h4 className="font-bold">Step 3: Complete Your Strategy</h4>
+                <p className="text-sm text-text-secondary">Don't stop at the hook. Generate SEO-optimized captions and high-reach hashtags to ensure your reel gets the maximum possible reach.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div className="bg-gradient-to-br from-primary/10 to-secondary/10 p-12 rounded-[3rem] border border-primary/20 text-center space-y-6">
+          <h3 className="text-3xl font-bold">Ready to Dominate the Algorithm?</h3>
+          <p className="text-text-secondary max-w-2xl mx-auto">
+            Join thousands of successful creators who have transformed their social media presence with ReelHooks.site. Our <span className="text-white font-medium">best ai hook generator</span> is free, fast, and built for growth.
+          </p>
+          <Link to="/dashboard" className="bg-primary text-white px-12 py-5 rounded-full font-bold inline-flex items-center space-x-3 hover:scale-105 transition-all shadow-2xl shadow-primary/30">
+            <span>Start Generating for Free</span>
+            <ArrowRight className="w-5 h-5" />
+          </Link>
+        </div>
       </div>
     </div>
+    
+    {/* FAQ Schema */}
+    <script type="application/ld+json">
+      {JSON.stringify({
+        "@context": "https://schema.org",
+        "@type": "FAQPage",
+        "mainEntity": [
+          {
+            "@type": "Question",
+            "name": "What is the best AI hook generator for Instagram Reels?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "ReelHooks.site is widely considered the best AI hook generator for Instagram Reels because it uses data-driven psychology and supports multiple languages including Hindi and Hinglish."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "How do I make my reels go viral in 2026?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "To go viral in 2026, you must focus on the first 3 seconds of your video. Using a strong hook that creates a curiosity gap or pattern interrupt is essential for high retention and reach."
+            }
+          },
+          {
+            "@type": "Question",
+            "name": "Does ReelHooks support Hindi and Hinglish?",
+            "acceptedAnswer": {
+              "@type": "Answer",
+              "text": "Yes, ReelHooks.site is the only viral hook generator optimized specifically for the Indian market with native support for Hindi and Hinglish hooks."
+            }
+          }
+        ]
+      })}
+    </script>
   </section>
 );
 
