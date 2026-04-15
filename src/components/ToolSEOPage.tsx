@@ -90,8 +90,14 @@ const ToolSEOPage: React.FC = () => {
       {
         "@type": "ListItem",
         "position": 2,
+        "name": "Tools",
+        "item": "https://www.reelhooks.site/explore"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
         "name": content.title,
-        "item": `https://www.reelhooks.site/${content.slug}`
+        "item": `https://www.reelhooks.site/tools/${content.slug}`
       }
     ]
   };

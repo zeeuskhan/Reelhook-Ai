@@ -94,6 +94,22 @@ const SEO = ({
       <link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
       <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       
+      {/* Social Media (Open Graph) */}
+      <meta property="og:title" content={fullTitle} />
+      <meta property="og:description" content={description} />
+      <meta property="og:type" content={type} />
+      <meta property="og:url" content={fullCanonical} />
+      <meta property="og:image" content={image} />
+      <meta property="og:site_name" content="ReelHooks.site" />
+      
+      {/* Twitter Card */}
+      <meta name="twitter:card" content="summary_large_image" />
+      <meta name="twitter:title" content={fullTitle} />
+      <meta name="twitter:description" content={description} />
+      <meta name="twitter:image" content={image} />
+      <meta name="twitter:site" content="@reelhooks" />
+      <meta name="twitter:creator" content="@reelhooks" />
+
       {/* Hreflang (Future-proofing for Hindi/Hinglish) */}
       <link rel="alternate" href={fullCanonical} hrefLang="x-default" />
       <link rel="alternate" href={fullCanonical} hrefLang="en" />
@@ -1038,10 +1054,6 @@ const FAQ = () => (
           { "@type": "ListItem", "position": 2, "name": "FAQ", "item": "https://www.reelhooks.site/faq" }
         ]
       }}
-    />
-    <SEO 
-      title="Frequently Asked Questions" 
-      description="Find answers to common questions about ReelHooks.site, our viral reel hook generator, and how to boost your social media engagement." 
     />
     <div className="text-center space-y-4">
       <h1 className="text-4xl md:text-6xl font-bold font-display">Frequently Asked Questions</h1>
