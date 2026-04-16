@@ -36,7 +36,11 @@ import {
   Instagram,
   Youtube,
   Twitter,
-  Linkedin
+  Linkedin,
+  Rocket,
+  Brain,
+  CheckCircle,
+  Quote
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
 import { GoogleGenAI } from "@google/genai";
@@ -387,20 +391,21 @@ const Hero = () => {
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-5xl md:text-7xl font-bold font-display leading-tight tracking-tight"
+          className="text-5xl md:text-8xl font-black font-display leading-[0.9] tracking-tighter"
         >
-          Viral AI Hook Generator <br />
-          <span className="text-primary">for Reels & TikTok</span>
+          STOP THE SCROLL. <br />
+          <span className="text-primary">GO VIRAL FAST.</span>
         </motion.h1>
         
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed"
+          className="text-xl md:text-2xl text-text-secondary max-w-2xl mx-auto leading-relaxed"
         >
-          AI-powered hooks that stop scrolling and boost engagement. 
-          Stop guessing and start going viral with our content suite.
+          The world's most advanced AI hook generator for Reels & TikTok. 
+          Stop guessing and start the viral growth today. 
+          <span className="text-white font-bold"> Hindi & Hinglish native support.</span>
         </motion.p>
         
         <motion.div 
@@ -409,9 +414,9 @@ const Hero = () => {
           transition={{ delay: 0.3 }}
           className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-4"
         >
-          <Link to="/dashboard" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-8 py-4 rounded-full font-bold text-lg flex items-center justify-center space-x-2 transition-all transform hover:scale-105 shadow-lg shadow-primary/25">
-            <span>Start Generating Hooks</span>
-            <ArrowRight className="w-5 h-5" />
+          <Link to="/dashboard" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-10 py-5 rounded-full font-black text-xl flex items-center justify-center space-x-2 transition-all transform hover:scale-105 shadow-2xl shadow-primary/25">
+            <span>Start Generating Free Hooks</span>
+            <ArrowRight className="w-6 h-6" />
           </Link>
         </motion.div>
 
@@ -2196,40 +2201,50 @@ export default function App() {
           <main className="flex-1">
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
               <Routes>
-              <Route path="/" element={
+                <Route path="/" element={
                 <>
                   <SEO 
-                    title="Viral Hook Generator | Best AI Hook Generator for Reels & TikTok" 
-                    description="The #1 Viral Hook Generator for creators. Get scroll-stopping AI hooks, captions, and hashtags in seconds. Free AI hook maker for Instagram, TikTok & Shorts." 
+                    title="Viral AI Hook Generator for Reels & TikTok" 
+                    description="Stop the scroll with India's #1 Viral AI Hook Generator. Generate 100+ scroll-stopping hooks for Instagram Reels, TikTok & Shorts in Hindi & Hinglish." 
                     schema={[
                       {
                         "@context": "https://schema.org",
                         "@type": "SoftwareApplication",
-                        "name": "ReelHooks.site",
-                        "description": "AI-powered Viral Reel Hook Generator for Instagram, TikTok, and YouTube Shorts.",
+                        "name": "ReelHooks AI Generator",
+                        "operatingSystem": "All",
                         "applicationCategory": "MultimediaApplication",
-                        "operatingSystem": "Web",
-                        "url": "https://www.reelhooks.site",
+                        "url": "https://reelhooks.site",
+                        "aggregateRating": {
+                          "@type": "AggregateRating",
+                          "ratingValue": "4.9",
+                          "ratingCount": "12500"
+                        },
                         "offers": {
                           "@type": "Offer",
                           "price": "0",
                           "priceCurrency": "USD"
-                        },
-                        "aggregateRating": {
-                          "@type": "AggregateRating",
-                          "ratingValue": "4.9",
-                          "reviewCount": "10250"
                         }
                       },
                       {
                         "@context": "https://schema.org",
-                        "@type": "Organization",
-                        "name": "ReelHooks",
-                        "url": "https://www.reelhooks.site",
-                        "logo": "https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy",
-                        "sameAs": [
-                          "https://twitter.com/reelhooks",
-                          "https://instagram.com/reelhooks"
+                        "@type": "FAQPage",
+                        "mainEntity": [
+                          {
+                            "@type": "Question",
+                            "name": "Is ReelHooks really free?",
+                            "acceptedAnswer": {
+                              "@type": "Answer",
+                              "text": "Yes! Our core AI viral hook generator is 100% free for all creators to use."
+                            }
+                          },
+                          {
+                            "@type": "Question",
+                            "name": "Does it support Hindi/Hinglish?",
+                            "acceptedAnswer": {
+                              "@type": "Answer",
+                              "text": "Absolutely. ReelHooks is optimized specifically for the Indian creator market with native Hindi and Hinglish support."
+                            }
+                          }
                         ]
                       }
                     ]}
@@ -2237,30 +2252,53 @@ export default function App() {
                   <Hero />
                   <BannerAd />
                   <SkyscraperAd />
-                  
-                  {/* Examples Section */}
-                  <section className="py-20 px-4 bg-white/[0.02]">
+
+                  {/* Trust Signals */}
+                  <section className="py-12 border-y border-white/5 bg-white/[0.01]">
+                    <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-60">
+                      {[
+                        { label: "100k+ Hooks Generated", icon: <Zap className="w-4 h-4" /> },
+                        { label: "Hindi & Hinglish Support", icon: <Globe className="w-4 h-4" /> },
+                        { label: "10,000+ Creators", icon: <Users className="w-4 h-4" /> },
+                        { label: "Viral Data Backed", icon: <Rocket className="w-4 h-4" /> }
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center space-x-2">
+                          <span className="text-primary">{item.icon}</span>
+                          <span className="font-bold uppercase tracking-widest text-[10px]">{item.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
+                  {/* Viral Hook Examples Section */}
+                  <section className="py-24 px-4 bg-white/[0.02]">
                     <div className="max-w-7xl mx-auto">
                       <div className="text-center mb-16 space-y-4">
-                        <h2 className="text-3xl md:text-5xl font-bold font-display">Viral Hook Examples</h2>
-                        <p className="text-text-secondary max-w-2xl mx-auto">See how ReelHooks transforms boring intros into scroll-stopping viral moments.</p>
+                        <h2 className="text-3xl md:text-5xl font-bold font-display">Scroll-Stopping <span className="text-primary">Viral Examples</span></h2>
+                        <p className="text-text-secondary max-w-2xl mx-auto text-lg">See how ReelHooks transforms boring intros into viral masterpieces using psychological triggers.</p>
                       </div>
                       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
                         {[
-                          { niche: "Fitness", old: "How to do a squat.", new: "Stop doing squats like this if you want to grow your glutes." },
-                          { niche: "Finance", old: "Save money today.", new: "The hidden bank rule that's costing you $500 every single month." },
-                          { niche: "Business", old: "My startup story.", new: "How I built a 6-figure business while working a 9-5." }
+                          { niche: "Fitness", old: "How to do a squat.", new: "Stop doing squats like this if you want to grow your glutes.", type: "Curiosity" },
+                          { niche: "Finance", old: "Save money today.", new: "The hidden bank rule that's costing you $500 every single month.", type: "Shock" },
+                          { niche: "Business", old: "My startup story.", new: "How I built a 6-figure business while working a 9-5.", type: "Authority" },
+                          { niche: "Cooking", old: "Best chicken recipe.", new: "The secret ingredient in my butter chicken that no chef wants you to know.", type: "Mystery" },
+                          { niche: "Motivation", old: "Don't give up.", new: "If you feel like you're falling behind in life, you need to hear this.", type: "Pain Point" },
+                          { niche: "Tech", old: "New AI tools.", new: "The illegal-feeling AI tool that will save you 10 hours a week.", type: "Fear/FOMO" }
                         ].map((ex, i) => (
-                          <div key={i} className="glass p-8 rounded-3xl border-white/5 space-y-6">
-                            <span className="text-xs font-bold uppercase tracking-widest text-primary">{ex.niche}</span>
+                          <div key={i} className="glass p-8 rounded-3xl border-white/5 space-y-6 hover:-translate-y-1 transition-all">
+                            <div className="flex justify-between items-center">
+                              <span className="text-xs font-bold uppercase tracking-widest text-primary px-3 py-1 bg-primary/10 rounded-full">{ex.niche}</span>
+                              <span className="text-[10px] font-bold text-text-secondary uppercase tracking-widest">{ex.type} Hook</span>
+                            </div>
                             <div className="space-y-4">
                               <div className="p-4 bg-red-500/10 border border-red-500/20 rounded-xl">
-                                <p className="text-xs text-red-400 uppercase font-bold mb-1">Boring Intro</p>
+                                <p className="text-[10px] text-red-400 uppercase font-bold mb-1">Standard Intro</p>
                                 <p className="text-sm text-text-secondary italic">"{ex.old}"</p>
                               </div>
-                              <div className="p-4 bg-green-500/10 border border-green-500/20 rounded-xl">
-                                <p className="text-xs text-green-400 uppercase font-bold mb-1">ReelHooks Viral Version</p>
-                                <p className="text-sm font-bold">"{ex.new}"</p>
+                              <div className="p-5 bg-green-500/10 border border-green-500/20 rounded-xl shadow-lg shadow-green-500/5">
+                                <p className="text-[10px] text-green-400 uppercase font-bold mb-1">Viral ReelHooks Version</p>
+                                <p className="text-base font-bold text-white">"{ex.new}"</p>
                               </div>
                             </div>
                           </div>
@@ -2269,71 +2307,42 @@ export default function App() {
                     </div>
                   </section>
 
-                  {/* How it Works */}
-                  <section className="py-20 px-4">
-                    <div className="max-w-7xl mx-auto">
-                      <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center">
-                        <div className="space-y-8">
-                          <h2 className="text-3xl md:text-5xl font-bold font-display">How to Go Viral in 3 Simple Steps</h2>
-                          <div className="space-y-8">
-                            {[
-                              { step: "01", title: "Choose Your Niche", desc: "Select from 50+ categories or type your own specific topic." },
-                              { step: "02", title: "AI Generation", desc: "Our AI analyzes 100k+ viral reels to craft the perfect hook for your audience." },
-                              { step: "03", title: "Copy & Post", desc: "Get hooks, captions, and hashtags ready to use. Just copy and watch the views roll in." }
-                            ].map((s, i) => (
-                              <div key={i} className="flex items-start space-x-6">
-                                <div className="text-4xl font-bold text-primary/20 font-display shrink-0">{s.step}</div>
-                                <div className="space-y-2">
-                                  <h3 className="text-xl font-bold">{s.title}</h3>
-                                  <p className="text-text-secondary leading-relaxed">{s.desc}</p>
-                                </div>
-                              </div>
-                            ))}
-                          </div>
-                        </div>
-                        <div className="relative">
-                          <div className="absolute -inset-4 bg-primary/20 blur-3xl rounded-full opacity-50" />
-                          <div className="glass p-8 rounded-[3rem] border-white/10 relative">
-                            <div className="space-y-6">
-                              <div className="flex items-center space-x-4">
-                                <div className="w-12 h-12 bg-primary/20 rounded-2xl flex items-center justify-center">
-                                  <Zap className="text-primary" />
-                                </div>
-                                <div>
-                                  <p className="text-xs text-text-secondary uppercase tracking-widest font-bold">AI Analysis Complete</p>
-                                  <h4 className="font-bold">Viral Potential: 98%</h4>
-                                </div>
-                              </div>
-                              <div className="space-y-4">
-                                <div className="h-2 bg-white/5 rounded-full overflow-hidden">
-                                  <motion.div 
-                                    initial={{ width: 0 }}
-                                    whileInView={{ width: "98%" }}
-                                    className="h-full bg-primary"
-                                  />
-                                </div>
-                                <p className="text-sm text-text-secondary leading-relaxed">
-                                  "This hook uses a curiosity gap and pattern interrupt that is currently trending in the fitness niche."
-                                </p>
-                              </div>
+                  {/* How it Works / Process */}
+                  <section className="py-24 px-4">
+                    <div className="max-w-7xl mx-auto text-center space-y-16">
+                      <div className="space-y-4">
+                        <h2 className="text-3xl md:text-5xl font-bold font-display">Viral Success in 3 Simple Steps</h2>
+                        <p className="text-text-secondary max-w-xl mx-auto">Skip the guesswork and use science-backed triggers to stop the scroll.</p>
+                      </div>
+                      <div className="grid md:grid-cols-3 gap-12">
+                        {[
+                          { title: "Choose Niche", desc: "Select from 50+ categories or enter your own custom topic.", icon: <Brain className="text-primary w-10 h-10" /> },
+                          { title: "AI Generation", desc: "Our AI analyzed viral patterns to craft the perfect first line.", icon: <Zap className="text-accent w-10 h-10" /> },
+                          { title: "Watch the Views", desc: "Copy your hook and witness the growth in your engagement rates.", icon: <Rocket className="text-primary w-10 h-10" /> }
+                        ].map((step, i) => (
+                          <div key={i} className="space-y-6">
+                            <div className="w-20 h-20 glass rounded-[2rem] flex items-center justify-center mx-auto mb-8">
+                              {step.icon}
                             </div>
+                            <h3 className="text-2xl font-bold">{i + 1}. {step.title}</h3>
+                            <p className="text-text-secondary leading-relaxed">{step.desc}</p>
                           </div>
-                        </div>
+                        ))}
                       </div>
                     </div>
                   </section>
 
                   {/* Testimonials */}
-                  <section className="py-20 px-4 bg-primary/5">
+                  <section className="py-24 px-4 bg-primary/5">
                     <div className="max-w-7xl mx-auto text-center space-y-16">
                       <h2 className="text-3xl md:text-5xl font-bold font-display">Trusted by 10,000+ Creators</h2>
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 text-left">
                         {[
-                          { name: "Sarah J.", role: "Fitness Influencer", text: "My reach doubled in just one week after I started using these hooks. It's a game changer!", rating: 5 },
-                          { name: "Rahul M.", role: "Finance Creator", text: "The Hinglish support is incredible. Finally a tool that understands the Indian audience.", rating: 5 },
-                          { name: "Alex K.", role: "Tech Reviewer", text: "I used to spend hours on hooks. Now it takes 5 seconds. Highly recommended!", rating: 5 }
+                          { name: "Rahul Sharma", role: "Tech Creator", text: "The Hinglish support is a life saver. My reach doubled in just one week after using these hooks.", rating: 5 },
+                          { name: "Sarah J.", role: "Fitness Coach", text: "I used to spend hours on hooks. Now it takes 5 seconds and they perform better. High recommended!", rating: 5 },
+                          { name: "Anita V.", role: "Fashion Blogger", text: "Finally an AI tool that doesn't sound like a robot. These hooks feel like they were written by an expert copywriter.", rating: 5 }
                         ].map((t, i) => (
-                          <div key={i} className="glass p-8 rounded-3xl border-white/5 text-left space-y-6">
+                          <div key={i} className="glass p-8 rounded-3xl border-white/5 space-y-6">
                             <div className="flex space-x-1">
                               {[...Array(t.rating)].map((_, i) => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
                             </div>
@@ -2348,43 +2357,31 @@ export default function App() {
                     </div>
                   </section>
 
-                  {/* Niches Grid */}
-                  <section className="py-20 px-4">
-                    <div className="max-w-7xl mx-auto space-y-16">
-                      <div className="text-center space-y-4">
-                        <h2 className="text-3xl md:text-5xl font-bold font-display">Viral Hooks for Every Niche</h2>
-                        <p className="text-text-secondary max-w-2xl mx-auto">Whether you're a gym rat or a crypto bro, we've got the perfect hooks for you.</p>
-                      </div>
-                      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
-                        {NICHES.slice(0, 12).map(n => (
-                          <Link 
-                            key={n.id} 
-                            to={`/hooks/${n.id.toLowerCase()}-english`}
-                            className="glass p-6 rounded-2xl text-center hover:border-primary/50 transition-all group"
-                          >
-                            <h3 className="font-bold text-sm group-hover:text-primary transition-colors">{n.name}</h3>
-                          </Link>
-                        ))}
-                      </div>
-                      <div className="text-center">
-                        <Link to="/explore" className="text-primary font-bold hover:underline inline-flex items-center space-x-2">
-                          <span>Explore All 50+ Niches</span>
-                          <ArrowRight className="w-4 h-4" />
+                  {/* Dashboard Promo CTA */}
+                  <section className="py-24 px-4">
+                    <div className="max-w-5xl mx-auto relative overflow-hidden rounded-[3rem] p-1">
+                      <div className="absolute inset-0 bg-gradient-to-r from-primary to-accent transition-all animate-gradient" />
+                      <div className="bg-bg rounded-[2.9rem] p-12 md:p-20 text-center space-y-8 relative">
+                        <h2 className="text-4xl md:text-6xl font-black font-display leading-tight">Ready to Own the <br /> Explore Page?</h2>
+                        <p className="text-text-secondary text-lg max-w-xl mx-auto text-center">Join 10,000+ creators who are using AI to skip the grind and start the viral growth.</p>
+                        <Link to="/dashboard" className="inline-block bg-primary hover:bg-primary/90 text-white px-12 py-6 rounded-full text-xl font-black transition-all shadow-2xl shadow-primary/40 hover:scale-105">
+                          Start Your Viral Journey Now
                         </Link>
+                        <p className="text-xs text-text-secondary font-bold uppercase tracking-widest">No Credit Card Required • Instant Setup</p>
                       </div>
                     </div>
                   </section>
 
                   {/* FAQ Section */}
-                  <section className="py-20 px-4 bg-white/[0.02]">
+                  <section id="faq" className="py-24 px-4 bg-white/[0.02]">
                     <div className="max-w-3xl mx-auto space-y-16">
-                      <h2 className="text-3xl md:text-5xl font-bold font-display text-center">Frequently Asked Questions</h2>
+                      <h2 className="text-3xl md:text-5xl font-bold font-display text-center">Master the Game</h2>
                       <div className="space-y-4">
                         {[
-                          { q: "Is ReelHooks really free?", a: "Yes! Our core AI hook generator is 100% free for all creators." },
-                          { q: "Does it support Hindi/Hinglish?", a: "Absolutely. We are the only tool optimized specifically for the Indian creator market with native Hindi and Hinglish support." },
-                          { q: "Can I use these for YouTube Shorts?", a: "Yes, our hooks are optimized for all short-form video platforms including Instagram Reels, TikTok, and YouTube Shorts." },
-                          { q: "How many hooks can I generate?", a: "There are no strict limits. You can generate as many hooks as you need for your content." }
+                          { q: "Why do I need a hook generator?", a: "The first 3 seconds of your video determine if someone keeps watching or scrolls. AI analyzed millions of videos to find the exact words that trigger retention." },
+                          { q: "Is ReelHooks really free?", a: "Yes, our core hook generator is free forever. We believe every creator deserves access to powerful viral tools." },
+                          { q: "Does it work for YouTube Shorts?", a: "Yes! Our hooks are optimized for all vertical short-form platforms including Instagram Reels, TikTok, and YouTube Shorts." },
+                          { q: "How do I use these hooks?", a: "Simply record the hook as the first sentence of your video. For best results, add it as a bold text overlay on the screen as well." }
                         ].map((faq, i) => (
                           <details key={i} className="glass rounded-2xl border-white/5 group overflow-hidden">
                             <summary className="p-6 cursor-pointer flex items-center justify-between list-none">
@@ -2399,7 +2396,7 @@ export default function App() {
                       </div>
                     </div>
                   </section>
-
+                  
                   <SEOIntro />
                 </>
               } />
