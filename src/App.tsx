@@ -80,7 +80,7 @@ const SEO = ({
   const fullCanonical = canonical || `${siteUrl}${window.location.pathname}`;
   
   // 2026 Semantic Keywords
-  const keywords = "best hooks for instagram reels, viral hooks for instagram reels, instagram reel hook examples, how to write hooks for reels, reel opening hook ideas, viral instagram hook generator, instagram reel hook templates, short hooks for instagram reels, catchy hooks for reels, scroll stopping hooks for instagram, viral hooks for content creators, hooks to start instagram reels, engaging hooks for instagram videos, instagram hook writing tips, hook ideas for short form videos, viral hook examples for creators, instagram hook generator free, reel hook writing formula, powerful hooks for instagram reels, hook ideas for viral reels, instagram reel opening lines, best first line for reels, hooks that make reels go viral, engaging instagram hook ideas, viral hook ideas for influencers, reel hook ideas for beginners, instagram hooks for business reels, reels hook ideas for marketing, instagram reel hook strategy, reel intro hook examples, viral hook phrases for reels, instagram reel hook tricks, hook lines for short videos, instagram reel hook list, hook examples for social media videos, reel hook writing tips, viral reel intro ideas, hooks to stop scrolling instagram, instagram reel attention grabbers, viral hooks for instagram creators, hooks for educational reels, instagram reel storytelling hooks, viral intro hooks for reels, hook ideas for motivational reels, hook ideas for fitness reels, hook ideas for business reels, instagram hook copywriting tips, hooks for viral instagram content, engaging hooks for reels videos, instagram hook script ideas, how to grow instagram reels fast, instagram reels growth tips, how to get views on reels, instagram reel strategy for beginners, how to go viral on reels, instagram reels algorithm tips, best reel posting strategy, how to increase reel engagement, instagram reel growth hacks, how to get more reel reach, instagram growth tips for creators, how to make viral reels, reel engagement tricks, instagram reels seo tips, how to increase reel views, best reel ideas for growth, instagram reel optimization tips, how to make reels viral, reel content ideas for creators, instagram growth strategy 2026, how to get followers from reels, instagram reel marketing tips, instagram reel engagement tips, how to boost reel reach, instagram reels posting tips, best time to post reels tips, instagram reels ranking factors, how reels go viral on instagram, reel content strategy for beginners, instagram reels audience growth, how to make engaging reels, instagram reels performance tips, instagram reels creator tips, how to increase reel shares, instagram reel success tips, how to grow instagram with reels, reel marketing strategy instagram, instagram reel creator strategy, instagram reels tips for business, reels growth tricks for creators, instagram reels engagement secrets, how to boost reels organically, reel reach improvement tips, instagram reels content strategy, reel growth tips for beginners, instagram reels success formula, reel growth ideas instagram, how reels algorithm works, reel growth hacks for creators, instagram reels traffic tips, reel viral strategy guide, instagram reels marketing ideas, how to grow reels account, instagram reel creator tips, reels engagement formula, instagram reels marketing tricks, reels audience growth tips, instagram reels optimization guide, reel content planning tips, instagram reel influencer tips, reels strategy for creators, instagram reel creator growth, reels marketing for beginners, instagram reels branding tips, reels content planning strategy, instagram reel viral tips, instagram creator growth tips, reels reach strategy, instagram reels performance hacks, reel views growth tips, reels audience engagement tips, instagram reels engagement strategy, reels success tips creators, instagram reels creator growth tips, reels optimization tricks, instagram reels strategy guide, reel views increase tips, instagram reels marketing strategy, reels growth plan instagram, instagram reel creator tricks, reels engagement hacks, instagram reels viral secrets, reel content creator tips, instagram reels viral strategy, reel marketing ideas instagram, instagram reels engagement formula, reel traffic growth tips, instagram reel audience strategy, reel engagement growth tips, instagram reels success tricks, reels content ideas creators, instagram reel growth secrets, reel viral growth strategy, instagram reel creator hacks, reels reach boost tips, instagram reel audience growth tips, reels engagement improvement tips, instagram reels success strategy, reel growth tricks instagram, instagram reels growth blueprint, instagram caption generator free, reel caption generator tool, viral caption generator instagram, instagram caption ideas for reels, engaging captions for reels, caption ideas for viral reels, short captions for instagram reels, instagram caption writing tips, reel caption templates, instagram caption maker online, viral caption ideas instagram, caption generator for creators, instagram caption ideas for growth, reels caption ideas list, caption writing formula instagram, instagram caption inspiration, caption ideas for influencers, reels caption writing tips, viral captions for reels, caption ideas for business reels, instagram caption strategy, caption ideas for content creators, short viral captions instagram, instagram caption creator tool, reels caption generator ai, instagram caption growth tips, viral caption writing tips, instagram caption ideas list, reels caption inspiration, caption ideas for instagram creators, caption generator social media, instagram caption maker free, reels caption formula, viral caption ideas creators, instagram caption writing tricks, caption ideas for viral content, instagram caption creativity tips, reels caption ideas marketing, caption generator for reels, instagram caption hack tips, reels caption ideas beginners, instagram caption growth hacks, reels caption optimization tips, instagram caption writing guide, caption ideas for engagement, reels caption viral tips, instagram caption engagement tips, caption ideas for reels marketing, instagram caption writing ideas, reels caption success tips";
+  const keywords = "hook generator, viral hook generator, best hook generator, ai hook generator, instagram hook generator, tiktok hook generator, reel hook generator, hook generator for reels, viral hooks for content creators, short form video hooks, hook generator free, best hooks for instagram reels, viral hooks for instagram reels, instagram reel hook examples, how to write hooks for reels, reel opening hook ideas, viral instagram hook generator, instagram reel hook templates, short hooks for instagram reels, catchy hooks for reels, scroll stopping hooks for instagram, hooks to start instagram reels, engaging hooks for instagram videos, instagram hook writing tips, hook ideas for short form videos, viral hook examples for creators, instagram hook generator free, reel hook writing formula, powerful hooks for instagram reels, hook ideas for viral reels, instagram reel opening lines, best first line for reels, hooks that make reels go viral, engaging instagram hook ideas, viral hook ideas for influencers, reel hook ideas for beginners, instagram hooks for business reels, reels hook ideas for marketing, instagram reel hook strategy, reel intro hook examples, viral hook phrases for reels, instagram reel hook tricks, hook lines for short videos, instagram reel hook list, hook examples for social media videos, reel hook writing tips, viral reel intro ideas, hooks to stop scrolling instagram, instagram reel attention grabbers, viral hooks for instagram creators, hooks for educational reels, instagram reel storytelling hooks, viral intro hooks for reels, hook ideas for motivational reels, hook ideas for fitness reels, hook ideas for business reels, instagram hook copywriting tips, hooks for viral instagram content, engaging hooks for reels videos, instagram hook script ideas";
 
   return (
     <Helmet>
@@ -263,7 +263,7 @@ const Navbar = () => {
           </Link>
           
           <div className="hidden md:flex items-center space-x-8">
-            <Link to="/#features" className="text-text-secondary hover:text-white transition-colors">Features</Link>
+            <Link to="/tools/hook-generator" className="text-text-secondary hover:text-white transition-colors">Hook Generator</Link>
             <Link to="/explore" className="text-text-secondary hover:text-white transition-colors">Explore</Link>
             <Link to="/blog" className="text-text-secondary hover:text-white transition-colors">Blog</Link>
             <Link to="/about" className="text-text-secondary hover:text-white transition-colors">About</Link>
@@ -286,7 +286,7 @@ const Navbar = () => {
             exit={{ opacity: 0, y: -20 }}
             className="md:hidden glass border-b border-white/10 px-4 py-6 space-y-4"
           >
-          <Link to="/#features" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Features</Link>
+          <Link to="/tools/hook-generator" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Hook Generator</Link>
           <Link to="/explore" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Explore</Link>
           <Link to="/blog" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Blog</Link>
           <Link to="/about" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>About</Link>
@@ -333,9 +333,9 @@ const Footer = () => (
         <div className="space-y-4">
           <h4 className="font-bold mb-4 text-lg">Product</h4>
           <ul className="space-y-3 text-base text-text-secondary">
-            <li><Link to="/dashboard" className="hover:text-primary transition-colors py-1 block">Hook Generator</Link></li>
-            <li><Link to="/dashboard" className="hover:text-primary transition-colors py-1 block">Caption Builder</Link></li>
-            <li><Link to="/dashboard" className="hover:text-primary transition-colors py-1 block">Hashtag Packs</Link></li>
+            <li><Link to="/tools/hook-generator" className="hover:text-primary transition-colors py-1 block">Hook Generator</Link></li>
+            <li><Link to="/tools/instagram-caption-generator" className="hover:text-primary transition-colors py-1 block">Caption Builder</Link></li>
+            <li><Link to="/tools/instagram-hashtag-generator" className="hover:text-primary transition-colors py-1 block">Hashtag Packs</Link></li>
           </ul>
         </div>
         <div className="space-y-4">
@@ -390,7 +390,7 @@ const Hero = () => {
           className="text-5xl md:text-7xl font-bold font-display leading-tight tracking-tight"
         >
           Viral AI Hook Generator <br />
-          <span className="text-primary">for Instagram Reels</span>
+          <span className="text-primary">for Reels & TikTok</span>
         </motion.h1>
         
         <motion.p 
@@ -2199,8 +2199,8 @@ export default function App() {
               <Route path="/" element={
                 <>
                   <SEO 
-                    title="Viral AI Hook Generator | Free Reel Hook Maker for Instagram & TikTok" 
-                    description="Best AI Hook Generator for creators. Get scroll-stopping viral hooks, captions, and hashtags in seconds. Free AI reel hook maker with Hinglish & Hindi support." 
+                    title="Viral Hook Generator | Best AI Hook Generator for Reels & TikTok" 
+                    description="The #1 Viral Hook Generator for creators. Get scroll-stopping AI hooks, captions, and hashtags in seconds. Free AI hook maker for Instagram, TikTok & Shorts." 
                     schema={[
                       {
                         "@context": "https://schema.org",
@@ -2421,6 +2421,7 @@ export default function App() {
               <Route path="/tools/instagram-dp-generator" element={<DPGenerator />} />
               <Route path="/tools/instagram-transcript-generator" element={<TranscriptGenerator />} />
               <Route path="/tools/instagram-mockup-generator" element={<MockupGenerator />} />
+              <Route path="/tools/hook-generator" element={<ToolSEOPage />} />
               <Route path="/:slug" element={<SEOArticlePage />} />
             </Routes>
           </Suspense>
