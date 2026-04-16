@@ -90,6 +90,7 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
       <Helmet>
         <title>{content.metaTitle} | ReelHooks.site</title>
         <meta name="description" content={content.metaDescription} />
+        <meta name="keywords" content={content.keywords.join(', ')} />
         <link rel="canonical" href={`https://www.reelhooks.site/tools/${content.slug}`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
