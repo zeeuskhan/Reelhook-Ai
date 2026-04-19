@@ -123,6 +123,15 @@ const SEOArticlePage: React.FC = () => {
       <BannerAd />
       <SkyscraperAd />
 
+      {/* Breadcrumbs */}
+      <nav className="max-w-4xl mx-auto px-4 py-8 flex items-center space-x-2 text-sm text-text-secondary overflow-x-auto whitespace-nowrap">
+        <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+        <span>/</span>
+        <Link to="/blog" className="hover:text-primary transition-colors">Guides</Link>
+        <span>/</span>
+        <span className="text-white font-medium truncate">{article.title}</span>
+      </nav>
+
       {/* Main Content */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
@@ -182,23 +191,20 @@ const SEOArticlePage: React.FC = () => {
         </div>
       </section>
 
-      {/* Internal Links */}
-      <section className="py-20 px-4 border-t border-white/5">
-        <div className="max-w-7xl mx-auto text-center space-y-8">
-          <h2 className="text-2xl font-bold font-display">Explore Other AI Tools</h2>
-          <div className="flex flex-wrap justify-center gap-4">
-            {Object.values(SEO_ARTICLES).filter(a => a.slug !== article.slug).map(a => (
+      {/* Internal Links Hub */}
+      <section className="py-12 border-t border-white/5 bg-accent/5">
+        <div className="max-w-7xl mx-auto text-center space-y-12">
+          <h2 className="text-3xl font-bold font-display uppercase italic text-primary">Creator Growth Network</h2>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
+            {Object.values(SEO_ARTICLES).map(a => (
               <Link 
                 key={a.slug} 
                 to={`/${a.slug}`}
-                className="px-6 py-3 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-base font-medium"
+                className="p-4 rounded-xl bg-white/5 hover:bg-white/10 border border-white/10 transition-all text-sm font-bold flex items-center justify-center text-center"
               >
-                {a.title}
+                {a.title.split(':')[0]}
               </Link>
             ))}
-            <Link to="/" className="px-6 py-3 rounded-xl bg-primary/10 hover:bg-primary/20 border border-primary/20 transition-all text-base font-medium text-primary">
-              Main Hook Generator
-            </Link>
           </div>
         </div>
       </section>
