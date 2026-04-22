@@ -1450,11 +1450,11 @@ const SiteIndex = () => (
           <h3 className="text-xl font-bold">Advanced Content</h3>
           <ul className="space-y-3">
             {[
+              { name: "Viral Hook Masterclass", slug: "free-ai-hook-generator" },
               { name: "Photography Hacks", slug: "photography-reel-hooks" },
               { name: "Real Estate Mastery", slug: "instagram-reel-hooks-for-real-estate" },
               { name: "Coaching & Education", slug: "education-reel-hooks" },
-              { name: "Blog: Viral Secrets", slug: "blog" },
-              { name: "FAQ Masterclass", slug: "faq" }
+              { name: "Blog: Viral Secrets", slug: "blog" }
             ].map(link => (
               <li key={link.slug}><Link to={`/${link.slug}`} className="text-text-secondary hover:text-primary transition-colors flex items-center gap-2 justify-center md:justify-start">
                 <ArrowRight className="w-3 h-3" /> {link.name}
