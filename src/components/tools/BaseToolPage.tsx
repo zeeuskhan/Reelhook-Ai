@@ -85,6 +85,31 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
     }))
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.reelhooks.site/"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Tools",
+        "item": "https://www.reelhooks.site/explore"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": content.title,
+        "item": `https://www.reelhooks.site/tools/${content.slug}`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background text-text-primary">
       <Helmet>
@@ -94,6 +119,7 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
         <link rel="canonical" href={`https://www.reelhooks.site/tools/${content.slug}`} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
       </Helmet>
 
       <section className="relative pt-32 pb-20 px-4">

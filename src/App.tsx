@@ -120,10 +120,9 @@ const SEO = ({
       <meta name="twitter:site" content="@reelhooks" />
       <meta name="twitter:creator" content="@reelhooks" />
 
-      {/* Hreflang (Future-proofing for Hindi/Hinglish) */}
+      {/* Hreflang (Clean) */}
       <link rel="alternate" href={fullCanonical} hrefLang="x-default" />
       <link rel="alternate" href={fullCanonical} hrefLang="en" />
-      <link rel="alternate" href={fullCanonical.replace(".site/", ".site/hi/")} hrefLang="hi" />
 
       {/* OpenGraph / Facebook */}
       <meta property="og:locale" content="en_US" />
