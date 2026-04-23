@@ -1082,6 +1082,8 @@ const About = () => (
         </div>
       ))}
     </div>
+
+    <SiteIndex />
   </div>
 );
 
@@ -1175,6 +1177,8 @@ const Contact = () => (
         </button>
       </form>
     </div>
+
+    <SiteIndex />
   </div>
 );
 
@@ -1304,6 +1308,8 @@ const FAQ = () => (
         Contact Support
       </Link>
     </div>
+
+    <SiteIndex />
   </div>
 );
 
@@ -1372,6 +1378,65 @@ const Legal = ({ title }: { title: string }) => (
     </div>
   </div>
 );;
+
+const ViralHookStrategies = () => (
+  <section className="py-24 px-4 bg-black/50">
+    <div className="max-w-4xl mx-auto space-y-12 text-center md:text-left">
+      <div className="space-y-6">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight text-white">
+          Viral <span className="text-primary italic">Hook Strategies</span> for 2026
+        </h2>
+        <p className="text-xl text-text-secondary leading-relaxed">
+          The secret to stopping the scroll isn't luck—it's psychology. Using a **free ai hook generator** is only the first step. To truly dominate the Instagram and TikTok algorithms in 2026, you need to combine AI creativity with proven retention frameworks.
+        </p>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold text-white uppercase tracking-tighter flex items-center gap-3">
+            <Zap className="text-primary w-6 h-6" /> The Pattern Interrupt
+          </h3>
+          <p className="text-text-secondary">
+            Bhai, jab koi scroll karta hai, wo ek automatic mode mein hota hai. Aapka kaam hai unhe jagaana. A great hook like "Wait, stop doing this!" paired with a sudden movement on screen creates a "Pattern Interrupt" that forces the brain to pay attention.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold text-white uppercase tracking-tighter flex items-center gap-3">
+            <Star className="text-primary w-6 h-6" /> The Reward Promise
+          </h3>
+          <p className="text-text-secondary">
+            Logo ko lagna chahiye ki aapki video unka problem solve karegi. Always lead with the benefit. "This simple tool will save you 10 hours a week" is far better than "Let me show you a tool I found." The reward must be clear in the first 2 seconds.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold text-white uppercase tracking-tighter flex items-center gap-3">
+            <Users className="text-primary w-6 h-6" /> Social Proof Hooks
+          </h3>
+          <p className="text-text-secondary">
+            "Why 100,000 creators are using this secret..." Immediately establishes trust. In 2026, authority is a massive driver for the algorithm. Use our **ai hook generator** to find the right authority-based openers for your niche.
+          </p>
+        </div>
+
+        <div className="space-y-4">
+          <h3 className="text-2xl font-bold text-white uppercase tracking-tighter flex items-center gap-3">
+            <TrendingUp className="text-primary w-6 h-6" /> The Curiosity Gap
+          </h3>
+          <p className="text-text-secondary">
+            Bhai, curiosity is the strongest human emotion. Start a story, but don't finish it. "I tried the most popular growth hack for 30 days and the results were NOT what I expected..." This forces the viewer to watch the end to close the mental loop.
+          </p>
+        </div>
+      </div>
+
+      <div className="pt-8 border-t border-white/5 text-center">
+        <p className="text-text-secondary text-sm">
+          Want more? Explore our <a href="/blog" className="text-primary hover:underline">Content Strategy Blog</a> for deep dives into viral growth.
+        </p>
+      </div>
+    </div>
+  </section>
+);
 
 // --- Site Index Component (Extreme SEO Internal Linking) ---
 const SiteIndex = () => (
@@ -2886,6 +2951,7 @@ export default function App() {
 
                   <PsychologyOfHooks />
                   <SuccessStories />
+                  <ViralHookStrategies />
                   <ExpandedFAQ />
                   
                   <SiteIndex />
