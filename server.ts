@@ -19,6 +19,11 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
+  // 301 Redirect for Soft 404 fix - /hi/ route
+  app.get(["/hi", "/hi/"], (req, res) => {
+    res.redirect(301, "/");
+  });
+
   // robots.txt
   app.get("/robots.txt", (req, res) => {
     res.type("text/plain");
