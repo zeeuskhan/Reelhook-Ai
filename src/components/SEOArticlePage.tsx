@@ -135,6 +135,20 @@ const SEOArticlePage: React.FC = () => {
       {/* Main Content */}
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto">
+          {/* Action-Oriented Tool Link for Viral Growth */}
+          {['free-ai-hook-generator', 'reel-hook-analyzer', 'content-ideas-generator', 'best-time-to-post-reels', 'content-calendar-generator'].includes(article.slug) && (
+            <div className="mb-12 p-8 rounded-[2rem] bg-primary/10 border border-primary/30 flex flex-col md:flex-row items-center justify-between gap-6">
+              <div className="space-y-2 text-center md:text-left">
+                <h2 className="text-2xl font-bold font-display">Ready to see it in action?</h2>
+                <p className="text-text-secondary">Start using our free tool right now.</p>
+              </div>
+              <Link to="/dashboard" className="btn-primary whitespace-nowrap px-8 py-3 flex items-center gap-2">
+                <span>Try the {article.title.split(':')[0]} Now</span>
+                <ArrowRight className="w-4 h-4" />
+              </Link>
+            </div>
+          )}
+
           <div 
             className="prose prose-invert prose-primary max-w-none 
               prose-headings:font-display prose-headings:font-bold 

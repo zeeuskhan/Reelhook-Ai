@@ -1203,6 +1203,26 @@ const Explore = () => (
       </p>
     </div>
 
+    {/* New Strategic Tools Section */}
+    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+      {[
+        { title: "Hook Analyzer", desc: "Test your hooks for viral potential.", icon: <Zap className="w-5 h-5" />, slug: "reel-hook-analyzer" },
+        { title: "Content Ideas", desc: "Never run out of what to post.", icon: <Sparkles className="w-5 h-5" />, slug: "content-ideas-generator" },
+        { title: "Posting Times", desc: "Find peak engagement IST hours.", icon: <TrendingUp className="w-5 h-5" />, slug: "best-time-to-post-reels" },
+        { title: "Content Calendar", desc: "Plan 30 days in 10 minutes.", icon: <Rocket className="w-5 h-5" />, slug: "content-calendar-generator" }
+      ].map((tool, i) => (
+        <Link key={i} to={`/${tool.slug}`} className="glass p-6 rounded-3xl border-primary/20 bg-primary/5 hover:border-primary/40 transition-all group flex flex-col space-y-3">
+          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
+            {tool.icon}
+          </div>
+          <div>
+            <h3 className="font-bold text-lg">{tool.title}</h3>
+            <p className="text-sm text-text-secondary">{tool.desc}</p>
+          </div>
+        </Link>
+      ))}
+    </div>
+
     <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
       {NICHES.map(n => (
         <div key={n.id} className="glass p-8 rounded-3xl border-white/5 space-y-6 hover:border-primary/30 transition-all group">
@@ -1495,6 +1515,11 @@ const SiteIndex = () => (
           <h3 className="text-xl font-bold">Free AI Tools</h3>
           <ul className="space-y-3">
             {[
+              { name: "Viral Hook Generator", slug: "free-ai-hook-generator" },
+              { name: "Reel Hook Analyzer", slug: "reel-hook-analyzer" },
+              { name: "Content Ideas Generator", slug: "content-ideas-generator" },
+              { name: "Best Posting Times", slug: "best-time-to-post-reels" },
+              { name: "Content Calendar Guide", slug: "content-calendar-generator" },
               { name: "IG Bio Generator", slug: "tools/instagram-bio-generator" },
               { name: "Reel Script Maker", slug: "tools/instagram-reel-generator" },
               { name: "Caption Generator", slug: "tools/instagram-caption-generator" },
