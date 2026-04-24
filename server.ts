@@ -19,9 +19,9 @@ async function startServer() {
     res.json({ status: "ok" });
   });
 
-  // 301 Redirect for Soft 404 fix - /hi/ route
+  // 410 Gone for /hi/ route to tell Google it's permanently removed
   app.get(["/hi", "/hi/"], (req, res) => {
-    res.redirect(301, "/");
+    res.status(410).send("This page has been permanently removed.");
   });
 
   // robots.txt
