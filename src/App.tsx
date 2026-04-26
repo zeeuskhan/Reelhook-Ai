@@ -70,7 +70,7 @@ function safeJsonParse(text: string, fallback: any = []) {
 }
 
 // --- SEO Component ---
-const SEO = ({ 
+export const SEO = ({ 
   title, 
   description, 
   canonical, 
@@ -171,6 +171,8 @@ import SkyscraperAd from "./components/SkyscraperAd";
 
 const ToolSEOPage = lazy(() => import("./components/ToolSEOPage"));
 const SEOArticlePage = lazy(() => import("./components/SEOArticlePage"));
+const AINewsIndex = lazy(() => import("./components/AINewsIndex"));
+const AINewsArticlePage = lazy(() => import("./components/AINewsArticlePage"));
 
 // Specialized Tools
 const BioGenerator = lazy(() => import("./components/tools/BioGenerator"));
@@ -273,6 +275,7 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/tools/hook-generator" className="text-text-secondary hover:text-white transition-colors">Hook Generator</Link>
+            <Link to="/ai-tools-news" className="text-text-secondary hover:text-white transition-colors">AI News</Link>
             <Link to="/explore" className="text-text-secondary hover:text-white transition-colors">Explore</Link>
             <Link to="/blog" className="text-text-secondary hover:text-white transition-colors">Blog</Link>
             <Link to="/about" className="text-text-secondary hover:text-white transition-colors">About</Link>
@@ -296,6 +299,7 @@ const Navbar = () => {
             className="md:hidden glass border-b border-white/10 px-4 py-6 space-y-4"
           >
           <Link to="/tools/hook-generator" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Hook Generator</Link>
+          <Link to="/ai-tools-news" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>AI News</Link>
           <Link to="/explore" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Explore</Link>
           <Link to="/blog" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Blog</Link>
           <Link to="/about" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>About</Link>
@@ -1010,7 +1014,7 @@ const About = () => (
   <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-16">
     <SEO 
       title="About ReelHooks | The Team Behind the Viral AI Hook Generator"
-      description="Learn about ReelHooks, the AI-powered platform helping 10,000+ creators go viral with scroll-stopping hooks, captions, and scripts."
+      description="Discover ReelHooks, the AI-powered powerhouse helping 10,000+ creators dominate social media. Meet the team building the future of viral content. Join us today!"
       schema={{
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -1091,7 +1095,7 @@ const Contact = () => (
   <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
     <SEO 
       title="Contact ReelHooks | Support & Collaboration for Creators"
-      description="Have questions or feedback? Contact the ReelHooks team for support, collaborations, or feature requests."
+      description="Need help with your viral hooks? Contact the ReelHooks support team for expert advice, collaborations, or feature requests. We respond within 24 hours—get in touch!"
       schema={{
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -1186,7 +1190,7 @@ const Explore = () => (
   <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto space-y-16">
     <SEO 
       title="Explore Viral Reel Hook Niches | Find Your Perfect Content Hook"
-      description="Browse 100+ content niches and find the perfect viral hooks for your next Instagram Reel, TikTok, or YouTube Short."
+      description="Explore 100+ viral reel hook niches to find your perfect content angle. From Finance to Fitness, discover what works in 2026. Start browsing and go viral today!"
       schema={{
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -1265,7 +1269,7 @@ const FAQ = () => (
   <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
     <SEO 
       title="ReelHooks FAQ | How to Use AI to Go Viral on Instagram"
-      description="Find answers to common questions about ReelHooks, AI hook generation, and how to boost your social media engagement."
+      description="Got questions about AI hooks? Find everything you need to know about ReelHooks, viral strategies, and engagement hacks in our FAQ. Get the answers and start growing!"
       schema={{
         "@context": "https://schema.org",
         "@type": "BreadcrumbList",
@@ -1544,6 +1548,7 @@ const SiteIndex = () => (
               { name: "Photography Hacks", slug: "photography-reel-hooks" },
               { name: "Real Estate Mastery", slug: "instagram-reel-hooks-for-real-estate" },
               { name: "Coaching & Education", slug: "education-reel-hooks" },
+              { name: "AI News & Updates", slug: "ai-tools-news" },
               { name: "Blog: Viral Secrets", slug: "blog" }
             ].map(link => (
               <li key={link.slug}><Link to={`/${link.slug}`} className="text-text-secondary hover:text-primary transition-colors flex items-center gap-2 justify-center md:justify-start">
@@ -2795,7 +2800,7 @@ export default function App() {
                   <>
                     <SEO 
                     title="Free AI Hook Generator for Instagram Reels & TikTok (2026)" 
-                    description="Create viral short-form video content with the #1 Free AI Hook Generator. 100% Free, No Sign-up. Optimized for YouTube Shorts, Instagram Reels, and Hindi creators." 
+                    description="Stop the scroll with the #1 Free AI Hook Generator. Generate viral hooks in 3 seconds for Instagram Reels & TikTok. 100% Free - Try it now and skyrocket views!" 
                     schema={[
                       {
                         "@context": "https://schema.org",
@@ -3003,6 +3008,9 @@ export default function App() {
               <Route path="/tools/instagram-transcript-generator" element={<TranscriptGenerator />} />
               <Route path="/tools/instagram-mockup-generator" element={<MockupGenerator />} />
               <Route path="/tools/hook-generator" element={<ToolSEOPage />} />
+              <Route path="/ai-tools-news" element={<AINewsIndex />} />
+              <Route path="/ai-tools-news/:category" element={<AINewsIndex />} />
+              <Route path="/ai-tools-news/:category/:slug" element={<AINewsArticlePage />} />
               <Route path="/:slug" element={<SEOArticlePage />} />
             </Routes>
           </Suspense>

@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { SEO_ARTICLES } from '../data/seoArticles';
+import { AI_NEWS_ARTICLES } from '../data/aiNewsArticles';
 import FooterAd from './FooterAd';
 import BannerAd from './BannerAd';
 import SkyscraperAd from './SkyscraperAd';
@@ -210,7 +211,7 @@ const SEOArticlePage: React.FC = () => {
         <div className="max-w-7xl mx-auto text-center space-y-12">
           <h2 className="text-3xl font-bold font-display uppercase italic text-primary">Creator Growth Network</h2>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-4 px-4">
-            {Object.values(SEO_ARTICLES).map(a => (
+            {[...Object.values(SEO_ARTICLES), ...Object.values(AI_NEWS_ARTICLES).map(a => ({ slug: `ai-tools-news/${a.category}/${a.slug}`, title: a.title }))].map(a => (
               <Link 
                 key={a.slug} 
                 to={`/${a.slug}`}
