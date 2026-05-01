@@ -2359,7 +2359,7 @@ const Dashboard = () => {
                       onFocus={() => setIsNicheDropdownOpen(true)}
                       onKeyDown={handleKeyDown}
                       placeholder="Search niche (e.g. Fitness)..."
-                      className="w-full bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-base outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-text-secondary/50 group-hover:bg-white/[0.05]"
+                      className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all placeholder:text-text-secondary/40 group-hover:bg-white/[0.08] shadow-lg"
                     />
                     {isNicheDropdownOpen && (
                       <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/10 z-50 custom-scrollbar shadow-2xl p-2 bg-black/80">
@@ -2415,31 +2415,31 @@ const Dashboard = () => {
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Language</label>
-                  <div className="relative group">
+                  <div className="relative group/select">
                     <select 
-                      className="w-full bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl py-3.5 px-4 text-base focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none appearance-none cursor-pointer transition-all hover:bg-white/[0.05]"
+                      className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-3.5 px-4 text-base focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none appearance-none cursor-pointer transition-all hover:bg-white/[0.08] shadow-lg"
                       value={lang}
                       onChange={(e) => setLang(e.target.value)}
                     >
                       {LANGUAGES.map(l => <option key={l} value={l} className="bg-bg text-white">{l}</option>)}
                     </select>
                     <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                      <ChevronDown className="w-4 h-4 text-text-secondary group-focus-within:text-primary transition-colors" />
+                      <ChevronDown className="w-4 h-4 text-text-secondary group-focus-within/select:text-primary group-hover/select:text-primary transition-colors" />
                     </div>
                   </div>
                 </div>
                 <div className="space-y-2">
                   <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Tone</label>
-                  <div className="relative group">
+                  <div className="relative group/select">
                     <select 
-                      className="w-full bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl py-3.5 px-4 text-base focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none appearance-none cursor-pointer transition-all hover:bg-white/[0.05]"
+                      className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-3.5 px-4 text-base focus:border-primary focus:ring-4 focus:ring-primary/20 outline-none appearance-none cursor-pointer transition-all hover:bg-white/[0.08] shadow-lg"
                       value={tone}
                       onChange={(e) => setTone(e.target.value)}
                     >
                       {TONES.map(t => <option key={t} value={t} className="bg-bg text-white">{t}</option>)}
                     </select>
                     <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
-                      <ChevronDown className="w-4 h-4 text-text-secondary group-focus-within:text-primary transition-colors" />
+                      <ChevronDown className="w-4 h-4 text-text-secondary group-focus-within/select:text-primary group-hover/select:text-primary transition-colors" />
                     </div>
                   </div>
                 </div>
@@ -3038,6 +3038,82 @@ export default function App() {
                   <SuccessStories />
                   <ViralHookStrategies />
                   <ExpandedFAQ />
+
+                  {/* SEO Popular Searches Section */}
+                  <section className="py-24 px-4 border-y border-white/5 bg-black/20">
+                    <div className="max-w-7xl mx-auto space-y-16">
+                      <div className="text-center space-y-4">
+                        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight italic">Popular <span className="text-primary">Searches</span> 2026</h2>
+                        <p className="text-text-secondary text-lg">Explore the most searched AI growth tools and viral strategies by top creators.</p>
+                      </div>
+                      
+                      <div className="flex flex-wrap justify-center gap-3">
+                        {[
+                          { name: "Free AI Hook Generator 2026", link: "/free-ai-hook-generator" },
+                          { name: "Viral Reel Ideas for Instagram", link: "/reel-ideas-generator" },
+                          { name: "Best AI Video Tools Review", link: "/ai-tools-news/latest-ai-tools/video-generation-ai-tools" },
+                          { name: "Hinglish Caption Generator", link: "/instagram-caption-generator-free" },
+                          { name: "Instagram Algorithm Secret Hack", link: "/instagram-algorithm-explained-2026" },
+                          { name: "Top 10 AI Tools for Creators", link: "/ai-tools-news/latest-ai-tools/top-10-new-ai-tools-2026" },
+                          { name: "Faceless Reel Automation AI", link: "/faceless-reel-hooks-generator" },
+                          { name: "TikTok Viral Strategy Guide", link: "/how-to-go-viral-on-reels-2026" },
+                          { name: "Best Time to Post India 2026", link: "/best-time-to-post-reels-india" },
+                          { name: "Reel Hook Analyzer Tool", link: "/reel-hook-analyzer" },
+                          { name: "Viral Hook Examples List", link: "/viral-hook-examples-generator" },
+                          { name: "Instagram Bio Ideas AI", link: "/instagram-bio-generator-hinglish" },
+                          { name: "OpenAI SearchGPT Updates", link: "/ai-tools-news/ai-updates/openai-search-integration-updates" },
+                          { name: "Free AI Software 2026", link: "/ai-tools-news/free-ai-tools/best-free-ai-tools-for-creators" }
+                        ].map(keyword => (
+                          <Link 
+                            key={keyword.name} 
+                            to={keyword.link}
+                            className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-sm font-bold text-text-secondary hover:bg-primary/20 hover:border-primary/40 hover:text-white transition-all transform hover:scale-105"
+                          >
+                            {keyword.name}
+                          </Link>
+                        ))}
+                      </div>
+                      
+                      <div className="grid grid-cols-2 md:grid-cols-4 gap-12 pt-16 border-t border-white/5">
+                        <div className="space-y-6">
+                          <h3 className="font-bold uppercase tracking-[0.2em] text-[10px] text-primary">Niche Specific Hooks</h3>
+                          <ul className="space-y-4 text-sm text-text-secondary">
+                            <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Fitness & Gym</Link></li>
+                            <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Finance & Money</Link></li>
+                            <li><Link to="/real-estate-reel-hooks" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Real Estate</Link></li>
+                            <li><Link to="/beauty-makeup-reel-hooks" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Beauty & Lifestyle</Link></li>
+                          </ul>
+                        </div>
+                        <div className="space-y-6">
+                          <h3 className="font-bold uppercase tracking-[0.2em] text-[10px] text-primary">AI Tool Analysis</h3>
+                          <ul className="space-y-4 text-sm text-text-secondary">
+                            <li><Link to="/ai-tools-news/latest-ai-tools" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Latest AI News</Link></li>
+                            <li><Link to="/ai-tools-news/ai-tool-launch" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Tool Launches</Link></li>
+                            <li><Link to="/ai-tools-news/latest-ai-tools/video-generation-ai-tools" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> AI Video 2026</Link></li>
+                            <li><Link to="/ai-tools-news/free-ai-tools" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Best Free AI</Link></li>
+                          </ul>
+                        </div>
+                        <div className="space-y-6">
+                          <h3 className="font-bold uppercase tracking-[0.2em] text-[10px] text-primary">Viral Growth Hub</h3>
+                          <ul className="space-y-4 text-sm text-text-secondary">
+                            <li><Link to="/how-to-go-viral-on-reels-2026" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Viral Secret Guide</Link></li>
+                            <li><Link to="/how-to-get-first-1000-followers-instagram" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Growth Mastery</Link></li>
+                            <li><Link to="/instagram-algorithm-explained-2026" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Algorithm Secrets</Link></li>
+                            <li><Link to="/monetize-instagram-reels-india" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Monetization 101</Link></li>
+                          </ul>
+                        </div>
+                        <div className="space-y-6">
+                          <h3 className="font-bold uppercase tracking-[0.2em] text-[10px] text-primary">Global Creator AI</h3>
+                          <ul className="space-y-4 text-sm text-text-secondary">
+                            <li><Link to="/hooks/fitness-hindi" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Hindi Fitness Hooks</Link></li>
+                            <li><Link to="/hooks/lifestyle-spanish" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Lifestyle Spanish AI</Link></li>
+                            <li><Link to="/hooks/tech-hindi" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Tech Hindi Hooks</Link></li>
+                            <li><Link to="/hooks/business-french" className="hover:text-primary transition-colors flex items-center gap-2"><span>&#8226;</span> Business French Hooks</Link></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </div>
+                  </section>
                   
                   <ViralGrowthHub />
                   <SiteIndex />

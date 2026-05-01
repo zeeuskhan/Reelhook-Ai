@@ -18,32 +18,32 @@ const CATEGORIES = [
   { 
     id: 'all', 
     name: 'All News',
-    title: 'Daily AI Tools News 2026 | Stay Ahead & Scale Your Brand Faster',
-    description: 'Get real-time updates on new AI tools, industry breakthroughs, and trends. Stay ahead of the competition with the latest AI news curated for creators. Read now!'
+    title: 'Daily AI Tools News 2026 | Scale Your Brand Faster with AI',
+    description: 'Get real-time updates on new AI tools, industry breakthroughs, and trending growth hacks. Stay ahead of the competition with the latest AI news. Read today!'
   },
   { 
     id: 'latest-ai-tools', 
     name: 'Latest Tools',
-    title: 'New AI Tools April 2026 | Discover & Try the Best Trending Software',
-    description: 'Explore the absolute newest AI tools of 2026. We review the most powerful trending AI software for content and productivity. See what\'s working today!'
+    title: 'Top New AI Tools April 2026 | Boost Your Content ROI Instantly',
+    description: 'Discover the absolute newest AI tools of 2026. We review trending AI software helping creators save hours of work. See what\'s working—try them now!'
   },
   { 
     id: 'ai-tool-launch', 
     name: 'Launches',
-    title: 'New AI Tool Launches: Exclusive Reviews & Early Access for Creators',
-    description: 'Be the first to see the latest AI tool launches of 2026. Get expert reviews, first looks, and strategic breakdowns of new AI tech. Start using them first!'
+    title: 'Upcoming AI Tool Launches 2026 | Be the First to Dominate Your Niche',
+    description: 'Be the first to see the latest AI tool launches of 2026. Exclusive reviews and strategic breakdowns of new AI tech. Gain an unfair advantage—get early access!'
   },
   { 
     id: 'ai-updates', 
     name: 'Updates',
-    title: 'Critical AI Software Updates 2026 | Master New Features Today',
-    description: 'Don\'t miss major AI software updates. From SearchGPT to VideoGPT-5, we break down every new feature you need to know to stay productive. Read the updates!'
+    title: 'Weekly AI Software Updates 2026 | Master New Algorithm Secrets Today',
+    description: 'Don\'t miss critical AI software updates. From SearchGPT to VideoGPT-5, we break down every new feature you need to grow your social media. Read the updates!'
   },
   { 
     id: 'free-ai-tools', 
     name: 'Free Tools',
-    title: 'Best Free AI Tools for Creators 2026 | Scale Your Business for $0',
-    description: 'Stop paying for expensive software. Discover the best free AI tools for creators in 2026. Handpicked list of powerful no-code AI tools. Try them for free!'
+    title: '100% Free AI Creator Tools 2026 | Build Your Business for $0',
+    description: 'Stop paying for expensive software. Discover the best free AI tools for creators in 2026. Handpicked list of powerful no-code AI tools. Scale for free!'
   }
 ];
 
