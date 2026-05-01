@@ -173,6 +173,7 @@ const ToolSEOPage = lazy(() => import("./components/ToolSEOPage"));
 const SEOArticlePage = lazy(() => import("./components/SEOArticlePage"));
 const AINewsIndex = lazy(() => import("./components/AINewsIndex"));
 const AINewsArticlePage = lazy(() => import("./components/AINewsArticlePage"));
+import ScrollToTop from './components/ScrollToTop';
 
 // Specialized Tools
 const BioGenerator = lazy(() => import("./components/tools/BioGenerator"));
@@ -275,12 +276,11 @@ const Navbar = () => {
           
           <div className="hidden md:flex items-center space-x-8">
             <Link to="/tools/hook-generator" className="text-text-secondary hover:text-white transition-colors">Hook Generator</Link>
-            <Link to="/ai-tools-news" className="text-text-secondary hover:text-white transition-colors">AI News</Link>
-            <Link to="/explore" className="text-text-secondary hover:text-white transition-colors">Explore</Link>
-            <Link to="/blog" className="text-text-secondary hover:text-white transition-colors">Blog</Link>
-            <Link to="/about" className="text-text-secondary hover:text-white transition-colors">About</Link>
-            <Link to="/dashboard" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full font-medium transition-all transform hover:scale-105">
-              Launch App
+            <Link to="/ai-tools-news" className="text-text-secondary hover:text-white transition-colors font-bold text-primary">AI News 2026</Link>
+            <Link to="/explore" className="text-text-secondary hover:text-white transition-colors">Free Tools</Link>
+            <Link to="/blog" className="text-text-secondary hover:text-white transition-colors font-semibold">Viral Blog</Link>
+            <Link to="/dashboard" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-primary/20">
+              Go Viral Now
             </Link>
           </div>
 
@@ -355,10 +355,11 @@ const Footer = () => (
         <div className="space-y-4">
           <h4 className="font-bold mb-4 text-lg">Knowledge Hub</h4>
           <ul className="space-y-3 text-base text-text-secondary">
-            <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy</Link></li>
-            <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Hindi Hooks</Link></li>
-            <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Niche</Link></li>
-            <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors py-1 block">Finance Tips</Link></li>
+            <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy Guide</Link></li>
+            <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Reel Hooks in Hindi</Link></li>
+            <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Reel Hooks</Link></li>
+            <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors py-1 block">Finance Reel Hooks</Link></li>
+            <li><Link to="/business-reel-hooks" className="hover:text-primary transition-colors py-1 block">Business Hook Ideas</Link></li>
           </ul>
         </div>
         <div className="space-y-4">
@@ -1463,6 +1464,44 @@ const ViralHookStrategies = () => (
 );
 
 // --- Site Index Component (Extreme SEO Internal Linking) ---
+const ViralGrowthHub = () => (
+  <section className="py-24 px-4 bg-bg border-t border-white/5">
+    <div className="max-w-7xl mx-auto space-y-16">
+      <div className="space-y-4 text-center">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight">Viral <span className="text-primary">Growth Hub</span></h2>
+        <p className="text-text-secondary text-lg">Explore our library of 500+ viral strategies and AI tools.</p>
+      </div>
+
+      <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-6">
+        {[
+          { title: "Hook Generators", links: ["TikTok Hook Generator", "Instagram Hook Tool", "YouTube Shorts Hook", "Viral Hook AI", "Short Video Hooks"] },
+          { title: "Niche Hooks", links: ["Fitness Reel Hooks", "Finance Reel Hooks", "Food Reel Hooks", "Fashion Reel Hooks", "Tech Reel Hooks"] },
+          { title: "Language Focus", links: ["Hindi Reel Hooks", "Hinglish Viral Hooks", "Spanish Reel Hooks", "English Content Hooks", "Marathi Reel Hooks"] },
+          { title: "AI Content Tools", links: ["Reel Idea Generator", "Caption Generator AI", "Hashtag Generator", "Script Writer AI", "Bio Generator"] },
+          { title: "Platform Strategy", links: ["Instagram Reels 2026", "TikTok Trends 2026", "YouTube Shorts Guide", "Facebook Reels Hub", "LinkedIn Video Marketing"] },
+          { title: "Creator Guides", links: ["How to go Viral", "The 3s Hook Rule", "Retention Hacking", "Pattern Interrupts", "Engagement Secrets"] }
+        ].map((group, i) => (
+          <div key={i} className="space-y-4">
+            <h4 className="font-bold text-sm uppercase tracking-widest text-primary">{group.title}</h4>
+            <ul className="space-y-2">
+              {group.links.map(link => (
+                <li key={link}>
+                  <Link 
+                    to={`/${link.toLowerCase().replace(/ /g, '-')}`} 
+                    className="text-xs text-text-secondary hover:text-white transition-colors block py-1"
+                  >
+                    {link}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+);
+
 const SiteIndex = () => (
   <section className="py-24 px-4 border-t border-white/5 bg-accent/5">
     <div className="max-max-7xl mx-auto space-y-16">
@@ -2305,10 +2344,10 @@ const Dashboard = () => {
               {/* Niche Selection */}
               <div className="space-y-4">
                 <div className="space-y-2 relative">
-                  <label className="text-base font-medium text-text-secondary">Niche / Category</label>
-                  <div className="relative">
-                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none">
-                      <Search className="w-5 h-5 text-text-secondary" />
+                  <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Niche / Category</label>
+                  <div className="relative group">
+                    <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none z-10">
+                      <Search className="w-5 h-5 text-primary/60 group-focus-within:text-primary transition-colors" />
                     </div>
                     <input 
                       type="text"
@@ -2319,30 +2358,30 @@ const Dashboard = () => {
                       }}
                       onFocus={() => setIsNicheDropdownOpen(true)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Search niche..."
-                      className="w-full bg-bg border border-white/10 rounded-xl py-4 pl-12 pr-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all"
+                      placeholder="Search niche (e.g. Fitness)..."
+                      className="w-full bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-base outline-none focus:border-primary/50 focus:ring-4 focus:ring-primary/10 transition-all placeholder:text-text-secondary/50 group-hover:bg-white/[0.05]"
                     />
                     {isNicheDropdownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-2 max-h-64 overflow-y-auto glass rounded-xl border border-white/10 z-50 custom-scrollbar shadow-2xl">
+                      <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/10 z-50 custom-scrollbar shadow-2xl p-2 bg-black/80">
                         {filteredNiches.length > 0 ? (
                           filteredNiches.map((n, idx) => (
-                            <div key={n.id}>
+                            <div key={n.id} className="mb-1 last:mb-0">
                               <button 
                                 onClick={() => handleNicheSelect(n)}
                                 className={cn(
-                                  "w-full text-left px-4 py-2 text-sm font-bold hover:bg-primary/20 transition-all flex items-center justify-between",
-                                  nicheSelectedIndex === idx ? "bg-primary/30" : ""
+                                  "w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-primary/20 transition-all flex items-center justify-between group/niche",
+                                  nicheSelectedIndex === idx ? "bg-primary/30" : "bg-white/5"
                                 )}
                               >
-                                <span>{n.name}</span>
-                                <ChevronDown className="w-3 h-3 opacity-50" />
+                                <span className="group-hover/niche:translate-x-1 transition-transform">{n.name}</span>
+                                <ChevronDown className="w-4 h-4 opacity-30 group-hover/niche:opacity-100 transition-opacity" />
                               </button>
-                              <div className="bg-white/5">
+                              <div className="mt-1 space-y-1">
                                 {n.subcategories.map(s => (
                                   <button 
                                     key={s}
                                     onClick={() => handleNicheSelect(n, s)}
-                                    className="w-full text-left px-8 py-2 text-sm text-text-secondary hover:text-white hover:bg-primary/10 transition-all"
+                                    className="w-full text-left px-8 py-2 text-xs font-medium text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-all"
                                   >
                                     {s}
                                   </button>
@@ -2351,7 +2390,9 @@ const Dashboard = () => {
                             </div>
                           ))
                         ) : (
-                          <div className="p-4 text-center text-sm text-text-secondary">No niches found</div>
+                          <div className="p-8 text-center text-sm text-text-secondary italic">
+                            No niches found. Try a different keyword!
+                          </div>
                         )}
                       </div>
                     )}
@@ -2359,34 +2400,48 @@ const Dashboard = () => {
                 </div>
 
                 {/* Selected Info */}
-                <div className="flex items-center space-x-2 text-sm text-text-secondary bg-white/5 p-3 rounded-lg border border-white/10">
-                  <span className="font-bold text-primary">Selected:</span>
-                  <span>{niche.name}</span>
-                  <ArrowRight className="w-4 h-4" />
-                  <span>{sub}</span>
+                <div className="flex items-center space-x-3 text-sm text-text-secondary bg-white/5 p-4 rounded-2xl border border-white/10 shadow-inner">
+                  <div className="w-8 h-8 rounded-lg bg-primary/20 flex items-center justify-center text-primary">
+                    <Target className="w-4 h-4" />
+                  </div>
+                  <div className="flex items-center space-x-2">
+                    <span className="font-medium text-white">{niche.name}</span>
+                    <ArrowRight className="w-3 h-3 opacity-30" />
+                    <span className="text-primary font-bold">{sub}</span>
+                  </div>
                 </div>
               </div>
 
               <div className="grid grid-cols-2 gap-4">
                 <div className="space-y-2">
-                  <label className="text-base font-medium text-text-secondary">Language</label>
-                  <select 
-                    className="w-full bg-bg border border-white/10 rounded-xl py-3 px-4 text-base focus:ring-2 focus:ring-primary/50 outline-none"
-                    value={lang}
-                    onChange={(e) => setLang(e.target.value)}
-                  >
-                    {LANGUAGES.map(l => <option key={l} value={l}>{l}</option>)}
-                  </select>
+                  <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Language</label>
+                  <div className="relative group">
+                    <select 
+                      className="w-full bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl py-3.5 px-4 text-base focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none appearance-none cursor-pointer transition-all hover:bg-white/[0.05]"
+                      value={lang}
+                      onChange={(e) => setLang(e.target.value)}
+                    >
+                      {LANGUAGES.map(l => <option key={l} value={l} className="bg-bg text-white">{l}</option>)}
+                    </select>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                      <ChevronDown className="w-4 h-4 text-text-secondary group-focus-within:text-primary transition-colors" />
+                    </div>
+                  </div>
                 </div>
                 <div className="space-y-2">
-                  <label className="text-base font-medium text-text-secondary">Tone</label>
-                  <select 
-                    className="w-full bg-bg border border-white/10 rounded-xl py-3 px-4 text-base focus:ring-2 focus:ring-primary/50 outline-none"
-                    value={tone}
-                    onChange={(e) => setTone(e.target.value)}
-                  >
-                    {TONES.map(t => <option key={t} value={t}>{t}</option>)}
-                  </select>
+                  <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Tone</label>
+                  <div className="relative group">
+                    <select 
+                      className="w-full bg-white/[0.03] backdrop-blur-md border border-white/10 rounded-2xl py-3.5 px-4 text-base focus:border-primary/50 focus:ring-4 focus:ring-primary/10 outline-none appearance-none cursor-pointer transition-all hover:bg-white/[0.05]"
+                      value={tone}
+                      onChange={(e) => setTone(e.target.value)}
+                    >
+                      {TONES.map(t => <option key={t} value={t} className="bg-bg text-white">{t}</option>)}
+                    </select>
+                    <div className="absolute inset-y-0 right-4 flex items-center pointer-events-none">
+                      <ChevronDown className="w-4 h-4 text-text-secondary group-focus-within:text-primary transition-colors" />
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -2984,6 +3039,7 @@ export default function App() {
                   <ViralHookStrategies />
                   <ExpandedFAQ />
                   
+                  <ViralGrowthHub />
                   <SiteIndex />
                   <SEOIntro />
                   <FloatingCTA />
@@ -3017,6 +3073,7 @@ export default function App() {
           </main>
           <FooterAd />
           <Footer />
+          <ScrollToTop />
         </div>
       </Router>
     </HelmetProvider>
