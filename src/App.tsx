@@ -2814,13 +2814,13 @@ const Dashboard = () => {
         </div>
 
         <div className="glass p-8 rounded-3xl border-white/5 space-y-6">
-          <h3 className="text-xl font-bold">Why use ReelHooks.site?</h3>
+          <h3 className="text-xl font-bold">Why use the ReelHooks Script Hook Generator?</h3>
           <p className="text-sm text-text-secondary leading-relaxed">
-            In 2026, the social media landscape is more competitive than ever. Generic content doesn't cut it anymore. ReelHooks.site provides you with a data-backed content strategy that leverages the latest AI models to ensure your reels have the best chance of going viral. Whether you're looking for <span className="text-white font-medium">reel hooks in hindi</span>, english, or hinglish, our tool adapts to your brand voice and target demographic.
+            In 2026, the social media landscape is more competitive than ever. Every viral video starts with a professional <Link to="/script-hook" className="text-primary hover:underline font-bold">script hook</Link>. Generic content doesn't cut it anymore. ReelHooks.site provides you with a data-backed <strong>hook generator</strong> that leverages the latest AI models to ensure your reels and YouTube Shorts have the best chance of going viral. Whether you're looking for a <Link to="/script-hook" className="text-white hover:text-primary font-medium underline">youtube script hook</Link>, <Link to="/hooks/fitness-english" className="text-white hover:text-primary font-medium underline">fitness script opening lines</Link>, or storytelling hooks in hindi, our tool adapts to your brand voice and target demographic.
           </p>
           <div className="flex flex-wrap gap-2">
-            {["Viral Hooks", "Instagram Growth", "Content Strategy", "AI Video Scripts", "Short-form Content", "Reel Hooks Hindi"].map(tag => (
-              <span key={tag} className="text-sm uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
+            {["Script Hook", "YouTube Script Hook", "Viral Hook Examples", "Script Opening Lines", "Storytelling Hooks", "Instagram Growth"].map(tag => (
+              <span key={tag} className="text-sm uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10 hover:border-primary/50 transition-colors">
                 {tag}
               </span>
             ))}
@@ -3060,6 +3060,7 @@ export default function App() {
                           { name: "Best Time to Post India 2026", link: "/best-time-to-post-reels-india" },
                           { name: "Reel Hook Analyzer Tool", link: "/reel-hook-analyzer" },
                           { name: "Viral Hook Examples List", link: "/viral-hook-examples-generator" },
+                          { name: "Viral Script Hook Generator", link: "/script-hook" },
                           { name: "Instagram Bio Ideas AI", link: "/instagram-bio-generator-hinglish" },
                           { name: "OpenAI SearchGPT Updates", link: "/ai-tools-news/ai-updates/openai-search-integration-updates" },
                           { name: "Free AI Software 2026", link: "/ai-tools-news/free-ai-tools/best-free-ai-tools-for-creators" }

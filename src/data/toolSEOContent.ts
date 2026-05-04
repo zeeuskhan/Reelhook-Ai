@@ -239,5 +239,29 @@ export const TOOL_SEO_CONTENT: Record<string, ToolSEOContent> = {
       { q: "How long should a hook be?", a: "Ideally, your hook should be delivered within the first 2.5 to 3 seconds of your video. Any longer, and you risk the viewer swiping away due to the high competition in the feed." }
     ],
     ctaText: "Generate Viral Hooks Now"
+  },
+  "script-hook-generator": {
+    slug: "script-hook-generator",
+    title: "Script Hook Generator",
+    metaTitle: "Free Script Hook Generator: Viral Openings for YouTube & Reels",
+    metaDescription: "Use our free Script Hook Generator to create viral openings for your videos in seconds. 100+ proven script hook formulas for YouTube, Reels, and TikTok.",
+    keywords: ["script hook generator", "youtube script hook", "viral hook examples", "hook generator", "script opening lines", "storytelling hooks", "free hook generator for creators", "script hook formula", "viral opening lines"],
+    h1: "Free Script Hook Generator: Create Viral Video Openings in 2026",
+    introduction: "A **script hook** is the most important part of any video script. In 2026, where browsers are saturated with content, your first line is your only chance to stop the scroll. Whether you're recording a YouTube long-form video or a punchy 15-second Reel, the opening line must create an immediate 'Curiosity Gap.' Our Script Hook Generator is built on the science of human attention. We analyze millions of viral videos to understand which patterns work for different niches. Instead of guessing, you can now use AI to generate data-backed openings that force viewers to watch until the very end. Our generator doesn't just give you words; it gives you the psychological triggers needed to dominate the algorithm.",
+    featuresTitle: "Why Our Script Hook Generator Outperforms the Rest",
+    features: "Our tool features a 'Retention Scoring' algorithm. Every generated high-quality **script hook** is evaluated against known viral patterns. Key features include: 1. **Contextual Analysis:** It understands if your video is a tutorial, a vlog, or a sales pitch and adapts the hook accordingly. 2. **Formula-Based Generation:** We use proven frameworks like the 'Negative Benefit' (what they lose by not watching) and the 'Pattern Interrupt' (breaking their mental flow). 3. **Multiple Format Support:** Get hooks specifically designed for **youtube script hooks** vs. TikTok openings. 4. **A/B Test Options:** We provide 5 variants so you can test which one gets the highest initial engagement. 5. **Cultural Nuance:** Supports Hinglish and Indian cultural contexts for local creators.",
+    guideTitle: "How to Generate Professional Script Opening Lines",
+    guide: "Step 1: Define your video's core value. What is the one thing the viewer gets? Step 2: Input your topic and target audience into the generator. Step 3: Choose a 'Viral' or 'Aggressive' tone for maximum stop-rate. Step 4: Click 'Generate' and get 5 custom hooks. Step 5: Read them out loud to ensure they flow naturally. Remember, a **script hook** should be spoken within the first 3 seconds of your video. Step 6: Use the highest-rated hook as your video's 'Text Overlay' as well for double the impact. This multi-sensory approach is a proven growth hack for 2026.",
+    benefitsTitle: "The Benefits of Mastering the Script Hook",
+    benefits: "The single biggest benefit of a strong **script hook generator** is the massive increase in Average View Duration (AVD). High AVD signals to the algorithm that your content is high quality, leading to exponential organic reach. Additionally, using professional **script opening lines** helps build your authority as a creator. When you don't waste the viewer's time and get straight to the point with a compelling hook, they are much more likely to subscribe and share your content. It also saves you hours of creative fatigue, allowing you to focus on the meat of your content while the AI handles the complex psychology of the intro. Finally, mastering hooks is a transferable skill that makes you a better copywriter and communicator across all digital platforms.",
+    conclusion: "In conclusion, your video's success is determined in the first 3 seconds. Our Script Hook Generator ensures those 3 seconds are working for you, not against you. By utilizing data-backed formulas and AI-driven precision, you can bridge the gap between 'good content' and 'viral content.' Don't let your hard work go unnoticed because of a weak opening. Start using our free generator today and experience the power of a perfect hook. Join the community of 10,000+ creators who trust ReelHooks.site to power their growth. Your first viral hit is just one perfect hook away.",
+    faqs: [
+      { q: "What is a script hook generator?", a: "It's an AI tool that creates the opening line of a video script to capture attention and improve retention." },
+      { q: "Is this tool free for YouTubers?", a: "Yes, our script hook generator is free for all creators, including YouTubers, TikTokers, and Instagram users." },
+      { q: "Do I need to sign up to use it?", a: "No, you can generate your hooks instantly without any login or credit card." },
+      { q: "Does it support YouTube Shorts?", a: "Absolutely. In fact, hooks are even more critical for Shorts than long-form content." },
+      { q: "Can I get storytelling hooks too?", a: "Yes, the generator has a specific mode for storytelling to help you pull viewers into your narrative immediately." }
+    ],
+    ctaText: "Generate Viral Hooks Now"
   }
 };
