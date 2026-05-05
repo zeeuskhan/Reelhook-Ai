@@ -476,7 +476,7 @@ const WhatIsHookGenerator = () => (
       <div className="text-center space-y-4">
         <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight">What is a <span className="text-primary">Free AI Hook Generator?</span></h2>
         <p className="text-xl text-text-secondary leading-relaxed">
-          A Free AI Hook Generator is a specialized tool that uses large language models (LLMs) like Gemini and GPT-4 to create scroll-stopping opening lines for short-form videos. Unlike general writing tools, **ReelHooks** is specifically trained on the viral retention data of over 1 million trending Instagram Reels, TikToks, and YouTube Shorts.
+          A Free AI Hook Generator is a specialized tool that uses large language models (LLMs) like Gemini and GPT-4 to create scroll-stopping opening lines for short-form videos. Unlike general writing tools, **ReelHooks** is specifically trained on the viral retention data of over 1 million trending Instagram Reels, TikToks, and YouTube Shorts. For optimal performance, you can validate your hooks using our <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">Reel Hook Analyzer</Link>.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -484,13 +484,13 @@ const WhatIsHookGenerator = () => (
           <h3 className="text-2xl font-bold text-white flex items-center gap-3">
             <Target className="text-primary w-6 h-6" /> Targeted Attention
           </h3>
-          <p className="text-text-secondary">Capture your audience's focus in the first 3 seconds, the most critical window for any short-form video in 2026.</p>
+          <p className="text-text-secondary">Capture your audience's focus in the first 3 seconds, the most critical window for any short-form video in 2026. Use our <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">analyzer</Link> to ensure maximum retention.</p>
         </div>
         <div className="glass p-8 rounded-3xl space-y-4 border-white/5">
           <h3 className="text-2xl font-bold text-white flex items-center gap-3">
             <RefreshCw className="text-primary w-6 h-6" /> Infinite Inspiration
           </h3>
-          <p className="text-text-secondary">Never stare at a blank screen again. Generate 10+ viral variations for every topic in less than 5 seconds.</p>
+          <p className="text-text-secondary">Never stare at a blank screen again. Generate 10+ viral variations for every topic, or explore our <Link to="/content-ideas-generator" className="text-primary hover:underline font-bold">Content Ideas Generator</Link> for 365 days of viral planning.</p>
         </div>
       </div>
     </div>
