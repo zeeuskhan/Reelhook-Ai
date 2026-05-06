@@ -2218,6 +2218,17 @@ const Dashboard = () => {
   const [nicheSearch, setNicheSearch] = useState("");
   const [isNicheDropdownOpen, setIsNicheDropdownOpen] = useState(false);
   const [nicheSelectedIndex, setNicheSelectedIndex] = useState(-1);
+  const dropdownRef = React.useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
+        setIsNicheDropdownOpen(false);
+      }
+    };
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [loadingStep, setLoadingStep] = useState("");
@@ -2235,8 +2246,9 @@ const Dashboard = () => {
 
   const handleNicheSelect = (n: Niche, s?: string) => {
     setNiche(n);
-    setSub(s || n.subcategories[0]);
-    setNicheSearch(s ? `${n.name} > ${s}` : n.name);
+    const subNiche = s || n.subcategories[0];
+    setSub(subNiche);
+    setNicheSearch(`${n.name} > ${subNiche}`);
     setIsNicheDropdownOpen(false);
     setNicheSelectedIndex(-1);
   };
@@ -2561,7 +2573,7 @@ const Dashboard = () => {
               <div className="space-y-4">
                 <div className="space-y-2 relative">
                   <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Niche / Category</label>
-                  <div className="relative group">
+                  <div className="relative group" ref={dropdownRef}>
                     <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none z-10">
                       <Search className="w-5 h-5 text-primary/60 group-focus-within:text-primary transition-colors" />
                     </div>
@@ -2570,36 +2582,56 @@ const Dashboard = () => {
                       value={nicheSearch}
                       onChange={(e) => {
                         setNicheSearch(e.target.value);
-                        setIsNicheDropdownOpen(true);
+                        if (!isNicheDropdownOpen) setIsNicheDropdownOpen(true);
                       }}
-                      onFocus={() => setIsNicheDropdownOpen(true)}
+                      onFocus={() => {
+                        setIsNicheDropdownOpen(true);
+                        if (nicheSearch.includes(">")) setNicheSearch("");
+                      }}
                       onKeyDown={handleKeyDown}
                       placeholder="Search niche (e.g. Fitness)..."
-                      className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all placeholder:text-text-secondary/40 group-hover:bg-white/[0.08] shadow-lg"
+                      className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-12 pr-12 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all placeholder:text-text-secondary/40 group-hover:bg-white/[0.08] shadow-lg text-white"
                     />
+                    {nicheSearch && (
+                      <button 
+                        onClick={() => setNicheSearch("")}
+                        className="absolute inset-y-0 right-4 flex items-center text-text-secondary hover:text-white transition-colors"
+                      >
+                        <X className="w-5 h-5" />
+                      </button>
+                    )}
                     {isNicheDropdownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/10 z-50 custom-scrollbar shadow-2xl p-2 bg-black/80">
+                    <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/20 z-[60] custom-scrollbar shadow-2xl p-2 bg-black/90 backdrop-blur-2xl">
                         {filteredNiches.length > 0 ? (
                           filteredNiches.map((n, idx) => (
-                            <div key={n.id} className="mb-1 last:mb-0">
-                              <button 
-                                onClick={() => handleNicheSelect(n)}
+                            <div key={n.id} className="mb-2 last:mb-0">
+                              <div 
                                 className={cn(
-                                  "w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-primary/20 transition-all flex items-center justify-between group/niche",
-                                  nicheSelectedIndex === idx ? "bg-primary/30" : "bg-white/5"
+                                  "w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between group/niche cursor-default bg-white/5",
+                                  niche.id === n.id ? "ring-1 ring-primary/50" : ""
                                 )}
                               >
-                                <span className="group-hover/niche:translate-x-1 transition-transform">{n.name}</span>
-                                <ChevronDown className="w-4 h-4 opacity-30 group-hover/niche:opacity-100 transition-opacity" />
-                              </button>
-                              <div className="mt-1 space-y-1">
+                                <span className="text-primary">{n.name}</span>
+                                <ChevronDown className="w-4 h-4 opacity-50" />
+                              </div>
+                              <div className="mt-1 grid grid-cols-1 gap-1">
                                 {n.subcategories.map(s => (
                                   <button 
                                     key={s}
-                                    onClick={() => handleNicheSelect(n, s)}
-                                    className="w-full text-left px-8 py-2 text-xs font-medium text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleNicheSelect(n, s);
+                                    }}
+                                    className={cn(
+                                      "w-full text-left px-8 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center space-x-2 group/sub",
+                                      sub === s && niche.id === n.id ? "bg-primary/20 text-primary" : "text-text-secondary hover:text-white hover:bg-white/10"
+                                    )}
                                   >
-                                    {s}
+                                    <div className={cn(
+                                      "w-1.5 h-1.5 rounded-full transition-all group-hover/sub:scale-125",
+                                      sub === s && niche.id === n.id ? "bg-primary" : "bg-white/10"
+                                    )} />
+                                    <span>{s}</span>
                                   </button>
                                 ))}
                               </div>
@@ -2851,49 +2883,68 @@ const Dashboard = () => {
               <div className="space-y-6">
                 <button 
                   onClick={handleGenerateIdeas}
-                  className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 transition-all cursor-pointer"
+                  disabled={isGenerating}
+                  className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
                 >
-                  <Lightbulb className="w-5 h-5 text-primary" />
-                  <span>Generate {niche.name} Ideas</span>
+                  {isGenerating ? <RefreshCw className="animate-spin w-5 h-5" /> : <Lightbulb className="w-5 h-5 text-primary" />}
+                  <span>{isGenerating ? "AI Thinking..." : `Generate ${niche.name} Ideas`}</span>
                 </button>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {ideas.map((idea, i) => (
-                    <div key={i} className="glass p-6 rounded-2xl space-y-3">
-                      <h4 className="font-bold">{idea.title}</h4>
-                      <div className="flex items-center justify-between text-xs">
-                        <span className="text-text-secondary">Trigger: {idea.trigger}</span>
-                        <span className="bg-primary/10 text-primary px-2 py-1 rounded">{idea.difficulty}</span>
-                      </div>
-                    </div>
-                  ))}
+                  {isGenerating && ideas.length === 0 ? (
+                    [1,2,3,4].map(i => <div key={i} className="glass p-6 rounded-2xl animate-pulse h-24" />)
+                  ) : (
+                    ideas.map((idea, i) => (
+                      <motion.div 
+                        key={i} 
+                        initial={{ opacity: 0, scale: 0.95 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        className="glass p-6 rounded-2xl space-y-3"
+                      >
+                        <h4 className="font-bold">{idea.title}</h4>
+                        <div className="flex items-center justify-between text-xs">
+                          <span className="text-text-secondary">Trigger: {idea.trigger}</span>
+                          <span className="bg-primary/10 text-primary px-2 py-1 rounded">{idea.difficulty}</span>
+                        </div>
+                      </motion.div>
+                    ))
+                  )}
                 </div>
               </div>
             ) : activeTab === "improver" ? (
               <div className="space-y-6">
                 <div className="glass p-6 rounded-2xl space-y-4">
-                  <h3 className="font-bold">Hook Improver</h3>
+                  <h3 className="font-bold text-lg">Hook Improver</h3>
                   <textarea 
                     placeholder="Paste your weak hook here..."
-                    className="w-full bg-bg border border-white/10 rounded-xl p-4 min-h-[100px] focus:ring-2 focus:ring-primary/50 outline-none"
+                    className="w-full bg-bg border border-white/10 rounded-xl p-4 min-h-[100px] focus:ring-2 focus:ring-primary/50 outline-none text-white"
                     value={improveInput}
                     onChange={(e) => setImproveInput(e.target.value)}
                   />
                   <button 
                     onClick={handleImprove}
-                    className="w-full bg-primary text-white py-3 rounded-xl font-bold cursor-pointer"
+                    disabled={isGenerating || !improveInput}
+                    className="w-full bg-primary text-white py-3 rounded-xl font-bold cursor-pointer transition-all hover:shadow-[0_0_20px_rgba(var(--color-primary),0.4)] disabled:opacity-50"
                   >
-                    Improve My Hook
+                    {isGenerating ? <RefreshCw className="animate-spin w-5 h-5 mx-auto" /> : "Improve My Hook"}
                   </button>
                 </div>
                 <div className="space-y-4">
                   {improvedHooks.map((h, i) => (
-                    <div key={i} className="glass p-4 rounded-xl flex items-center justify-between">
-                      <p className="text-sm font-medium">{h.text}</p>
-                      <span className={cn(
-                        "text-xs font-bold px-2 py-1 rounded",
-                        h.score >= 90 ? "bg-[#22C55E]/10 text-[#22C55E]" : h.score >= 75 ? "bg-[#F59E0B]/10 text-[#F59E0B]" : "bg-[#EF4444]/10 text-[#EF4444]"
-                      )}>{h.score}%</span>
-                    </div>
+                    <motion.div 
+                      key={i} 
+                      initial={{ opacity: 0, x: -10 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      className="glass p-4 rounded-xl flex items-center justify-between group"
+                    >
+                      <p className="text-sm font-medium mr-4">{h.text}</p>
+                      <div className="flex items-center gap-3 shrink-0">
+                        <span className={cn(
+                          "text-xs font-bold px-2 py-1 rounded",
+                          h.score >= 90 ? "bg-[#22C55E]/10 text-[#22C55E]" : h.score >= 75 ? "bg-[#F59E0B]/10 text-[#F59E0B]" : "bg-[#EF4444]/10 text-[#EF4444]"
+                        )}>{h.score}%</span>
+                        <CopyButton text={h.text} className="opacity-0 group-hover:opacity-100 transition-opacity" />
+                      </div>
+                    </motion.div>
                   ))}
                 </div>
               </div>
@@ -2920,21 +2971,21 @@ const Dashboard = () => {
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex items-center space-x-2 overflow-x-auto custom-scrollbar pb-2">
+                <div className="flex items-center justify-between gap-4">
+                  <div className="flex items-center space-x-2 overflow-x-auto custom-scrollbar pb-2 flex-1">
                     {folders.map(f => (
                       <button 
                         key={f.id}
                         onClick={() => setActiveFolder(f.id)}
                         className={cn(
-                          "px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex items-center space-x-2",
-                          activeFolder === f.id ? "bg-primary text-white" : "bg-white/5 text-text-secondary hover:bg-white/10"
+                          "px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex items-center space-x-2 shrink-0 h-10",
+                          activeFolder === f.id ? "bg-primary text-white shadow-lg shadow-primary/20" : "bg-white/5 text-text-secondary hover:bg-white/10"
                         )}
                       >
                         <span>{f.name}</span>
                         {f.id !== "all" && (
                           <X 
-                            className="w-3 h-3 hover:text-red-400" 
+                            className="w-3 h-3 hover:text-red-400 ml-1" 
                             onClick={(e) => { e.stopPropagation(); handleDeleteFolder(f.id); }} 
                           />
                         )}
@@ -2942,11 +2993,21 @@ const Dashboard = () => {
                     ))}
                     <button 
                       onClick={handleCreateFolder}
-                      className="p-2 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 transition-all"
+                      className="h-10 w-10 shrink-0 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 transition-all flex items-center justify-center p-0"
+                      title="Create Folder"
                     >
-                      <FolderPlus className="w-4 h-4" />
+                      <FolderPlus className="w-5 h-5" />
                     </button>
                   </div>
+                  {savedHooks.length > 0 && (
+                    <button 
+                      onClick={() => { if(confirm("Clear all saved hooks?")) setSavedHooks([]); }}
+                      className="bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white p-2.5 rounded-xl transition-all shrink-0 h-10 w-10 flex items-center justify-center"
+                      title="Clear All"
+                    >
+                      <Trash2 className="w-5 h-5" />
+                    </button>
+                  )}
                 </div>
 
                 {filteredSavedHooks.length > 0 ? (
@@ -2956,24 +3017,42 @@ const Dashboard = () => {
                         <div className="flex justify-between items-start">
                           <p className="text-lg font-medium leading-relaxed pr-12">{hook.text}</p>
                           <div className="flex items-center space-x-2">
-                            <div className="relative group/menu">
-                              <button className="text-text-secondary hover:text-white p-1">
+                            <div className="relative">
+                              <button 
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  const menu = e.currentTarget.nextElementSibling;
+                                  menu?.classList.toggle('hidden');
+                                }}
+                                className="text-text-secondary hover:text-white p-1 cursor-pointer focus:outline-none"
+                              >
                                 <MoreVertical className="w-5 h-5" />
                               </button>
-                              <div className="absolute right-0 top-full mt-2 w-48 glass rounded-xl border border-white/10 p-2 hidden group-hover/menu:block z-20 shadow-2xl">
-                                <p className="text-[10px] uppercase tracking-widest text-text-secondary px-2 py-1">Move to Folder</p>
+                              <div className="absolute right-0 top-full mt-2 w-48 glass rounded-xl border border-white/20 p-2 hidden z-30 shadow-2xl bg-black/90">
+                                <p className="text-[10px] uppercase tracking-widest text-text-secondary px-2 py-2 border-b border-white/5 mb-1">Move to Folder</p>
                                 {folders.map(f => (
                                   <button 
                                     key={f.id}
-                                    onClick={() => handleMoveToFolder(hook.id, f.id)}
-                                    className="w-full text-left px-3 py-2 rounded-lg text-xs hover:bg-white/5 transition-all"
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      handleMoveToFolder(hook.id, f.id);
+                                      e.currentTarget.parentElement?.classList.add('hidden');
+                                    }}
+                                    className={cn(
+                                      "w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center justify-between",
+                                      hookFolderMap[hook.id] === f.id ? "text-primary bg-primary/10" : "hover:bg-white/5"
+                                    )}
                                   >
-                                    {f.name}
+                                    <span>{f.name}</span>
+                                    {hookFolderMap[hook.id] === f.id && <CheckCircle2 className="w-3 h-3" />}
                                   </button>
                                 ))}
                                 <div className="h-px bg-white/10 my-1" />
                                 <button 
-                                  onClick={() => handleSaveHook(hook)}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    handleSaveHook(hook);
+                                  }}
                                   className="w-full text-left px-3 py-2 rounded-lg text-xs text-red-400 hover:bg-red-400/10 transition-all flex items-center space-x-2"
                                 >
                                   <Trash2 className="w-3 h-3" />
