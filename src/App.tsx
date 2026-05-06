@@ -45,9 +45,6 @@ import {
   Heart,
   ExternalLink,
   ShieldCheck,
-  Shield,
-  UserCheck,
-  Lock,
   Target,
   FileSearch
 } from "lucide-react";
@@ -371,116 +368,16 @@ const NicheIndex = () => (
   </section>
 );
 
-const LiveUsageTicker = () => {
-  const [count, setCount] = useState(12482);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount(prev => prev + Math.floor(Math.random() * 3));
-    }, 5000);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <div className="fixed bottom-6 left-6 z-50 hidden md:block">
-      <div className="glass px-4 py-2 rounded-full border-primary/20 flex items-center gap-3 animate-bounce">
-        <div className="w-2 h-2 rounded-full bg-green-500 animate-pulse" />
-        <span className="text-xs font-bold text-white whitespace-nowrap">{count.toLocaleString()} creators online now</span>
-      </div>
-    </div>
-  );
-};
-
-const TopBanner = () => (
-  <div className="bg-primary/10 border-b border-primary/20 py-2.5 text-center relative overflow-hidden backdrop-blur-md">
-    <div className="absolute inset-0 bg-gradient-to-r from-transparent via-primary/5 to-transparent animate-shimmer" />
-    <div className="flex justify-center items-center gap-3 px-4">
-      <div className="relative">
-        <div className="absolute inset-0 bg-primary/40 blur-sm animate-pulse rounded-full" />
-        <Rocket size={14} className="text-primary relative z-10" />
-      </div>
-      <span className="text-[9px] md:text-xs font-bold text-white uppercase tracking-[0.2em] relative z-10">
-        Update: <span className="text-primary">2026 Viral Retention Psychology</span> algorithm applied.
-      </span>
-      <div className="hidden sm:flex items-center gap-2 bg-white/10 px-2 py-0.5 rounded-full border border-white/10 relative z-10">
-        <Shield size={10} className="text-green-500" />
-        <span className="text-[8px] font-black uppercase text-white">Verified Secure</span>
-      </div>
-    </div>
-  </div>
-);
-
-const BrandBar = () => (
-  <div className="py-12 border-y border-white/5 bg-white/[0.02]">
-    <div className="max-w-7xl mx-auto px-4">
-      <p className="text-center text-text-secondary text-sm font-mono uppercase tracking-[0.2em] mb-10">Optimized for major algorithms</p>
-      <div className="flex flex-wrap justify-center items-center gap-12 md:gap-24 opacity-40 grayscale hover:grayscale-0 transition-all duration-700">
-        <Instagram size={32} />
-        <Youtube size={32} />
-        <Twitter size={32} />
-        <span className="text-2xl font-black italic tracking-tighter text-white">TikTok</span>
-        <span className="text-2xl font-black tracking-tighter text-white">Snapchat</span>
-      </div>
-    </div>
-  </div>
-);
-
-const CreatorGuarantee = () => (
-  <section className="py-24 px-4">
-    <div className="max-w-6xl mx-auto glass rounded-[3rem] p-12 md:p-16 border-primary/20 relative overflow-hidden">
-      <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 blur-[120px] -z-10" />
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-        <div className="space-y-8">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-primary/20 border border-primary/30 text-primary text-sm font-bold">
-            <ShieldCheck size={16} /> 100% Privacy Protected
-          </div>
-          <h2 className="text-4xl md:text-5xl font-black font-display uppercase leading-none">The ReelHooks <span className="text-primary">Promise</span></h2>
-          <p className="text-lg text-text-secondary leading-relaxed">
-            We built ReelHooks for creators who are tired of hidden fees and data tracking. We guarantee:
-          </p>
-          <ul className="space-y-4">
-            {[
-              "No Email Required to generate your viral hooks.",
-              "We never store your video scripts or personal ideas.",
-              "100% Free Forever for individual creators and students.",
-              "Data-backed hooks based on REAL 2026 trending metrics."
-            ].map((text, i) => (
-              <li key={i} className="flex items-start gap-3 text-white font-medium">
-                <CheckCircle2 className="text-primary shrink-0 mt-1" size={20} /> {text}
-              </li>
-            ))}
-          </ul>
-        </div>
-        <div className="relative group">
-          <div className="absolute -inset-4 bg-primary/20 blur-3xl opacity-0 group-hover:opacity-100 transition-opacity" />
-          <div className="glass p-8 rounded-3xl border-white/10 relative">
-            <div className="flex items-center gap-4 mb-6">
-              <div className="w-16 h-16 rounded-full bg-primary/20 flex items-center justify-center text-primary">
-                <Users size={32} />
-              </div>
-              <div>
-                <div className="text-3xl font-black text-white">12,482+</div>
-                <div className="text-text-secondary text-sm">Active Creators Today</div>
-              </div>
-            </div>
-            <p className="text-text-secondary italic text-lg leading-relaxed">"ReelHooks is the first tool I trust. No sign-up wall, just pure value every single morning before I film."</p>
-            <div className="mt-4 font-bold text-white">— Aryan K., Finance Creator</div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </section>
-);
-
 const Footer = () => (
   <footer className="bg-bg border-t border-white/5 py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
-        <div className="space-y-6">
-          <Link to="/" className="inline-block">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="space-y-4">
+          <Link to="/" className="flex items-center">
             <img 
-              src="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" 
-              alt="ReelHooks.site Logo - #1 Viral Hook Generator" 
-              className="h-10 w-auto"
+              src="https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy" 
+              alt="ReelHooks Logo" 
+              className="h-8 w-auto"
               referrerPolicy="no-referrer"
               loading="lazy"
             />
@@ -491,48 +388,52 @@ const Footer = () => (
             helping creators master the <strong>hook for instagram reel</strong> retention.
           </p>
           <div className="flex space-x-4 pt-2">
-            <Link to="/instagram-reel-hooks" className="text-text-secondary hover:text-primary transition-colors">
-              <Instagram size={20} />
-            </Link>
+            <a href="https://instagram.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+              <Instagram className="w-5 h-5" />
+            </a>
             <a href="https://twitter.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
-              <Twitter size={20} />
+              <Twitter className="w-5 h-5" />
             </a>
             <a href="https://youtube.com/@reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
-              <Youtube size={20} />
+              <Youtube className="w-5 h-5" />
+            </a>
+            <a href="https://linkedin.com/company/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+              <Linkedin className="w-5 h-5" />
             </a>
           </div>
         </div>
-
-        <div>
-          <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Knowledge Hub</h3>
-          <ul className="space-y-4 text-sm text-text-secondary font-medium">
-            <li><Link to="/how-to-write-hooks-for-reels" className="hover:text-primary transition-colors">How to Write Hooks</Link></li>
-            <li><Link to="/script-hook" className="hover:text-primary transition-colors">Script Hook Strategy</Link></li>
-            <li><Link to="/reel-hook-analyzer" className="hover:text-primary transition-colors">Hook Checker Instagram</Link></li>
-            <li><Link to="/viral-instagram-reels-guide-2026" className="hover:text-primary transition-colors">Viral Growth Guide</Link></li>
-            <li><Link to="/best-time-to-post-reels" className="hover:text-primary transition-colors">Best Posting Times</Link></li>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Product</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/tools/hook-generator" className="hover:text-primary transition-colors py-1 block">Hook Generator</Link></li>
+            <li><Link to="/tools/instagram-caption-generator" className="hover:text-primary transition-colors py-1 block">Caption Builder</Link></li>
+            <li><Link to="/tools/instagram-hashtag-generator" className="hover:text-primary transition-colors py-1 block">Hashtag Packs</Link></li>
+            <li><Link to="/tools/instagram-reel-generator" className="hover:text-primary transition-colors py-1 block">Reel Scripts</Link></li>
           </ul>
         </div>
-
-        <div>
-          <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Viral Mastery</h3>
-          <ul className="space-y-4 text-sm text-text-secondary font-medium">
-            <li><Link to="/reelsbot-vs-reelhooks" className="hover:text-primary transition-colors">Reelsbot Alternative</Link></li>
-            <li><Link to="/trading-hook-video-instagram" className="hover:text-primary transition-colors">Trading Reel Hooks</Link></li>
-            <li><Link to="/baking-easter-reels-hooks" className="hover:text-primary transition-colors">Baking & Holiday Hooks</Link></li>
-            <li><Link to="/ai-quick-facial-reel-hook" className="hover:text-primary transition-colors">Facial Expression Hooks</Link></li>
-            <li><Link to="/reel-hook-apps" className="hover:text-primary transition-colors">Best Reel Hook Apps</Link></li>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Knowledge Hub</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy Guide</Link></li>
+            <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Reel Hooks in Hindi</Link></li>
+            <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Reel Hooks</Link></li>
+            <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors py-1 block">Finance Reel Hooks</Link></li>
+            <li><Link to="/business-reel-hooks" className="hover:text-primary transition-colors py-1 block">Business Hook Ideas</Link></li>
           </ul>
         </div>
-
-        <div>
-          <h3 className="text-white font-bold mb-6 uppercase tracking-widest text-sm">Free AI Tools</h3>
-          <ul className="space-y-4 text-sm text-text-secondary font-medium">
-            <li><Link to="/tools/hook-generator" className="hover:text-primary transition-colors">Hook Generator Free</Link></li>
-            <li><Link to="/instagram-caption-generator" className="hover:text-primary transition-colors">Reel Caption Maker</Link></li>
-            <li><Link to="/hashtags-generator" className="hover:text-primary transition-colors">Viral Hashtag Pro</Link></li>
-            <li><Link to="/content-ideas-generator" className="hover:text-primary transition-colors">Content Ideas Tool</Link></li>
-            <li><Link to="/blog" className="hover:text-primary transition-colors">Growth Blog 2026</Link></li>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Company</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/about" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
+            <li><Link to="/privacy" className="hover:text-primary transition-colors py-1 block">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="hover:text-primary transition-colors py-1 block">Terms of Service</Link></li>
+          </ul>
+        </div>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Support</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><a href="mailto:support@reelhooks.site" className="hover:text-primary transition-colors py-1 block">Contact Us</a></li>
+            <li><Link to="/faq" className="hover:text-primary transition-colors py-1 block">FAQ</Link></li>
           </ul>
         </div>
       </div>
@@ -612,7 +513,7 @@ const Hero = () => {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ delay: 0.5 }}
-          className="pt-12 flex flex-wrap justify-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all border-b border-white/5 pb-12"
+          className="pt-12 flex flex-wrap justify-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all"
         >
           <div className="flex items-center space-x-2">
             <Award className="w-6 h-6" />
@@ -620,19 +521,8 @@ const Hero = () => {
           </div>
           <div className="flex items-center space-x-2">
             <Users className="w-6 h-6" />
-            <span className="text-base font-bold">12k+ Global Creators</span>
+            <span className="text-base font-bold">10k+ Creators</span>
           </div>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0 }} 
-          animate={{ opacity: 1 }} 
-          transition={{ delay: 1 }} 
-          className="pt-8 flex flex-wrap justify-center gap-8 text-xs font-mono uppercase tracking-widest text-text-secondary"
-        >
-          <span className="flex items-center gap-2"><Shield className="w-4 h-4 text-green-500" /> 100% Privacy Protected</span>
-          <span className="flex items-center gap-2"><UserCheck className="w-4 h-4 text-primary" /> No Email Required</span>
-          <span className="flex items-center gap-2"><Lock className="w-4 h-4 text-primary" /> AES-256 Secured Ideas</span>
         </motion.div>
       </div>
     </section>
@@ -653,13 +543,13 @@ const WhatIsHookGenerator = () => (
           <h3 className="text-2xl font-bold text-white flex items-center gap-3">
             <Target className="text-primary w-6 h-6" /> Reel Hook Apps
           </h3>
-          <p className="text-text-secondary">Avoid heavy <Link to="/reel-hook-apps" className="text-primary hover:underline font-bold font-sans">reel hook apps</Link> that slow you down. Our web-based <strong>hook maker for reel</strong> content works instantly in your browser to deliver high-converting <strong>viral ai auto hooks</strong>.</p>
+          <p className="text-text-secondary">Avoid heavy <strong>reel hook apps</strong> that slow you down. Our web-based <strong>hook maker for reel</strong> content works instantly in your browser to deliver high-converting <strong>viral ai auto hooks</strong>.</p>
         </div>
         <div className="glass p-8 rounded-3xl space-y-4 border-white/5">
           <h3 className="text-2xl font-bold text-white flex items-center gap-3">
             <RefreshCw className="text-primary w-6 h-6" /> Hinglish Hook Support
           </h3>
-          <p className="text-text-secondary">Get the perfect <strong>hinglish hook for instagram reel</strong> success. We understand the cultural nuances of Indian 2026 trends, making us the <Link to="/reelsbot-vs-reelhooks" className="text-primary hover:underline font-bold font-sans">best ai to get viral reel hook</Link> results.</p>
+          <p className="text-text-secondary">Get the perfect <strong>hinglish hook for instagram reel</strong> success. We understand the cultural nuances of Indian 2026 trends, making us the <strong>best ai to get viral reel hook</strong> results.</p>
         </div>
       </div>
     </div>
@@ -804,7 +694,7 @@ const ExpandedFAQ = () => (
           { q: "How many hooks can I generate per day?", a: "There are currently no limits! You can generate as many hooks as you need for your content calendar." },
           { q: "How does the AI generate Hindi hooks?", a: "Our AI is fine-tuned on millions of viral Indian content pieces, mastering the colloquial nuances of Hindi and Hinglish." },
           { q: "Can I use these hooks for YouTube Shorts?", a: "Absolutely. The psychological triggers for retention are identical for Reels, TikTok, and YouTube Shorts." },
-          { q: "Why are the first 3 seconds of a Reel important?", a: <><strong><Link to="/viral-instagram-reels-guide-2026" className="text-primary hover:underline">Instagram's algorithm</Link></strong> primarily looks at watch time. If you lose the viewer in 3 seconds, your reach is throttled.</> },
+          { q: "Why are the first 3 seconds of a Reel important?", a: "Instagram's algorithm primarily looks at watch time. If you lose the viewer in 3 seconds, your reach is throttled." },
           { q: "Do I need to copy the hooks exactly?", a: "While our hooks are data-backed, feel free to tweak them to match your unique personality and brand voice." },
           { q: "Is the tool mobile-friendly?", a: "Yes, ReelHooks.site is fully optimized for mobile devices, so you can generate hooks on the go." },
           { q: "What niches are supported?", a: "We support over 50+ niches including Fitness, Finance, Business, Tech, Cooking, Travel, and more." },
@@ -1044,14 +934,10 @@ const ProgrammaticHooksPage = () => {
       <div className="space-y-6">
         <h1 className="text-4xl md:text-6xl font-bold font-display capitalize">{nicheName} Reel Hooks Generator</h1>
         <p className="text-xl text-text-secondary leading-relaxed">
-          {richContent?.introduction || (
-            <>
-              Struggling to get views on your {nicheName} reels? The first 3 seconds are everything. 
-              Our <Link to="/tools/hook-generator" className="text-primary hover:underline font-bold">instagram hook generator</Link> has analyzed thousands of viral videos to bring you 
-              these high-performing viral reel hooks specifically optimized for the {nicheName} niche. 
-              Whether you need <strong>reel hooks in hindi</strong> or english, we've got you covered.
-            </>
-          )}
+          {richContent?.introduction || `Struggling to get views on your ${nicheName} reels? The first 3 seconds are everything. 
+          Our instagram hook generator has analyzed thousands of viral videos to bring you 
+          these high-performing viral reel hooks specifically optimized for the ${nicheName} niche. 
+          Whether you need reel hooks in hindi or english, we've got you covered.`}
         </p>
       </div>
 
@@ -1102,7 +988,7 @@ const ProgrammaticHooksPage = () => {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
           <div className="space-y-2">
             <h3 className="font-bold text-primary text-lg">Hook Psychology</h3>
-            <p className="text-base text-text-secondary">Start with a visual or verbal shock to stop the scroll immediately. This is the core of <Link to="/how-to-write-hooks-for-reels" className="text-primary hover:underline">viral reel hooks</Link>.</p>
+            <p className="text-base text-text-secondary">Start with a visual or verbal shock to stop the scroll immediately. This is the core of viral reel hooks.</p>
           </div>
           <div className="space-y-2">
             <h3 className="font-bold text-primary text-lg">Attention Grabbing Intros</h3>
@@ -1110,7 +996,7 @@ const ProgrammaticHooksPage = () => {
           </div>
           <div className="space-y-2">
             <h3 className="font-bold text-primary text-lg">Short-form Storytelling</h3>
-            <p className="text-base text-text-secondary">Keep it fast-paced. Every second must provide value or build tension to keep <Link to="/viral-instagram-reels-guide-2026" className="text-primary hover:underline">retention</Link> high.</p>
+            <p className="text-base text-text-secondary">Keep it fast-paced. Every second must provide value or build tension to keep retention high.</p>
           </div>
           <div className="space-y-2">
             <h3 className="font-bold text-primary text-lg">Strong Call to Action</h3>
@@ -1127,13 +1013,9 @@ const ProgrammaticHooksPage = () => {
       <div className="space-y-8">
         <h2 className="text-3xl font-bold">Best Hooks for the {nicheName} Niche</h2>
         <p className="text-text-secondary leading-relaxed">
-          {richContent?.section2 || (
-            <>
-              The best hooks for reels in the {nicheName} niche are those that address specific pain points or offer immediate transformation. 
-              By using our <Link to="/tools/hook-generator" className="text-primary hover:underline">instagram hook generator</Link>, you can ensure your content stands out in a crowded feed. 
-              These hooks work because they leverage human curiosity and the desire for self-improvement or entertainment.
-            </>
-          )}
+          {richContent?.section2 || `The best hooks for reels in the ${nicheName} niche are those that address specific pain points or offer immediate transformation. 
+          By using our instagram hook generator, you can ensure your content stands out in a crowded feed. 
+          These hooks work because they leverage human curiosity and the desire for self-improvement or entertainment.`}
         </p>
       </div>
 
@@ -1183,7 +1065,7 @@ const ProgrammaticHooksPage = () => {
         <Link to="/dashboard" className="bg-primary text-white px-8 py-4 rounded-full font-bold inline-block hover:scale-105 transition-all shadow-lg shadow-primary/25">
           Generate Custom {nicheName} Hooks Now
         </Link>
-        <p className="mt-4 text-sm text-text-secondary">Try our <Link to="/tools/hook-generator" className="text-primary hover:underline font-bold">instagram hook generator</Link> today.</p>
+        <p className="mt-4 text-sm text-text-secondary">Try our <span className="text-primary">instagram hook generator</span> today.</p>
       </div>
     </div>
   );
@@ -2218,20 +2100,8 @@ const Dashboard = () => {
   const [nicheSearch, setNicheSearch] = useState("");
   const [isNicheDropdownOpen, setIsNicheDropdownOpen] = useState(false);
   const [nicheSelectedIndex, setNicheSelectedIndex] = useState(-1);
-  const dropdownRef = React.useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    const handleClickOutside = (event: MouseEvent) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
-        setIsNicheDropdownOpen(false);
-      }
-    };
-    document.addEventListener("mousedown", handleClickOutside);
-    return () => document.removeEventListener("mousedown", handleClickOutside);
-  }, []);
 
   const [isGenerating, setIsGenerating] = useState(false);
-  const [loadingStep, setLoadingStep] = useState("");
   const [hooks, setHooks] = useState<Hook[]>([]);
   const [activeTab, setActiveTab] = useState<"hooks" | "ideas" | "improver" | "tools" | "saved">("hooks");
   
@@ -2246,9 +2116,8 @@ const Dashboard = () => {
 
   const handleNicheSelect = (n: Niche, s?: string) => {
     setNiche(n);
-    const subNiche = s || n.subcategories[0];
-    setSub(subNiche);
-    setNicheSearch(`${n.name} > ${subNiche}`);
+    setSub(s || n.subcategories[0]);
+    setNicheSearch(s ? `${n.name} > ${s}` : n.name);
     setIsNicheDropdownOpen(false);
     setNicheSelectedIndex(-1);
   };
@@ -2326,7 +2195,6 @@ const Dashboard = () => {
     if (activeFolder === "all") return savedHooks;
     return savedHooks.filter(h => hookFolderMap[h.id] === activeFolder);
   }, [savedHooks, activeFolder, hookFolderMap]);
-  
   const [modal, setModal] = useState<{ isOpen: boolean, title: string, content: React.ReactNode }>({
     isOpen: false,
     title: "",
@@ -2335,7 +2203,7 @@ const Dashboard = () => {
 
   const handleExtra = async (type: "caption" | "hashtags" | "script" | "ideas" | "improve" | "analyze" | "angle" | "time" | "calendar", context: string) => {
     setModal({ isOpen: true, title: `Generating ${type}...`, content: <div className="flex justify-center py-12"><RefreshCw className="animate-spin w-8 h-8 text-primary" /></div> });
-    const result = await generateExtraAI(type as any, context, lang, tone);
+    const result = await generateExtraAI(type as any, context);
     
     let content = null;
     if (type === "caption") {
@@ -2451,7 +2319,7 @@ const Dashboard = () => {
   const handleGenerateIdeas = async () => {
     setIsGenerating(true);
     try {
-      const result = await generateExtraAI("ideas", `${niche.name} (${sub})`, lang, tone);
+      const result = await generateExtraAI("ideas", niche.name);
       setIdeas(result.ideas || []);
     } catch (err) {
       console.error("Ideas generation failed:", err);
@@ -2464,7 +2332,7 @@ const Dashboard = () => {
     if (!improveInput) return;
     setIsGenerating(true);
     try {
-      const result = await generateExtraAI("improve", improveInput, lang, tone);
+      const result = await generateExtraAI("improve", improveInput);
       setImprovedHooks(result.variations || []);
     } catch (err) {
       console.error("Hook improvement failed:", err);
@@ -2487,61 +2355,24 @@ const Dashboard = () => {
     });
   };
 
-  const loadingMessages = [
-    "Analyzing niche psychology...",
-    "Injecting viral triggers...",
-    "Optimizing for 2026 algorithm...",
-    "Generating high-retention hooks...",
-    "Finalizing viral scores..."
-  ];
-
   const handleGenerate = async () => {
     setIsGenerating(true);
-    let stepIndex = 0;
-    const interval = setInterval(() => {
-      setLoadingStep(loadingMessages[stepIndex % loadingMessages.length]);
-      stepIndex++;
-    }, 1500);
-
     try {
-      // Primary Attempt
-      let results = await generateHooksAI(niche.name, sub, lang, tone);
+      const results = await generateHooksAI(niche.name, sub, lang, tone);
       
-      // Secondary Retry if empty (Silent retry before showing error)
       if (results.length === 0) {
-        setLoadingStep("AI is being modest. Retrying...");
-        results = await generateHooksAI(niche.name, sub, lang, tone);
+        setModal({
+          isOpen: true,
+          title: "Generation Error",
+          content: <p className="text-center py-4">Something went wrong while generating hooks. Please try again.</p>
+        });
+      } else {
+        setHooks(results);
       }
-
-      if (results.length === 0) {
-        throw new Error("Unable to generate hooks");
-      }
-      
-      setHooks(results);
-      if (activeTab !== "hooks") setActiveTab("hooks");
     } catch (err) {
-      console.error("Dashboard Generation Error:", err);
-      setModal({
-        isOpen: true,
-        title: "Service Temporarily Busy",
-        content: (
-          <div className="space-y-4 text-center py-4">
-            <p className="text-text-secondary">
-              Our AI nodes are under heavy load. We've optimized your request for a retry.
-            </p>
-            <button 
-              onClick={() => { setModal({ ...modal, isOpen: false }); handleGenerate(); }}
-              className="bg-primary hover:bg-primary-hover px-6 py-2 rounded-xl font-bold transition-all cursor-pointer"
-            >
-              Retry Generation
-            </button>
-          </div>
-        )
-      });
+      console.error("Generation failed:", err);
     } finally {
-      clearInterval(interval);
       setIsGenerating(false);
-      setLoadingStep("");
     }
   };
 
@@ -2573,7 +2404,7 @@ const Dashboard = () => {
               <div className="space-y-4">
                 <div className="space-y-2 relative">
                   <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Niche / Category</label>
-                  <div className="relative group" ref={dropdownRef}>
+                  <div className="relative group">
                     <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none z-10">
                       <Search className="w-5 h-5 text-primary/60 group-focus-within:text-primary transition-colors" />
                     </div>
@@ -2582,56 +2413,36 @@ const Dashboard = () => {
                       value={nicheSearch}
                       onChange={(e) => {
                         setNicheSearch(e.target.value);
-                        if (!isNicheDropdownOpen) setIsNicheDropdownOpen(true);
-                      }}
-                      onFocus={() => {
                         setIsNicheDropdownOpen(true);
-                        if (nicheSearch.includes(">")) setNicheSearch("");
                       }}
+                      onFocus={() => setIsNicheDropdownOpen(true)}
                       onKeyDown={handleKeyDown}
                       placeholder="Search niche (e.g. Fitness)..."
-                      className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-12 pr-12 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all placeholder:text-text-secondary/40 group-hover:bg-white/[0.08] shadow-lg text-white"
+                      className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all placeholder:text-text-secondary/40 group-hover:bg-white/[0.08] shadow-lg"
                     />
-                    {nicheSearch && (
-                      <button 
-                        onClick={() => setNicheSearch("")}
-                        className="absolute inset-y-0 right-4 flex items-center text-text-secondary hover:text-white transition-colors"
-                      >
-                        <X className="w-5 h-5" />
-                      </button>
-                    )}
                     {isNicheDropdownOpen && (
-                    <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/20 z-[60] custom-scrollbar shadow-2xl p-2 bg-black/90 backdrop-blur-2xl">
+                      <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/10 z-50 custom-scrollbar shadow-2xl p-2 bg-black/80">
                         {filteredNiches.length > 0 ? (
                           filteredNiches.map((n, idx) => (
-                            <div key={n.id} className="mb-2 last:mb-0">
-                              <div 
+                            <div key={n.id} className="mb-1 last:mb-0">
+                              <button 
+                                onClick={() => handleNicheSelect(n)}
                                 className={cn(
-                                  "w-full text-left px-4 py-3 rounded-xl text-sm font-bold flex items-center justify-between group/niche cursor-default bg-white/5",
-                                  niche.id === n.id ? "ring-1 ring-primary/50" : ""
+                                  "w-full text-left px-4 py-2.5 rounded-xl text-sm font-bold hover:bg-primary/20 transition-all flex items-center justify-between group/niche",
+                                  nicheSelectedIndex === idx ? "bg-primary/30" : "bg-white/5"
                                 )}
                               >
-                                <span className="text-primary">{n.name}</span>
-                                <ChevronDown className="w-4 h-4 opacity-50" />
-                              </div>
-                              <div className="mt-1 grid grid-cols-1 gap-1">
+                                <span className="group-hover/niche:translate-x-1 transition-transform">{n.name}</span>
+                                <ChevronDown className="w-4 h-4 opacity-30 group-hover/niche:opacity-100 transition-opacity" />
+                              </button>
+                              <div className="mt-1 space-y-1">
                                 {n.subcategories.map(s => (
                                   <button 
                                     key={s}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleNicheSelect(n, s);
-                                    }}
-                                    className={cn(
-                                      "w-full text-left px-8 py-2.5 text-sm font-medium rounded-lg transition-all flex items-center space-x-2 group/sub",
-                                      sub === s && niche.id === n.id ? "bg-primary/20 text-primary" : "text-text-secondary hover:text-white hover:bg-white/10"
-                                    )}
+                                    onClick={() => handleNicheSelect(n, s)}
+                                    className="w-full text-left px-8 py-2 text-xs font-medium text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-all"
                                   >
-                                    <div className={cn(
-                                      "w-1.5 h-1.5 rounded-full transition-all group-hover/sub:scale-125",
-                                      sub === s && niche.id === n.id ? "bg-primary" : "bg-white/10"
-                                    )} />
-                                    <span>{s}</span>
+                                    {s}
                                   </button>
                                 ))}
                               </div>
@@ -2697,65 +2508,36 @@ const Dashboard = () => {
             <button 
               onClick={handleGenerate}
               disabled={isGenerating}
-              className="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-5 rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-3 shadow-xl shadow-primary/20 disabled:opacity-50 disabled:grayscale group relative overflow-hidden cursor-pointer"
+              className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isGenerating ? (
-                <div className="flex flex-col items-center">
-                  <div className="flex items-center gap-3">
-                    <RefreshCw className="w-5 h-5 animate-spin" />
-                    <span>{loadingStep || "AI Generator Working..."}</span>
-                  </div>
-                  <div className="absolute bottom-0 left-0 h-1 bg-white/30 transition-all duration-[1.5s]" style={{ width: `${(loadingMessages.indexOf(loadingStep) + 1) * 20}%` }} />
-                </div>
+                <RefreshCw className="w-5 h-5 animate-spin" />
               ) : (
                 <>
-                  <Sparkles className="w-6 h-6 animate-pulse group-hover:rotate-12 transition-transform" />
-                  <span className="text-lg">Generate Viral Hooks</span>
+                  <Sparkles className="w-5 h-5" />
+                  <span>Generate Hooks</span>
                 </>
               )}
             </button>
-            <div className="mt-4 flex items-center justify-center gap-4 text-[10px] text-text-secondary uppercase tracking-widest font-bold">
-              <span className="flex items-center gap-1"><UserCheck size={12} className="text-primary" /> No Sign-up</span>
-              <span className="w-1 h-1 rounded-full bg-white/20" />
-              <span className="flex items-center gap-1"><Shield size={12} className="text-green-500" /> Private</span>
-              <span className="w-1 h-1 rounded-full bg-white/20" />
-              <span className="flex items-center gap-1"><Zap size={12} className="text-yellow-500" /> Instant</span>
-            </div>
           </div>
 
           {/* Sidebar Info */}
-          <div className="space-y-4">
-            <div className="bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 p-6 rounded-2xl space-y-4">
-              <h3 className="font-bold text-xl">Viral Content Suite</h3>
-              <ul className="text-base space-y-3 text-text-secondary">
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  <span>Unlimited generations</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  <span>Access all viral hooks</span>
-                </li>
-                <li className="flex items-center space-x-2">
-                  <CheckCircle2 className="w-5 h-5 text-primary" />
-                  <span>Caption & Hashtag generator</span>
-                </li>
-              </ul>
-            </div>
-            
-            <div className="glass p-6 rounded-2xl border-white/5 bg-white/[0.02] space-y-4">
-              <div className="flex items-center gap-3 text-green-500 font-bold text-sm">
-                <ShieldCheck size={18} />
-                <span>Verified Data Playground</span>
-              </div>
-              <p className="text-xs text-text-secondary leading-relaxed uppercase tracking-wider font-mono">
-                Your scripts are processed locally and never stored. Advanced AES-256 generation is active for your session.
-              </p>
-              <div className="pt-4 border-t border-white/5 flex items-center justify-between text-[10px] text-text-secondary font-bold uppercase tracking-widest">
-                <span className="flex items-center gap-1"><Lock size={10} /> SSL SECURED</span>
-                <span className="flex items-center gap-1"><Shield size={10} /> 100% PRIVATE</span>
-              </div>
-            </div>
+          <div className="bg-gradient-to-br from-primary/20 to-secondary/20 border border-primary/30 p-6 rounded-2xl space-y-4">
+            <h3 className="font-bold text-xl">Viral Content Suite</h3>
+            <ul className="text-base space-y-3 text-text-secondary">
+              <li className="flex items-center space-x-2">
+                <CheckCircle2 className="w-5 h-5 text-primary" />
+                <span>Unlimited generations</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle2 className="w-5 h-5 text-primary" />
+                <span>Access all viral hooks</span>
+              </li>
+              <li className="flex items-center space-x-2">
+                <CheckCircle2 className="w-5 h-5 text-primary" />
+                <span>Caption & Hashtag generator</span>
+              </li>
+            </ul>
           </div>
         </div>
 
@@ -2781,10 +2563,6 @@ const Dashboard = () => {
             {activeTab === "hooks" ? (
               isGenerating ? (
                 <div className="space-y-4">
-                  <div className="text-center py-4 text-primary font-bold animate-bounce flex items-center justify-center gap-2">
-                    <Sparkles className="w-5 h-5" />
-                    <span>{loadingStep || "AI is working..."}</span>
-                  </div>
                   {[1, 2, 3].map(i => (
                     <div key={i} className="glass p-6 rounded-2xl animate-pulse space-y-4">
                       <div className="h-6 bg-white/10 rounded w-3/4"></div>
@@ -2883,68 +2661,49 @@ const Dashboard = () => {
               <div className="space-y-6">
                 <button 
                   onClick={handleGenerateIdeas}
-                  disabled={isGenerating}
-                  className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 transition-all cursor-pointer disabled:opacity-50"
+                  className="w-full bg-white/5 hover:bg-white/10 border border-white/10 py-4 rounded-xl font-bold flex items-center justify-center space-x-2 transition-all cursor-pointer"
                 >
-                  {isGenerating ? <RefreshCw className="animate-spin w-5 h-5" /> : <Lightbulb className="w-5 h-5 text-primary" />}
-                  <span>{isGenerating ? "AI Thinking..." : `Generate ${niche.name} Ideas`}</span>
+                  <Lightbulb className="w-5 h-5 text-primary" />
+                  <span>Generate {niche.name} Ideas</span>
                 </button>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {isGenerating && ideas.length === 0 ? (
-                    [1,2,3,4].map(i => <div key={i} className="glass p-6 rounded-2xl animate-pulse h-24" />)
-                  ) : (
-                    ideas.map((idea, i) => (
-                      <motion.div 
-                        key={i} 
-                        initial={{ opacity: 0, scale: 0.95 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="glass p-6 rounded-2xl space-y-3"
-                      >
-                        <h4 className="font-bold">{idea.title}</h4>
-                        <div className="flex items-center justify-between text-xs">
-                          <span className="text-text-secondary">Trigger: {idea.trigger}</span>
-                          <span className="bg-primary/10 text-primary px-2 py-1 rounded">{idea.difficulty}</span>
-                        </div>
-                      </motion.div>
-                    ))
-                  )}
+                  {ideas.map((idea, i) => (
+                    <div key={i} className="glass p-6 rounded-2xl space-y-3">
+                      <h4 className="font-bold">{idea.title}</h4>
+                      <div className="flex items-center justify-between text-xs">
+                        <span className="text-text-secondary">Trigger: {idea.trigger}</span>
+                        <span className="bg-primary/10 text-primary px-2 py-1 rounded">{idea.difficulty}</span>
+                      </div>
+                    </div>
+                  ))}
                 </div>
               </div>
             ) : activeTab === "improver" ? (
               <div className="space-y-6">
                 <div className="glass p-6 rounded-2xl space-y-4">
-                  <h3 className="font-bold text-lg">Hook Improver</h3>
+                  <h3 className="font-bold">Hook Improver</h3>
                   <textarea 
                     placeholder="Paste your weak hook here..."
-                    className="w-full bg-bg border border-white/10 rounded-xl p-4 min-h-[100px] focus:ring-2 focus:ring-primary/50 outline-none text-white"
+                    className="w-full bg-bg border border-white/10 rounded-xl p-4 min-h-[100px] focus:ring-2 focus:ring-primary/50 outline-none"
                     value={improveInput}
                     onChange={(e) => setImproveInput(e.target.value)}
                   />
                   <button 
                     onClick={handleImprove}
-                    disabled={isGenerating || !improveInput}
-                    className="w-full bg-primary text-white py-3 rounded-xl font-bold cursor-pointer transition-all hover:shadow-[0_0_20px_rgba(var(--color-primary),0.4)] disabled:opacity-50"
+                    className="w-full bg-primary text-white py-3 rounded-xl font-bold cursor-pointer"
                   >
-                    {isGenerating ? <RefreshCw className="animate-spin w-5 h-5 mx-auto" /> : "Improve My Hook"}
+                    Improve My Hook
                   </button>
                 </div>
                 <div className="space-y-4">
                   {improvedHooks.map((h, i) => (
-                    <motion.div 
-                      key={i} 
-                      initial={{ opacity: 0, x: -10 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="glass p-4 rounded-xl flex items-center justify-between group"
-                    >
-                      <p className="text-sm font-medium mr-4">{h.text}</p>
-                      <div className="flex items-center gap-3 shrink-0">
-                        <span className={cn(
-                          "text-xs font-bold px-2 py-1 rounded",
-                          h.score >= 90 ? "bg-[#22C55E]/10 text-[#22C55E]" : h.score >= 75 ? "bg-[#F59E0B]/10 text-[#F59E0B]" : "bg-[#EF4444]/10 text-[#EF4444]"
-                        )}>{h.score}%</span>
-                        <CopyButton text={h.text} className="opacity-0 group-hover:opacity-100 transition-opacity" />
-                      </div>
-                    </motion.div>
+                    <div key={i} className="glass p-4 rounded-xl flex items-center justify-between">
+                      <p className="text-sm font-medium">{h.text}</p>
+                      <span className={cn(
+                        "text-xs font-bold px-2 py-1 rounded",
+                        h.score >= 90 ? "bg-[#22C55E]/10 text-[#22C55E]" : h.score >= 75 ? "bg-[#F59E0B]/10 text-[#F59E0B]" : "bg-[#EF4444]/10 text-[#EF4444]"
+                      )}>{h.score}%</span>
+                    </div>
                   ))}
                 </div>
               </div>
@@ -2971,21 +2730,21 @@ const Dashboard = () => {
               </div>
             ) : (
               <div className="space-y-6">
-                <div className="flex items-center justify-between gap-4">
-                  <div className="flex items-center space-x-2 overflow-x-auto custom-scrollbar pb-2 flex-1">
+                <div className="flex items-center justify-between">
+                  <div className="flex items-center space-x-2 overflow-x-auto custom-scrollbar pb-2">
                     {folders.map(f => (
                       <button 
                         key={f.id}
                         onClick={() => setActiveFolder(f.id)}
                         className={cn(
-                          "px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex items-center space-x-2 shrink-0 h-10",
-                          activeFolder === f.id ? "bg-primary text-white shadow-lg shadow-primary/20" : "bg-white/5 text-text-secondary hover:bg-white/10"
+                          "px-4 py-2 rounded-xl text-sm font-medium transition-all whitespace-nowrap flex items-center space-x-2",
+                          activeFolder === f.id ? "bg-primary text-white" : "bg-white/5 text-text-secondary hover:bg-white/10"
                         )}
                       >
                         <span>{f.name}</span>
                         {f.id !== "all" && (
                           <X 
-                            className="w-3 h-3 hover:text-red-400 ml-1" 
+                            className="w-3 h-3 hover:text-red-400" 
                             onClick={(e) => { e.stopPropagation(); handleDeleteFolder(f.id); }} 
                           />
                         )}
@@ -2993,21 +2752,11 @@ const Dashboard = () => {
                     ))}
                     <button 
                       onClick={handleCreateFolder}
-                      className="h-10 w-10 shrink-0 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 transition-all flex items-center justify-center p-0"
-                      title="Create Folder"
+                      className="p-2 rounded-xl bg-white/5 text-text-secondary hover:bg-white/10 transition-all"
                     >
-                      <FolderPlus className="w-5 h-5" />
+                      <FolderPlus className="w-4 h-4" />
                     </button>
                   </div>
-                  {savedHooks.length > 0 && (
-                    <button 
-                      onClick={() => { if(confirm("Clear all saved hooks?")) setSavedHooks([]); }}
-                      className="bg-red-500/10 text-red-400 hover:bg-red-500 hover:text-white p-2.5 rounded-xl transition-all shrink-0 h-10 w-10 flex items-center justify-center"
-                      title="Clear All"
-                    >
-                      <Trash2 className="w-5 h-5" />
-                    </button>
-                  )}
                 </div>
 
                 {filteredSavedHooks.length > 0 ? (
@@ -3017,42 +2766,24 @@ const Dashboard = () => {
                         <div className="flex justify-between items-start">
                           <p className="text-lg font-medium leading-relaxed pr-12">{hook.text}</p>
                           <div className="flex items-center space-x-2">
-                            <div className="relative">
-                              <button 
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  const menu = e.currentTarget.nextElementSibling;
-                                  menu?.classList.toggle('hidden');
-                                }}
-                                className="text-text-secondary hover:text-white p-1 cursor-pointer focus:outline-none"
-                              >
+                            <div className="relative group/menu">
+                              <button className="text-text-secondary hover:text-white p-1">
                                 <MoreVertical className="w-5 h-5" />
                               </button>
-                              <div className="absolute right-0 top-full mt-2 w-48 glass rounded-xl border border-white/20 p-2 hidden z-30 shadow-2xl bg-black/90">
-                                <p className="text-[10px] uppercase tracking-widest text-text-secondary px-2 py-2 border-b border-white/5 mb-1">Move to Folder</p>
+                              <div className="absolute right-0 top-full mt-2 w-48 glass rounded-xl border border-white/10 p-2 hidden group-hover/menu:block z-20 shadow-2xl">
+                                <p className="text-[10px] uppercase tracking-widest text-text-secondary px-2 py-1">Move to Folder</p>
                                 {folders.map(f => (
                                   <button 
                                     key={f.id}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      handleMoveToFolder(hook.id, f.id);
-                                      e.currentTarget.parentElement?.classList.add('hidden');
-                                    }}
-                                    className={cn(
-                                      "w-full text-left px-3 py-2 rounded-lg text-xs transition-all flex items-center justify-between",
-                                      hookFolderMap[hook.id] === f.id ? "text-primary bg-primary/10" : "hover:bg-white/5"
-                                    )}
+                                    onClick={() => handleMoveToFolder(hook.id, f.id)}
+                                    className="w-full text-left px-3 py-2 rounded-lg text-xs hover:bg-white/5 transition-all"
                                   >
-                                    <span>{f.name}</span>
-                                    {hookFolderMap[hook.id] === f.id && <CheckCircle2 className="w-3 h-3" />}
+                                    {f.name}
                                   </button>
                                 ))}
                                 <div className="h-px bg-white/10 my-1" />
                                 <button 
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    handleSaveHook(hook);
-                                  }}
+                                  onClick={() => handleSaveHook(hook)}
                                   className="w-full text-left px-3 py-2 rounded-lg text-xs text-red-400 hover:bg-red-400/10 transition-all flex items-center space-x-2"
                                 >
                                   <Trash2 className="w-3 h-3" />
@@ -3118,7 +2849,7 @@ const Dashboard = () => {
               <span>Viral Hooks</span>
             </h4>
             <p className="text-sm text-text-secondary leading-relaxed">
-              The first 3 seconds are the most critical. Our <span className="text-white font-medium">instagram hook generator</span> uses <Link to="/how-to-write-hooks-for-reels" className="text-primary hover:underline">retention psychology</Link> to craft opening lines that stop the scroll instantly.
+              The first 3 seconds are the most critical. Our <span className="text-white font-medium">instagram hook generator</span> uses retention psychology to craft opening lines that stop the scroll instantly.
             </p>
           </div>
           <div className="space-y-4">
@@ -3127,7 +2858,7 @@ const Dashboard = () => {
               <span>Smart Captions</span>
             </h4>
             <p className="text-sm text-text-secondary leading-relaxed">
-              Don't let your engagement die in the description. Generate <Link to="/instagram-caption-generator" className="text-primary hover:underline">SEO-optimized captions</Link> that drive saves, shares, and comments automatically.
+              Don't let your engagement die in the description. Generate SEO-optimized captions that drive saves, shares, and comments automatically.
             </p>
           </div>
           <div className="space-y-4">
@@ -3136,7 +2867,7 @@ const Dashboard = () => {
               <span>Hashtag Strategy</span>
             </h4>
             <p className="text-sm text-text-secondary leading-relaxed">
-              Reach your target audience with precision. Our AI suggests <Link to="/hashtags-generator" className="text-primary hover:underline">viral hashtags</Link> to boost your discoverability on the Explore page.
+              Reach your target audience with precision. Our AI suggests high-reach and niche-specific hashtags to boost your discoverability on the Explore page.
             </p>
           </div>
         </div>
@@ -3144,7 +2875,7 @@ const Dashboard = () => {
         <div className="glass p-8 rounded-3xl border-white/5 space-y-6">
           <h3 className="text-xl font-bold">Why use the ReelHooks Script Hook Generator?</h3>
           <p className="text-sm text-text-secondary leading-relaxed">
-            In 2026, the social media landscape is more competitive than ever. Every viral video starts with a professional <Link to="/script-hook" className="text-primary hover:underline font-bold">script hook</Link>. Generic content doesn't cut it anymore, which is why creators choose our <Link to="/reelsbot-vs-reelhooks" className="text-primary hover:underline font-bold">Reelsbot alternative</Link> for better results. ReelHooks.site provides you with a data-backed <strong>hook generator</strong> that leverages the latest AI models to ensure your reels and <Link to="/how-to-write-hooks-for-reels" className="text-primary hover:underline">YouTube Shorts</Link> have the best chance of going viral. Whether you're looking for a <Link to="/script-hook" className="text-white hover:text-primary font-medium underline">youtube script hook</Link>, <Link to="/hooks/fitness-english" className="text-white hover:text-primary font-medium underline">fitness script opening lines</Link>, or storytelling hooks in hindi, our tool adapts to your brand voice and target demographic.
+            In 2026, the social media landscape is more competitive than ever. Every viral video starts with a professional <Link to="/script-hook" className="text-primary hover:underline font-bold">script hook</Link>. Generic content doesn't cut it anymore. ReelHooks.site provides you with a data-backed <strong>hook generator</strong> that leverages the latest AI models to ensure your reels and YouTube Shorts have the best chance of going viral. Whether you're looking for a <Link to="/script-hook" className="text-white hover:text-primary font-medium underline">youtube script hook</Link>, <Link to="/hooks/fitness-english" className="text-white hover:text-primary font-medium underline">fitness script opening lines</Link>, or storytelling hooks in hindi, our tool adapts to your brand voice and target demographic.
           </p>
           <div className="flex flex-wrap gap-2">
             {["Script Hook", "YouTube Script Hook", "Viral Hook Examples", "Script Opening Lines", "Storytelling Hooks", "Instagram Growth"].map(tag => (
@@ -3174,8 +2905,6 @@ export default function App() {
     <HelmetProvider>
       <Router>
         <div className="min-h-screen flex flex-col">
-          <TopBanner />
-          <LiveUsageTicker />
           <PopupAd />
           <Navbar />
           <main className="flex-1">
@@ -3269,13 +2998,28 @@ export default function App() {
                     ]}
                   />
                   <Hero />
-                  <BrandBar />
                   <BannerAd />
                   <SkyscraperAd />
 
                   <WhatIsHookGenerator />
 
-                  <CreatorGuarantee />
+                  {/* Trust Signals */}
+                  <section className="py-12 border-y border-white/5 bg-white/[0.01]">
+                    <div className="max-w-7xl mx-auto px-4 flex flex-wrap justify-center md:justify-between items-center gap-8 opacity-60">
+                      {[
+                        { label: "120,000+ Hooks Generated", icon: <Zap className="w-4 h-4" /> },
+                        { label: "Hindi & Hinglish Support", icon: <Globe className="w-4 h-4" /> },
+                        { label: "15,000+ Creators", icon: <Users className="w-4 h-4" /> },
+                        { label: "Viral Data Backed", icon: <Rocket className="w-4 h-4" /> }
+                      ].map((item, i) => (
+                        <div key={i} className="flex items-center space-x-2">
+                          <span className="text-primary">{item.icon}</span>
+                          <span className="font-bold uppercase tracking-widest text-[10px]">{item.label}</span>
+                        </div>
+                      ))}
+                    </div>
+                  </section>
+
                   <ComparisonTable />
                   <HowItWorks />
                   <WhosItFor />
@@ -3392,9 +3136,6 @@ export default function App() {
                           { name: "Reel Hook Analyzer Tool", link: "/reel-hook-analyzer" },
                           { name: "Viral Hook Examples List", link: "/viral-hook-examples-generator" },
                           { name: "Viral Script Hook Generator", link: "/script-hook" },
-                          { name: "Viral AI Promo Formula", link: "/viral-ai-video-prompt-formula" },
-                          { name: "How To Start A Reel Guide", link: "/how-to-start-a-reel" },
-                          { name: "AI Quick Facial Hook", link: "/ai-quick-facial-reel-hook" },
                           { name: "Instagram Bio Ideas AI", link: "/instagram-bio-generator-hinglish" },
                           { name: "OpenAI SearchGPT Updates", link: "/ai-tools-news/ai-updates/openai-search-integration-updates" },
                           { name: "Free AI Software 2026", link: "/ai-tools-news/free-ai-tools/best-free-ai-tools-for-creators" }
