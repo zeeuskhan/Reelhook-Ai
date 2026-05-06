@@ -1,4 +1,17 @@
 User-agent: *
 Allow: /
+Disallow: /api/
+Disallow: /admin/
+Disallow: /dashboard?* # Avoid indexing filtered search results in dashboard
 
+# Host & Sitemap
+Host: https://www.reelhooks.site
 Sitemap: https://www.reelhooks.site/sitemap.xml
+
+# Crawl-delay for aggressive bots
+User-agent: PetalBot
+Crawl-delay: 10
+
+User-agent: bingbot
+Crawl-delay: 5
+

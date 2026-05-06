@@ -73,6 +73,7 @@ function safeJsonParse(text: string, fallback: any = []) {
 export const SEO = ({ 
   title, 
   description, 
+  keywords: pageKeywords,
   canonical, 
   schema,
   type = "website",
@@ -80,37 +81,78 @@ export const SEO = ({
 }: { 
   title: string, 
   description: string, 
+  keywords?: string[],
   canonical?: string, 
   schema?: any,
   type?: string,
   image?: string
 }) => {
   const siteUrl = "https://www.reelhooks.site";
-  const fullTitle = title.includes("ReelHooks.site") ? title : `${title} | ReelHooks.site`;
-  const fullCanonical = canonical || `${siteUrl}${window.location.pathname}`;
+  const location = useLocation();
+  const siteName = "ReelHooks";
   
-  // 2026 Semantic Keywords
-  const keywords = "hook generator, viral hook generator, best hook generator, ai hook generator, instagram hook generator, tiktok hook generator, reel hook generator, hook generator for reels, viral hooks for content creators, short form video hooks, hook generator free, best hooks for instagram reels, viral hooks for instagram reels, instagram reel hook examples, how to write hooks for reels, reel opening hook ideas, viral instagram hook generator, instagram reel hook templates, short hooks for instagram reels, catchy hooks for reels, scroll stopping hooks for instagram, hooks to start instagram reels, engaging hooks for instagram videos, instagram hook writing tips, hook ideas for short form videos, viral hook examples for creators, instagram hook generator free, reel hook writing formula, powerful hooks for instagram reels, hook ideas for viral reels, instagram reel opening lines, best first line for reels, hooks that make reels go viral, engaging instagram hook ideas, viral hook ideas for influencers, reel hook ideas for beginners, instagram hooks for business reels, reels hook ideas for marketing, instagram reel hook strategy, reel intro hook examples, viral hook phrases for reels, instagram reel hook tricks, hook lines for short videos, instagram reel hook list, hook examples for social media videos, reel hook writing tips, viral reel intro ideas, hooks to stop scrolling instagram, instagram reel attention grabbers, viral hooks for instagram creators, hooks for educational reels, instagram reel storytelling hooks, viral intro hooks for reels, hook ideas for motivational reels, hook ideas for fitness reels, hook ideas for business reels, instagram hook copywriting tips, hooks for viral instagram content, engaging hooks for reels videos, instagram hook script ideas";
+  // Dynamic Title Construction
+  const fullTitle = title.includes(siteName) ? title : `${title} | ${siteName}`;
+  const fullCanonical = canonical || `${siteUrl}${location.pathname === '/' ? '' : location.pathname}`;
+  
+  // GEO & AI Search Optimization (Expertise, Authoritativeness, Trustworthiness)
+  const defaultKeywords = ["hook generator", "viral hooks", "reel generator", "instagram growth", "content creator tools", "AI content generator", "free reel hooks", "best hooks for reels"];
+  const finalKeywords = pageKeywords ? Array.from(new Set([...defaultKeywords, ...pageKeywords])).join(", ") : defaultKeywords.join(", ");
+
+  const authorSchema = {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "ReelHooks AI Core",
+    "url": siteUrl,
+    "logo": "https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt",
+    "description": "Specialized AI engineering team focusing on social media retention and viral growth algorithms."
+  };
+
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": siteUrl
+      },
+      ...location.pathname.split('/').filter(Boolean).map((path, index) => ({
+        "@type": "ListItem",
+        "position": index + 2,
+        "name": path.charAt(0).toUpperCase() + path.slice(1).replace(/-/g, ' '),
+        "item": `${siteUrl}/${location.pathname.split('/').filter(Boolean).slice(0, index + 1).join('/')}`
+      }))
+    ]
+  };
+
+  const finalSchema = schema ? (Array.isArray(schema) ? [breadcrumbSchema, authorSchema, ...schema] : [breadcrumbSchema, authorSchema, schema]) : [breadcrumbSchema, authorSchema];
 
   return (
     <Helmet>
       {/* Basic Metadata */}
       <title>{fullTitle}</title>
       <meta name="description" content={description} />
-      <meta name="keywords" content={keywords} />
+      <meta name="keywords" content={finalKeywords} />
       <meta name="google-site-verification" content="X3VhNru6pUg4Jwkr9GZDBtGK_m0u8SK7rOe7md4LAZ8" />
       <link rel="canonical" href={fullCanonical} />
-      <link rel="icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
-      <link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
-      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
       
-      {/* Social Media (Open Graph) */}
+      {/* Search Engine Optimization Extras */}
+      <meta name="robots" content="index, follow, max-image-preview:large, max-snippet:-1, max-video-preview:-1" />
+      <meta name="author" content="ReelHooks AI Team" />
+      <meta name="copyright" content="ReelHooks 2026" />
+      
+      {/* Open Graph / Facebook */}
       <meta property="og:title" content={fullTitle} />
       <meta property="og:description" content={description} />
       <meta property="og:type" content={type} />
       <meta property="og:url" content={fullCanonical} />
       <meta property="og:image" content={image} />
-      <meta property="og:site_name" content="ReelHooks.site" />
+      <meta property="og:image:width" content="1200" />
+      <meta property="og:image:height" content="630" />
+      <meta property="og:site_name" content="ReelHooks" />
+      <meta property="og:locale" content="en_US" />
       
       {/* Twitter Card */}
       <meta name="twitter:card" content="summary_large_image" />
@@ -120,42 +162,16 @@ export const SEO = ({
       <meta name="twitter:site" content="@reelhooks" />
       <meta name="twitter:creator" content="@reelhooks" />
 
-      {/* Hreflang (Clean) */}
+      {/* Language Alternates */}
       <link rel="alternate" href={fullCanonical} hrefLang="x-default" />
       <link rel="alternate" href={fullCanonical} hrefLang="en" />
 
-      {/* OpenGraph / Facebook */}
-      <meta property="og:locale" content="en_US" />
-      <meta property="og:type" content={type} />
-      <meta property="og:title" content={fullTitle} />
-      <meta property="og:description" content={description} />
-      <meta property="og:url" content={fullCanonical} />
-      <meta property="og:site_name" content="ReelHooks.site" />
-      <meta property="og:image" content={image} />
-      <meta property="og:image:width" content="1200" />
-      <meta property="og:image:height" content="630" />
-
-      {/* Twitter */}
-      <meta name="twitter:card" content="summary_large_image" />
-      <meta name="twitter:site" content="@reelhooks" />
-      <meta name="twitter:title" content={fullTitle} />
-      <meta name="twitter:description" content={description} />
-      <meta name="twitter:image" content={image} />
-
       {/* Schema Injection */}
-      {schema && (
-        Array.isArray(schema) ? (
-          schema.map((s, i) => (
-            <script key={i} type="application/ld+json">
-              {JSON.stringify(s)}
-            </script>
-          ))
-        ) : (
-          <script type="application/ld+json">
-            {JSON.stringify(schema)}
-          </script>
-        )
-      )}
+      {finalSchema.map((s, i) => (
+        <script key={i} type="application/ld+json">
+          {JSON.stringify(s)}
+        </script>
+      ))}
     </Helmet>
   );
 };
@@ -423,7 +439,7 @@ const Hero = () => {
           transition={{ delay: 0.2 }}
           className="text-xl md:text-3xl text-text-secondary max-w-3xl mx-auto leading-tight"
         >
-          The #1 <span className="text-white font-bold underline decoration-primary">Free AI Hook Generator</span> for Reels & TikTok. 
+          The #1 <Link to="/tools/hook-generator" className="text-white font-bold underline decoration-primary hover:text-primary transition-colors">Free AI Hook Generator</Link> for Reels & TikTok. 
           Stop guessing and start the viral growth today. 
           <span className="text-primary font-black italic"> 100% Free – No Sign-up Required.</span>
         </motion.p>
@@ -476,7 +492,7 @@ const WhatIsHookGenerator = () => (
       <div className="text-center space-y-4">
         <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight">What is a <span className="text-primary">Free AI Hook Generator?</span></h2>
         <p className="text-xl text-text-secondary leading-relaxed">
-          A Free AI Hook Generator is a specialized tool that uses large language models (LLMs) like Gemini and GPT-4 to create scroll-stopping opening lines for short-form videos. Unlike general writing tools, **ReelHooks** is specifically trained on the viral retention data of over 1 million trending Instagram Reels, TikToks, and YouTube Shorts. For optimal performance, you can validate your hooks using our <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">Reel Hook Analyzer</Link>.
+          A Free AI Hook Generator is a specialized tool that uses large language models (LLMs) like Gemini and GPT-4 to create scroll-stopping opening lines for short-form videos. Unlike general writing tools, **ReelHooks** is specifically trained on the viral retention data of over 1 million trending Instagram Reels, TikToks, and YouTube Shorts. For optimal performance, you can generate hooks with our **<Link to="/tools/hook-generator" className="text-primary hover:underline font-bold">free hook generator</Link>** and validate them using the <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">Reel Hook Analyzer</Link>.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -503,7 +519,7 @@ const ComparisonTable = () => (
     <div className="max-w-6xl mx-auto space-y-16">
       <div className="text-center space-y-4">
         <h2 className="text-3xl md:text-5xl font-black font-display uppercase">Why ReelHooks <span className="text-primary text-glow">Beats Every Competitor</span></h2>
-        <p className="text-text-secondary text-lg">See why serious Indian creators are switching from Copy.ai and Jasper to ReelHooks.</p>
+        <p className="text-text-secondary text-lg">See why serious Indian creators are switching from Copy.ai and Jasper to our **<Link to="/tools/hook-generator" className="text-primary hover:underline font-bold">Free AI Hook Generator</Link>**.</p>
       </div>
 
       <div className="glass rounded-[3rem] border-white/10 overflow-hidden">
@@ -582,7 +598,7 @@ const WhosItFor = () => (
         </div>
         <div className="space-y-6">
           {[
-            { t: "Budding Indian Influencers", d: "Relatable Hinglish hooks that feel authentic to your audience." },
+            { t: "Budding Indian Influencers", d: "Relatable Hinglish hooks from our AI-powered **<Link to='/tools/hook-generator' className='text-primary hover:underline font-bold'>viral hook generator</Link>** that feel authentic to your audience." },
             { t: "Educators & UPSC Creators", d: "Break down complex topics into curiosity-driven viral snippets." },
             { t: "D2C Brands & Marketers", d: "Increase product awareness with hooks that stop the skip." },
             { t: "Finance & Tech Gurus", d: "Establish authority instantly with power-packed opening lines." }
@@ -639,7 +655,7 @@ const ExpandedFAQ = () => (
           { q: "Do I need to copy the hooks exactly?", a: "While our hooks are data-backed, feel free to tweak them to match your unique personality and brand voice." },
           { q: "Is the tool mobile-friendly?", a: "Yes, ReelHooks.site is fully optimized for mobile devices, so you can generate hooks on the go." },
           { q: "What niches are supported?", a: "We support over 50+ niches including Fitness, Finance, Business, Tech, Cooking, Travel, and more." },
-          { q: "How do I make my first Reel go viral?", a: "Consistency and a strong hook are key. Combine our viral hooks with trending audio and high-value content." }
+          { q: "How do I make my first Reel go viral?", a: "Consistency and a strong hook are key. Combine our **<Link to='/tools/hook-generator' className='text-primary hover:underline font-bold'>viral hooks</Link>** (analyzed by our **<Link to='/reel-hook-analyzer' className='text-primary hover:underline font-bold'>Reel Hook Analyzer</Link>**) with trending audio and high-value content." }
         ].map((faq, i) => (
           <details key={i} className="glass rounded-3xl border-white/5 group overflow-hidden transition-all hover:border-primary/20">
             <summary className="p-8 cursor-pointer flex items-center justify-between list-none">
@@ -697,7 +713,7 @@ const PsychologyOfHooks = () => (
         <div className="space-y-4">
           <h2 className="text-3xl md:text-6xl font-black font-display uppercase leading-[0.9]">The Science Behind <br /><span className="text-primary">Scroll Stopping</span></h2>
           <p className="text-xl text-text-secondary leading-relaxed">
-            Every "Lucky" viral video is actually a masterpiece of subconscious triggers. Here are the 3 pillars our AI uses.
+            Every "Lucky" viral video is actually a masterpiece of subconscious triggers. Here are the 3 pillars our **<Link to="/tools/hook-generator" className="text-primary hover:underline font-bold">hook generator</Link>** uses, and you can test them yourself with our **<Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">viral analyzer</Link>**.
           </p>
         </div>
         <div className="space-y-6">
