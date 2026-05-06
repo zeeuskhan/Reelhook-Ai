@@ -439,8 +439,8 @@ const Hero = () => {
           transition={{ delay: 0.2 }}
           className="text-xl md:text-3xl text-text-secondary max-w-3xl mx-auto leading-tight"
         >
-          The #1 <Link to="/tools/hook-generator" className="text-white font-bold underline decoration-primary hover:text-primary transition-colors">Free AI Hook Generator</Link> for Reels & TikTok. 
-          Stop guessing and start the viral growth today. 
+          The #1 <Link to="/tools/hook-generator" className="text-white font-bold underline decoration-primary hover:text-primary transition-colors">Free AI Hook Generator</Link> for <strong>Instagram Reel Hooks</strong>, TikTok & Shorts. 
+          Stop guessing and start using the best <strong>viral reel hook generator</strong> today. 
           <span className="text-primary font-black italic"> 100% Free – No Sign-up Required.</span>
         </motion.p>
         
@@ -492,21 +492,21 @@ const WhatIsHookGenerator = () => (
       <div className="text-center space-y-4">
         <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight">What is a <span className="text-primary">Free AI Hook Generator?</span></h2>
         <p className="text-xl text-text-secondary leading-relaxed">
-          A Free AI Hook Generator is a specialized tool that uses large language models (LLMs) like Gemini and GPT-4 to create scroll-stopping opening lines for short-form videos. Unlike general writing tools, **ReelHooks** is specifically trained on the viral retention data of over 1 million trending Instagram Reels, TikToks, and YouTube Shorts. For optimal performance, you can generate hooks with our **<Link to="/tools/hook-generator" className="text-primary hover:underline font-bold">free hook generator</Link>** and validate them using the <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">Reel Hook Analyzer</Link>.
+          A <strong>Free AI Hook Generator</strong> is a specialized tool like <strong>Reelhook</strong> that uses large language models to create scroll-stopping opening lines. Unlike general writing tools, our <strong>viral reel hook generator</strong> is specifically trained on retention data for <strong>hooks for instagram reels</strong>. For optimal performance, you can generate a <strong>hook for instagram reel</strong> and validate it using our <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">hook checker instagram</Link>.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <div className="glass p-8 rounded-3xl space-y-4 border-white/5">
           <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-            <Target className="text-primary w-6 h-6" /> Targeted Attention
+            <Target className="text-primary w-6 h-6" /> Reel Hook Apps
           </h3>
-          <p className="text-text-secondary">Capture your audience's focus in the first 3 seconds, the most critical window for any short-form video in 2026. Use our <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">analyzer</Link> to ensure maximum retention.</p>
+          <p className="text-text-secondary">Avoid heavy <strong>reel hook apps</strong> that slow you down. Our web-based <strong>hook maker for reel</strong> content works instantly in your browser to deliver high-converting <strong>viral ai auto hooks</strong>.</p>
         </div>
         <div className="glass p-8 rounded-3xl space-y-4 border-white/5">
           <h3 className="text-2xl font-bold text-white flex items-center gap-3">
-            <RefreshCw className="text-primary w-6 h-6" /> Infinite Inspiration
+            <RefreshCw className="text-primary w-6 h-6" /> Hinglish Hook Support
           </h3>
-          <p className="text-text-secondary">Never stare at a blank screen again. Generate 10+ viral variations for every topic, or explore our <Link to="/content-ideas-generator" className="text-primary hover:underline font-bold">Content Ideas Generator</Link> for 365 days of viral planning.</p>
+          <p className="text-text-secondary">Get the perfect <strong>hinglish hook for instagram reel</strong> success. We understand the cultural nuances of Indian 2026 trends, making us the <strong>best ai to get viral reel hook</strong> results.</p>
         </div>
       </div>
     </div>
