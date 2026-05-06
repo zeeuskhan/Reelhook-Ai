@@ -327,6 +327,47 @@ const Navbar = () => {
   );
 };
 
+const NicheIndex = () => (
+  <section className="py-24 px-4 bg-background">
+    <div className="max-w-7xl mx-auto space-y-12">
+      <div className="text-center space-y-4">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight">Explore Viral <span className="text-primary underline decoration-2 underline-offset-8">Hook Niches</span></h2>
+        <p className="text-xl text-text-secondary">From <strong>ai quick facial reel hook</strong> techniques to niche specific <strong>trading hook video</strong> ideas.</p>
+      </div>
+      
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+        {[
+          { name: "Trading & Finance", slug: "trading-hook-video-instagram", kw: "trading hook video for instagram reels" },
+          { name: "Baking & Holidays", slug: "baking-easter-reels-hooks", kw: "trending hooks for instagram reels baking easter" },
+          { name: "Script Mastery", slug: "script-hook", kw: "script hook guide" },
+          { name: "Facial Visuals", slug: "ai-quick-facial-reel-hook", kw: "ai quick facial reel hook" },
+          { name: "Viral Retentions", slug: "hook-checker-instagram", kw: "hook checker instagram reels" },
+          { name: "Best AI Apps", slug: "reel-hook-apps", kw: "reel hook apps 2026" },
+          { name: "Travel & Lifestyle", slug: "travel-vlog-hooks", kw: "best travel reel hooks" },
+          { name: "Content Strategy", slug: "how-to-go-viral-on-instagram", kw: "instagram reel hook strategy" }
+        ].map((niche, i) => (
+          <Link 
+            key={i} 
+            to={`/${niche.slug}`}
+            className="group glass p-6 rounded-2xl border-white/5 hover:border-primary/50 transition-all flex flex-col justify-between"
+          >
+            <span className="text-lg font-bold text-white group-hover:text-primary transition-colors">{niche.name}</span>
+            <span className="text-xs text-text-secondary mt-2 opacity-0 group-hover:opacity-100 transition-opacity">Target: {niche.kw}</span>
+          </Link>
+        ))}
+      </div>
+
+      <div className="pt-12 text-center border-t border-white/5">
+        <p className="text-text-secondary text-sm">
+          Searching for <strong>reelsbot hook generator</strong> or <strong>hooked ai reels maker</strong> alternatives? 
+          ReelHooks provides the fastest <strong>viral ai auto hook</strong> experience for global creators. 
+          Whether you need a <strong>hook for instagram reel</strong> or a <strong>hook generator instagram</strong> tool, we've got you covered.
+        </p>
+      </div>
+    </div>
+  </section>
+);
+
 const Footer = () => (
   <footer className="bg-bg border-t border-white/5 py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -342,7 +383,9 @@ const Footer = () => (
             />
           </Link>
           <p className="text-text-secondary text-base">
-            AI-powered hooks that stop scrolling and boost engagement for creators worldwide.
+            <strong>ReelHooks.site</strong> is the #1 <strong>viral reel hook generator</strong>. 
+            We provide data-backed <strong>hooks for instagram reels</strong> and TikTok using advanced AI, 
+            helping creators master the <strong>hook for instagram reel</strong> retention.
           </p>
           <div className="flex space-x-4 pt-2">
             <a href="https://instagram.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
@@ -598,10 +641,10 @@ const WhosItFor = () => (
         </div>
         <div className="space-y-6">
           {[
-            { t: "Budding Indian Influencers", d: "Relatable Hinglish hooks from our AI-powered **<Link to='/tools/hook-generator' className='text-primary hover:underline font-bold'>viral hook generator</Link>** that feel authentic to your audience." },
-            { t: "Educators & UPSC Creators", d: "Break down complex topics into curiosity-driven viral snippets." },
-            { t: "D2C Brands & Marketers", d: "Increase product awareness with hooks that stop the skip." },
-            { t: "Finance & Tech Gurus", d: "Establish authority instantly with power-packed opening lines." }
+            { t: "Budding Indian Influencers", d: <>Relatable <strong>Hinglish hook for instagram reel</strong> success from our AI-powered <Link to='/tools/hook-generator' className='text-primary hover:underline font-bold'>viral hook generator</Link> that feel authentic to your audience.</> },
+            { t: "Educators & UPSC Creators", d: <>Break down complex topics into curiosity-driven viral snippets using our <strong>hooked ai reels maker</strong> logic.</> },
+            { t: "D2C Brands & Marketers", d: <>Increase product awareness with a <strong>hook for instagram reel</strong> that stops the skip instantly using our <strong>viral ai auto hook</strong>.</> },
+            { t: "Finance & Trading Gurus", d: <>Establish authority with a professional <strong>trading hook video for instagram reels</strong> built by AI expert models.</> }
           ].map((item, i) => (
             <div key={i} className="flex gap-6 items-start">
               <div className="w-10 h-10 rounded-full bg-primary/20 flex items-center justify-center shrink-0 text-primary font-bold">{i+1}</div>
@@ -2870,8 +2913,23 @@ export default function App() {
                 <Route path="/" element={
                   <>
                     <SEO 
-                    title="Free AI Hook Generator for Instagram Reels & TikTok (2026)" 
-                    description="Stop the scroll with the #1 Free AI Hook Generator. Generate viral hooks in 3 seconds for Instagram Reels & TikTok. 100% Free - Try it now and skyrocket views!" 
+                    title="ReelHooks – #1 Viral Instagram Reel Hook Generator 2026 (Free AI Tool)" 
+                    description="Stop the scroll with ReelHooks. Use our viral reel hook generator for Instagram, TikTok & Shorts. Get high-retention Hinglish hooks, script intros, and viral ideas instantly." 
+                    keywords={[
+                      "hook for instagram reel", 
+                      "reelhook", 
+                      "reel hook generator", 
+                      "hook checker instagram reels", 
+                      "hook generator for instagram reels",
+                      "viral reel hook generator",
+                      "ai hook videos for reels",
+                      "viral hooks for reels",
+                      "instagram reel hooks",
+                      "hinglish hook for instagram reel",
+                      "ai viral hook",
+                      "reelsbot hook generator",
+                      "hooked ai reels maker"
+                    ]}
                     schema={[
                       {
                         "@context": "https://schema.org",
@@ -2965,6 +3023,7 @@ export default function App() {
                   <ComparisonTable />
                   <HowItWorks />
                   <WhosItFor />
+                  <NicheIndex />
 
                   {/* 120+ Best Hook Generator Examples */}
                   <section id="best-hooks" className="py-24 px-4 bg-accent/5">
