@@ -10,6 +10,12 @@
   --color-card: #1E293B;
   --color-text-primary: #F8FAFC;
   --color-text-secondary: #94A3B8;
+  
+  --animation-shimmer: shimmer 2.5s linear infinite;
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 }
 
 body {
