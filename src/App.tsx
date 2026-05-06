@@ -2323,7 +2323,7 @@ const Dashboard = () => {
 
   const handleExtra = async (type: "caption" | "hashtags" | "script" | "ideas" | "improve" | "analyze" | "angle" | "time" | "calendar", context: string) => {
     setModal({ isOpen: true, title: `Generating ${type}...`, content: <div className="flex justify-center py-12"><RefreshCw className="animate-spin w-8 h-8 text-primary" /></div> });
-    const result = await generateExtraAI(type as any, context);
+    const result = await generateExtraAI(type as any, context, lang, tone);
     
     let content = null;
     if (type === "caption") {
@@ -2439,7 +2439,7 @@ const Dashboard = () => {
   const handleGenerateIdeas = async () => {
     setIsGenerating(true);
     try {
-      const result = await generateExtraAI("ideas", niche.name);
+      const result = await generateExtraAI("ideas", `${niche.name} (${sub})`, lang, tone);
       setIdeas(result.ideas || []);
     } catch (err) {
       console.error("Ideas generation failed:", err);
@@ -2452,7 +2452,7 @@ const Dashboard = () => {
     if (!improveInput) return;
     setIsGenerating(true);
     try {
-      const result = await generateExtraAI("improve", improveInput);
+      const result = await generateExtraAI("improve", improveInput, lang, tone);
       setImprovedHooks(result.variations || []);
     } catch (err) {
       console.error("Hook improvement failed:", err);

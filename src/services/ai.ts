@@ -48,12 +48,25 @@ export function safeJsonParse(text: string, fallback: any = []) {
 
 export async function generateHooksAI(niche: string, sub: string, lang: string, tone: string) {
   const model = "gemini-3-flash-preview";
-  const prompt = `Generate 10 unique, high-retention Instagram Reel hooks for the niche: ${niche} (${sub}).
-  Language: ${lang}. Tone: ${tone}.
+  
+  // Custom language instructions for high accuracy
+  const langContext = lang.toLowerCase() === "hinglish" 
+    ? "Mix Hindi and English naturally (Hinglish) as used by top Indian creators. Use Devanagari script for Hindi words if appropriate, or Romanized Hindi."
+    : `Write exclusively in ${lang}.`;
+
+  const prompt = `CRITICAL: You MUST generate content specifically for:
+  NICHE: ${niche}
+  SUB-NICHE: ${sub}
+  LANGUAGE: ${lang} (${langContext})
+  TONE: ${tone}
+  
+  Generate 10 unique, high-retention Instagram Reel hooks.
   
   Each hook must:
-  - Be under 10 words.
+  - Strictly be under 10 words.
   - Use psychological triggers (Curiosity gap, FOMO, Pattern interrupt, Bold claim).
+  - Match the ${tone} tone perfectly.
+  - Be culturally relevant to the ${lang} audience.
   - Include a viral percentage score (60-98%) based on retention psychology.`;
 
   const fetchAI = async () => {
@@ -61,7 +74,7 @@ export async function generateHooksAI(niche: string, sub: string, lang: string, 
       model,
       contents: prompt,
       config: { 
-        systemInstruction: "You are a viral short-form content strategist. Return ONLY the requested JSON structure.",
+        systemInstruction: `You are an expert ${niche} content strategist. You specialize in viral hooks for the ${lang} market with a ${tone} personality. Your goal is to maximize 'Scroll-Stop' probability. Return ONLY a JSON array.`,
         responseMimeType: "application/json",
         thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
         responseSchema: {
@@ -110,14 +123,17 @@ export async function generateHooksAI(niche: string, sub: string, lang: string, 
   }
 }
 
-export async function generateExtraAI(type: string, context: string) {
+export async function generateExtraAI(type: string, context: string, lang: string = "English", tone: string = "Professional") {
   const model = "gemini-3-flash-preview";
   let prompt = "";
   let schema: any = { type: Type.OBJECT, properties: { result: { type: Type.STRING } } };
+
+  // Common instruction for local language/tone
+  const common = `Language: ${lang}. Tone: ${tone}.`;
   
   switch(type) {
     case "caption":
-      prompt = `Generate 3 Instagram Reel captions for this hook: "${context}". Include: 1 short, 1 storytelling, 1 CTA style. Use emojis.`;
+      prompt = `Generate 3 Instagram Reel captions for this hook: "${context}". Include: 1 short, 1 storytelling, 1 CTA style. Use emojis. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: { captions: { type: Type.ARRAY, items: { type: Type.STRING } } },
@@ -125,7 +141,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "hashtags":
-      prompt = `Generate 15 optimized hashtags for this hook: "${context}". Mix high reach, medium competition, and niche-specific.`;
+      prompt = `Generate 15 optimized hashtags for this hook: "${context}". Mix high reach, medium competition, and niche-specific. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: { hashtags: { type: Type.ARRAY, items: { type: Type.STRING } } },
@@ -133,7 +149,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "script":
-      prompt = `Generate a 30-second Reel script for this hook: "${context}". Include talking points and a strong closing CTA.`;
+      prompt = `Generate a 30-second Reel script for this hook: "${context}". Include talking points and a strong closing CTA. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: { script: { type: Type.STRING } },
@@ -141,7 +157,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "ideas":
-      prompt = `Generate 10 trending Reel ideas for the niche: "${context}". Include emotional trigger and difficulty level.`;
+      prompt = `Generate 10 trending Reel ideas for the niche: "${context}". Include emotional trigger and difficulty level. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: {
@@ -162,7 +178,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "improve":
-      prompt = `Improve this hook: "${context}". Provide 5 viral variations with scores.`;
+      prompt = `Improve this hook: "${context}". Provide 5 viral variations with scores. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: {
@@ -182,7 +198,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "analyze":
-      prompt = `Analyze this hook: "${context}". Provide viral potential score (0-100), explanation, psychological trigger used, and curiosity gap strength.`;
+      prompt = `Analyze this hook: "${context}". Provide viral potential score (0-100), explanation, psychological trigger used, and curiosity gap strength. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: {
@@ -195,7 +211,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "angle":
-      prompt = `Generate 5 different content angles for the topic: "${context}". Include title, description, and a sample hook for each.`;
+      prompt = `Generate 5 different content angles for the topic: "${context}". Include title, description, and a sample hook for each. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: {
@@ -216,7 +232,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "time":
-      prompt = `Suggest the best posting time and day for the niche: "${context}". Include bestDay, bestTime, and a strategy tip.`;
+      prompt = `Suggest the best posting time and day for the niche: "${context}". Include bestDay, bestTime, and a strategy tip. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: {
@@ -228,7 +244,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "calendar":
-      prompt = `Generate a 7-day viral content roadmap for the niche: "${context}". Include topic and hookType for each day.`;
+      prompt = `Generate a 7-day viral content roadmap for the niche: "${context}". Include topic and hookType for each day. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: {
@@ -248,7 +264,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "bio":
-      prompt = `Generate 5 viral Instagram bios for this niche/description: "${context}". Use emojis, include a CTA, and keep it under 150 chars.`;
+      prompt = `Generate 5 viral Instagram bios for this niche/description: "${context}". Use emojis, include a CTA, and keep it under 150 chars. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: { bios: { type: Type.ARRAY, items: { type: Type.STRING } } },
@@ -256,7 +272,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "username":
-      prompt = `Generate 10 catchy and unique Instagram usernames for: "${context}". Avoid excessive numbers/underscores.`;
+      prompt = `Generate 10 catchy and unique Instagram usernames for: "${context}". Avoid excessive numbers/underscores. ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: { usernames: { type: Type.ARRAY, items: { type: Type.STRING } } },
@@ -264,7 +280,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "dp":
-      prompt = `Suggest 5 creative profile picture (DP) ideas or AI prompts for: "${context}".`;
+      prompt = `Suggest 5 creative profile picture (DP) ideas or AI prompts for: "${context}". ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: { ideas: { type: Type.ARRAY, items: { type: Type.STRING } } },
@@ -272,7 +288,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     case "transcript":
-      prompt = `Clean up and summarize this video transcript: "${context}".`;
+      prompt = `Clean up and summarize this video transcript: "${context}". ${common}`;
       schema = {
         type: Type.OBJECT,
         properties: {
@@ -283,7 +299,7 @@ export async function generateExtraAI(type: string, context: string) {
       };
       break;
     default:
-      prompt = `Help me with this Instagram content task: "${context}".`;
+      prompt = `Help me with this Instagram content task: "${context}". ${common}`;
   }
 
   const fetchExtra = async () => {
@@ -291,7 +307,7 @@ export async function generateExtraAI(type: string, context: string) {
       model,
       contents: prompt,
       config: { 
-        systemInstruction: "You are a social media growth expert. Return ONLY the requested JSON structure.",
+        systemInstruction: `You are an expert social media growth assistant. Current context - Language: ${lang}, Tone: ${tone}. Return ONLY the requested JSON structure.`,
         responseMimeType: "application/json",
         thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
         responseSchema: schema
