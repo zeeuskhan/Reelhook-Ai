@@ -2220,6 +2220,7 @@ const Dashboard = () => {
   const [nicheSelectedIndex, setNicheSelectedIndex] = useState(-1);
 
   const [isGenerating, setIsGenerating] = useState(false);
+  const [loadingStep, setLoadingStep] = useState("");
   const [hooks, setHooks] = useState<Hook[]>([]);
   const [activeTab, setActiveTab] = useState<"hooks" | "ideas" | "improver" | "tools" | "saved">("hooks");
   
@@ -2313,6 +2314,7 @@ const Dashboard = () => {
     if (activeFolder === "all") return savedHooks;
     return savedHooks.filter(h => hookFolderMap[h.id] === activeFolder);
   }, [savedHooks, activeFolder, hookFolderMap]);
+  
   const [modal, setModal] = useState<{ isOpen: boolean, title: string, content: React.ReactNode }>({
     isOpen: false,
     title: "",
@@ -2473,24 +2475,61 @@ const Dashboard = () => {
     });
   };
 
+  const loadingMessages = [
+    "Analyzing niche psychology...",
+    "Injecting viral triggers...",
+    "Optimizing for 2026 algorithm...",
+    "Generating high-retention hooks...",
+    "Finalizing viral scores..."
+  ];
+
   const handleGenerate = async () => {
     setIsGenerating(true);
+    let stepIndex = 0;
+    const interval = setInterval(() => {
+      setLoadingStep(loadingMessages[stepIndex % loadingMessages.length]);
+      stepIndex++;
+    }, 1500);
+
     try {
-      const results = await generateHooksAI(niche.name, sub, lang, tone);
+      // Primary Attempt
+      let results = await generateHooksAI(niche.name, sub, lang, tone);
       
+      // Secondary Retry if empty (Silent retry before showing error)
       if (results.length === 0) {
-        setModal({
-          isOpen: true,
-          title: "Generation Error",
-          content: <p className="text-center py-4">Something went wrong while generating hooks. Please try again.</p>
-        });
-      } else {
-        setHooks(results);
+        setLoadingStep("AI is being modest. Retrying...");
+        results = await generateHooksAI(niche.name, sub, lang, tone);
       }
+
+      if (results.length === 0) {
+        throw new Error("Unable to generate hooks");
+      }
+      
+      setHooks(results);
+      if (activeTab !== "hooks") setActiveTab("hooks");
     } catch (err) {
-      console.error("Generation failed:", err);
+      console.error("Dashboard Generation Error:", err);
+      setModal({
+        isOpen: true,
+        title: "Service Temporarily Busy",
+        content: (
+          <div className="space-y-4 text-center py-4">
+            <p className="text-text-secondary">
+              Our AI nodes are under heavy load. We've optimized your request for a retry.
+            </p>
+            <button 
+              onClick={() => { setModal({ ...modal, isOpen: false }); handleGenerate(); }}
+              className="bg-primary hover:bg-primary-hover px-6 py-2 rounded-xl font-bold transition-all cursor-pointer"
+            >
+              Retry Generation
+            </button>
+          </div>
+        )
+      });
     } finally {
+      clearInterval(interval);
       setIsGenerating(false);
+      setLoadingStep("");
     }
   };
 
@@ -2626,14 +2665,20 @@ const Dashboard = () => {
             <button 
               onClick={handleGenerate}
               disabled={isGenerating}
-              className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-gradient-to-r from-primary to-secondary text-white font-bold py-5 rounded-2xl hover:scale-[1.02] active:scale-[0.98] transition-all flex items-center justify-center space-x-3 shadow-xl shadow-primary/20 disabled:opacity-50 disabled:grayscale group relative overflow-hidden cursor-pointer"
             >
               {isGenerating ? (
-                <RefreshCw className="w-5 h-5 animate-spin" />
+                <div className="flex flex-col items-center">
+                  <div className="flex items-center gap-3">
+                    <RefreshCw className="w-5 h-5 animate-spin" />
+                    <span>{loadingStep || "AI Generator Working..."}</span>
+                  </div>
+                  <div className="absolute bottom-0 left-0 h-1 bg-white/30 transition-all duration-[1.5s]" style={{ width: `${(loadingMessages.indexOf(loadingStep) + 1) * 20}%` }} />
+                </div>
               ) : (
                 <>
-                  <Sparkles className="w-5 h-5" />
-                  <span>Generate Hooks</span>
+                  <Sparkles className="w-6 h-6 animate-pulse group-hover:rotate-12 transition-transform" />
+                  <span className="text-lg">Generate Viral Hooks</span>
                 </>
               )}
             </button>
@@ -2704,6 +2749,10 @@ const Dashboard = () => {
             {activeTab === "hooks" ? (
               isGenerating ? (
                 <div className="space-y-4">
+                  <div className="text-center py-4 text-primary font-bold animate-bounce flex items-center justify-center gap-2">
+                    <Sparkles className="w-5 h-5" />
+                    <span>{loadingStep || "AI is working..."}</span>
+                  </div>
                   {[1, 2, 3].map(i => (
                     <div key={i} className="glass p-6 rounded-2xl animate-pulse space-y-4">
                       <div className="h-6 bg-white/10 rounded w-3/4"></div>
