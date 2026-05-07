@@ -8,6 +8,11 @@ export interface SEOArticle {
   content: string; // HTML content
   faqs: { q: string; a: string }[];
   schema: any;
+  date?: string;
+  author?: string;
+  image?: string;
+  excerpt?: string;
+  category?: string;
 }
 
 export const SEO_ARTICLES: Record<string, SEOArticle> = {

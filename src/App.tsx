@@ -49,24 +49,12 @@ import {
   FileSearch
 } from "lucide-react";
 import { motion, AnimatePresence } from "motion/react";
-import { GoogleGenAI } from "@google/genai";
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
 
 // --- Utility ---
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
-}
-
-function safeJsonParse(text: string, fallback: any = []) {
-  try {
-    // Remove markdown code blocks if present
-    const cleanText = text.replace(/```json\n?|```/g, "").trim();
-    return JSON.parse(cleanText);
-  } catch (e) {
-    console.error("JSON Parse Error:", e, "Original text:", text);
-    return fallback;
-  }
 }
 
 // --- SEO Component ---

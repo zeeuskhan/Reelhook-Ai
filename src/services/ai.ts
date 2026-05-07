@@ -1,19 +1,46 @@
 import { GoogleGenAI } from "@google/genai";
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+// Standard model for reliability and speed
+const DEFAULT_MODEL = "gemini-1.5-flash";
+
+// Lazy initialization to avoid crashing if key is missing at load time
+let genAI: GoogleGenAI | null = null;
+
+function getGenAI() {
+  if (!genAI) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn("GEMINI_API_KEY is missing. AI features will not work.");
+      // We don't throw here to avoid crashing the whole app, 
+      // but the calls will fail gracefully later.
+    }
+    genAI = new GoogleGenAI({ apiKey: apiKey || "" });
+  }
+  return genAI;
+}
 
 export function safeJsonParse(text: string, fallback: any = []) {
+  if (!text) return fallback;
   try {
+    // Remove markdown code blocks if present
     const cleanText = text.replace(/```json\n?|```/g, "").trim();
+    if (!cleanText) return fallback;
     return JSON.parse(cleanText);
   } catch (e) {
     console.error("JSON Parse Error:", e, "Original text:", text);
+    // Attempt to extract array or object if JSON.parse fails
+    try {
+      const match = text.match(/\[.*\]|\{.*\}/s);
+      if (match) return JSON.parse(match[0]);
+    } catch (innerE) {
+      console.error("Nested JSON Parse Error:", innerE);
+    }
     return fallback;
   }
 }
 
 export async function generateHooksAI(niche: string, sub: string, lang: string, tone: string) {
-  const model = "gemini-3-flash-preview";
+  const ai = getGenAI();
   const prompt = `You are a viral short-form content strategist. 
   Generate 10 unique, high-retention Instagram Reel hooks for the niche: ${niche} (${sub}).
   Language: ${lang}. Tone: ${tone}.
@@ -26,29 +53,42 @@ export async function generateHooksAI(niche: string, sub: string, lang: string, 
   Return ONLY a JSON array of objects with "text" and "score" properties. No explanation.`;
 
   try {
-    const response = await genAI.models.generateContent({
-      model,
+    const response = await ai.models.generateContent({
+      model: DEFAULT_MODEL,
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
-    const data = safeJsonParse(response.text || "[]");
+    
+    // Check if response and response.text exist
+    if (!response || !response.text) {
+      throw new Error("Empty response from AI");
+    }
+
+    const data = safeJsonParse(response.text);
+    if (!Array.isArray(data)) return [];
+
     return data.map((h: any) => {
-      const score = typeof h.score === 'string' ? parseInt(h.score) : h.score;
+      // Handle case where h might be a string
+      const text = typeof h === 'string' ? h : h.text || h.hook || "";
+      const scoreRaw = typeof h === 'string' ? 85 : h.score;
+      const scoreByNum = typeof scoreRaw === 'string' ? parseInt(scoreRaw) : scoreRaw;
+      const score = Number(scoreByNum) || 85;
+
       return {
         id: Math.random().toString(36).substr(2, 9),
-        text: h.text,
-        score: score,
+        text,
+        score,
         category: score >= 90 ? "High Viral Potential" : score >= 75 ? "Strong Hook" : "Needs Improvement"
       };
-    });
+    }).filter(h => h.text.length > 0);
   } catch (error) {
-    console.error("AI Error:", error);
+    console.error("AI Generation Error (Hooks):", error);
     return [];
   }
 }
 
 export async function generateExtraAI(type: string, context: string) {
-  const model = "gemini-3-flash-preview";
+  const ai = getGenAI();
   let prompt = "";
   
   switch(type) {
@@ -96,24 +136,32 @@ export async function generateExtraAI(type: string, context: string) {
   }
 
   try {
-    const response = await genAI.models.generateContent({
-      model,
+    const response = await ai.models.generateContent({
+      model: DEFAULT_MODEL,
       contents: prompt,
       config: { responseMimeType: "application/json" }
     });
-    const data = safeJsonParse(response.text || "{}", {});
-    if (data.variations) {
+    
+    if (!response || !response.text) {
+      throw new Error("Empty response from AI");
+    }
+
+    const data = safeJsonParse(response.text, {});
+    
+    // Defensive property normalization
+    if (data.variations && Array.isArray(data.variations)) {
       data.variations = data.variations.map((v: any) => ({
         ...v,
-        score: typeof v.score === 'string' ? parseInt(v.score) : v.score
+        score: typeof v.score === 'string' ? parseInt(v.score) : Number(v.score) || 85
       }));
     }
-    if (data.score) {
-      data.score = typeof data.score === 'string' ? parseInt(data.score) : data.score;
+    if (data.score !== undefined) {
+      data.score = typeof data.score === 'string' ? parseInt(data.score) : Number(data.score) || 0;
     }
+    
     return data;
   } catch (error) {
-    console.error("AI Error:", error);
+    console.error("AI Generation Error (Extra):", error);
     return {};
   }
 }
