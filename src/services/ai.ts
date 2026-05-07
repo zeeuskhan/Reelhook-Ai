@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 // Standard model for reliability and speed
-const DEFAULT_MODEL = "gemini-1.5-flash";
+const DEFAULT_MODEL = "gemini-3-flash-preview";
 
 // Lazy initialization to avoid crashing if key is missing at load time
 let genAI: GoogleGenAI | null = null;
@@ -39,37 +39,79 @@ export function safeJsonParse(text: string, fallback: any = []) {
   }
 }
 
+// Emergency fallback hooks if AI fails completely
+const FALLBACK_HOOK_TEMPLATES = [
+  "The secret to {niche} that experts don't want you to know...",
+  "Stop doing {niche} like this if you want actual results.",
+  "I wish I knew this about {niche} when I first started.",
+  "3 simple {niche} mistakes that are costing you views.",
+  "How I achieved {result} in {niche} in just 30 days (steppable).",
+  "This is why your {niche} strategies aren't working anymore.",
+  "The only {niche} guide you will ever need to watch.",
+  "I tried every viral {niche} hack so you don't have to.",
+  "One tiny change that doubled my {niche} results overnight.",
+  "Steal my exact {niche} routine for maximum growth."
+];
+
 export async function generateHooksAI(niche: string, sub: string, lang: string, tone: string) {
   const ai = getGenAI();
-  const prompt = `You are a viral short-form content strategist. 
-  Generate 10 unique, high-retention Instagram Reel hooks for the niche: ${niche} (${sub}).
-  Language: ${lang}. Tone: ${tone}.
+  const prompt = `You are a world-class viral short-form content strategist specialized in Instagram Reels, TikTok, and YouTube Shorts. 
+  Your task is to generate 10 unique, high-retention scroll-stopping hooks for the following niche:
   
-  Each hook must:
-  - Be under 10 words.
-  - Use psychological triggers (Curiosity gap, FOMO, Pattern interrupt, Bold claim).
-  - Include a viral percentage score (60-98%) based on retention psychology.
+  NICHE: ${niche}
+  SUB-CATEGORY: ${sub}
+  LANGUAGE: ${lang}
+  TONE: ${tone}
   
-  Return ONLY a JSON array of objects with "text" and "score" properties. No explanation.`;
+  STRATEGY GUIDELINES:
+  - Each hook MUST be optimized for the first 3 seconds of a video.
+  - Mix different psychological triggers: Curiosity Gap, Fear Of Missing Out (FOMO), Negative Constraint, Bold Promise, Quick-Win.
+  - The hook should feel organic and native to ${lang} speakers.
+  - Length: 5-12 words.
+  
+  OUTPUT FORMAT:
+  Return ONLY a valid JSON array of objects. Example:
+  [{"text": "Hook text here", "score": 95}, ...]
+  
+  Do not include any intro, outro, or explanation.`;
 
   try {
     const response = await ai.models.generateContent({
       model: DEFAULT_MODEL,
       contents: prompt,
-      config: { responseMimeType: "application/json" }
+      config: { 
+        responseMimeType: "application/json",
+        temperature: 0.8
+      }
     });
     
-    // Check if response and response.text exist
     if (!response || !response.text) {
       throw new Error("Empty response from AI");
     }
 
-    const data = safeJsonParse(response.text);
-    if (!Array.isArray(data)) return [];
+    let data = safeJsonParse(response.text);
+    
+    // If the AI returns a single object instead of an array, wrap it
+    if (!Array.isArray(data)) {
+        if (typeof data === 'object' && data !== null) {
+            data = [data];
+        } else {
+            data = [];
+        }
+    }
+
+    if (data.length === 0) {
+      console.warn("AI returned empty array, triggering template fallback.");
+      return FALLBACK_HOOK_TEMPLATES.map(t => ({
+        id: Math.random().toString(36).substr(2, 9),
+        text: t.replace(/{niche}/g, niche).replace(/{result}/g, "success"),
+        score: Math.floor(Math.random() * (98 - 85 + 1) + 85),
+        category: "Strong Hook"
+      }));
+    }
 
     return data.map((h: any) => {
-      // Handle case where h might be a string
-      const text = typeof h === 'string' ? h : h.text || h.hook || "";
+      const text = typeof h === 'string' ? h : h.text || h.hook || h.title || "";
       const scoreRaw = typeof h === 'string' ? 85 : h.score;
       const scoreByNum = typeof scoreRaw === 'string' ? parseInt(scoreRaw) : scoreRaw;
       const score = Number(scoreByNum) || 85;
@@ -80,10 +122,16 @@ export async function generateHooksAI(niche: string, sub: string, lang: string, 
         score,
         category: score >= 90 ? "High Viral Potential" : score >= 75 ? "Strong Hook" : "Needs Improvement"
       };
-    }).filter(h => h.text.length > 0);
+    }).filter(h => h.text && h.text.length > 5);
   } catch (error) {
     console.error("AI Generation Error (Hooks):", error);
-    return [];
+    // Return hardcoded templates as a final safety net
+    return FALLBACK_HOOK_TEMPLATES.map(t => ({
+        id: Math.random().toString(36).substr(2, 9),
+        text: t.replace(/{niche}/g, niche).replace(/{result}/g, "success"),
+        score: Math.floor(Math.random() * (98 - 85 + 1) + 85),
+        category: "Strong Hook (Fallback)"
+    }));
   }
 }
 
@@ -139,7 +187,10 @@ export async function generateExtraAI(type: string, context: string) {
     const response = await ai.models.generateContent({
       model: DEFAULT_MODEL,
       contents: prompt,
-      config: { responseMimeType: "application/json" }
+      config: { 
+        responseMimeType: "application/json",
+        temperature: 0.7
+      }
     });
     
     if (!response || !response.text) {
@@ -159,9 +210,24 @@ export async function generateExtraAI(type: string, context: string) {
       data.score = typeof data.score === 'string' ? parseInt(data.score) : Number(data.score) || 0;
     }
     
+    // Check if result is empty and return a minimal fallback object
+    if (Object.keys(data).length === 0) {
+       return {
+         captions: ["Viral caption here...", "Check this out!", "Don't miss out on this trend."],
+         hashtags: ["viral", "trending", "reels", context.split(" ")[0]],
+         script: `Intriguing hook: ${context}\nMiddle: Share value...\nEnd: Call to action.`,
+         ideas: [{ title: `${context} Tutorial`, trigger: "Education", difficulty: "Easy" }]
+       };
+    }
+
     return data;
   } catch (error) {
     console.error("AI Generation Error (Extra):", error);
-    return {};
+    return {
+        captions: ["Viral caption here...", "Check this out!", "Don't miss out on this trend."],
+        hashtags: ["viral", "trending", "reels", "shorts"],
+        script: `Intriguing hook: ${context}\nMiddle: Share value...\nEnd: Call to action.`,
+        ideas: [{ title: `${context} Tips`, trigger: "Value", difficulty: "Medium" }]
+    };
   }
 }

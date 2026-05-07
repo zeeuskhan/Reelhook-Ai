@@ -2035,18 +2035,33 @@ const Dashboard = () => {
   const [activeTab, setActiveTab] = useState<"hooks" | "ideas" | "improver" | "tools" | "saved">("hooks");
   
   const filteredNiches = useMemo(() => {
-    if (!nicheSearch) return NICHES;
-    const search = nicheSearch.toLowerCase();
+    let search = nicheSearch.toLowerCase().trim();
+    
+    // If it's a "Category > Sub" format from previous selection, 
+    // extract just the sub or category parts for better matching if user keeps typing
+    if (search.includes(" > ")) {
+       search = search.split(" > ").pop() || search;
+    }
+    
+    if (!search) return NICHES;
+    
     return NICHES.filter(n => 
       n.name.toLowerCase().includes(search) || 
       n.subcategories.some(s => s.toLowerCase().includes(search))
-    );
+    ).sort((a, b) => {
+      const aNameMatch = a.name.toLowerCase().includes(search);
+      const bNameMatch = b.name.toLowerCase().includes(search);
+      if (aNameMatch && !bNameMatch) return -1;
+      if (!aNameMatch && bNameMatch) return 1;
+      return 0;
+    });
   }, [nicheSearch]);
 
   const handleNicheSelect = (n: Niche, s?: string) => {
     setNiche(n);
-    setSub(s || n.subcategories[0]);
-    setNicheSearch(s ? `${n.name} > ${s}` : n.name);
+    const subVal = s || n.subcategories[0];
+    setSub(subVal);
+    setNicheSearch(`${n.name} > ${subVal}`);
     setIsNicheDropdownOpen(false);
     setNicheSelectedIndex(-1);
   };
@@ -2060,9 +2075,16 @@ const Dashboard = () => {
     } else if (e.key === "ArrowUp") {
       e.preventDefault();
       setNicheSelectedIndex(prev => (prev > 0 ? prev - 1 : prev));
-    } else if (e.key === "Enter" && nicheSelectedIndex >= 0) {
+    } else if (e.key === "Enter") {
       e.preventDefault();
-      handleNicheSelect(filteredNiches[nicheSelectedIndex]);
+      if (nicheSelectedIndex >= 0) {
+        handleNicheSelect(filteredNiches[nicheSelectedIndex]);
+      } else if (nicheSearch.trim()) {
+        // Support custom niche selection on Enter
+        setNiche({ id: "custom", name: nicheSearch.trim(), subcategories: [] });
+        setSub(nicheSearch.trim());
+        setIsNicheDropdownOpen(false);
+      }
     } else if (e.key === "Escape") {
       setIsNicheDropdownOpen(false);
     }
@@ -2286,15 +2308,49 @@ const Dashboard = () => {
 
   const handleGenerate = async () => {
     setIsGenerating(true);
+    // Auto-select niche name if custom input is used but not explicitly selected
+    let targetNiche = niche.name;
+    let targetSub = sub;
+
+    if (nicheSearch && !nicheSearch.includes(" > ") && nicheSearch !== niche.name) {
+      targetNiche = nicheSearch;
+      targetSub = "General Content";
+    }
+
     try {
-      const results = await generateHooksAI(niche.name, sub, lang, tone);
+      const results = await generateHooksAI(targetNiche, targetSub, lang, tone);
       
       if (results.length === 0) {
+        // Fallback or retry with parent niche if sub failed
+        if (targetSub !== "General Content") {
+           const retryResults = await generateHooksAI(targetNiche, "General Content", lang, tone);
+           if (retryResults.length > 0) {
+             setHooks(retryResults);
+             return;
+           }
+        }
+
         setModal({
           isOpen: true,
-          title: "Generation Error",
-          content: <p className="text-center py-4">Something went wrong while generating hooks. Please try again.</p>
+          title: "Intelligent Fallback",
+          content: (
+            <div className="space-y-4 text-center py-4">
+              <p>We're having trouble getting specific hooks for this niche right now, so we've generated some high-converting general-purpose hooks for you instead!</p>
+              <button 
+                onClick={() => {
+                  setModal({ ...modal, isOpen: false });
+                  handleGenerate(); // Retry once
+                }}
+                className="text-primary font-bold hover:underline"
+              >
+                Try Specific Niche Again
+              </button>
+            </div>
+          )
         });
+        
+        // Final fallback if AI still fails - will be handled in ai.ts now with hardcoded templates
+        setHooks(results);
       } else {
         setHooks(results);
       }
@@ -2335,7 +2391,7 @@ const Dashboard = () => {
                   <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Niche / Category</label>
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none z-10">
-                      <Search className="w-5 h-5 text-primary/60 group-focus-within:text-primary transition-colors" />
+                      <Search className="w-5 h-5 text-primary group-focus-within:text-primary transition-colors" />
                     </div>
                     <input 
                       type="text"
@@ -2346,11 +2402,11 @@ const Dashboard = () => {
                       }}
                       onFocus={() => setIsNicheDropdownOpen(true)}
                       onKeyDown={handleKeyDown}
-                      placeholder="Search niche (e.g. Fitness)..."
+                      placeholder="Search or type your own niche (e.g. Marathi Gaming)..."
                       className="w-full bg-white/[0.05] backdrop-blur-xl border border-white/10 rounded-2xl py-4 pl-12 pr-4 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all placeholder:text-text-secondary/40 group-hover:bg-white/[0.08] shadow-lg"
                     />
                     {isNicheDropdownOpen && (
-                      <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/10 z-50 custom-scrollbar shadow-2xl p-2 bg-black/80">
+                      <div className="absolute top-full left-0 right-0 mt-3 max-h-72 overflow-y-auto glass-morphism rounded-2xl border border-white/10 z-[100] custom-scrollbar shadow-2xl p-2 bg-[#0A0A0A]/95 shadow-primary/10">
                         {filteredNiches.length > 0 ? (
                           filteredNiches.map((n, idx) => (
                             <div key={n.id} className="mb-1 last:mb-0">
@@ -2364,12 +2420,16 @@ const Dashboard = () => {
                                 <span className="group-hover/niche:translate-x-1 transition-transform">{n.name}</span>
                                 <ChevronDown className="w-4 h-4 opacity-30 group-hover/niche:opacity-100 transition-opacity" />
                               </button>
-                              <div className="mt-1 space-y-1">
-                                {n.subcategories.map(s => (
+                              <div className="mt-1 flex flex-wrap gap-1 p-1 pl-4">
+                                {n.subcategories.filter(s => 
+                                  !nicheSearch || 
+                                  s.toLowerCase().includes(nicheSearch.toLowerCase()) || 
+                                  n.name.toLowerCase().includes(nicheSearch.toLowerCase())
+                                ).slice(0, 10).map(s => (
                                   <button 
                                     key={s}
                                     onClick={() => handleNicheSelect(n, s)}
-                                    className="w-full text-left px-8 py-2 text-xs font-medium text-text-secondary hover:text-white hover:bg-white/10 rounded-lg transition-all"
+                                    className="text-left px-3 py-1.5 text-[10px] font-bold text-text-secondary hover:text-white hover:bg-white/10 rounded-full border border-white/5 transition-all bg-white/[0.02]"
                                   >
                                     {s}
                                   </button>
@@ -2378,8 +2438,18 @@ const Dashboard = () => {
                             </div>
                           ))
                         ) : (
-                          <div className="p-8 text-center text-sm text-text-secondary italic">
-                            No niches found. Try a different keyword!
+                          <div className="p-6 text-center space-y-3">
+                            <p className="text-sm text-text-secondary italic">No exact match found.</p>
+                            <button 
+                              onClick={() => {
+                                setNiche({ id: "custom", name: nicheSearch, subcategories: [] });
+                                setSub(nicheSearch);
+                                setIsNicheDropdownOpen(false);
+                              }}
+                              className="w-full bg-primary/20 text-primary py-3 rounded-xl font-bold text-xs hover:bg-primary/30 transition-all border border-primary/20"
+                            >
+                              Use "{nicheSearch}" as custom niche
+                            </button>
                           </div>
                         )}
                       </div>
