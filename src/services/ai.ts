@@ -135,16 +135,25 @@ export async function generateHooksAI(niche: string, sub: string, lang: string, 
   }
 }
 
-export async function generateExtraAI(type: string, context: string) {
+export async function generateExtraAI(type: string, context: string, options: any = {}) {
   const ai = getGenAI();
   let prompt = "";
   
   switch(type) {
     case "caption":
-      prompt = `Generate 3 Instagram Reel captions for this hook: "${context}". Include: 1 short, 1 storytelling, 1 CTA style. Use emojis. Return JSON: { captions: string[] }`;
+      const tone = options.tone || "Viral";
+      prompt = `Generate 5 structured Instagram/TikTok captions for this topic: "${context}". Tone: ${tone}. 
+      Include: 
+      1. Short and snappy
+      2. Emotional story
+      3. Funny/Relatable
+      4. Hard CTA focused
+      5. Educational/Value.
+      Use emojis. Format as JSON: { captions: string[] }`;
       break;
     case "hashtags":
-      prompt = `Generate 15 optimized hashtags for this hook: "${context}". Mix high reach, medium competition, and niche-specific. Return JSON: { hashtags: string[] }`;
+      prompt = `Generate 30 optimized hashtags for the topic: "${context}". Group them by reach/type. 
+      Format as JSON: { categories: { name: string, tags: string[] }[] }`;
       break;
     case "script":
       prompt = `Generate a 30-second Reel script for this hook: "${context}". Include talking points and a strong closing CTA. Return JSON: { script: string }`;
@@ -214,7 +223,7 @@ export async function generateExtraAI(type: string, context: string) {
     if (Object.keys(data).length === 0) {
        return {
          captions: ["Viral caption here...", "Check this out!", "Don't miss out on this trend."],
-         hashtags: ["viral", "trending", "reels", context.split(" ")[0]],
+         categories: [{ name: "Trending", tags: ["viral", "trending", "reels", context.split(" ")[0]] }],
          script: `Intriguing hook: ${context}\nMiddle: Share value...\nEnd: Call to action.`,
          ideas: [{ title: `${context} Tutorial`, trigger: "Education", difficulty: "Easy" }]
        };
@@ -225,7 +234,7 @@ export async function generateExtraAI(type: string, context: string) {
     console.error("AI Generation Error (Extra):", error);
     return {
         captions: ["Viral caption here...", "Check this out!", "Don't miss out on this trend."],
-        hashtags: ["viral", "trending", "reels", "shorts"],
+        categories: [{ name: "Fallback", tags: ["viral", "trending", "reels", "shorts"] }],
         script: `Intriguing hook: ${context}\nMiddle: Share value...\nEnd: Call to action.`,
         ideas: [{ title: `${context} Tips`, trigger: "Value", difficulty: "Medium" }]
     };

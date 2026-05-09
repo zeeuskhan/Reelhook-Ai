@@ -12,6 +12,13 @@ import {
   Award
 } from "lucide-react";
 import { motion } from "motion/react";
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+
+function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs));
+}
+
 import { TOOL_SEO_CONTENT } from '../../data/toolSEOContent';
 import { generateExtraAI } from '../../services/ai';
 import FooterAd from '../FooterAd';
@@ -38,17 +45,26 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
 }) => {
   const content = TOOL_SEO_CONTENT[slug];
   const [input, setInput] = useState("");
+  const [tone, setTone] = useState("Viral");
   const [results, setResults] = useState<any[]>([]);
+  const [hashtagCategories, setHashtagCategories] = useState<any[]>([]);
   const [isGenerating, setIsGenerating] = useState(false);
   const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
 
   const handleGenerate = async () => {
     if (!input) return;
     setIsGenerating(true);
+    setHashtagCategories([]);
     try {
-      const res = await generateExtraAI(toolType, input);
-      const data = res[resultKey] || (res.result ? [res.result] : []);
-      setResults(Array.isArray(data) ? data : [data]);
+      const res = await generateExtraAI(toolType, input, { tone });
+      
+      if (toolType === "hashtags" && res.categories) {
+        setHashtagCategories(res.categories);
+        setResults([]);
+      } else {
+        const data = res[resultKey] || (res.result ? [res.result] : []);
+        setResults(Array.isArray(data) ? data : [data]);
+      }
     } catch (err) {
       console.error(err);
     } finally {
@@ -134,14 +150,36 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
           </motion.div>
 
           <div className="max-w-2xl mx-auto glass p-8 rounded-3xl border-white/10 space-y-6">
-            <div className="space-y-2 text-left">
-              <label className="text-sm font-bold uppercase tracking-widest text-text-secondary">{inputLabel}</label>
-              <textarea 
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                placeholder={inputPlaceholder}
-                className="w-full bg-bg border border-white/10 rounded-2xl p-4 min-h-[120px] focus:ring-2 focus:ring-primary/50 outline-none transition-all"
-              />
+            <div className="space-y-4">
+              <div className="space-y-2 text-left">
+                <label className="text-sm font-bold uppercase tracking-widest text-text-secondary">{inputLabel}</label>
+                <textarea 
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  placeholder={inputPlaceholder}
+                  className="w-full bg-bg border border-white/10 rounded-2xl p-4 min-h-[120px] focus:ring-2 focus:ring-primary/50 outline-none transition-all"
+                />
+              </div>
+
+              {toolType === "caption" && (
+                <div className="space-y-2 text-left">
+                  <label className="text-sm font-bold uppercase tracking-widest text-text-secondary">Tone of Voice</label>
+                  <div className="flex flex-wrap gap-2">
+                    {["Viral", "Professional", "Emotional", "Funny", "Luxury", "Motivational"].map(t => (
+                      <button 
+                        key={t}
+                        onClick={() => setTone(t)}
+                        className={cn(
+                          "px-4 py-2 rounded-full text-xs font-bold transition-all border",
+                          tone === t ? "bg-primary border-primary text-white" : "bg-white/5 border-white/10 text-text-secondary"
+                        )}
+                      >
+                        {t}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+              )}
             </div>
             <button 
               onClick={handleGenerate}
@@ -151,6 +189,30 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
               {isGenerating ? <RefreshCw className="w-5 h-5 animate-spin" /> : <Zap className="w-5 h-5" />}
               <span>{isGenerating ? "Generating..." : buttonText}</span>
             </button>
+
+            {hashtagCategories.length > 0 && (
+              <div className="space-y-6 pt-4">
+                {hashtagCategories.map((cat, i) => (
+                  <div key={i} className="text-left space-y-3">
+                    <h4 className="font-bold text-primary flex items-center space-x-2">
+                      <Zap className="w-4 h-4" />
+                      <span>{cat.name}</span>
+                    </h4>
+                    <div className="bg-white/5 border border-white/10 p-4 rounded-xl relative group">
+                      <p className="text-sm leading-relaxed text-text-secondary">
+                        {cat.tags.map((tag: string) => `#${tag.replace("#", "")}`).join(" ")}
+                      </p>
+                      <button 
+                        onClick={() => copyToClipboard(cat.tags.map((tag: string) => `#${tag.replace("#", "")}`).join(" "), i)}
+                        className="absolute top-4 right-4 text-text-secondary hover:text-white transition-colors"
+                      >
+                        {copiedIndex === i ? <CheckCircle2 className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
 
             {results.length > 0 && (
               <div className="space-y-4 pt-4">
@@ -176,6 +238,39 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
 
       <BannerAd />
       <SkyscraperAd />
+
+      <section className="py-24 px-4 border-t border-white/5 overflow-hidden">
+        <div className="max-w-7xl mx-auto space-y-12">
+          <div className="flex flex-col md:flex-row md:items-end justify-between gap-6">
+            <div className="space-y-4">
+              <h2 className="text-3xl md:text-5xl font-black font-display uppercase italic italic tracking-tighter">Related <span className="text-primary">Tools</span></h2>
+              <p className="text-text-secondary text-lg max-w-xl">Supercharge your workflow with our other viral content generators.</p>
+            </div>
+            <button onClick={() => window.location.href = "/explore"} className="px-8 py-4 rounded-full border border-white/20 font-bold hover:bg-white text-black bg-white transition-all">Explore All Tools</button>
+          </div>
+          
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {[
+              { title: "Hook Generator", icon: <Star />, link: "/dashboard", desc: "Generate scroll-stopping hooks." },
+              { title: "Caption Generator", icon: <Globe />, link: "/tools/instagram-caption-generator", desc: "Captions that increase watch time." },
+              { title: "Hashtag Generator", icon: <Award />, link: "/tools/viral-hashtag-generator", desc: "Trending 2026 hashtag mix." },
+              { title: "Transcript Cleaner", icon: <RefreshCw />, link: "/tools/instagram-transcript-generator", desc: "Turn videos into viral hooks." }
+            ].filter(t => t.link !== `/tools/${slug}`).map((tool, i) => (
+              <div 
+                key={i} 
+                onClick={() => window.location.href = tool.link}
+                className="group p-8 rounded-[2rem] glass border-white/5 hover:border-primary/50 transition-all cursor-pointer hover:bg-primary/5"
+              >
+                <div className="w-12 h-12 rounded-2xl bg-white/5 flex items-center justify-center mb-6 group-hover:scale-110 group-hover:bg-primary group-hover:text-white transition-all">
+                  {tool.icon}
+                </div>
+                <h3 className="text-xl font-bold mb-2">{tool.title}</h3>
+                <p className="text-sm text-text-secondary">{tool.desc}</p>
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
 
       {/* SEO Content Sections */}
       <section className="py-20 px-4 bg-white/[0.02]">

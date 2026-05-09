@@ -172,6 +172,8 @@ const UsernameGenerator = lazy(() => import("./components/tools/UsernameGenerato
 const DPGenerator = lazy(() => import("./components/tools/DPGenerator"));
 const TranscriptGenerator = lazy(() => import("./components/tools/TranscriptGenerator"));
 const MockupGenerator = lazy(() => import("./components/tools/MockupGenerator"));
+const Blog = lazy(() => import("./components/Blog"));
+const BlogPost = lazy(() => import("./components/BlogPost"));
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -186,9 +188,24 @@ interface Hook {
 
 // --- AI Service ---
 import { generateHooksAI, generateExtraAI } from "./services/ai";
-
+import TemplateLibrary from "./components/TemplateLibrary";
 
 // --- Components ---
+
+const Toast = ({ message, type = "success", onClose }: { message: string, type?: "success" | "error", onClose: () => void }) => (
+  <motion.div 
+    initial={{ opacity: 0, y: 50, scale: 0.9 }}
+    animate={{ opacity: 1, y: 0, scale: 1 }}
+    exit={{ opacity: 0, y: 20, scale: 0.9 }}
+    className={cn(
+      "fixed bottom-8 left-1/2 -translate-x-1/2 z-[200] px-6 py-3 rounded-2xl shadow-2xl flex items-center space-x-3 border",
+      type === "success" ? "bg-[#10B981] border-[#059669] text-white" : "bg-[#EF4444] border-[#DC2626] text-white"
+    )}
+  >
+    {type === "success" ? <CheckCircle2 className="w-5 h-5" /> : <X className="w-5 h-5" />}
+    <span className="font-bold">{message}</span>
+  </motion.div>
+);
 
 const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose: () => void, title: string, children: React.ReactNode }) => (
   <AnimatePresence>
@@ -222,13 +239,14 @@ const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose:
   </AnimatePresence>
 );
 
-const CopyButton = ({ text, className }: { text: string, className?: string }) => {
+const CopyButton = ({ text, className, onCopy }: { text: string, className?: string, onCopy?: () => void }) => {
   const [copied, setCopied] = useState(false);
 
   const handleCopy = async () => {
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
+      if (onCopy) onCopy();
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
       console.error("Failed to copy:", err);
@@ -241,7 +259,7 @@ const CopyButton = ({ text, className }: { text: string, className?: string }) =
       className={cn("p-2 rounded-lg transition-all cursor-pointer", className)}
       title="Copy to clipboard"
     >
-      {copied ? <CheckCircle2 className="w-4 h-4 text-green-500" /> : <Copy className="w-4 h-4" />}
+      {copied ? <CheckCircle2 className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
     </button>
   );
 };
@@ -1877,149 +1895,6 @@ const SEOIntro = () => {
   );
 };
 
-const BLOG_POSTS = [
-  {
-    id: "science-of-hooks",
-    title: "The Science of Viral Reel Hooks",
-    excerpt: "Why some hooks work and others don't. A deep dive into retention psychology.",
-    date: "March 15, 2026",
-    content: `
-      In the fast-paced world of social media, attention is the most valuable currency. With millions of videos being uploaded every single day, creators are in a constant battle for the viewer's gaze. This is where the "hook" comes in. A hook is the first 1-3 seconds of your video that determines whether a user will stop scrolling or move on to the next piece of content.
-
-      At ReelHooks.site, we've spent thousands of hours analyzing viral content across Instagram, TikTok, and YouTube. We've discovered that viral hooks aren't just random luck; they follow specific psychological patterns. Our AI-powered generator is built on these principles, helping you craft opening lines that trigger curiosity, tap into FOMO (Fear Of Missing Out), or present a bold claim that demands an explanation.
-
-      ### Why Your Instagram Reels Need Better Hooks
-      Instagram's algorithm prioritizes retention. If users watch your video until the end, Instagram is more likely to push it to a wider audience on the Explore page. The hook is the gatekeeper of retention. Without a strong hook, your high-quality editing and valuable content will never be seen.
-    `
-  },
-  {
-    id: "instagram-algorithm-2026",
-    title: "Instagram Algorithm Update 2026: What's New?",
-    excerpt: "What creators need to know about the latest changes to the Reels algorithm in 2026.",
-    date: "March 28, 2026",
-    content: `
-      The 2026 Instagram algorithm update has shifted its focus significantly towards "Originality" and "Meaningful Interaction." Gone are the days when simply reposting trending content would get you millions of views. 
-
-      ### The Rise of Original Content
-      Instagram is now explicitly rewarding creators who produce unique, high-quality content. This means that using tools like ReelHooks.site to generate unique hooks and scripts is more important than ever. The algorithm can now detect if a hook has been used thousands of times before and may limit its reach.
-
-      ### Retention is Still King
-      While the metrics have evolved, retention remains the most important factor for the Reels algorithm. If you can keep a viewer engaged for more than 50% of your video, your chances of hitting the Explore page increase by over 300%. This is why the first 3 seconds—the hook—remain the most critical part of your content strategy.
-    `
-  },
-  {
-    id: "hindi-content-growth",
-    title: "How to Go Viral with Hindi Reels in 2026",
-    excerpt: "Strategies for tapping into the massive Indian audience with localized content.",
-    date: "April 2, 2026",
-    content: `
-      The Indian creator economy is booming, and Hindi content is leading the charge. However, many creators struggle to find the right balance between "Pure Hindi" and "Hinglish."
-
-      ### The Power of Localized Hooks
-      Using reel hooks in hindi can significantly increase your relatability with the local audience. At ReelHooks.site, we've seen that hooks that tap into local cultural nuances or common Indian household scenarios tend to perform 40% better than generic translated hooks.
-
-      ### Hinglish: The Language of the Youth
-      For the Gen-Z and Millennial audience in India, Hinglish is the preferred mode of communication. It feels natural, conversational, and less formal. When generating hooks for this demographic, ensure you use a mix of English keywords and Hindi conversational fillers to maximize engagement.
-    `
-  }
-];
-
-const Blog = () => {
-  const allPosts = useMemo(() => {
-    const seoPosts = Object.values(SEO_ARTICLES).map(article => ({
-      id: article.slug,
-      title: article.title,
-      excerpt: article.metaDescription,
-      date: "April 2026",
-      isSEO: true
-    }));
-    
-    const regularPosts = BLOG_POSTS.map(post => ({
-      ...post,
-      isSEO: false
-    }));
-    
-    return [...regularPosts, ...seoPosts];
-  }, []);
-
-  return (
-    <div className="pt-32 pb-20 px-4 max-w-5xl mx-auto space-y-12">
-      <SEO 
-        title="ReelHooks Blog | Content Creation Tips & AI Strategies 2026"
-        description="Expert tips on content creation, viral hooks, and AI strategies to help you grow your audience on Instagram, TikTok, and YouTube."
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
-            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reelhooks.site/blog" }
-          ]
-        }}
-      />
-      <div className="text-center space-y-4">
-        <h1 className="text-4xl md:text-6xl font-bold font-display">Creator Insights</h1>
-        <p className="text-xl text-text-secondary">Master the art of short-form video content with our 50+ expert guides.</p>
-      </div>
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-        {allPosts.map(post => (
-          <Link 
-            key={post.id} 
-            to={post.isSEO ? `/${post.id}` : `/blog/${post.id}`} 
-            className="glass p-8 rounded-3xl border-white/5 hover:border-primary/30 transition-all group flex flex-col h-full"
-          >
-            <div className="flex justify-between items-start mb-4">
-              <p className="text-sm text-primary font-bold">{post.date}</p>
-              {post.isSEO && <span className="text-sm bg-primary/20 text-primary px-2 py-1 rounded-full uppercase font-bold">Guide</span>}
-            </div>
-            <h3 className="text-2xl font-bold mb-4 group-hover:text-primary transition-colors line-clamp-2">{post.title}</h3>
-            <p className="text-text-secondary text-base leading-relaxed mb-6 line-clamp-3 flex-1">{post.excerpt}</p>
-            <div className="flex items-center text-base font-bold text-white group-hover:translate-x-2 transition-transform mt-auto">
-              <span>Read Full Article</span>
-              <ArrowRight className="w-5 h-5 ml-2" />
-            </div>
-          </Link>
-        ))}
-      </div>
-    </div>
-  );
-};
-
-const BlogPost = () => {
-  const { id } = useParams();
-  const post = BLOG_POSTS.find(p => p.id === id);
-  if (!post) return <div>Post not found</div>;
-
-  return (
-    <div className="pt-32 pb-20 px-4 max-w-3xl mx-auto space-y-8">
-      <SEO 
-        title={`${post.title} | ReelHooks Blog`}
-        description={post.excerpt}
-        type="article"
-        schema={{
-          "@context": "https://schema.org",
-          "@type": "BreadcrumbList",
-          "itemListElement": [
-            { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
-            { "@type": "ListItem", "position": 2, "name": "Blog", "item": "https://www.reelhooks.site/blog" },
-            { "@type": "ListItem", "position": 3, "name": post.title, "item": `https://www.reelhooks.site/blog/${post.id}` }
-          ]
-        }}
-      />
-      <Link to="/blog" className="text-text-secondary hover:text-white flex items-center space-x-2 text-base">
-        <ArrowRight className="w-5 h-5 rotate-180" />
-        <span>Back to Blog</span>
-      </Link>
-      <div className="space-y-4">
-        <p className="text-primary font-bold">{post.date}</p>
-        <h1 className="text-4xl md:text-5xl font-bold font-display">{post.title}</h1>
-      </div>
-      <div className="prose prose-invert max-w-none text-text-secondary leading-relaxed space-y-6">
-        {post.content.split("\n").map((p, i) => <p key={i}>{p}</p>)}
-      </div>
-    </div>
-  );
-};
-
 const Dashboard = () => {
   const [niche, setNiche] = useState(NICHES[0]);
   const [sub, setSub] = useState(NICHES[0].subcategories[0]);
@@ -2032,7 +1907,13 @@ const Dashboard = () => {
 
   const [isGenerating, setIsGenerating] = useState(false);
   const [hooks, setHooks] = useState<Hook[]>([]);
-  const [activeTab, setActiveTab] = useState<"hooks" | "ideas" | "improver" | "tools" | "saved">("hooks");
+  const [activeTab, setActiveTab] = useState<"hooks" | "ideas" | "improver" | "tools" | "saved" | "templates">("hooks");
+  const [history, setHistory] = useState<Hook[]>(() => {
+    try {
+      const saved = localStorage.getItem("reelhook_history");
+      return saved ? JSON.parse(saved) : [];
+    } catch (e) { return []; }
+  });
   
   const filteredNiches = useMemo(() => {
     let search = nicheSearch.toLowerCase().trim();
@@ -2115,8 +1996,9 @@ const Dashboard = () => {
       localStorage.setItem("reelhook_saved", JSON.stringify(savedHooks));
       localStorage.setItem("reelhook_folders", JSON.stringify(folders));
       localStorage.setItem("reelhook_map", JSON.stringify(hookFolderMap));
+      localStorage.setItem("reelhook_history", JSON.stringify(history));
     } catch (e) { console.error("Storage error:", e); }
-  }, [savedHooks, folders, hookFolderMap]);
+  }, [savedHooks, folders, hookFolderMap, history]);
 
   const handleCreateFolder = () => {
     const name = prompt("Enter folder name:");
@@ -2152,6 +2034,13 @@ const Dashboard = () => {
     content: null
   });
 
+  const [toast, setToast] = useState<{ message: string, type: "success" | "error" } | null>(null);
+
+  const showToast = (message: string, type: "success" | "error" = "success") => {
+    setToast({ message, type });
+    setTimeout(() => setToast(null), 3000);
+  };
+
   const handleExtra = async (type: "caption" | "hashtags" | "script" | "ideas" | "improve" | "analyze" | "angle" | "time" | "calendar", context: string) => {
     setModal({ isOpen: true, title: `Generating ${type}...`, content: <div className="flex justify-center py-12"><RefreshCw className="animate-spin w-8 h-8 text-primary" /></div> });
     const result = await generateExtraAI(type as any, context);
@@ -2163,7 +2052,11 @@ const Dashboard = () => {
           {result.captions?.map((c: string, i: number) => (
             <div key={i} className="bg-white/5 p-4 rounded-xl border border-white/10 relative group">
               <p className="text-base leading-relaxed pr-8">{c}</p>
-              <CopyButton text={c} className="absolute top-4 right-4 text-text-secondary hover:text-white" />
+              <CopyButton 
+                text={c} 
+                className="absolute top-4 right-4 text-text-secondary hover:text-white" 
+                onCopy={() => showToast("Copied caption!")}
+              />
             </div>
           ))}
         </div>
@@ -2173,7 +2066,11 @@ const Dashboard = () => {
         <div className="space-y-4">
           <div className="bg-white/5 p-4 rounded-xl border border-white/10 relative">
             <p className="text-primary font-mono text-base leading-relaxed">{result.hashtags?.join(" ")}</p>
-            <CopyButton text={result.hashtags?.join(" ") || ""} className="absolute top-4 right-4 text-text-secondary hover:text-white" />
+            <CopyButton 
+              text={result.hashtags?.join(" ") || ""} 
+              className="absolute top-4 right-4 text-text-secondary hover:text-white" 
+              onCopy={() => showToast("Copied hashtags!")}
+            />
           </div>
         </div>
       );
@@ -2181,7 +2078,11 @@ const Dashboard = () => {
       content = (
         <div className="bg-white/5 p-6 rounded-xl border border-white/10 relative">
           <pre className="text-base whitespace-pre-wrap font-sans leading-relaxed">{result.script}</pre>
-          <CopyButton text={result.script || ""} className="absolute top-6 right-6 text-text-secondary hover:text-white" />
+          <CopyButton 
+            text={result.script || ""} 
+            className="absolute top-6 right-6 text-text-secondary hover:text-white" 
+            onCopy={() => showToast("Copied script!")}
+          />
         </div>
       );
     } else if (type === "analyze") {
@@ -2326,6 +2227,7 @@ const Dashboard = () => {
            const retryResults = await generateHooksAI(targetNiche, "General Content", lang, tone);
            if (retryResults.length > 0) {
              setHooks(retryResults);
+             setHistory(prev => [...retryResults.slice(0, 5), ...prev].slice(0, 50));
              return;
            }
         }
@@ -2351,8 +2253,12 @@ const Dashboard = () => {
         
         // Final fallback if AI still fails - will be handled in ai.ts now with hardcoded templates
         setHooks(results);
+        if (results.length > 0) {
+          setHistory(prev => [...results.slice(0, 5), ...prev].slice(0, 50));
+        }
       } else {
         setHooks(results);
+        setHistory(prev => [...results.slice(0, 5), ...prev].slice(0, 50));
       }
     } catch (err) {
       console.error("Generation failed:", err);
@@ -2544,7 +2450,7 @@ const Dashboard = () => {
         <div className="lg:col-span-8 space-y-6">
           {/* Tabs */}
           <div className="flex space-x-1 bg-white/5 p-1 rounded-xl overflow-x-auto custom-scrollbar">
-            {(["hooks", "ideas", "improver", "tools", "saved"] as const).map((tab) => (
+            {(["hooks", "templates", "ideas", "improver", "tools", "saved"] as const).map((tab) => (
               <button
                 key={tab}
                 onClick={() => setActiveTab(tab)}
@@ -2553,6 +2459,7 @@ const Dashboard = () => {
                   activeTab === tab ? "bg-primary text-white shadow-lg" : "text-text-secondary hover:text-white"
                 )}
               >
+                {activeTab === tab && <motion.span layoutId="activeTabDashboard" className="absolute inset-0 bg-primary rounded-lg -z-10" />}
                 {tab}
               </button>
             ))}
@@ -2584,18 +2491,73 @@ const Dashboard = () => {
                           <p className="text-lg font-medium leading-relaxed pr-8">
                             {hook.text}
                           </p>
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-1">
                             <button 
-                              onClick={() => handleSaveHook(hook)}
+                              onClick={() => {
+                                handleSaveHook(hook);
+                                if (!savedHooks.find(h => h.id === hook.id)) {
+                                  showToast("Hook saved to your collection!");
+                                }
+                              }}
                               className={cn(
-                                "transition-colors cursor-pointer",
+                                "p-2 rounded-lg transition-all cursor-pointer",
                                 savedHooks.find(h => h.id === hook.id) ? "text-primary" : "text-text-secondary hover:text-white"
                               )}
+                              title="Save hook"
                             >
                               <Bookmark className="w-5 h-5" fill={savedHooks.find(h => h.id === hook.id) ? "currentColor" : "none"} />
                             </button>
-                            <CopyButton text={hook.text} className="text-text-secondary hover:text-white" />
+                            <button 
+                              onClick={async () => {
+                                try {
+                                  await navigator.share({ title: 'Viral Hook from ReelHooks.site', text: hook.text, url: window.location.href });
+                                } catch (e) {
+                                  await navigator.clipboard.writeText(hook.text);
+                                  showToast("Link copied to share!");
+                                }
+                              }}
+                              className="p-2 rounded-lg text-text-secondary hover:text-white transition-all cursor-pointer"
+                              title="Share hook"
+                            >
+                              <ExternalLink className="w-5 h-5" />
+                            </button>
+                            <CopyButton 
+                              text={hook.text} 
+                              className="text-text-secondary hover:text-white" 
+                              onCopy={() => showToast("Copied to clipboard!")}
+                            />
                           </div>
+                        </div>
+
+                        <div className="flex flex-wrap gap-2 pt-2">
+                          <button 
+                            onClick={() => handleExtra("caption", hook.text)}
+                            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/30 transition-all cursor-pointer"
+                          >
+                            <MessageSquare className="w-3.5 h-3.5" />
+                            <span>Caption</span>
+                          </button>
+                          <button 
+                            onClick={() => handleExtra("hashtags", hook.text)}
+                            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/30 transition-all cursor-pointer"
+                          >
+                            <Hash className="w-3.5 h-3.5" />
+                            <span>Hashtags</span>
+                          </button>
+                          <button 
+                            onClick={() => handleExtra("script", hook.text)}
+                            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/30 transition-all cursor-pointer"
+                          >
+                            <FileText className="w-3.5 h-3.5" />
+                            <span>Script</span>
+                          </button>
+                          <button 
+                            onClick={() => handleExtra("analyze", hook.text)}
+                            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/30 transition-all cursor-pointer"
+                          >
+                            <BarChart3 className="w-3.5 h-3.5" />
+                            <span>Analyze</span>
+                          </button>
                         </div>
                         
                         <div className="flex items-center space-x-4">
@@ -2617,33 +2579,16 @@ const Dashboard = () => {
                             <span>{hook.category}</span>
                           </span>
                         </div>
-
-                        <div className="flex items-center space-x-2 pt-2">
-                          <button 
-                            onClick={() => handleExtra("caption", hook.text)}
-                            className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all cursor-pointer"
-                          >
-                            <MessageSquare className="w-3.5 h-3.5" />
-                            <span>Caption</span>
-                          </button>
-                          <button 
-                            onClick={() => handleExtra("hashtags", hook.text)}
-                            className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all cursor-pointer"
-                          >
-                            <Hash className="w-3.5 h-3.5" />
-                            <span>Hashtags</span>
-                          </button>
-                          <button 
-                            onClick={() => handleExtra("script", hook.text)}
-                            className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all cursor-pointer"
-                          >
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>Script</span>
-                          </button>
-                        </div>
                       </div>
                     </motion.div>
                   ))}
+                  <button 
+                    onClick={handleGenerate}
+                    className="w-full py-4 glass border-dashed border-2 border-white/10 rounded-2xl text-text-secondary hover:text-white hover:border-primary/50 transition-all flex items-center justify-center space-x-2 group"
+                  >
+                    <RefreshCw className="w-5 h-5 group-hover:rotate-180 transition-transform duration-500" />
+                    <span>Regenerate More Hooks</span>
+                  </button>
                 </div>
               ) : (
                 <div className="glass p-12 rounded-2xl text-center space-y-4 border-dashed border-white/10">
@@ -2654,8 +2599,16 @@ const Dashboard = () => {
                   <p className="text-text-secondary max-w-sm mx-auto">
                     Select your niche and tone on the left to generate high-performing hooks for your next Reel.
                   </p>
+                  <button 
+                    onClick={handleGenerate}
+                    className="bg-primary text-white px-8 py-3 rounded-full font-bold shadow-xl shadow-primary/20 hover:scale-110 active:scale-95 transition-all"
+                  >
+                    Unlock My First Hooks
+                  </button>
                 </div>
               )
+            ) : activeTab === "templates" ? (
+              <TemplateLibrary onUse={(h) => showToast("Copied Template!")} />
             ) : activeTab === "ideas" ? (
               <div className="space-y-6">
                 <button 
@@ -2761,62 +2714,73 @@ const Dashboard = () => {
                 {filteredSavedHooks.length > 0 ? (
                   <div className="grid grid-cols-1 gap-4">
                     {filteredSavedHooks.map((hook, idx) => (
-                      <div key={hook.id} className="glass p-6 rounded-2xl space-y-4 relative group">
+                      <motion.div 
+                        key={hook.id}
+                        initial={{ opacity: 0, scale: 0.98 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ delay: idx * 0.05 }}
+                        className="glass p-6 rounded-2xl space-y-4 relative group"
+                      >
                         <div className="flex justify-between items-start">
                           <p className="text-lg font-medium leading-relaxed pr-12">{hook.text}</p>
-                          <div className="flex items-center space-x-2">
+                          <div className="flex items-center space-x-1">
                             <div className="relative group/menu">
-                              <button className="text-text-secondary hover:text-white p-1">
+                              <button className="text-text-secondary hover:text-white p-2 rounded-lg hover:bg-white/5 transition-all">
                                 <MoreVertical className="w-5 h-5" />
                               </button>
                               <div className="absolute right-0 top-full mt-2 w-48 glass rounded-xl border border-white/10 p-2 hidden group-hover/menu:block z-20 shadow-2xl">
-                                <p className="text-[10px] uppercase tracking-widest text-text-secondary px-2 py-1">Move to Folder</p>
+                                <p className="text-[10px] uppercase tracking-widest text-text-secondary px-3 py-2 border-b border-white/5 mb-1">Move to Folder</p>
                                 {folders.map(f => (
                                   <button 
                                     key={f.id}
-                                    onClick={() => handleMoveToFolder(hook.id, f.id)}
-                                    className="w-full text-left px-3 py-2 rounded-lg text-xs hover:bg-white/5 transition-all"
+                                    onClick={() => {
+                                      handleMoveToFolder(hook.id, f.id);
+                                      showToast(`Moved to ${f.name}`);
+                                    }}
+                                    className="w-full text-left px-3 py-2 rounded-lg text-xs hover:bg-white/5 transition-all flex items-center justify-between"
                                   >
-                                    {f.name}
+                                    <span>{f.name}</span>
+                                    {hookFolderMap[hook.id] === f.id && <CheckCircle2 className="w-3 h-3 text-primary" />}
                                   </button>
                                 ))}
                                 <div className="h-px bg-white/10 my-1" />
                                 <button 
-                                  onClick={() => handleSaveHook(hook)}
+                                  onClick={() => {
+                                    handleSaveHook(hook);
+                                    showToast("Removed from saved", "success");
+                                  }}
                                   className="w-full text-left px-3 py-2 rounded-lg text-xs text-red-400 hover:bg-red-400/10 transition-all flex items-center space-x-2"
                                 >
                                   <Trash2 className="w-3 h-3" />
-                                  <span>Remove Hook</span>
+                                  <span>Remove Permanently</span>
                                 </button>
                               </div>
                             </div>
-                            <CopyButton text={hook.text} className="text-text-secondary hover:text-white p-1" />
+                            <CopyButton 
+                              text={hook.text} 
+                              className="text-text-secondary hover:text-white" 
+                              onCopy={() => showToast("Copied from collection!")}
+                            />
                           </div>
                         </div>
-                        <div className="flex items-center space-x-2 pt-2">
+
+                        <div className="flex flex-wrap gap-2 pt-2">
                           <button 
                             onClick={() => handleExtra("caption", hook.text)}
-                            className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all cursor-pointer"
+                            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/30 transition-all cursor-pointer"
                           >
                             <MessageSquare className="w-3.5 h-3.5" />
                             <span>Caption</span>
                           </button>
                           <button 
                             onClick={() => handleExtra("hashtags", hook.text)}
-                            className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all cursor-pointer"
+                            className="flex items-center space-x-1.5 px-3 py-1.5 rounded-full bg-white/5 border border-white/10 text-xs font-bold text-text-secondary hover:text-primary hover:border-primary/30 transition-all cursor-pointer"
                           >
                             <Hash className="w-3.5 h-3.5" />
                             <span>Hashtags</span>
                           </button>
-                          <button 
-                            onClick={() => handleExtra("script", hook.text)}
-                            className="text-xs bg-white/5 hover:bg-white/10 px-3 py-1.5 rounded-lg flex items-center space-x-1.5 transition-all cursor-pointer"
-                          >
-                            <FileText className="w-3.5 h-3.5" />
-                            <span>Script</span>
-                          </button>
                         </div>
-                      </div>
+                      </motion.div>
                     ))}
                   </div>
                 ) : (
@@ -2828,6 +2792,46 @@ const Dashboard = () => {
                     <p className="text-text-secondary max-w-sm mx-auto">
                       Save hooks and organize them into folders to keep your content strategy structured.
                     </p>
+                  </div>
+                )}
+
+                {activeFolder === "all" && history.length > 0 && (
+                  <div className="space-y-4 pt-10 border-t border-white/5">
+                    <div className="flex items-center justify-between">
+                      <h3 className="text-xl font-bold font-display uppercase italic text-text-secondary/50">Recent <span className="text-primary/50">History</span></h3>
+                      <button 
+                        onClick={() => { setHistory([]); showToast("History cleared!"); }}
+                        className="text-[10px] text-text-secondary hover:text-red-400 transition-colors uppercase tracking-widest font-black"
+                      >
+                        Clear History
+                      </button>
+                    </div>
+                    <div className="grid grid-cols-1 gap-3 opacity-60 hover:opacity-100 transition-opacity">
+                      {history.slice(0, 15).map((hook, idx) => (
+                        <div key={`${hook.id}-hist-${idx}`} className="glass p-4 rounded-xl flex items-center justify-between group">
+                          <p className="text-xs font-medium line-clamp-1 flex-1 pr-4">{hook.text}</p>
+                          <div className="flex items-center space-x-2">
+                            <button 
+                              onClick={() => {
+                                handleSaveHook(hook);
+                                showToast("Saved from history!");
+                              }}
+                              className={cn(
+                                "p-1.5 rounded-lg transition-all",
+                                savedHooks.find(h => h.id === hook.id) ? "text-primary" : "text-text-secondary hover:text-white"
+                              )}
+                            >
+                              <Bookmark className="w-4 h-4" fill={savedHooks.find(h => h.id === hook.id) ? "currentColor" : "none"} />
+                            </button>
+                            <CopyButton 
+                              text={hook.text} 
+                              className="text-text-secondary hover:text-white" 
+                              onCopy={() => showToast("Copied from history!")}
+                            />
+                          </div>
+                        </div>
+                      ))}
+                    </div>
                   </div>
                 )}
               </div>
