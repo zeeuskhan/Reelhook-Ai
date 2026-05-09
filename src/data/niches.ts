@@ -46,6 +46,16 @@ export const NICHES: Niche[] = [
     subcategories: ["Skincare Routine", "Makeup Tutorials", "Hair Care", "Nail Art", "Fragrance", "Natural Beauty", "Anti-Aging", "Men's Grooming", "K-Beauty", "Sun Protection", "Acne Solutions", "Beauty Product Reviews", "Spa at Home", "Wedding Makeup", "Sustainable Beauty"]
   },
   {
+    id: "skincare",
+    name: "Skincare",
+    subcategories: ["Acne Routine", "Anti-Aging", "Daily Skincare", "Skincare for Men", "Asian Skincare", "Glowing Skin Hacks", "Sunscreen Tips", "Nighttime Routine", "K-Beauty Secrets", "Natural Skincare"]
+  },
+  {
+    id: "crypto",
+    name: "Crypto",
+    subcategories: ["Bitcoin Tips", "Altcoin News", "Crypto Investing", "Web3 Strategy", "NFT Trends", "Crypto Trading", "DeFi Explained", "Blockchain Tech", "Mining Secrets", "Crypto Security"]
+  },
+  {
     id: "motivation",
     name: "Motivation",
     subcategories: ["Self Discipline", "Personal Growth", "Success Mindset", "Daily Affirmations", "Overcoming Procrastination", "Goal Setting", "Morning Routines", "Mental Toughness", "Inspirational Quotes", "Confidence Building", "Habit Tracking", "Resilience", "Stoicism", "Focus Techniques", "Vision Boards"]
