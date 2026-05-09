@@ -53,15 +53,28 @@ const FALLBACK_HOOK_TEMPLATES = [
   "Steal my exact {niche} routine for maximum growth."
 ];
 
-export async function generateHooksAI(niche: string, sub: string, lang: string, tone: string) {
+export async function generateHooksAI(niche: string, sub: string, lang: string, tone: string, platform: string = "Instagram Reels") {
   const ai = getGenAI();
+  let platformPrompt = "";
+  if (platform === "TikTok") {
+    platformPrompt = "Generate hooks optimized for TikTok's algorithm and Gen Z audience. Focus on high energy and immediate shock factor.";
+  } else if (platform === "YouTube Shorts") {
+    platformPrompt = "Generate hooks optimized for YouTube Shorts retention and click-through. Focus on clear value propositions and intense curiosity gaps.";
+  } else {
+    platformPrompt = "Generate hooks optimized for Instagram Reels' algorithm and a lifestyle/aesthetic focused audience.";
+  }
+
   const prompt = `You are a world-class viral short-form content strategist specialized in Instagram Reels, TikTok, and YouTube Shorts. 
   Your task is to generate 10 unique, high-retention scroll-stopping hooks for the following niche:
   
+  PLATFORM: ${platform}
   NICHE: ${niche}
   SUB-CATEGORY: ${sub}
   LANGUAGE: ${lang}
   TONE: ${tone}
+  
+  SPECIAL INSTRUCTIONS:
+  ${platformPrompt}
   
   STRATEGY GUIDELINES:
   - Each hook MUST be optimized for the first 3 seconds of a video.

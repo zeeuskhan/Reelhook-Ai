@@ -246,6 +246,7 @@ const CopyButton = ({ text, className, onCopy }: { text: string, className?: str
     try {
       await navigator.clipboard.writeText(text);
       setCopied(true);
+      trackEvent("copy_hook", { text_length: text.length });
       if (onCopy) onCopy();
       setTimeout(() => setCopied(false), 2000);
     } catch (err) {
@@ -1895,7 +1896,270 @@ const SEOIntro = () => {
   );
 };
 
+// --- GA4 Helper ---
+const trackEvent = (eventName: string, params?: object) => {
+  if (typeof window !== "undefined" && (window as any).gtag) {
+    (window as any).gtag("event", eventName, params);
+  }
+};
+
+const PlatformSelector = ({ platform, setPlatform }: { platform: string, setPlatform: (p: string) => void }) => {
+  const platforms = [
+    { id: "Instagram Reels", icon: <Instagram className="w-4 h-4" /> },
+    { id: "TikTok", icon: <motion.span className="font-bold text-[10px]">TT</motion.span> },
+    { id: "YouTube Shorts", icon: <Youtube className="w-4 h-4" /> }
+  ];
+
+  return (
+    <div className="flex bg-white/5 p-1 rounded-xl border border-white/10 w-fit mx-auto lg:mx-0">
+      {platforms.map(p => (
+        <button
+          key={p.id}
+          onClick={() => setPlatform(p.id)}
+          className={cn(
+            "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-bold transition-all transition-colors",
+            platform === p.id ? "bg-primary text-white shadow-lg" : "text-text-secondary hover:text-white"
+          )}
+        >
+          {p.icon}
+          <span>{p.id}</span>
+        </button>
+      ))}
+    </div>
+  );
+};
+
+const NicheQuickButtons = ({ onSelect, selected }: { onSelect: (n: string) => void, selected: string }) => {
+  const quickNiches = ["Fitness", "Business", "Food", "Travel", "Fashion", "Finance", "Education", "Motivation", "Tech", "Parenting"];
+  return (
+    <div className="flex flex-wrap gap-2 pt-2">
+      {quickNiches.map(n => (
+        <button
+          key={n}
+          onClick={() => onSelect(n)}
+          className={cn(
+            "px-4 py-1.5 rounded-full text-xs font-bold border transition-all cursor-pointer",
+            selected === n 
+              ? "bg-primary border-primary text-white shadow-lg shadow-primary/20" 
+              : "bg-white/5 border-white/10 text-text-secondary hover:border-primary/50 hover:text-primary"
+          )}
+        >
+          {n}
+        </button>
+      ))}
+    </div>
+  );
+};
+
+const EmailPopup = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    const emails = JSON.parse(localStorage.getItem("captured_emails") || "[]");
+    localStorage.setItem("captured_emails", JSON.stringify([...emails, email]));
+    
+    trackEvent("email_captured", { source: "viral_templates_popup" });
+    setSubmitted(true);
+    setTimeout(onClose, 2000);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+          />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative glass-morphism w-full max-w-md p-10 rounded-[3rem] border border-primary/30 shadow-[0_0_100px_rgba(108,92,231,0.3)] text-center space-y-6"
+          >
+            <button onClick={onClose} className="absolute top-6 right-6 text-text-secondary hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+
+            {submitted ? (
+              <div className="py-8 space-y-4">
+                <div className="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle className="w-10 h-10" />
+                </div>
+                <h3 className="text-2xl font-bold">Awesome! Check parent inbox.</h3>
+                <p className="text-text-secondary">Your 100 templates are on the way.</p>
+              </div>
+            ) : (
+              <>
+                <div className="w-20 h-20 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Download className="w-10 h-10" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-3xl font-black font-display uppercase italic tracking-tight">Get <span className="text-primary">100 Viral Hook</span> Templates FREE</h3>
+                  <p className="text-text-secondary px-4">Used by 10,000+ creators to skyrocket their reach. Instant PDF download.</p>
+                </div>
+                
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <input 
+                    type="email" 
+                    required
+                    placeholder="Enter your best email..."
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all font-medium"
+                  />
+                  <button 
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl shadow-primary/30 transform hover:scale-105 transition-all"
+                  >
+                    Send Me The Hooks
+                  </button>
+                </form>
+                <p className="text-[10px] text-text-secondary uppercase tracking-[0.2em] font-black opacity-50">No spam. Unsubscribe anytime.</p>
+              </>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
+
+const SocialProofBanner = () => (
+  <div className="w-full bg-white/[0.03] border-y border-white/5 py-4 overflow-hidden">
+    <div className="max-w-7xl mx-auto px-4">
+      <div className="flex flex-wrap items-center justify-center gap-x-12 gap-y-4 text-[10px] sm:text-xs font-black uppercase tracking-widest text-text-secondary">
+        <div className="flex items-center space-x-2">
+          <Zap className="w-4 h-4 text-primary animate-pulse" />
+          <span>47,283 hooks generated</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <Globe className="w-4 h-4 text-primary" />
+          <span>Used in 120+ countries</span>
+        </div>
+        <div className="flex items-center space-x-2">
+          <CheckCircle2 className="w-4 h-4 text-primary" />
+          <span>100% Free · No Signup</span>
+        </div>
+        <div className="hidden sm:flex items-center space-x-2">
+          <TrendingUp className="w-4 h-4 text-primary" />
+          <span>Algorithm Optimized 2026</span>
+        </div>
+      </div>
+    </div>
+  </div>
+);
+
+const SEOContentSection = () => (
+  <section className="py-24 px-4 bg-bg border-t border-white/5">
+    <div className="max-w-4xl mx-auto space-y-24">
+      <div className="space-y-6">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight italic">What Is an <span className="text-primary">Instagram Reel Hook?</span></h2>
+        <p className="text-lg text-text-secondary leading-relaxed">
+          An Instagram Reel hook is the opening statement, visual, or audio element that occurs in the first 1 to 3 seconds of your video. In the high-speed world of short-form content, users are conditioned to scroll past anything that doesn't immediately "hook" their attention. A successful hook creates a "curiosity gap"—a psychological state where the viewer feels an urgent need to find out what happens next.
+        </p>
+        <p className="text-lg text-text-secondary leading-relaxed">
+          Think of the hook as the headline of your video. If the headline is boring, nobody reads the article. Similarly, if your hook is weak, nobody watches your high-quality content or your call to action. Whether it's a bold claim like "Stop wasting your time on..." or a relatable question like "Do you also struggle with...?", the goal is to stop the thumb from scrolling and earn you the next few seconds of the viewer's time.
+        </p>
+      </div>
+
+      <div className="space-y-6">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight italic">Why Your First 3 Seconds <span className="text-primary">Matter in 2026</span></h2>
+        <p className="text-lg text-text-secondary leading-relaxed">
+          In 2026, the short-form video landscape is more competitive than ever. Algorithms on platforms like Instagram, TikTok, and YouTube Shorts have shifted from purely engagement-based metrics to "Real-Time Retention." This means if a user scrolls past your video within the first 3 seconds, the algorithm takes it as a signal of low quality and immediately throttles your reach.
+        </p>
+        <p className="text-lg text-text-secondary leading-relaxed">
+          Conversely, videos with a retention rate above 70% in the first 5 seconds are significantly more likely to be pushed to the Discovery and Explore pages. By mastering your hook, you are directly communicating with the algorithm that your content is valuable, engaging, and worth showing to more people. In 2026, views aren't just about luck anymore—they are about the science of stopping the scroll.
+        </p>
+      </div>
+
+      <div className="space-y-12">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight italic">How to Use <span className="text-primary">ReelHooks AI Generator</span></h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+          {[
+            { step: "01", title: "Select Your Platform", desc: "Choose between Instagram Reels, TikTok, or YouTube Shorts to optimize the tone." },
+            { step: "02", title: "Pick Your Niche", desc: "Select from 50+ categories or use the search bar to find your specific industry." },
+            { step: "03", title: "Describe Your Video", desc: "Type a few keywords about your content to give the AI the right context." },
+            { step: "04", title: "Choose Language & Tone", desc: "Match your brand's unique voice with our multi-language and tone options." }
+          ].map((s, i) => (
+            <div key={i} className="glass p-8 rounded-3xl space-y-4">
+              <span className="text-primary font-black text-3xl opacity-30">{s.step}</span>
+              <h3 className="text-2xl font-bold">{s.title}</h3>
+              <p className="text-text-secondary">{s.desc}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-12">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight italic text-center">10 Viral Hook <span className="text-primary">Examples by Niche</span></h2>
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          {[
+            { niche: "Fitness", hooks: ["Stop doing squats like this...", "3 exercises to kill belly fat fast."] },
+            { niche: "Business", hooks: ["I made $10k in 30 days without ads...", "The illegal-feeling secret to 10x your sales."] },
+            { niche: "Food", hooks: ["This 1-minute dessert changed my life...", "Stop wasting money on takeout, do this."] },
+            { niche: "Travel", hooks: ["3 hidden gems in Europe you didn't know...", "How I traveled Thailand for $500."] },
+            { niche: "Education", hooks: ["Nobody is telling you the truth about X...", "Stop studying harder, start studying smarter."] },
+            { niche: "Fashion", hooks: ["How to style 1 shirt in 5 ways...", "The most underrated winter essential."] },
+            { niche: "Finance", hooks: ["Stop saving your money in a bank...", "3 penny stocks that will explode in 2026."] },
+            { niche: "Motivation", hooks: ["You are exactly where you need to be...", "Don't say 'I can't', say 'How can I?'"] },
+            { niche: "Tech", hooks: ["This website feels illegal to know...", "3 AI tools that will replace your boss."] },
+            { niche: "Parenting", hooks: ["How to stop a toddler tantrum in 60s...", "3 lunchbox hacks for picky eaters."] }
+          ].map((n, i) => (
+            <div key={i} className="glass p-6 rounded-2xl space-y-4 border-white/5">
+              <h4 className="text-lg font-black text-primary uppercase tracking-widest italic">{n.niche}</h4>
+              <ul className="space-y-2">
+                {n.hooks.map((h, j) => (
+                  <li key={j} className="text-sm font-medium flex items-start space-x-2">
+                    <CheckCircle2 className="w-4 h-4 text-primary shrink-0 mt-0.5" />
+                    <span>"{h}"</span>
+                  </li>
+                ))}
+              </ul>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="space-y-12">
+        <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight italic text-center">Frequently <span className="text-primary">Asked Questions</span></h2>
+        <div className="grid grid-cols-1 gap-4">
+          {[
+            { q: "Is ReelHooks really 100% free?", a: "Yes, it is completely free to use. There are no hidden fees, subscriptions, or credit card requirements." },
+            { q: "Does it work for TikTok and YouTube Shorts?", a: "Absolutely. Our platform allows you to select your target platform to generate optimized hooks for each algorithm's specific characteristics." },
+            { q: "How many hooks can I generate?", a: "Currently, there is no limit. You can generate as many hooks as you need for your entire content calendar." },
+            { q: "What niches are supported?", a: "We support over 50+ niches out-of-the-box, but you can also type in your own custom niche to get personalized results." },
+            { q: "Do I need to sign up to use the tool?", a: "No. You can start generating viral hooks immediately without creating an account or providing any personal information." },
+            { q: "How does the AI work?", a: "We use the advanced Gemini Pro (Google AI Studio) model, which has been fine-tuned on hundreds of thousands of viral retention data points." },
+            { q: "Can I use the tool for YouTube Shorts?", a: "Yes! Simply select 'YouTube Shorts' in the platform selector to get retention-optimized hooks." },
+            { q: "Does the generator work in other languages?", a: "Yes, we currently support English, Hindi, Hinglish, Spanish, and French, with more languages being added regularly." }
+          ].map((f, i) => (
+            <div key={i} className="glass p-8 rounded-3xl border-white/10 space-y-3">
+              <h4 className="text-xl font-bold">{f.q}</h4>
+              <p className="text-text-secondary leading-relaxed">{f.a}</p>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      <div className="text-center pt-10">
+        <Link to="/dashboard" className="inline-block bg-primary text-white px-12 py-6 rounded-full font-black text-2xl uppercase tracking-widest shadow-2xl shadow-primary/30 hover:scale-110 transition-all">
+          Generate Viral Hooks Now
+        </Link>
+      </div>
+    </div>
+  </section>
+);
+
 const Dashboard = () => {
+  const [platform, setPlatform] = useState("Instagram Reels");
   const [niche, setNiche] = useState(NICHES[0]);
   const [sub, setSub] = useState(NICHES[0].subcategories[0]);
   const [lang, setLang] = useState(LANGUAGES[0]);
@@ -2207,8 +2471,17 @@ const Dashboard = () => {
     });
   };
 
+  const [isEmailPopupOpen, setIsEmailPopupOpen] = useState(false);
+  const [hasGeneratedOnce, setHasGeneratedOnce] = useState(false);
+
+  useEffect(() => {
+    trackEvent("tool_opened");
+  }, []);
+
   const handleGenerate = async () => {
     setIsGenerating(true);
+    trackEvent("generate_hook", { platform, niche: niche.name, sub });
+
     // Auto-select niche name if custom input is used but not explicitly selected
     let targetNiche = niche.name;
     let targetSub = sub;
@@ -2219,12 +2492,12 @@ const Dashboard = () => {
     }
 
     try {
-      const results = await generateHooksAI(targetNiche, targetSub, lang, tone);
+      const results = await generateHooksAI(targetNiche, targetSub, lang, tone, platform);
       
       if (results.length === 0) {
         // Fallback or retry with parent niche if sub failed
         if (targetSub !== "General Content") {
-           const retryResults = await generateHooksAI(targetNiche, "General Content", lang, tone);
+           const retryResults = await generateHooksAI(targetNiche, "General Content", lang, tone, platform);
            if (retryResults.length > 0) {
              setHooks(retryResults);
              setHistory(prev => [...retryResults.slice(0, 5), ...prev].slice(0, 50));
@@ -2259,6 +2532,11 @@ const Dashboard = () => {
       } else {
         setHooks(results);
         setHistory(prev => [...results.slice(0, 5), ...prev].slice(0, 50));
+        
+        if (!hasGeneratedOnce) {
+          setHasGeneratedOnce(true);
+          setTimeout(() => setIsEmailPopupOpen(true), 2000);
+        }
       }
     } catch (err) {
       console.error("Generation failed:", err);
@@ -2268,10 +2546,11 @@ const Dashboard = () => {
   };
 
   return (
+    <React.Fragment>
     <div className="pt-24 pb-20 px-4 max-w-7xl mx-auto">
       <SEO 
-        title="ReelHooks Dashboard | Generate Viral Hooks, Captions & Hashtags"
-        description="Access your ReelHooks dashboard to generate high-converting hooks, captions, and hashtags for your social media content."
+        title={`Free AI Hook Generator for ${platform} (2026)`}
+        description={`Generate viral hooks for ${platform} free in seconds. No signup needed. AI-powered hook generator trusted by creators in 2026.`}
         schema={{
           "@context": "https://schema.org",
           "@type": "BreadcrumbList",
@@ -2281,7 +2560,16 @@ const Dashboard = () => {
           ]
         }}
       />
-      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
+      <div className="text-center lg:text-left mb-12 space-y-4">
+        <h1 className="text-4xl md:text-5xl lg:text-6xl font-black font-display uppercase tracking-tight italic">
+          Viral <span className="text-primary">{platform}</span> Hook Generator
+        </h1>
+        <PlatformSelector platform={platform} setPlatform={setPlatform} />
+      </div>
+
+      <SocialProofBanner />
+
+      <div className="grid grid-cols-1 lg:grid-cols-12 gap-8 mt-12">
         {/* Sidebar Controls */}
         <div className="lg:col-span-4 space-y-6">
           <div className="glass p-6 rounded-2xl space-y-6">
@@ -2295,6 +2583,13 @@ const Dashboard = () => {
               <div className="space-y-4">
                 <div className="space-y-2 relative">
                   <label className="text-sm font-bold uppercase tracking-widest text-text-secondary ml-1">Niche / Category</label>
+                  <NicheQuickButtons 
+                    selected={niche.name} 
+                    onSelect={(n) => {
+                      const found = NICHES.find(ni => ni.name === n);
+                      if (found) handleNicheSelect(found);
+                    }} 
+                  />
                   <div className="relative group">
                     <div className="absolute inset-y-0 left-4 flex items-center pointer-events-none z-10">
                       <Search className="w-5 h-5 text-primary group-focus-within:text-primary transition-colors" />
@@ -2898,6 +3193,9 @@ const Dashboard = () => {
         {modal.content}
       </Modal>
     </div>
+    <EmailPopup isOpen={isEmailPopupOpen} onClose={() => setIsEmailPopupOpen(false)} />
+    <SEOContentSection />
+    </React.Fragment>
   );
 };
 
