@@ -1,105 +1,312 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <!-- Core Pages -->
   <url>
     <loc>https://www.reelhooks.site/</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>weekly</changefreq>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>daily</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://www.reelhooks.site/hooks/finance</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/education</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/parenting</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/motivation</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/health</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/lifestyle</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/travel</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/food</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/fashion</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/real-estate</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/fitness</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/business</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/skincare</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/hooks/crypto</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
-    <priority>0.8</priority>
-  </url>
-  <url>
-    <loc>https://www.reelhooks.site/explore</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>weekly</changefreq>
-    <priority>0.7</priority>
+    <loc>https://www.reelhooks.site/dashboard</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>always</changefreq>
+    <priority>0.9</priority>
   </url>
   <url>
     <loc>https://www.reelhooks.site/about</loc>
-    <lastmod>2026-05-09</lastmod>
-    <changefreq>yearly</changefreq>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
+  <url>
+    <loc>https://www.reelhooks.site/faq</loc>
+    <lastmod>2026-04-20</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://www.reelhooks.site/explore</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.reelhooks.site/blog</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>daily</changefreq>
+    <priority>0.8</priority>
+  </url>
+  <url>
+    <loc>https://www.reelhooks.site/tools/viral-growth-hub</loc>
+    <lastmod>2026-05-01</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+
+  <!-- Tools -->
+  <url><loc>https://www.reelhooks.site/tools/instagram-bio-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/tools/instagram-reel-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/tools/instagram-caption-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/tools/instagram-hashtag-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+
+  <!-- News categories -->
+  <url><loc>https://www.reelhooks.site/ai-tools-news/latest-ai-tools</loc><lastmod>2026-05-01</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/ai-tool-launch</loc><lastmod>2026-05-01</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/ai-updates</loc><lastmod>2026-05-01</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/free-ai-tools</loc><lastmod>2026-05-01</lastmod><changefreq>daily</changefreq><priority>0.7</priority></url>
+
+  <!-- AI News Articles -->
+  <url><loc>https://www.reelhooks.site/ai-tools-news/latest-ai-tools/top-10-new-ai-tools-2026</loc><lastmod>2026-04-26</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/free-ai-tools/best-free-ai-tools-for-creators</loc><lastmod>2026-04-25</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/ai-tool-launch/videogpt-5-launch-review</loc><lastmod>2026-04-24</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/ai-updates/openai-search-integration-updates</loc><lastmod>2026-04-23</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/latest-ai-tools/best-ai-tools-this-week-april-2026</loc><lastmod>2026-04-26</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-tools-news/latest-ai-tools/video-generation-ai-tools</loc><lastmod>2026-05-01</lastmod><changefreq>monthly</changefreq><priority>0.6</priority></url>
+
+  <!-- SEO Articles (85) -->
+  <url><loc>https://www.reelhooks.site/free-ai-hook-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-caption-generator-free</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/reel-ideas-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-hashtag-generator-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-reel-script-writer-with-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/faceless-reel-hooks-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-bio-generator-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/trending-reel-ideas-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/ai-reel-thumbnail-text-maker</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/reel-trends-analyzer</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-hook-examples-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/fitness-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/finance-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/real-estate-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/beauty-makeup-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/tech-gadget-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/cooking-food-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/travel-vlog-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/fashion-style-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/parenting-tips-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/crypto-trading-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-go-viral-on-reels-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-time-to-post-reels-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-get-first-1000-followers-instagram</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-algorithm-explained-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-use-ai-for-content-creation</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/reel-editing-tips-for-beginners</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-write-scroll-stopping-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/monetize-instagram-reels-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/increase-reel-engagement-hacks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/faceless-reel-channel-guide</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-marketing-for-small-business-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-use-instagram-for-business-growth</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-reels-for-ecommerce-brands</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/educational-content-ideas-for-instagram</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-promote-youtube-channel-on-instagram</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-stories-hacks-for-engagement</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-apps-for-instagram-creators-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-bio-ideas-for-boys-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-marketing-for-restaurants-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-sell-on-instagram-without-ads</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-marketing-for-real-estate-agents</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-become-an-instagram-influencer-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-reels-vs-tiktok-vs-youtube-shorts</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-hashtags-for-instagram-reels-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-use-instagram-threads-for-growth</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-collaboration-strategy-for-creators</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-fix-low-reach-on-instagram-reels</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-reels-dimensions-and-specs-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/how-to-create-viral-reels-with-trending-audio</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-marketing-for-fashion-brands-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-hooks-for-instagram-reels</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-hooks-for-instagram-reels</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-reel-hooks-for-education</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-reel-ideas-for-lifestyle</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-growth-strategy-for-musicians</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-hooks-for-youtube-shorts-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-marketing-for-doctors-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-reel-hooks-for-real-estate</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-reel-ideas-for-fitness-coaches</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-growth-strategy-for-small-business</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-hooks-for-travel-vloggers</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-marketing-for-restaurants</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/reel-hooks-for-tech-reviewers</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-hooks-for-beauty-influencers</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-caption-ideas-for-fashion</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-seo-tips-for-creators</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-marketing-for-real-estate-india</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/instagram-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/reel-hook-examples</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/reel-hooks-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-viral-hooks-for-reels-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/travel-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/cooking-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/beauty-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/education-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/photography-reel-hooks</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-viral-hook</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/reel-hook-analyzer</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/content-ideas-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/best-time-to-post-reels</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/content-calendar-generator</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/viral-instagram-reels-guide-2026</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://www.reelhooks.site/script-hook</loc><lastmod>2026-05-04</lastmod><changefreq>weekly</changefreq><priority>1.0</priority></url>
+  <url><loc>https://www.reelhooks.site/tools/script-hook-generator</loc><lastmod>2026-05-04</lastmod><changefreq>weekly</changefreq><priority>0.9</priority></url>
+
+  <!-- Programmatic Niche Pages (26 Niches * 5 Languages) -->
+  <!-- Fitness -->
+  <url><loc>https://www.reelhooks.site/hooks/fitness-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/fitness-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/fitness-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/fitness-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/fitness-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- Finance -->
+  <url><loc>https://www.reelhooks.site/hooks/finance-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/finance-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/finance-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/finance-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/finance-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- Business -->
+  <url><loc>https://www.reelhooks.site/hooks/business-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/business-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/business-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/business-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/business-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- lifestyle -->
+  <url><loc>https://www.reelhooks.site/hooks/lifestyle-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/lifestyle-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/lifestyle-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/lifestyle-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/lifestyle-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- tech -->
+  <url><loc>https://www.reelhooks.site/hooks/tech-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/tech-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/tech-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/tech-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/tech-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- education -->
+  <url><loc>https://www.reelhooks.site/hooks/education-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/education-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/education-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/education-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/education-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- entertainment -->
+  <url><loc>https://www.reelhooks.site/hooks/entertainment-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/entertainment-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/entertainment-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/entertainment-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/entertainment-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- beauty -->
+  <url><loc>https://www.reelhooks.site/hooks/beauty-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/beauty-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/beauty-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/beauty-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/beauty-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- motivation -->
+  <url><loc>https://www.reelhooks.site/hooks/motivation-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/motivation-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/motivation-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/motivation-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/motivation-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- social-media -->
+  <url><loc>https://www.reelhooks.site/hooks/social-media-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/social-media-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/social-media-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/social-media-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/social-media-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- health -->
+  <url><loc>https://www.reelhooks.site/hooks/health-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/health-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/health-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/health-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/health-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- real-estate -->
+  <url><loc>https://www.reelhooks.site/hooks/real-estate-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/real-estate-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/real-estate-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/real-estate-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/real-estate-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- parenting -->
+  <url><loc>https://www.reelhooks.site/hooks/parenting-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/parenting-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/parenting-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/parenting-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/parenting-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- pets -->
+  <url><loc>https://www.reelhooks.site/hooks/pets-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/pets-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/pets-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/pets-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/pets-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- hobbies -->
+  <url><loc>https://www.reelhooks.site/hooks/hobbies-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/hobbies-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/hobbies-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/hobbies-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/hobbies-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- career -->
+  <url><loc>https://www.reelhooks.site/hooks/career-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/career-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/career-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/career-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/career-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- automotive -->
+  <url><loc>https://www.reelhooks.site/hooks/automotive-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/automotive-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/automotive-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/automotive-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/automotive-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- architecture -->
+  <url><loc>https://www.reelhooks.site/hooks/architecture-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/architecture-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/architecture-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/architecture-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/architecture-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- sustainability -->
+  <url><loc>https://www.reelhooks.site/hooks/sustainability-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/sustainability-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/sustainability-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/sustainability-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/sustainability-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- music-production -->
+  <url><loc>https://www.reelhooks.site/hooks/music-production-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/music-production-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/music-production-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/music-production-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/music-production-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- interior-design -->
+  <url><loc>https://www.reelhooks.site/hooks/interior-design-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/interior-design-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/interior-design-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/interior-design-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/interior-design-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- diy-crafts -->
+  <url><loc>https://www.reelhooks.site/hooks/diy-crafts-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/diy-crafts-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/diy-crafts-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/diy-crafts-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/diy-crafts-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- personal-branding -->
+  <url><loc>https://www.reelhooks.site/hooks/personal-branding-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/personal-branding-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/personal-branding-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/personal-branding-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/personal-branding-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- digital-marketing -->
+  <url><loc>https://www.reelhooks.site/hooks/digital-marketing-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/digital-marketing-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/digital-marketing-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/digital-marketing-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/digital-marketing-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- event-planning -->
+  <url><loc>https://www.reelhooks.site/hooks/event-planning-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/event-planning-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/event-planning-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/event-planning-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/event-planning-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <!-- mental-health -->
+  <url><loc>https://www.reelhooks.site/hooks/mental-health-english</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/mental-health-hindi</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/mental-health-hinglish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/mental-health-spanish</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://www.reelhooks.site/hooks/mental-health-french</loc><lastmod>2026-05-01</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url>
 </urlset>

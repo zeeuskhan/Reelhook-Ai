@@ -189,7 +189,6 @@ interface Hook {
 // --- AI Service ---
 import { generateHooksAI, generateExtraAI } from "./services/ai";
 import TemplateLibrary from "./components/TemplateLibrary";
-import { NICHE_SEO_DATA } from "./data/nicheSeoData";
 
 // --- Components ---
 
@@ -238,279 +237,6 @@ const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose:
       </div>
     )}
   </AnimatePresence>
-);
-
-// Stats Bar Component
-const StatsBar = () => (
-  <div className="w-full bg-white/5 border-y border-white/10 py-6 my-12 overflow-hidden">
-    <div className="max-w-7xl mx-auto px-4">
-      <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
-        <div className="flex flex-col items-center">
-          <span className="text-2xl font-bold text-white">50,000+</span>
-          <span className="text-sm text-gray-400">Creators</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="text-2xl font-bold text-white">🌍 120+</span>
-          <span className="text-sm text-gray-400">Countries</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="text-2xl font-bold text-white">🎯 2M+</span>
-          <span className="text-sm text-gray-400">Hooks Generated</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="text-2xl font-bold text-white">100%</span>
-          <span className="text-sm text-gray-400">Free Forever</span>
-        </div>
-        <div className="flex flex-col items-center">
-          <span className="text-2xl font-bold text-white">No Signup</span>
-          <span className="text-sm text-gray-400">Required</span>
-        </div>
-      </div>
-    </div>
-  </div>
-);
-
-// Testimonials Component
-const Testimonials = () => (
-  <section className="py-20 px-4">
-    <div className="max-w-7xl mx-auto">
-      <h2 className="text-3xl font-bold text-center mb-12 text-white font-display">Trusted by Viral Creators</h2>
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {[
-          { name: "Sarah J.", role: "Fashion Influencer", text: "ReelHooks literally doubled my views in two weeks. The hooks are actually good, not the generic stuff you see elsewhere.", rating: 5 },
-          { name: "Mike T.", role: "Fitness Coach", text: "I used to spend hours thinking of intros. Now I just generate 10 and pick one. Total game-changer for my workflow.", rating: 5 },
-          { name: "Elena R.", role: "Business Coach", text: "As a busy professional, I need quick results. ReelHooks is the only tool that gives me viral hooks for my business reels without a catch.", rating: 5 }
-        ].map((t, i) => (
-          <motion.div 
-            key={i}
-            whileHover={{ y: -5 }}
-            className="glass p-8 rounded-2xl border border-white/10"
-          >
-            <div className="flex gap-1 mb-4">
-              {[...Array(t.rating)].map((_, i) => <Star key={i} size={16} fill="currentColor" className="text-yellow-400" />)}
-            </div>
-            <p className="text-gray-300 italic mb-6 leading-relaxed capitalize">"{t.text}"</p>
-            <div>
-              <p className="font-bold text-white">{t.name}</p>
-              <p className="text-sm text-blue-400">{t.role}</p>
-            </div>
-          </motion.div>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-// Email Popup Component
-const EmailPopup = () => {
-  const [show, setShow] = useState(false);
-  const [email, setEmail] = useState("");
-  const [submitted, setSubmitted] = useState(false);
-
-  useEffect(() => {
-    const handleGeneration = () => {
-      const hasSubmitted = localStorage.getItem("reelhooks_email_submitted");
-      const generationCount = parseInt(localStorage.getItem("reelhooks_generations") || "0");
-      
-      if (!hasSubmitted && generationCount >= 1) {
-        setTimeout(() => setShow(true), 1500);
-      }
-    };
-    
-    window.addEventListener('hooks_generated', handleGeneration);
-    return () => window.removeEventListener('hooks_generated', handleGeneration);
-  }, []);
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    if (email && email.includes('@')) {
-      localStorage.setItem("reelhooks_email_submitted", "true");
-      setSubmitted(true);
-      if ((window as any).gtag) {
-        (window as any).gtag('event', 'email_captured', { source: 'post_generation_popup' });
-      }
-      setTimeout(() => setShow(false), 3000);
-    }
-  };
-
-  if (!show) return null;
-
-  return (
-    <div className="fixed inset-0 z-[100] flex items-center justify-center p-4 bg-black/80 backdrop-blur-sm">
-      <motion.div 
-        initial={{ scale: 0.9, opacity: 0 }}
-        animate={{ scale: 1, opacity: 1 }}
-        className="glass p-8 rounded-3xl max-w-md w-full relative border border-white/20"
-      >
-        <button 
-          onClick={() => setShow(false)}
-          className="absolute top-4 right-4 text-gray-400 hover:text-white transition-colors cursor-pointer"
-        >
-          <X size={24} />
-        </button>
-        
-        {submitted ? (
-          <div className="text-center py-8">
-            <span className="text-5xl mb-4 block">✅</span>
-            <h2 className="text-2xl font-bold text-white mb-2 font-display">You're In!</h2>
-            <p className="text-gray-300 italic">Check your inbox! Viral hooks are on the way.</p>
-          </div>
-        ) : (
-          <>
-            <span className="text-4xl mb-4 block">🚀</span>
-            <h2 className="text-2xl font-bold text-white mb-2 font-display">Get 50 Viral Hooks Monthly!</h2>
-            <p className="text-gray-400 mb-6 italic text-sm">Join 50,000+ creators getting our exclusive hook templates every month. Free.</p>
-            <form onSubmit={handleSubmit} className="space-y-4">
-              <input 
-                type="email" 
-                required
-                placeholder="Enter your best email"
-                className="w-full px-4 py-4 rounded-xl bg-white/5 border border-white/10 text-white focus:outline-none focus:border-blue-500/50 shadow-inner"
-                value={email}
-                onChange={(e) => setEmail(e.target.value)}
-              />
-              <button 
-                type="submit"
-                className="w-full py-4 bg-blue-600 hover:bg-blue-500 text-white font-bold rounded-xl transition-all shadow-lg shadow-blue-600/20 active:scale-[0.98] cursor-pointer"
-              >
-                Get My Hooks →
-              </button>
-              <p className="text-[10px] text-gray-500 text-center uppercase tracking-widest font-bold">No spam. One-click unsubscribe always.</p>
-            </form>
-          </>
-        )}
-      </motion.div>
-    </div>
-  );
-};
-
-// Niche Page SEO Section Component
-const NicheSEOSection = ({ nicheId, nicheName }: { nicheId: string, nicheName: string }) => {
-  const data = NICHE_SEO_DATA[nicheId];
-  if (!data) return null;
-
-  return (
-    <section className="py-20 px-4 bg-black/30 backdrop-blur-3xl border-t border-white/5">
-      <div className="max-w-4xl mx-auto space-y-20">
-        <div className="prose prose-invert max-w-none">
-          <h2 className="text-3xl font-bold text-white font-display mb-8 text-center">{data.whatIsTitle}</h2>
-          <p className="text-gray-300 leading-relaxed text-lg italic text-balance mb-12">{data.whatIsContent}</p>
-          
-          <h2 className="text-3xl font-bold text-white font-display mb-8 text-center">{data.whyTitle}</h2>
-          <p className="text-gray-300 leading-relaxed text-lg italic text-balance mb-12">{data.whyContent}</p>
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-bold text-white font-display mb-10 text-center uppercase tracking-tight">20 Best {nicheName} Reel Hooks (Copy & Paste)</h2>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            {data.bestHooks.map((hook, i) => (
-              <div key={i} className="flex items-start gap-4 p-5 rounded-2xl bg-white/5 border border-white/10 group hover:border-blue-500/30 transition-all hover:bg-white/[0.08]">
-                <span className="text-blue-500 font-mono font-black text-xl leading-none">{(i + 1).toString().padStart(2, '0')}</span>
-                <p className="text-gray-300 italic group-hover:text-white transition-colors">{hook}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-bold text-white font-display mb-10 text-center">How to Use the {nicheName} Hook Generator</h2>
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
-            {data.howToSteps.map((step, i) => (
-              <div key={i} className="flex flex-col items-center text-center gap-4 bg-white/5 p-6 rounded-2xl border border-white/10 group hover:bg-blue-600/10 transition-colors">
-                <div className="w-12 h-12 rounded-full bg-blue-600 flex items-center justify-center text-xl font-black text-white shrink-0 group-hover:scale-110 transition-transform">
-                  {i + 1}
-                </div>
-                <p className="text-gray-400 text-sm italic group-hover:text-gray-200 transition-colors">{step}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-
-        <div>
-          <h2 className="text-3xl font-bold text-white font-display mb-10 text-center">Frequently Asked Questions</h2>
-          <div className="space-y-4">
-            {data.faqs.map((faq, i) => (
-              <details key={i} className="group glass rounded-2xl border border-white/10 overflow-hidden">
-                <summary className="p-6 cursor-pointer flex items-center justify-between text-white font-bold hover:bg-white/5 transition-colors list-none">
-                  <span className="pr-4">{faq.q}</span>
-                  <Plus className="group-open:rotate-45 transition-all text-blue-400" />
-                </summary>
-                <div className="p-6 pt-0 text-gray-400 leading-relaxed italic border-t border-white/5 bg-black/10">
-                  {faq.a}
-                </div>
-              </details>
-            ))}
-          </div>
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// Browse By Niche Component
-const BrowseByNiche = () => (
-  <section className="py-24 px-4 bg-white/[0.02]">
-    <div className="max-w-7xl mx-auto">
-      <div className="text-center mb-16">
-        <h2 className="text-4xl font-bold text-white font-display mb-4">Browse by Niche</h2>
-        <p className="text-gray-400 italic">Find specialized hooks for your specific content category</p>
-      </div>
-      <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-4">
-        {NICHES.slice(0, 15).map((n) => (
-          <Link 
-            key={n.id} 
-            to={`/hooks/${n.id}`}
-            className="glass p-6 rounded-2xl border border-white/10 hover:border-blue-500/50 hover:bg-white/[0.05] transition-all text-center group"
-          >
-            <div className="mb-3 text-2xl group-hover:scale-110 transition-transform">
-              {n.id === 'finance' ? '💰' : n.id === 'education' ? '🎓' : n.id === 'parenting' ? '👶' : n.id === 'motivation' ? '🚀' : n.id === 'health' ? '🥗' : n.id === 'lifestyle' ? '✨' : n.id === 'travel' ? '✈️' : n.id === 'food' ? '🍔' : n.id === 'fashion' ? '👗' : n.id === 'skincare' ? '🧴' : n.id === 'crypto' ? '🪙' : n.id === 'real-estate' ? '🏠' : n.id === 'fitness' ? '💪' : n.id === 'business' ? '📈' : '🎯'}
-            </div>
-            <span className="text-white font-bold text-sm block mb-1">{n.name}</span>
-            <span className="text-[10px] text-blue-400 uppercase tracking-widest font-black opacity-0 group-hover:opacity-100 transition-opacity">View Tools →</span>
-          </Link>
-        ))}
-      </div>
-    </div>
-  </section>
-);
-
-const HomepageSEOContent = () => (
-  <section className="py-24 px-4 bg-black/50 border-t border-white/5">
-    <div className="max-w-4xl mx-auto space-y-20 font-body">
-      <div className="prose prose-invert max-w-none text-center">
-        <h2 className="text-4xl font-bold text-white font-display mb-8">Generate Viral Reel Hooks in Seconds</h2>
-        <p className="text-gray-400 text-lg leading-relaxed italic mb-12">
-          ReelHooks.site is the world's most advanced Free AI Hook Generator designed specifically for short-form video creators on Instagram and TikTok. Whether you're a fitness coach, a finance expert, or a lifestyle influencer, our AI analyzes trillions of data points to craft the perfect opening line for your next viral reel. 
-        </p>
-        
-        <h2 className="text-4xl font-bold text-white font-display mb-8">How the Reel Hook Generator Works</h2>
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-          {[
-            { t: "1. Enter Topic", d: "Describe your video in a few keywords (e.g., 'weight loss tips' or 'crypto investing')." },
-            { t: "2. Choose Vibe", d: "Select your preferred tone and platform to match your brand's unique voice." },
-            { t: "3. Go Viral", d: "Click generate and get 10 scroll-stopping hooks instantly. Copy, paste, and win." }
-          ].map((step, i) => (
-            <div key={i} className="p-6 bg-white/5 rounded-2xl border border-white/10 italic">
-              <h4 className="font-bold text-blue-400 mb-2">{step.t}</h4>
-              <p className="text-sm text-gray-500">{step.d}</p>
-            </div>
-          ))}
-        </div>
-
-        <h2 className="text-4xl font-bold text-white font-display mb-8">Why ReelHooks is the Best Hook Generator</h2>
-        <p className="text-gray-400 text-lg leading-relaxed italic mb-12">
-          Unlike generic AI tools, ReelHooks.site is specifically trained for 2026 engagement algorithms. We don't just give you words; we give you psychological triggers that force people to stop scrolling. With native support for Hindi, Hinglish, and English, we are the #1 choice for creators in India and beyond.
-        </p>
-      </div>
-
-      <div className="bg-blue-600/10 p-10 rounded-[3rem] border border-blue-500/20">
-        <h3 className="text-2xl font-bold text-white mb-6 text-center">Power Keywords for Content Creators 2026</h3>
-        <p className="text-gray-500 text-sm leading-loose text-center italic">
-          free AI hook generator 2026, TikTok hook generator free, viral reel hooks no signup, AI hook generator content creators 2026, instagram reel hook generator free tool, hook ideas for reels 2026, viral hook templates, best opening lines for reels, catch hooks for tiktok, reel hooks for fitness, finance reel hooks, business hooks for instagram, educational video hooks, travel reel hooks, food influencer hooks, fashion hooks 2026.
-        </p>
-      </div>
-    </div>
-  </section>
 );
 
 const CopyButton = ({ text, className, onCopy }: { text: string, className?: string, onCopy?: () => void }) => {
@@ -593,78 +319,74 @@ const Navbar = () => {
 };
 
 const Footer = () => (
-  <footer className="bg-black border-t border-white/5 pt-24 pb-12">
+  <footer className="bg-bg border-t border-white/5 py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-5 gap-12 mb-16">
-        <div className="col-span-2 lg:col-span-2 space-y-6">
+      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+        <div className="space-y-4">
           <Link to="/" className="flex items-center">
             <img 
-              src="https://www.reelhooks.site/logo.png" 
+              src="https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy" 
               alt="ReelHooks Logo" 
-              className="h-10 w-auto"
+              className="h-8 w-auto"
               referrerPolicy="no-referrer"
               loading="lazy"
             />
           </Link>
-          <p className="text-gray-400 text-lg leading-relaxed max-w-sm italic">
-            AI-powered hooks that stop scrolling and boost engagement for creators worldwide. Generate 10 viral hooks instantly for free. Trusted by 50,000+ creators in 2026.
+          <p className="text-text-secondary text-base">
+            AI-powered hooks that stop scrolling and boost engagement for creators worldwide.
           </p>
           <div className="flex space-x-4 pt-2">
-            <a href="https://instagram.com/reelhooks" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl text-gray-400 hover:text-blue-500 transition-all hover:bg-white/10">
+            <a href="https://instagram.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
               <Instagram className="w-5 h-5" />
             </a>
-            <a href="https://twitter.com/reelhooks" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl text-gray-400 hover:text-blue-500 transition-all hover:bg-white/10">
+            <a href="https://twitter.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
               <Twitter className="w-5 h-5" />
             </a>
-            <a href="https://youtube.com/@reelhooks" target="_blank" rel="noopener noreferrer" className="p-3 bg-white/5 rounded-xl text-gray-400 hover:text-blue-500 transition-all hover:bg-white/10">
+            <a href="https://youtube.com/@reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
               <Youtube className="w-5 h-5" />
+            </a>
+            <a href="https://linkedin.com/company/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
+              <Linkedin className="w-5 h-5" />
             </a>
           </div>
         </div>
-        
-        <div>
-          <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-sm">Free Tools</h4>
-          <ul className="space-y-4">
-            {NICHES.slice(0, 6).map((n) => (
-              <li key={n.id}>
-                <Link to={`/hooks/${n.id}`} className="text-gray-500 hover:text-white transition-colors text-sm font-medium">{n.name} Hook Generator</Link>
-              </li>
-            ))}
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Product</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/tools/hook-generator" className="hover:text-primary transition-colors py-1 block">Hook Generator</Link></li>
+            <li><Link to="/tools/instagram-caption-generator" className="hover:text-primary transition-colors py-1 block">Caption Builder</Link></li>
+            <li><Link to="/tools/instagram-hashtag-generator" className="hover:text-primary transition-colors py-1 block">Hashtag Packs</Link></li>
+            <li><Link to="/tools/instagram-reel-generator" className="hover:text-primary transition-colors py-1 block">Reel Scripts</Link></li>
           </ul>
         </div>
-
-        <div>
-          <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-sm">Company</h4>
-          <ul className="space-y-4">
-            <li><Link to="/about" className="text-gray-500 hover:text-white transition-colors text-sm font-medium">About Us</Link></li>
-            <li><Link to="/blog" className="text-gray-500 hover:text-white transition-colors text-sm font-medium">Blog</Link></li>
-            <li><button className="text-gray-500 hover:text-white transition-colors text-sm font-medium">Contact</button></li>
-            <li><Link to="/privacy" className="text-gray-500 hover:text-white transition-colors text-sm font-medium">Privacy Policy</Link></li>
-            <li><Link to="/terms" className="text-gray-500 hover:text-white transition-colors text-sm font-medium">Terms of Service</Link></li>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Knowledge Hub</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy Guide</Link></li>
+            <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Reel Hooks in Hindi</Link></li>
+            <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Reel Hooks</Link></li>
+            <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors py-1 block">Finance Reel Hooks</Link></li>
+            <li><Link to="/business-reel-hooks" className="hover:text-primary transition-colors py-1 block">Business Hook Ideas</Link></li>
           </ul>
         </div>
-
-        <div>
-          <h4 className="font-bold text-white mb-6 uppercase tracking-widest text-sm">Popular Hooks</h4>
-          <ul className="space-y-4">
-            {NICHES.slice(6, 11).map((n) => (
-              <li key={n.id}>
-                <Link to={`/hooks/${n.id}`} className="text-gray-500 hover:text-white transition-colors text-sm font-medium">{n.name} Hooks 2026</Link>
-              </li>
-            ))}
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Company</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/about" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
+            <li><Link to="/privacy" className="hover:text-primary transition-colors py-1 block">Privacy Policy</Link></li>
+            <li><Link to="/terms" className="hover:text-primary transition-colors py-1 block">Terms of Service</Link></li>
+          </ul>
+        </div>
+        <div className="space-y-4">
+          <h4 className="font-bold mb-4 text-lg">Support</h4>
+          <ul className="space-y-3 text-base text-text-secondary">
+            <li><a href="mailto:support@reelhooks.site" className="hover:text-primary transition-colors py-1 block">Contact Us</a></li>
+            <li><Link to="/faq" className="hover:text-primary transition-colors py-1 block">FAQ</Link></li>
           </ul>
         </div>
       </div>
-      
-      <div className="pt-10 border-t border-white/5 flex flex-col md:flex-row justify-between items-center gap-6">
-        <p className="text-gray-500 text-xs font-mono uppercase tracking-widest">
-          &copy; 2026 ReelHooks.site. All rights reserved. 
-        </p>
-        <div className="flex gap-8 text-[10px] text-gray-600 uppercase tracking-widest font-black">
-          <span>AI-Powered</span>
-          <span>100% Free</span>
-          <span>Privacy First</span>
-        </div>
+      <div className="mt-12 pt-8 border-t border-white/5 text-center text-text-secondary text-sm">
+        © {new Date().getFullYear()} ReelHooks.site. All rights reserved.
       </div>
     </div>
   </footer>
@@ -689,7 +411,7 @@ const Hero = () => {
           className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 px-6 py-3 rounded-full text-primary text-base font-medium"
         >
           <Sparkles className="w-5 h-5" />
-          <span>Generate viral hooks for Instagram Reels & TikTok free in seconds.</span>
+          <span>Trusted by {count.toLocaleString()}+ creators</span>
         </motion.div>
         
         <motion.h1 
@@ -698,17 +420,19 @@ const Hero = () => {
           transition={{ delay: 0.1 }}
           className="text-5xl md:text-[7rem] font-black font-display leading-[0.85] tracking-tighter uppercase"
         >
-          Free AI Hook Generator for <br />
-          <span className="text-primary text-glow">Instagram Reels & TikTok</span>
+          STOP THE SCROLL. <br />
+          <span className="text-primary text-glow">GO VIRAL FAST.</span>
         </motion.h1>
         
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.2 }}
-          className="text-xl md:text-3xl text-text-secondary max-w-3xl mx-auto leading-tight italic"
+          className="text-xl md:text-3xl text-text-secondary max-w-3xl mx-auto leading-tight"
         >
-          Stop the scroll and skyrocket your reach. Use our advanced AI to generate 10 viral hooks instantly. Specifically trained on 2026 trending data to ensure your content stands out in the algorithm. <span className="text-white font-bold underline decoration-primary">100% Free – No Sign-up Required.</span>
+          The #1 <span className="text-white font-bold underline decoration-primary">Free AI Hook Generator</span> for Reels & TikTok. 
+          Stop guessing and start the viral growth today. 
+          <span className="text-primary font-black italic"> 100% Free – No Sign-up Required.</span>
         </motion.p>
         
         <motion.div 
@@ -1167,8 +891,6 @@ const ProgrammaticHooksPage = () => {
 
       <BannerAd />
       <SkyscraperAd />
-
-      <NicheSEOSection nicheId={slugId} nicheName={nicheName} />
 
       <div className="space-y-8">
         <h2 className="text-3xl font-bold">Examples of Viral Reel Hooks for {nicheName}</h2>
@@ -2229,6 +1951,86 @@ const NicheQuickButtons = ({ onSelect, selected }: { onSelect: (n: string) => vo
   );
 };
 
+const EmailPopup = ({ isOpen, onClose }: { isOpen: boolean, onClose: () => void }) => {
+  const [email, setEmail] = useState("");
+  const [submitted, setSubmitted] = useState(false);
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!email) return;
+    
+    const emails = JSON.parse(localStorage.getItem("captured_emails") || "[]");
+    localStorage.setItem("captured_emails", JSON.stringify([...emails, email]));
+    
+    trackEvent("email_captured", { source: "viral_templates_popup" });
+    setSubmitted(true);
+    setTimeout(onClose, 2000);
+  };
+
+  return (
+    <AnimatePresence>
+      {isOpen && (
+        <div className="fixed inset-0 z-[300] flex items-center justify-center p-4">
+          <motion.div 
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            onClick={onClose}
+            className="absolute inset-0 bg-black/80 backdrop-blur-md"
+          />
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.9, y: 20 }}
+            className="relative glass-morphism w-full max-w-md p-10 rounded-[3rem] border border-primary/30 shadow-[0_0_100px_rgba(108,92,231,0.3)] text-center space-y-6"
+          >
+            <button onClick={onClose} className="absolute top-6 right-6 text-text-secondary hover:text-white">
+              <X className="w-6 h-6" />
+            </button>
+
+            {submitted ? (
+              <div className="py-8 space-y-4">
+                <div className="w-20 h-20 bg-green-500/20 text-green-500 rounded-full flex items-center justify-center mx-auto">
+                  <CheckCircle className="w-10 h-10" />
+                </div>
+                <h3 className="text-2xl font-bold">Awesome! Check parent inbox.</h3>
+                <p className="text-text-secondary">Your 100 templates are on the way.</p>
+              </div>
+            ) : (
+              <>
+                <div className="w-20 h-20 bg-primary/20 text-primary rounded-full flex items-center justify-center mx-auto mb-4">
+                  <Download className="w-10 h-10" />
+                </div>
+                <div className="space-y-2">
+                  <h3 className="text-3xl font-black font-display uppercase italic tracking-tight">Get <span className="text-primary">100 Viral Hook</span> Templates FREE</h3>
+                  <p className="text-text-secondary px-4">Used by 10,000+ creators to skyrocket their reach. Instant PDF download.</p>
+                </div>
+                
+                <form onSubmit={handleSubmit} className="space-y-4">
+                  <input 
+                    type="email" 
+                    required
+                    placeholder="Enter your best email..."
+                    value={email}
+                    onChange={(e) => setEmail(e.target.value)}
+                    className="w-full bg-white/5 border border-white/10 rounded-2xl py-4 px-6 text-base outline-none focus:border-primary focus:ring-4 focus:ring-primary/20 transition-all font-medium"
+                  />
+                  <button 
+                    type="submit"
+                    className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-2xl font-black text-lg uppercase tracking-widest shadow-xl shadow-primary/30 transform hover:scale-105 transition-all"
+                  >
+                    Send Me The Hooks
+                  </button>
+                </form>
+                <p className="text-[10px] text-text-secondary uppercase tracking-[0.2em] font-black opacity-50">No spam. Unsubscribe anytime.</p>
+              </>
+            )}
+          </motion.div>
+        </div>
+      )}
+    </AnimatePresence>
+  );
+};
 
 const SocialProofBanner = () => (
   <div className="w-full bg-white/[0.03] border-y border-white/5 py-4 overflow-hidden">
@@ -2669,6 +2471,8 @@ const Dashboard = () => {
     });
   };
 
+  const [isEmailPopupOpen, setIsEmailPopupOpen] = useState(false);
+  const [hasGeneratedOnce, setHasGeneratedOnce] = useState(false);
 
   useEffect(() => {
     trackEvent("tool_opened");
@@ -2729,10 +2533,10 @@ const Dashboard = () => {
         setHooks(results);
         setHistory(prev => [...results.slice(0, 5), ...prev].slice(0, 50));
         
-        // Trigger email popup logic
-        const count = parseInt(localStorage.getItem("reelhooks_generations") || "0");
-        localStorage.setItem("reelhooks_generations", (count + 1).toString());
-        window.dispatchEvent(new CustomEvent('hooks_generated'));
+        if (!hasGeneratedOnce) {
+          setHasGeneratedOnce(true);
+          setTimeout(() => setIsEmailPopupOpen(true), 2000);
+        }
       }
     } catch (err) {
       console.error("Generation failed:", err);
@@ -3389,6 +3193,7 @@ const Dashboard = () => {
         {modal.content}
       </Modal>
     </div>
+    <EmailPopup isOpen={isEmailPopupOpen} onClose={() => setIsEmailPopupOpen(false)} />
     <SEOContentSection />
     </React.Fragment>
   );
@@ -3403,7 +3208,6 @@ export default function App() {
         <div className="min-h-screen flex flex-col">
           <PopupAd />
           <Navbar />
-          <EmailPopup />
           <main className="flex-1">
             <Suspense fallback={<div className="min-h-screen flex items-center justify-center"><div className="w-12 h-12 border-4 border-primary border-t-transparent rounded-full animate-spin" /></div>}>
               <Routes>
@@ -3480,12 +3284,8 @@ export default function App() {
                     ]}
                   />
                   <Hero />
-                  <StatsBar />
                   <BannerAd />
                   <SkyscraperAd />
-
-                  <Testimonials />
-                  <BrowseByNiche />
 
                   <WhatIsHookGenerator />
 
@@ -3597,7 +3397,6 @@ export default function App() {
                   <PsychologyOfHooks />
                   <SuccessStories />
                   <ViralHookStrategies />
-                  <HomepageSEOContent />
                   <ExpandedFAQ />
 
                   {/* SEO Popular Searches Section */}
