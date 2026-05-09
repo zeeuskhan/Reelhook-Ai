@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
+import { NicheSEOSection } from "./components/NicheSEOSection";
 import { 
   Sparkles, 
   Search, 
@@ -257,6 +258,7 @@ const CopyButton = ({ text, className, onCopy }: { text: string, className?: str
   return (
     <button 
       onClick={handleCopy}
+      data-action="copy"
       className={cn("p-2 rounded-lg transition-all cursor-pointer", className)}
       title="Copy to clipboard"
     >
@@ -819,8 +821,25 @@ const ProgrammaticHooksPage = () => {
     }))
   };
 
-  const seoTitle = `Best ${nicheName} Reel Hooks 2026 – Free AI Generator`;
-  const seoDescription = `Get 100+ viral ${nicheName} reel hooks, scripts, and captions in ${displayLang}. Optimized for Instagram, TikTok, and Shorts. Boost your ${nicheName} content engagement today!`;
+  const seoTitle = useMemo(() => {
+    if (slugId === 'finance') return "Finance Reel Hook Generator — 50+ Viral Hooks Free 2026";
+    if (slugId === 'education') return "Education Reel Hook Generator — Free AI Tool 2026";
+    if (slugId === 'parenting') return "Parenting Reel Hook Generator — Viral Hooks Free 2026";
+    if (slugId === 'motivation') return "Motivation Reel Hook Generator — Free AI Hooks 2026";
+    if (slugId === 'health') return "Health & Fitness Reel Hook Generator — Free AI 2026";
+    if (slugId === 'lifestyle') return "Lifestyle Reel Hook Generator — Free Viral Hooks 2026";
+    return `Best ${nicheName} Reel Hooks 2026 – Free AI Generator`;
+  }, [slugId, nicheName]);
+
+  const seoDescription = useMemo(() => {
+    if (slugId === 'finance') return "Generate viral finance hooks for Instagram Reels in seconds. AI-powered, free, no signup needed. Grow your finance audience fast.";
+    if (slugId === 'education') return "Create engaging education reel hooks instantly with AI. Free tool for teachers, tutors & educreators. No signup. Go viral today.";
+    if (slugId === 'parenting') return "Generate scroll-stopping parenting hooks for Instagram Reels. Free AI tool. No account needed. Used by top parenting creators.";
+    if (slugId === 'motivation') return "Generate powerful motivational hooks for Instagram Reels. Free AI tool. No signup. Make your motivational content go viral now.";
+    if (slugId === 'health') return "Create viral health and fitness hooks for Instagram Reels instantly. Free AI tool, no signup. Trusted by fitness creators worldwide.";
+    if (slugId === 'lifestyle') return "Generate aesthetic lifestyle hooks for Instagram Reels with AI. Free, no signup. Start creating viral lifestyle content today.";
+    return `Get 100+ viral ${nicheName} reel hooks, scripts, and captions in ${displayLang}. Optimized for Instagram, TikTok, and Shorts. Boost your ${nicheName} content engagement today!`;
+  }, [slugId, nicheName, displayLang]);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -1015,6 +1034,7 @@ const ProgrammaticHooksPage = () => {
         </Link>
         <p className="mt-4 text-sm text-text-secondary">Try our <span className="text-primary">instagram hook generator</span> today.</p>
       </div>
+      <NicheSEOSection nicheId={slugId} />
     </div>
   );
 };
@@ -1916,9 +1936,10 @@ const PlatformSelector = ({ platform, setPlatform }: { platform: string, setPlat
         <button
           key={p.id}
           onClick={() => setPlatform(p.id)}
+          data-platform={p.id}
           className={cn(
             "flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-bold transition-all transition-colors",
-            platform === p.id ? "bg-primary text-white shadow-lg" : "text-text-secondary hover:text-white"
+            platform === p.id ? "bg-primary text-white shadow-lg active" : "text-text-secondary hover:text-white"
           )}
         >
           {p.icon}
@@ -2708,6 +2729,7 @@ const Dashboard = () => {
             <button 
               onClick={handleGenerate}
               disabled={isGenerating}
+              data-action="generate"
               className="w-full bg-primary hover:bg-primary/90 text-white py-4 rounded-xl font-bold flex items-center justify-center space-x-2 transition-all disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isGenerating ? (
