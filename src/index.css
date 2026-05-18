@@ -1,6 +1,5 @@
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Space+Grotesk:wght@500;700&display=swap');
 @import "tailwindcss";
-@plugin "@tailwindcss/typography";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
@@ -11,20 +10,18 @@
   --color-card: #1E293B;
   --color-text-primary: #F8FAFC;
   --color-text-secondary: #94A3B8;
+  
+  --animation-shimmer: shimmer 2.5s linear infinite;
+  @keyframes shimmer {
+    0% { transform: translateX(-100%); }
+    100% { transform: translateX(100%); }
+  }
 }
 
 body {
   background-color: var(--color-bg);
   color: var(--color-text-primary);
   font-family: var(--font-sans);
-}
-
-h1, h2, h3, h4, h5, h6 {
-  color: var(--color-text-primary);
-}
-
-input, textarea, select, button {
-  color: inherit;
 }
 
 .glass {
