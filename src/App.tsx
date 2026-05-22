@@ -364,11 +364,11 @@ const Footer = () => (
         <div className="space-y-4">
           <h4 className="font-bold mb-4 text-lg">Knowledge Hub</h4>
           <ul className="space-y-3 text-base text-text-secondary">
+            <li><Link to="/hook-and-reel-menu" className="hover:text-primary transition-colors py-1 block font-bold text-primary">Hook & Reel Menu</Link></li>
             <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy Guide</Link></li>
             <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Reel Hooks in Hindi</Link></li>
             <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Reel Hooks</Link></li>
             <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors py-1 block">Finance Reel Hooks</Link></li>
-            <li><Link to="/business-reel-hooks" className="hover:text-primary transition-colors py-1 block">Business Hook Ideas</Link></li>
           </ul>
         </div>
         <div className="space-y-4">
@@ -1545,6 +1545,7 @@ const SiteIndex = () => (
           <h3 className="text-xl font-bold">Trending Guides</h3>
           <ul className="space-y-3">
             {[
+              { name: "Hook and Reel Menu", slug: "hook-and-reel-menu" },
               { name: "Viral Reel Hooks", slug: "viral-reel-hooks" },
               { name: "Instagram Hook Ideas", slug: "instagram-reel-hooks" },
               { name: "50+ Hook Examples", slug: "reel-hook-examples" },
