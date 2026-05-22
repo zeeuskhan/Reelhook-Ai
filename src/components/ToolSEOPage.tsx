@@ -1,5 +1,6 @@
 import React, { useMemo } from 'react';
 import { useLocation, Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet-async';
 import { 
   CheckCircle2, 
   ArrowRight, 
@@ -16,7 +17,6 @@ import {
 } from "lucide-react";
 import { motion } from "motion/react";
 import { TOOL_SEO_CONTENT } from '../data/toolSEOContent';
-import { SEO } from '../App';
 import FooterAd from './FooterAd';
 import BannerAd from './BannerAd';
 import SkyscraperAd from './SkyscraperAd';
@@ -45,7 +45,7 @@ const ToolSEOPage: React.FC = () => {
     );
   }
 
-  const softwareSchema = {
+  const schema = {
     "@context": "https://schema.org",
     "@type": "SoftwareApplication",
     "name": content.title,
@@ -77,13 +77,50 @@ const ToolSEOPage: React.FC = () => {
     }))
   };
 
+  const breadcrumbSchema = {
+    "@context": "https://schema.org",
+    "@type": "BreadcrumbList",
+    "itemListElement": [
+      {
+        "@type": "ListItem",
+        "position": 1,
+        "name": "Home",
+        "item": "https://www.reelhooks.site"
+      },
+      {
+        "@type": "ListItem",
+        "position": 2,
+        "name": "Tools",
+        "item": "https://www.reelhooks.site/explore"
+      },
+      {
+        "@type": "ListItem",
+        "position": 3,
+        "name": content.title,
+        "item": `https://www.reelhooks.site/tools/${content.slug}`
+      }
+    ]
+  };
+
   return (
     <div className="min-h-screen bg-background text-text-primary">
-      <SEO 
-        title={content.metaTitle}
-        description={content.metaDescription}
-        schema={[softwareSchema, faqSchema]}
-      />
+      <Helmet>
+        <title>{content.metaTitle} | ReelHooks.site</title>
+        <meta name="description" content={content.metaDescription} />
+        <link rel="canonical" href={`https://www.reelhooks.site/${content.slug}`} />
+        <link rel="icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
+        <link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
+        <meta property="og:title" content={`${content.metaTitle} | ReelHooks.site`} />
+        <meta property="og:description" content={content.metaDescription} />
+        <meta property="og:type" content="website" />
+        <meta property="og:url" content={`https://www.reelhooks.site/${content.slug}`} />
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={`${content.metaTitle} | ReelHooks.site`} />
+        <meta name="twitter:description" content={content.metaDescription} />
+        <script type="application/ld+json">{JSON.stringify(schema)}</script>
+        <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
+        <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
+      </Helmet>
 
       {/* Hero Section */}
       <section className="relative pt-32 pb-20 px-4 overflow-hidden">

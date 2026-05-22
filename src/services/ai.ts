@@ -1,341 +1,255 @@
-import { GoogleGenAI, Type, ThinkingLevel } from "@google/genai";
+import { GoogleGenAI } from "@google/genai";
 
-const genAI = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY || "" });
+// Standard model for reliability and speed
+const DEFAULT_MODEL = "gemini-3-flash-preview";
 
-// Resilience Utility: Retry with exponential backoff
-async function withRetry<T>(fn: () => Promise<T>, retries = 3, delay = 1000): Promise<T> {
-  try {
-    return await fn();
-  } catch (error) {
-    if (retries <= 0) throw error;
-    console.warn(`AI request failed, retrying in ${delay}ms... (${retries} left)`);
-    await new Promise(resolve => setTimeout(resolve, delay));
-    return withRetry(fn, retries - 1, delay * 2);
+// Lazy initialization to avoid crashing if key is missing at load time
+let genAI: GoogleGenAI | null = null;
+
+function getGenAI() {
+  if (!genAI) {
+    const apiKey = process.env.GEMINI_API_KEY;
+    if (!apiKey) {
+      console.warn("GEMINI_API_KEY is missing. AI features will not work.");
+      // We don't throw here to avoid crashing the whole app, 
+      // but the calls will fail gracefully later.
+    }
+    genAI = new GoogleGenAI({ apiKey: apiKey || "" });
   }
+  return genAI;
 }
 
-// Fallback Templates for 2026 Viral Psychology
-const FALLBACK_HOOKS: Record<string, any[]> = {
-  dynamic: [
-    { text: "The secret 2026 algorithm hack nobody told you...", score: 94 },
-    { text: "Why your last 3 Reels actually failed (Hard Truth)", score: 88 },
-    { text: "Stop scrolling if you want to grow in 24 hours...", score: 91 },
-    { text: "The exact strategy I used to gain 10k followers...", score: 96 },
-    { text: "POV: You finally stopped overthinking your content.", score: 85 }
-  ],
-  finance: [
-    { text: "How to save $1,000 this month without trying...", score: 92 },
-    { text: "The 2026 investment strategy for beginners...", score: 90 }
-  ],
-  ai: [
-    { text: "The only 3 AI tools you'll ever need in 2026...", score: 97 },
-    { text: "How I automated my entire life with these AI tools...", score: 94 }
-  ]
-};
-
 export function safeJsonParse(text: string, fallback: any = []) {
+  if (!text) return fallback;
   try {
-    // Aggressive cleaning for AI response artifacts
-    let cleanText = text.replace(/```json\n?|```/g, "").trim();
-    // Fix potential trailing commas in JSON arrays/objects
-    cleanText = cleanText.replace(/,\s*([\]}])/g, "$1");
+    // Remove markdown code blocks if present
+    const cleanText = text.replace(/```json\n?|```/g, "").trim();
+    if (!cleanText) return fallback;
     return JSON.parse(cleanText);
   } catch (e) {
-    console.error("Critical JSON Parse Error:", e, "Original text snippet:", text.substring(0, 50));
+    console.error("JSON Parse Error:", e, "Original text:", text);
+    // Attempt to extract array or object if JSON.parse fails
+    try {
+      const match = text.match(/\[.*\]|\{.*\}/s);
+      if (match) return JSON.parse(match[0]);
+    } catch (innerE) {
+      console.error("Nested JSON Parse Error:", innerE);
+    }
     return fallback;
   }
 }
 
-export async function generateHooksAI(niche: string, sub: string, lang: string, tone: string) {
-  const model = "gemini-3-flash-preview";
-  
-  // Custom language instructions for high accuracy
-  const langContext = lang.toLowerCase() === "hinglish" 
-    ? "Mix Hindi and English naturally (Hinglish) as used by top Indian creators. Use Devanagari script for Hindi words if appropriate, or Romanized Hindi."
-    : `Write exclusively in ${lang}.`;
+// Emergency fallback hooks if AI fails completely
+const FALLBACK_HOOK_TEMPLATES = [
+  "The secret to {niche} that experts don't want you to know...",
+  "Stop doing {niche} like this if you want actual results.",
+  "I wish I knew this about {niche} when I first started.",
+  "3 simple {niche} mistakes that are costing you views.",
+  "How I achieved {result} in {niche} in just 30 days (steppable).",
+  "This is why your {niche} strategies aren't working anymore.",
+  "The only {niche} guide you will ever need to watch.",
+  "I tried every viral {niche} hack so you don't have to.",
+  "One tiny change that doubled my {niche} results overnight.",
+  "Steal my exact {niche} routine for maximum growth."
+];
 
-  const prompt = `CRITICAL: You MUST generate content specifically for:
+export async function generateHooksAI(niche: string, sub: string, lang: string, tone: string, platform: string = "Instagram Reels") {
+  const ai = getGenAI();
+  let platformPrompt = "";
+  if (platform === "TikTok") {
+    platformPrompt = "Generate hooks optimized for TikTok's algorithm and Gen Z audience. Focus on high energy and immediate shock factor.";
+  } else if (platform === "YouTube Shorts") {
+    platformPrompt = "Generate hooks optimized for YouTube Shorts retention and click-through. Focus on clear value propositions and intense curiosity gaps.";
+  } else {
+    platformPrompt = "Generate hooks optimized for Instagram Reels' algorithm and a lifestyle/aesthetic focused audience.";
+  }
+
+  const prompt = `You are a world-class viral short-form content strategist specialized in Instagram Reels, TikTok, and YouTube Shorts. 
+  Your task is to generate 10 unique, high-retention scroll-stopping hooks for the following niche:
+  
+  PLATFORM: ${platform}
   NICHE: ${niche}
-  SUB-NICHE: ${sub}
-  LANGUAGE: ${lang} (${langContext})
+  SUB-CATEGORY: ${sub}
+  LANGUAGE: ${lang}
   TONE: ${tone}
   
-  Generate 10 unique, high-retention Instagram Reel hooks.
+  SPECIAL INSTRUCTIONS:
+  ${platformPrompt}
   
-  Each hook must:
-  - Strictly be under 10 words.
-  - Use psychological triggers (Curiosity gap, FOMO, Pattern interrupt, Bold claim).
-  - Match the ${tone} tone perfectly.
-  - Be culturally relevant to the ${lang} audience.
-  - Include a viral percentage score (60-98%) based on retention psychology.`;
-
-  const fetchAI = async () => {
-    const response = await genAI.models.generateContent({
-      model,
-      contents: prompt,
-      config: { 
-        systemInstruction: `You are an expert ${niche} content strategist. You specialize in viral hooks for the ${lang} market with a ${tone} personality. Your goal is to maximize 'Scroll-Stop' probability. Return ONLY a JSON array.`,
-        responseMimeType: "application/json",
-        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
-        responseSchema: {
-          type: Type.ARRAY,
-          items: {
-            type: Type.OBJECT,
-            properties: {
-              text: { type: Type.STRING },
-              score: { type: Type.NUMBER }
-            },
-            required: ["text", "score"]
-          }
-        }
-      }
-    });
-
-    if (!response.text) throw new Error("Empty AI Response");
-    return safeJsonParse(response.text, []);
-  };
+  STRATEGY GUIDELINES:
+  - Each hook MUST be optimized for the first 3 seconds of a video.
+  - Mix different psychological triggers: Curiosity Gap, Fear Of Missing Out (FOMO), Negative Constraint, Bold Promise, Quick-Win.
+  - The hook should feel organic and native to ${lang} speakers.
+  - Length: 5-12 words.
+  
+  OUTPUT FORMAT:
+  Return ONLY a valid JSON array of objects. Example:
+  [{"text": "Hook text here", "score": 95}, ...]
+  
+  Do not include any intro, outro, or explanation.`;
 
   try {
-    const data = await withRetry(fetchAI);
+    const response = await ai.models.generateContent({
+      model: DEFAULT_MODEL,
+      contents: prompt,
+      config: { 
+        responseMimeType: "application/json",
+        temperature: 0.8
+      }
+    });
     
-    if (!data || data.length === 0) throw new Error("No data parsed");
+    if (!response || !response.text) {
+      throw new Error("Empty response from AI");
+    }
+
+    let data = safeJsonParse(response.text);
+    
+    // If the AI returns a single object instead of an array, wrap it
+    if (!Array.isArray(data)) {
+        if (typeof data === 'object' && data !== null) {
+            data = [data];
+        } else {
+            data = [];
+        }
+    }
+
+    if (data.length === 0) {
+      console.warn("AI returned empty array, triggering template fallback.");
+      return FALLBACK_HOOK_TEMPLATES.map(t => ({
+        id: Math.random().toString(36).substr(2, 9),
+        text: t.replace(/{niche}/g, niche).replace(/{result}/g, "success"),
+        score: Math.floor(Math.random() * (98 - 85 + 1) + 85),
+        category: "Strong Hook"
+      }));
+    }
 
     return data.map((h: any) => {
-      const score = Math.min(100, Math.max(0, h.score || 70));
+      const text = typeof h === 'string' ? h : h.text || h.hook || h.title || "";
+      const scoreRaw = typeof h === 'string' ? 85 : h.score;
+      const scoreByNum = typeof scoreRaw === 'string' ? parseInt(scoreRaw) : scoreRaw;
+      const score = Number(scoreByNum) || 85;
+
       return {
         id: Math.random().toString(36).substr(2, 9),
-        text: h.text || "Viral hook incoming...",
-        score: score,
+        text,
+        score,
         category: score >= 90 ? "High Viral Potential" : score >= 75 ? "Strong Hook" : "Needs Improvement"
       };
-    });
+    }).filter(h => h.text && h.text.length > 5);
   } catch (error) {
-    console.error("AI Hooks Fatal Error, using fallback:", error);
-    // Determine niche-specific fallback
-    const key = niche.toLowerCase() as keyof typeof FALLBACK_HOOKS;
-    const fallbackBase = FALLBACK_HOOKS[key] || FALLBACK_HOOKS.dynamic;
-    
-    return fallbackBase.map(h => ({
-      ...h,
-      id: "fallback-" + Math.random().toString(36).substr(2, 5),
-      category: "Verified Strategy"
+    console.error("AI Generation Error (Hooks):", error);
+    // Return hardcoded templates as a final safety net
+    return FALLBACK_HOOK_TEMPLATES.map(t => ({
+        id: Math.random().toString(36).substr(2, 9),
+        text: t.replace(/{niche}/g, niche).replace(/{result}/g, "success"),
+        score: Math.floor(Math.random() * (98 - 85 + 1) + 85),
+        category: "Strong Hook (Fallback)"
     }));
   }
 }
 
-export async function generateExtraAI(type: string, context: string, lang: string = "English", tone: string = "Professional") {
-  const model = "gemini-3-flash-preview";
+export async function generateExtraAI(type: string, context: string, options: any = {}) {
+  const ai = getGenAI();
   let prompt = "";
-  let schema: any = { type: Type.OBJECT, properties: { result: { type: Type.STRING } } };
-
-  // Common instruction for local language/tone
-  const common = `Language: ${lang}. Tone: ${tone}.`;
   
   switch(type) {
     case "caption":
-      prompt = `Generate 3 Instagram Reel captions for this hook: "${context}". Include: 1 short, 1 storytelling, 1 CTA style. Use emojis. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: { captions: { type: Type.ARRAY, items: { type: Type.STRING } } },
-        required: ["captions"]
-      };
+      const tone = options.tone || "Viral";
+      prompt = `Generate 5 structured Instagram/TikTok captions for this topic: "${context}". Tone: ${tone}. 
+      Include: 
+      1. Short and snappy
+      2. Emotional story
+      3. Funny/Relatable
+      4. Hard CTA focused
+      5. Educational/Value.
+      Use emojis. Format as JSON: { captions: string[] }`;
       break;
     case "hashtags":
-      prompt = `Generate 15 optimized hashtags for this hook: "${context}". Mix high reach, medium competition, and niche-specific. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: { hashtags: { type: Type.ARRAY, items: { type: Type.STRING } } },
-        required: ["hashtags"]
-      };
+      prompt = `Generate 30 optimized hashtags for the topic: "${context}". Group them by reach/type. 
+      Format as JSON: { categories: { name: string, tags: string[] }[] }`;
       break;
     case "script":
-      prompt = `Generate a 30-second Reel script for this hook: "${context}". Include talking points and a strong closing CTA. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: { script: { type: Type.STRING } },
-        required: ["script"]
-      };
+      prompt = `Generate a 30-second Reel script for this hook: "${context}". Include talking points and a strong closing CTA. Return JSON: { script: string }`;
       break;
     case "ideas":
-      prompt = `Generate 10 trending Reel ideas for the niche: "${context}". Include emotional trigger and difficulty level. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: {
-          ideas: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                title: { type: Type.STRING },
-                trigger: { type: Type.STRING },
-                difficulty: { type: Type.STRING }
-              },
-              required: ["title", "trigger", "difficulty"]
-            }
-          }
-        },
-        required: ["ideas"]
-      };
+      prompt = `Generate 10 trending Reel ideas for the niche: "${context}". Include emotional trigger and difficulty level. Return JSON: { ideas: { title: string, trigger: string, difficulty: string }[] }`;
       break;
     case "improve":
-      prompt = `Improve this hook: "${context}". Provide 5 viral variations with scores. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: {
-          variations: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                text: { type: Type.STRING },
-                score: { type: Type.NUMBER }
-              },
-              required: ["text", "score"]
-            }
-          }
-        },
-        required: ["variations"]
-      };
+      prompt = `Improve this hook: "${context}". Provide 5 viral variations with scores. Return JSON: { variations: { text: string, score: number }[] }`;
       break;
     case "analyze":
-      prompt = `Analyze this hook: "${context}". Provide viral potential score (0-100), explanation, psychological trigger used, and curiosity gap strength. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: {
-          score: { type: Type.NUMBER },
-          explanation: { type: Type.STRING },
-          trigger: { type: Type.STRING },
-          gapStrength: { type: Type.STRING }
-        },
-        required: ["score", "explanation", "trigger", "gapStrength"]
-      };
+      prompt = `Analyze this hook: "${context}". Provide viral potential score (0-100), explanation, psychological trigger used, and curiosity gap strength. Return JSON: { score: number, explanation: string, trigger: string, gapStrength: string }`;
       break;
     case "angle":
-      prompt = `Generate 5 different content angles for the topic: "${context}". Include title, description, and a sample hook for each. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: {
-          angles: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                title: { type: Type.STRING },
-                description: { type: Type.STRING },
-                hook: { type: Type.STRING }
-              },
-              required: ["title", "description", "hook"]
-            }
-          }
-        },
-        required: ["angles"]
-      };
+      prompt = `Generate 5 different content angles for the topic: "${context}". Include title, description, and a sample hook for each. Return JSON: { angles: { title: string, description: string, hook: string }[] }`;
       break;
     case "time":
-      prompt = `Suggest the best posting time and day for the niche: "${context}". Include bestDay, bestTime, and a strategy tip. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: {
-          bestDay: { type: Type.STRING },
-          bestTime: { type: Type.STRING },
-          strategy: { type: Type.STRING }
-        },
-        required: ["bestDay", "bestTime", "strategy"]
-      };
+      prompt = `Suggest the best posting time and day for the niche: "${context}". Include bestDay, bestTime, and a strategy tip. Return JSON: { bestDay: string, bestTime: string, strategy: string }`;
       break;
     case "calendar":
-      prompt = `Generate a 7-day viral content roadmap for the niche: "${context}". Include topic and hookType for each day. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: {
-          plan: {
-            type: Type.ARRAY,
-            items: {
-              type: Type.OBJECT,
-              properties: {
-                topic: { type: Type.STRING },
-                hookType: { type: Type.STRING }
-              },
-              required: ["topic", "hookType"]
-            }
-          }
-        },
-        required: ["plan"]
-      };
+      prompt = `Generate a 7-day viral content roadmap for the niche: "${context}". Include topic and hookType for each day. Return JSON: { plan: { topic: string, hookType: string }[] }`;
       break;
     case "bio":
-      prompt = `Generate 5 viral Instagram bios for this niche/description: "${context}". Use emojis, include a CTA, and keep it under 150 chars. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: { bios: { type: Type.ARRAY, items: { type: Type.STRING } } },
-        required: ["bios"]
-      };
+      prompt = `Generate 5 viral Instagram bios for this niche/description: "${context}". Use emojis, include a CTA, and keep it under 150 chars. Return JSON: { bios: string[] }`;
       break;
     case "username":
-      prompt = `Generate 10 catchy and unique Instagram usernames for: "${context}". Avoid excessive numbers/underscores. ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: { usernames: { type: Type.ARRAY, items: { type: Type.STRING } } },
-        required: ["usernames"]
-      };
+      prompt = `Generate 10 catchy and unique Instagram usernames for: "${context}". Avoid excessive numbers/underscores. Return JSON: { usernames: string[] }`;
       break;
     case "dp":
-      prompt = `Suggest 5 creative profile picture (DP) ideas or AI prompts for: "${context}". ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: { ideas: { type: Type.ARRAY, items: { type: Type.STRING } } },
-        required: ["ideas"]
-      };
+      prompt = `Suggest 5 creative profile picture (DP) ideas or AI prompts for: "${context}". Return JSON: { ideas: string[] }`;
       break;
     case "transcript":
-      prompt = `Clean up and summarize this video transcript: "${context}". ${common}`;
-      schema = {
-        type: Type.OBJECT,
-        properties: {
-          summary: { type: Type.STRING },
-          cleanText: { type: Type.STRING }
-        },
-        required: ["summary", "cleanText"]
-      };
+      prompt = `Clean up and summarize this video transcript: "${context}". Return JSON: { summary: string, cleanText: string }`;
       break;
     default:
-      prompt = `Help me with this Instagram content task: "${context}". ${common}`;
+      prompt = `Help me with this Instagram content task: "${context}". Return JSON: { result: string }`;
   }
 
-  const fetchExtra = async () => {
-    const response = await genAI.models.generateContent({
-      model,
+  try {
+    const response = await ai.models.generateContent({
+      model: DEFAULT_MODEL,
       contents: prompt,
       config: { 
-        systemInstruction: `You are an expert social media growth assistant. Current context - Language: ${lang}, Tone: ${tone}. Return ONLY the requested JSON structure.`,
         responseMimeType: "application/json",
-        thinkingConfig: { thinkingLevel: ThinkingLevel.LOW },
-        responseSchema: schema
+        temperature: 0.7
       }
     });
-
-    if (!response.text) throw new Error("Empty Extra Response");
-    return safeJsonParse(response.text, {});
-  };
-
-  try {
-    const data = await withRetry(fetchExtra);
     
-    if (data.variations) {
+    if (!response || !response.text) {
+      throw new Error("Empty response from AI");
+    }
+
+    const data = safeJsonParse(response.text, {});
+    
+    // Defensive property normalization
+    if (data.variations && Array.isArray(data.variations)) {
       data.variations = data.variations.map((v: any) => ({
         ...v,
-        score: typeof v.score === 'string' ? parseInt(v.score) : v.score
+        score: typeof v.score === 'string' ? parseInt(v.score) : Number(v.score) || 85
       }));
     }
-    if (data.score && typeof data.score === 'string') {
-      data.score = parseInt(data.score);
+    if (data.score !== undefined) {
+      data.score = typeof data.score === 'string' ? parseInt(data.score) : Number(data.score) || 0;
     }
+    
+    // Check if result is empty and return a minimal fallback object
+    if (Object.keys(data).length === 0) {
+       return {
+         captions: ["Viral caption here...", "Check this out!", "Don't miss out on this trend."],
+         categories: [{ name: "Trending", tags: ["viral", "trending", "reels", context.split(" ")[0]] }],
+         script: `Intriguing hook: ${context}\nMiddle: Share value...\nEnd: Call to action.`,
+         ideas: [{ title: `${context} Tutorial`, trigger: "Education", difficulty: "Easy" }]
+       };
+    }
+
     return data;
   } catch (error) {
-    console.error("AI Extra Fatal Error:", error);
-    // Generic fallback for extra tools
-    if (type === "hashtags") return { hashtags: ["#viral", "#reels", "#contentcreator", "#trending", "#growth"] };
-    if (type === "caption") return { captions: ["Follow for more viral tips!", "POV: You found the secret hack.", "Tag a creator who needs this."] };
-    return {};
+    console.error("AI Generation Error (Extra):", error);
+    return {
+        captions: ["Viral caption here...", "Check this out!", "Don't miss out on this trend."],
+        categories: [{ name: "Fallback", tags: ["viral", "trending", "reels", "shorts"] }],
+        script: `Intriguing hook: ${context}\nMiddle: Share value...\nEnd: Call to action.`,
+        ideas: [{ title: `${context} Tips`, trigger: "Value", difficulty: "Medium" }]
+    };
   }
 }
