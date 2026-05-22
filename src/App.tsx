@@ -3432,6 +3432,7 @@ export default function App() {
                       
                       <div className="flex flex-wrap justify-center gap-3">
                         {[
+                          { name: "Reels Hook Generator (ReelHook)", link: "/reels-hook-generator" },
                           { name: "Free AI Hook Generator 2026", link: "/free-ai-hook-generator" },
                           { name: "Viral Reel Ideas for Instagram", link: "/reel-ideas-generator" },
                           { name: "Best AI Video Tools Review", link: "/ai-tools-news/latest-ai-tools/video-generation-ai-tools" },
