@@ -512,7 +512,7 @@ const ComparisonTable = () => (
     <div className="max-w-6xl mx-auto space-y-16">
       <div className="text-center space-y-4">
         <h2 className="text-3xl md:text-5xl font-black font-display uppercase">Why ReelHooks <span className="text-primary text-glow">Beats Every Competitor</span></h2>
-        <p className="text-text-secondary text-lg">See why serious Indian creators are switching from Copy.ai and Jasper to ReelHooks.</p>
+        <p className="text-text-secondary text-lg">See why serious global creators are switching from Copy.ai and Jasper to ReelHooks.</p>
       </div>
 
       <div className="glass rounded-[3rem] border-white/10 overflow-hidden">
@@ -591,8 +591,8 @@ const WhosItFor = () => (
         </div>
         <div className="space-y-6">
           {[
-            { t: "Budding Indian Influencers", d: "Relatable Hinglish hooks that feel authentic to your audience." },
-            { t: "Educators & UPSC Creators", d: "Break down complex topics into curiosity-driven viral snippets." },
+            { t: "Viral Content Creators", d: "Relatable English, Hinglish, & Spanish hooks that feel authentic to your audience." },
+            { t: "Educators & Podcasters", d: "Break down complex topics into curiosity-driven viral snippets." },
             { t: "D2C Brands & Marketers", d: "Increase product awareness with hooks that stop the skip." },
             { t: "Finance & Tech Gurus", d: "Establish authority instantly with power-packed opening lines." }
           ].map((item, i) => (
@@ -635,7 +635,7 @@ const ExpandedFAQ = () => (
     <div className="max-w-4xl mx-auto space-y-16">
       <div className="text-center space-y-4">
         <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight">Frequently <span className="text-primary">Asked Questions</span></h2>
-        <p className="text-text-secondary text-lg">Everything you need to know about India's top hook generator.</p>
+        <p className="text-text-secondary text-lg">Everything you need to know about the world's top hook generator.</p>
       </div>
       <div className="space-y-4">
         {[
@@ -1735,7 +1735,7 @@ const FloatingCTA = () => {
 const SEOIntro = () => {
   const categories = [
     { title: "Fitness & Gym", hooks: ["Stop skipping leg day...", "The secret to 10% body fat...", "Why your morning cardio is failing you..."] },
-    { title: "Finance & Money", hooks: ["The hidden bank fee costing you ₹500...", "How I invested ₹1000 and made 1 Lakh...", "Stop saving, start investing in this..."] },
+    { title: "Finance & Money", hooks: ["The hidden bank fee costing you $50...", "How I invested $100 and made $10,000...", "Stop saving, start investing in this..."] },
     { title: "Real Estate Mastery", hooks: ["The one thing people miss when buying a home...", "Why 2026 is the year of the renter...", "How to flip houses with zero down..."] },
     { title: "Gaming & Streaming", hooks: ["The secret setting that doubles your FPS...", "I tried every mouse and this is the winner...", "Why your stream has 0 viewers (Fix this)..."] }
   ];
@@ -3346,10 +3346,10 @@ export default function App() {
                           {
                             title: "Finance & Money Mastery",
                             hooks: [
-                              "The hidden bank rule that’s costing you ₹500 every month.",
-                              "I made 1 Lakh this month using only my phone. Here’s how.",
+                              "The hidden bank rule that’s costing you $50 every month.",
+                              "I made $10,000 this month using only my phone. Here’s how.",
                               "Stop saving money in a savings account. Do this instead.",
-                              "How to retire at 35 with just 10k monthly investment.",
+                              "How to retire at 35 with just $1,000 monthly investment.",
                               "3 websites that pay you daily for doing absolutely nothing."
                             ],
                             icon: <TrendingUp className="w-5 h-5" />
