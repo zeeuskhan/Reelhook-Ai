@@ -407,24 +407,24 @@ const Hero = () => {
     <section className="pt-32 pb-20 px-4 relative overflow-hidden">
       <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(108,92,231,0.15)_0%,transparent_70%)] pointer-events-none" />
       <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-        <motion.div
+        <motion.h1
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 px-6 py-3 rounded-full text-primary text-base font-medium"
+          className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 px-6 py-3 rounded-full text-primary text-xs md:text-sm font-semibold uppercase tracking-wider max-w-max mx-auto"
         >
-          <Sparkles className="w-5 h-5" />
-          <span>Trusted by {count.toLocaleString()}+ creators</span>
-        </motion.div>
+          <Sparkles className="w-5 h-5 shrink-0" />
+          <span>AI Reel Hook Generator • Instagram Reel Hooks • TikTok Hooks & YouTube Shorts Hooks</span>
+        </motion.h1>
         
-        <motion.h1 
+        <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ delay: 0.1 }}
-          className="text-5xl md:text-[7rem] font-black font-display leading-[0.85] tracking-tighter uppercase"
+          className="text-5xl md:text-[7rem] font-black font-display leading-[0.85] tracking-tighter uppercase text-white block mt-4"
         >
           STOP THE SCROLL. <br />
           <span className="text-primary text-glow">GO VIRAL FAST.</span>
-        </motion.h1>
+        </motion.div>
         
         <motion.p 
           initial={{ opacity: 0, y: 20 }}
