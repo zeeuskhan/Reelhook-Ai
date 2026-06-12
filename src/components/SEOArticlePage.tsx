@@ -16,6 +16,7 @@ import { AI_NEWS_ARTICLES } from '../data/aiNewsArticles';
 import FooterAd from './FooterAd';
 import BannerAd from './BannerAd';
 import SkyscraperAd from './SkyscraperAd';
+import { getEnhancedMetaDescription, getEnhancedMetaTitle } from '../utils/seoHelper';
 
 const SEOArticlePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -24,6 +25,22 @@ const SEOArticlePage: React.FC = () => {
     if (!slug) return null;
     return SEO_ARTICLES[slug];
   }, [slug]);
+
+  const enhancedTitle = useMemo(() => {
+    if (!article) return '';
+    return getEnhancedMetaTitle(article.metaTitle, article.slug);
+  }, [article]);
+
+  const enhancedDesc = useMemo(() => {
+    if (!article) return '';
+    return getEnhancedMetaDescription(
+      article.slug,
+      article.metaTitle,
+      article.metaDescription,
+      article.keywords,
+      article.h1
+    );
+  }, [article]);
 
   if (!article) {
     return (
@@ -81,12 +98,12 @@ const SEOArticlePage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-text-primary">
       <Helmet>
-        <title>{article.metaTitle} | ReelHooks.site</title>
-        <meta name="description" content={article.metaDescription} />
+        <title>{enhancedTitle} | ReelHooks.site</title>
+        <meta name="description" content={enhancedDesc} />
         <meta name="keywords" content={article.keywords.join(', ')} />
         <link rel="canonical" href={`https://www.reelhooks.site/${article.slug}`} />
-        <meta property="og:title" content={article.metaTitle} />
-        <meta property="og:description" content={article.metaDescription} />
+        <meta property="og:title" content={enhancedTitle} />
+        <meta property="og:description" content={enhancedDesc} />
         <meta property="og:url" content={`https://www.reelhooks.site/${article.slug}`} />
         <script type="application/ld+json">{JSON.stringify(article.schema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>

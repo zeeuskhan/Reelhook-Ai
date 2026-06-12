@@ -20,6 +20,7 @@ import { TOOL_SEO_CONTENT } from '../data/toolSEOContent';
 import FooterAd from './FooterAd';
 import BannerAd from './BannerAd';
 import SkyscraperAd from './SkyscraperAd';
+import { getEnhancedMetaDescription, getEnhancedMetaTitle } from '../utils/seoHelper';
 
 const ToolSEOPage: React.FC = () => {
   const location = useLocation();
@@ -29,6 +30,22 @@ const ToolSEOPage: React.FC = () => {
     if (!slug) return null;
     return TOOL_SEO_CONTENT[slug];
   }, [slug]);
+
+  const enhancedTitle = useMemo(() => {
+    if (!content) return '';
+    return getEnhancedMetaTitle(content.metaTitle, content.slug);
+  }, [content]);
+
+  const enhancedDesc = useMemo(() => {
+    if (!content) return '';
+    return getEnhancedMetaDescription(
+      content.slug,
+      content.metaTitle,
+      content.metaDescription,
+      [content.title],
+      content.h1
+    );
+  }, [content]);
 
   if (!content) {
     return (
@@ -105,18 +122,18 @@ const ToolSEOPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-text-primary">
       <Helmet>
-        <title>{content.metaTitle} | ReelHooks.site</title>
-        <meta name="description" content={content.metaDescription} />
+        <title>{enhancedTitle} | ReelHooks.site</title>
+        <meta name="description" content={enhancedDesc} />
         <link rel="canonical" href={`https://www.reelhooks.site/${content.slug}`} />
         <link rel="icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
         <link rel="shortcut icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
-        <meta property="og:title" content={`${content.metaTitle} | ReelHooks.site`} />
-        <meta property="og:description" content={content.metaDescription} />
+        <meta property="og:title" content={`${enhancedTitle} | ReelHooks.site`} />
+        <meta property="og:description" content={enhancedDesc} />
         <meta property="og:type" content="website" />
         <meta property="og:url" content={`https://www.reelhooks.site/${content.slug}`} />
         <meta name="twitter:card" content="summary_large_image" />
-        <meta name="twitter:title" content={`${content.metaTitle} | ReelHooks.site`} />
-        <meta name="twitter:description" content={content.metaDescription} />
+        <meta name="twitter:title" content={`${enhancedTitle} | ReelHooks.site`} />
+        <meta name="twitter:description" content={enhancedDesc} />
         <script type="application/ld+json">{JSON.stringify(schema)}</script>
         <script type="application/ld+json">{JSON.stringify(faqSchema)}</script>
         <script type="application/ld+json">{JSON.stringify(breadcrumbSchema)}</script>
