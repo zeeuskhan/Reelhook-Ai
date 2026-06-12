@@ -365,6 +365,7 @@ const Footer = () => (
           <h4 className="font-bold mb-4 text-lg">Knowledge Hub</h4>
           <ul className="space-y-3 text-base text-text-secondary">
             <li><Link to="/hook-and-reel-menu" className="hover:text-primary transition-colors py-1 block font-bold text-primary">Hook & Reel Menu</Link></li>
+            <li><Link to="/hook-reel-cajun-seafood-bar-killeen-menu" className="hover:text-primary transition-colors py-1 block font-medium text-amber-400">Hook & Reel Killeen Menu 🦀</Link></li>
             <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy Guide</Link></li>
             <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Reel Hooks in Hindi</Link></li>
             <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Reel Hooks</Link></li>
@@ -1546,6 +1547,7 @@ const SiteIndex = () => (
           <ul className="space-y-3">
             {[
               { name: "Hook and Reel Menu", slug: "hook-and-reel-menu" },
+              { name: "Hook & Reel Killeen Menu", slug: "hook-reel-cajun-seafood-bar-killeen-menu" },
               { name: "Viral Reel Hooks", slug: "viral-reel-hooks" },
               { name: "Instagram Hook Ideas", slug: "instagram-reel-hooks" },
               { name: "50+ Hook Examples", slug: "reel-hook-examples" },
