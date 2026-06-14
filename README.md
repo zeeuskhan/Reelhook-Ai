@@ -1,20 +1,96 @@
 <div align="center">
-<img width="1200" height="475" alt="GHBanner" src="https://ai.google.dev/static/site-assets/images/share-ais-513315318.png" />
+
+# 🚀 ReelHook AI - Free AI Reel Hook Generator
+
+AI-powered tool built with Google AI Studio & Gemini AI to create viral hooks for Instagram Reels, TikTok, and YouTube Shorts.
+
+🌐 Try ReelHook AI:
+https://reelhooks.site
+
 </div>
 
-# Run and deploy your AI Studio app
 
-This contains everything you need to run your app locally.
+## 🚀 About ReelHook AI
 
-View your app in AI Studio: https://ai.studio/apps/9364d87e-504a-4ad6-95d3-70bd1f79a244
+ReelHook AI is a free AI reel hook generator created using Google AI Studio and powered by Gemini AI.
 
-## Run Locally
-
-**Prerequisites:**  Node.js
+It helps content creators instantly generate catchy opening lines, viral hooks, and creative ideas for short-form videos.
 
 
-1. Install dependencies:
-   `npm install`
-2. Set the `GEMINI_API_KEY` in [.env.local](.env.local) to your Gemini API key
-3. Run the app:
-   `npm run dev`
+## ✨ Features
+
+- AI Reel Hook Generator
+- Instagram Reels Hook Ideas
+- YouTube Shorts Hook Creator
+- TikTok Video Hooks Generator
+- Viral Content Ideas
+- Creator Growth Assistant
+
+
+## 🤖 Built With
+
+- Google AI Studio
+- Gemini AI API
+- React
+- TypeScript
+- Vite
+- Node.js
+
+
+## 🎯 Perfect For
+
+- Content creators
+- Influencers
+- YouTubers
+- Social media managers
+- Digital marketers
+- Brands
+
+
+## 💻 Run AI Studio App Locally
+
+### Requirements
+
+Node.js installed
+
+
+### Install dependencies
+
+```bash
+npm install
+```
+
+
+### Setup Gemini API Key
+
+Create `.env` file (or use existing variables):
+
+```env
+GEMINI_API_KEY=your_api_key
+```
+
+
+### Start development server
+
+```bash
+npm run dev
+```
+
+
+## 🔎 SEO Keywords
+
+AI reel hook generator,
+free reel hook generator,
+AI viral hook creator,
+Instagram reels hook generator,
+YouTube shorts ideas generator,
+TikTok hook generator,
+AI content creation tool,
+Gemini AI tools
+
+
+## ⭐ Support
+
+If ReelHook AI helps you create better content, consider giving this project a star.
+
+Made with Google AI Studio ❤️
