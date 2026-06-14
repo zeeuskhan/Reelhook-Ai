@@ -1,8 +1,28 @@
 {
-  "name": "react-example",
+  "name": "reelhook-ai",
   "private": true,
-  "version": "0.0.0",
+  "version": "1.0.0",
   "type": "module",
+  "description": "ReelHook AI is a free AI-powered reel hook generator built with Google AI Studio and powered by Gemini AI. Instantly create opening hooks, viral video ideas, captions, and script intros for Instagram Reels, YouTube Shorts, and TikTok with multilingual and Hinglish support.",
+  "homepage": "https://reelhooks.site",
+  "keywords": [
+    "reelhook-ai",
+    "reelhooks",
+    "ai-reel-hook-generator",
+    "free-ai-hook-generator",
+    "instagram-reels-hook-generator",
+    "youtube-shorts-hook-generator",
+    "tiktok-hook-generator",
+    "gemini-ai",
+    "google-ai-studio",
+    "viral-reels",
+    "content-creator-tools",
+    "shorts-ideas"
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/zeeuskhan/Reelhook-Ai.git"
+  },
   "scripts": {
     "dev": "tsx server.ts",
     "start": "node server.ts",
