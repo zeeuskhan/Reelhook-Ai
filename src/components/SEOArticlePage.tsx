@@ -16,7 +16,7 @@ import { AI_NEWS_ARTICLES } from '../data/aiNewsArticles';
 import FooterAd from './FooterAd';
 import BannerAd from './BannerAd';
 import SkyscraperAd from './SkyscraperAd';
-import { getEnhancedMetaDescription, getEnhancedMetaTitle } from '../utils/seoHelper';
+import { getEnhancedMetaDescription, getEnhancedMetaTitle, getHumanFriendlyTitle, enhanceArticleContentAndInterlink } from '../utils/seoHelper';
 
 const SEOArticlePage: React.FC = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -25,6 +25,16 @@ const SEOArticlePage: React.FC = () => {
     if (!slug) return null;
     return SEO_ARTICLES[slug];
   }, [slug]);
+
+  const humanFriendlyTitle = useMemo(() => {
+    if (!article) return '';
+    return getHumanFriendlyTitle(article.title, article.slug);
+  }, [article]);
+
+  const humanFriendlyH1 = useMemo(() => {
+    if (!article) return '';
+    return getHumanFriendlyTitle(article.h1, article.slug);
+  }, [article]);
 
   const enhancedTitle = useMemo(() => {
     if (!article) return '';
@@ -40,6 +50,11 @@ const SEOArticlePage: React.FC = () => {
       article.keywords,
       article.h1
     );
+  }, [article]);
+
+  const enhancedContent = useMemo(() => {
+    if (!article) return '';
+    return enhanceArticleContentAndInterlink(article.content, article.slug);
   }, [article]);
 
   if (!article) {
@@ -89,7 +104,7 @@ const SEOArticlePage: React.FC = () => {
       {
         "@type": "ListItem",
         "position": 3,
-        "name": article.title,
+        "name": humanFriendlyTitle,
         "item": `https://www.reelhooks.site/${article.slug}`
       }
     ]
@@ -124,7 +139,7 @@ const SEOArticlePage: React.FC = () => {
               <span>Free AI Creator Tool</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold font-display tracking-tight leading-tight">
-              {article.h1}
+              {humanFriendlyH1}
             </h1>
             <div className="flex items-center justify-center space-x-4 text-base text-text-secondary">
               <div className="flex items-center space-x-1">
@@ -147,7 +162,7 @@ const SEOArticlePage: React.FC = () => {
         <span>/</span>
         <Link to="/blog" className="hover:text-primary transition-colors">Guides</Link>
         <span>/</span>
-        <span className="text-white font-medium truncate">{article.title}</span>
+        <span className="text-white font-medium truncate">{humanFriendlyTitle}</span>
       </nav>
 
       {/* Main Content */}
@@ -180,7 +195,7 @@ const SEOArticlePage: React.FC = () => {
               [&_th]:bg-primary/20 [&_th]:p-4 [&_th]:text-left [&_th]:border [&_th]:border-white/10
               [&_td]:p-4 [&_td]:border [&_td]:border-white/10
               [&_.highlight-green]:text-green-400 [&_.highlight-green]:font-bold"
-            dangerouslySetInnerHTML={{ __html: article.content }}
+            dangerouslySetInnerHTML={{ __html: enhancedContent }}
           />
         </div>
       </section>
@@ -190,7 +205,7 @@ const SEOArticlePage: React.FC = () => {
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold font-display">Frequently Asked Questions</h2>
-            <p className="text-text-secondary">Everything you need to know about {article.title}.</p>
+            <p className="text-text-secondary">Everything you need to know about {humanFriendlyTitle}.</p>
           </div>
           <div className="space-y-4">
             {article.faqs.map((faq, i) => (

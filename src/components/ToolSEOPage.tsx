@@ -20,7 +20,7 @@ import { TOOL_SEO_CONTENT } from '../data/toolSEOContent';
 import FooterAd from './FooterAd';
 import BannerAd from './BannerAd';
 import SkyscraperAd from './SkyscraperAd';
-import { getEnhancedMetaDescription, getEnhancedMetaTitle } from '../utils/seoHelper';
+import { getEnhancedMetaDescription, getEnhancedMetaTitle, getHumanFriendlyTitle } from '../utils/seoHelper';
 
 const ToolSEOPage: React.FC = () => {
   const location = useLocation();
@@ -30,6 +30,16 @@ const ToolSEOPage: React.FC = () => {
     if (!slug) return null;
     return TOOL_SEO_CONTENT[slug];
   }, [slug]);
+
+  const humanFriendlyTitle = useMemo(() => {
+    if (!content) return '';
+    return getHumanFriendlyTitle(content.title, content.slug);
+  }, [content]);
+
+  const humanFriendlyH1 = useMemo(() => {
+    if (!content) return '';
+    return getHumanFriendlyTitle(content.h1, content.slug);
+  }, [content]);
 
   const enhancedTitle = useMemo(() => {
     if (!content) return '';
@@ -154,7 +164,7 @@ const ToolSEOPage: React.FC = () => {
               <span>Free AI Tool for Creators</span>
             </div>
             <h1 className="text-4xl md:text-6xl font-bold font-display tracking-tight leading-tight max-w-4xl mx-auto">
-              {content.h1}
+              {humanFriendlyH1}
             </h1>
             <p className="text-lg md:text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
               {content.introduction}
@@ -297,7 +307,7 @@ const ToolSEOPage: React.FC = () => {
         <div className="max-w-3xl mx-auto space-y-12">
           <div className="text-center space-y-4">
             <h2 className="text-3xl md:text-4xl font-bold font-display">Frequently Asked Questions</h2>
-            <p className="text-text-secondary">Everything you need to know about our {content.title}.</p>
+            <p className="text-text-secondary">Everything you need to know about our {humanFriendlyTitle}.</p>
           </div>
           <div className="space-y-4">
             {content.faqs.map((faq, i) => (
