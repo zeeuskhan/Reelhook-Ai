@@ -305,6 +305,8 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
         </div>
       </section>
 
+      <BannerAd />
+
       <section className="py-20 px-4">
         <div className="max-w-4xl mx-auto space-y-12">
           <h2 className="text-3xl md:text-4xl font-bold font-display text-center">{content.guideTitle}</h2>
@@ -318,6 +320,8 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
           </div>
         </div>
       </section>
+
+      <BannerAd />
 
       <section className="py-20 px-4 bg-primary/5">
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
@@ -339,6 +343,8 @@ const BaseToolPage: React.FC<BaseToolPageProps> = ({
           </div>
         </div>
       </section>
+
+      <BannerAd />
 
       <section className="py-20 px-4">
         <div className="max-w-3xl mx-auto space-y-12">

@@ -8,7 +8,7 @@ const BannerAd: React.FC = () => {
       const atOptionsScript = document.createElement('script');
       atOptionsScript.type = 'text/javascript';
       atOptionsScript.innerHTML = `
-        window.atOptions = {
+        atOptions = {
           'key' : '6b6777c4248ba9b31f1a7f8087ca4b49',
           'format' : 'iframe',
           'height' : 90,
@@ -19,7 +19,7 @@ const BannerAd: React.FC = () => {
       
       const invokeScript = document.createElement('script');
       invokeScript.type = 'text/javascript';
-      invokeScript.src = 'https://www.highperformanceformat.com/6b6777c4248ba9b31f1a7f8087ca4b49/invoke.js';
+      invokeScript.src = 'https://endedstrung.com/6b6777c4248ba9b31f1a7f8087ca4b49/invoke.js';
       invokeScript.async = true;
 
       adRef.current.appendChild(atOptionsScript);

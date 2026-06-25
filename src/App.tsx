@@ -3352,8 +3352,11 @@ export default function App() {
                   </section>
 
                   <ComparisonTable />
+                  <BannerAd />
                   <HowItWorks />
+                  <BannerAd />
                   <WhosItFor />
+                  <BannerAd />
 
                   {/* 120+ Best Hook Generator Examples */}
                   <section id="best-hooks" className="py-24 px-4 bg-accent/5">
@@ -3440,9 +3443,13 @@ export default function App() {
                   </section>
 
                   <PsychologyOfHooks />
+                  <BannerAd />
                   <SuccessStories />
+                  <BannerAd />
                   <ViralHookStrategies />
+                  <BannerAd />
                   <ExpandedFAQ />
+                  <BannerAd />
 
                   {/* SEO Popular Searches Section */}
                   <section className="py-24 px-4 border-y border-white/5 bg-black/20">

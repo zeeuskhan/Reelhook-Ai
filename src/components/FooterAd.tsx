@@ -20,7 +20,7 @@ const FooterAd: React.FC = () => {
       
       const invokeScript = document.createElement('script');
       invokeScript.type = 'text/javascript';
-      invokeScript.src = 'https://www.highperformanceformat.com/68e74af62003701085edf5c2422fb9f7/invoke.js';
+      invokeScript.src = 'https://endedstrung.com/68e74af62003701085edf5c2422fb9f7/invoke.js';
       invokeScript.async = true;
 
       adRef.current.appendChild(atOptionsScript);
