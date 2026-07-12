@@ -1,42 +1,51 @@
 import React, { useEffect, useRef } from 'react';
 
 const BannerAd: React.FC = () => {
-  const adRef = useRef<HTMLDivElement>(null);
+  const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
-    if (adRef.current && !adRef.current.firstChild) {
-      const atOptionsScript = document.createElement('script');
-      atOptionsScript.type = 'text/javascript';
-      atOptionsScript.innerHTML = `
-        atOptions = {
-          'key' : '6b6777c4248ba9b31f1a7f8087ca4b49',
-          'format' : 'iframe',
-          'height' : 90,
-          'width' : 728,
-          'params' : {}
-        };
-      `;
-      
-      const invokeScript = document.createElement('script');
-      invokeScript.type = 'text/javascript';
-      invokeScript.src = 'https://endedstrung.com/6b6777c4248ba9b31f1a7f8087ca4b49/invoke.js';
-      invokeScript.async = true;
-
-      adRef.current.appendChild(atOptionsScript);
-      adRef.current.appendChild(invokeScript);
+    if (iframeRef.current) {
+      const doc = iframeRef.current.contentDocument || iframeRef.current.contentWindow?.document;
+      if (doc) {
+        doc.open();
+        doc.write(`
+          <!DOCTYPE html>
+          <html>
+            <head>
+              <style>
+                body { margin: 0; padding: 0; display: flex; justify-content: center; align-items: center; background: transparent; overflow: hidden; }
+              </style>
+            </head>
+            <body>
+              <script type="text/javascript">
+                atOptions = {
+                  'key' : '6b6777c4248ba9b31f1a7f8087ca4b49',
+                  'format' : 'iframe',
+                  'height' : 90,
+                  'width' : 728,
+                  'params' : {}
+                };
+              </script>
+              <script type="text/javascript" src="https://endedstrung.com/6b6777c4248ba9b31f1a7f8087ca4b49/invoke.js"></script>
+            </body>
+          </html>
+        `);
+        doc.close();
+      }
     }
   }, []);
 
   return (
     <div className="flex justify-center my-8 overflow-hidden">
-      <div 
-        ref={adRef} 
-        id="banner-ad-container"
-        className="max-w-full overflow-x-auto"
-        style={{ minHeight: '90px', minWidth: '728px' }}
-      >
-        {/* The ad will be injected here */}
-      </div>
+      <iframe
+        ref={iframeRef}
+        title="Banner Ad"
+        width="728"
+        height="90"
+        scrolling="no"
+        className="max-w-full overflow-hidden"
+        style={{ border: 'none', width: '728px', height: '90px' }}
+      />
     </div>
   );
 };
