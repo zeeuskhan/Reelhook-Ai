@@ -36,6 +36,77 @@ const REDIRECT_MAP: Record<string, string> = {
   "hook-and-reel-gift-cards-promo-codes-calories": "/"
 };
 
+function isTier1Url(cleanPath: string): boolean {
+  if (cleanPath === "/" || cleanPath === "") return true;
+
+  const exactTier1Paths = [
+    "/explore",
+    "/about",
+    "/faq",
+    "/contact",
+    "/privacy",
+    "/terms",
+    "/blog",
+    "/sitemap"
+  ];
+  if (exactTier1Paths.includes(cleanPath)) return true;
+
+  // Check if it is a blog post
+  if (cleanPath.startsWith("/blog/")) {
+    const slug = cleanPath.replace("/blog/", "");
+    return BLOG_POSTS.some(post => post.slug === slug);
+  }
+
+  // Check if it is a tool
+  if (cleanPath.startsWith("/tools/")) {
+    const slug = cleanPath.replace("/tools/", "");
+    const whitelistedTools = [
+      "instagram-bio-generator",
+      "instagram-caption-generator",
+      "instagram-hashtag-generator",
+      "instagram-reel-generator",
+      "instagram-username-generator",
+      "instagram-dp-generator",
+      "instagram-transcript-generator",
+      "instagram-mockup-generator",
+      "hook-generator"
+    ];
+    return whitelistedTools.includes(slug);
+  }
+
+  // Check if it is a main niche pillar page (WITHOUT language suffix, e.g. /hooks/fitness)
+  if (cleanPath.startsWith("/hooks/")) {
+    const slug = cleanPath.replace("/hooks/", "").toLowerCase();
+    // Must match exactly one of our niche IDs in NICHES
+    return NICHES.some(n => n.id.toLowerCase() === slug);
+  }
+
+  // Check if it is one of our premium articles served at /:slug
+  if (cleanPath.startsWith("/")) {
+    const slug = cleanPath.substring(1);
+    const premiumArticles = [
+      "best-hooks-for-instagram-reels",
+      "viral-hooks-for-instagram-reels",
+      "how-to-go-viral-on-reels-2026",
+      "best-time-to-post-reels-india",
+      "how-to-get-first-1000-followers-instagram",
+      "instagram-algorithm-explained-2026",
+      "how-to-use-ai-for-content-creation",
+      "monetize-instagram-reels-india",
+      "increase-reel-engagement-hacks",
+      "faceless-reel-channel-guide",
+      "instagram-seo-tips-for-creators",
+      "reel-hook-analyzer",
+      "content-ideas-generator",
+      "content-calendar-generator",
+      "free-ai-hook-generator"
+    ];
+    return premiumArticles.includes(slug) && !REDIRECT_MAP[slug];
+  }
+
+  return false;
+}
+
 // Pre-rendering wrapper function for SEO
 function renderSeoHtml(urlPath: string, html: string): string {
   const cleanPath = urlPath.split("?")[0].split("#")[0];
@@ -520,6 +591,92 @@ function renderSeoHtml(urlPath: string, html: string): string {
         }
       ];
     }
+  // 5. Sitemap page: /sitemap
+  } else if (cleanPath === "/sitemap") {
+    title = "HTML Sitemap | Browse All Creator Tools & Viral Niche Guides";
+    description = "Navigate all high-priority creator resources, AI generators, and viral niche hook pillar pages on ReelHooks.site. Find everything you need in one place.";
+
+    const toolsLinks = [
+      { path: "/tools/instagram-bio-generator", title: "AI Instagram Bio Generator (with Hinglish support)" },
+      { path: "/tools/instagram-caption-generator", title: "AI Instagram Caption Generator (boost engagement)" },
+      { path: "/tools/instagram-hashtag-generator", title: "AI Instagram Hashtag Generator (viral 2026 tags)" },
+      { path: "/tools/instagram-reel-generator", title: "AI Instagram Reel Script Writer (full script outlines)" },
+      { path: "/tools/instagram-username-generator", title: "AI Instagram Username Generator (aesthetic & unique)" },
+      { path: "/tools/instagram-dp-generator", title: "AI Instagram Profile Picture (DP) Maker" },
+      { path: "/tools/instagram-transcript-generator", title: "AI Instagram Transcript Generator (video to text)" },
+      { path: "/tools/instagram-mockup-generator", title: "AI Instagram Feed & Post Mockup Planner" },
+      { path: "/tools/hook-generator", title: "Free AI Hook Generator & Hook Formulas" }
+    ].map(t => `<li style="margin-bottom:12px;"><a href="${t.path}" style="color:#6C5CE7;text-decoration:none;font-weight:600;">${t.title}</a></li>`).join("\n");
+
+    const nicheLinks = NICHES.map(n => 
+      `<div style="margin-bottom:12px;"><a href="/hooks/${n.id.toLowerCase()}" style="color:#6C5CE7;text-decoration:none;font-weight:600;">${n.name} Reel Hooks Pillar Guide</a></div>`
+    ).join("\n");
+
+    const articleLinks = [
+      "best-hooks-for-instagram-reels",
+      "viral-hooks-for-instagram-reels",
+      "how-to-go-viral-on-reels-2026",
+      "best-time-to-post-reels-india",
+      "how-to-get-first-1000-followers-instagram",
+      "instagram-algorithm-explained-2026",
+      "how-to-use-ai-for-content-creation",
+      "monetize-instagram-reels-india",
+      "increase-reel-engagement-hacks",
+      "faceless-reel-channel-guide",
+      "instagram-seo-tips-for-creators",
+      "reel-hook-analyzer",
+      "content-ideas-generator",
+      "content-calendar-generator",
+      "free-ai-hook-generator"
+    ].map(slug => {
+      const art = SEO_ARTICLES[slug];
+      const name = art ? (art.metaTitle || art.title) : slug.replace(/-/g, ' ');
+      return `<div style="margin-bottom:12px;"><a href="/${slug}" style="color:#6C5CE7;text-decoration:none;font-weight:600;">${name}</a></div>`;
+    }).join("\n");
+
+    bodyContent = `
+      <div style="font-family:'Inter', sans-serif;background-color:#0B0F19;color:#F8FAFC;min-height:100vh;padding:60px 20px;">
+        <main style="max-width:900px;margin:40px auto;padding:0;">
+          <h1 style="font-size:38px;font-weight:800;color:#6C5CE7;margin-bottom:12px;text-align:center;">HTML Sitemap Directory</h1>
+          <p style="font-size:16px;color:#94A3B8;text-align:center;margin-bottom:48px;">Quickly browse all free creator tools, viral niche guides, and strategy resources on ReelHooks.site.</p>
+          
+          <div style="display:grid;grid-template-columns:1fr;gap:40px;margin-bottom:48px;">
+            <section style="background:#131926;border:1px solid rgba(255,255,255,0.05);padding:30px;border-radius:24px;">
+              <h2 style="font-size:22px;font-weight:700;color:#F8FAFC;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:10px;">Platform Pages</h2>
+              <ul style="list-style:none;padding:0;margin:0;">
+                <li style="margin-bottom:12px;"><a href="/" style="color:#6C5CE7;text-decoration:none;font-weight:600;">ReelHooks.site – Free AI Hook Generator</a></li>
+                <li style="margin-bottom:12px;"><a href="/explore" style="color:#6C5CE7;text-decoration:none;font-weight:600;">Explore All Categories</a></li>
+                <li style="margin-bottom:12px;"><a href="/about" style="color:#6C5CE7;text-decoration:none;font-weight:600;">About ReelHooks & Murtaza Darvesh</a></li>
+                <li style="margin-bottom:12px;"><a href="/faq" style="color:#6C5CE7;text-decoration:none;font-weight:600;">Frequently Asked Questions</a></li>
+                <li style="margin-bottom:12px;"><a href="/contact" style="color:#6C5CE7;text-decoration:none;font-weight:600;">Contact Support Team</a></li>
+                <li style="margin-bottom:12px;"><a href="/blog" style="color:#6C5CE7;text-decoration:none;font-weight:600;">Creator Strategy Blog</a></li>
+              </ul>
+            </section>
+
+            <section style="background:#131926;border:1px solid rgba(255,255,255,0.05);padding:30px;border-radius:24px;">
+              <h2 style="font-size:22px;font-weight:700;color:#F8FAFC;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:10px;">Free Creator AI Tools</h2>
+              <ul style="list-style:none;padding:0;margin:0;">
+                ${toolsLinks}
+              </ul>
+            </section>
+
+            <section style="background:#131926;border:1px solid rgba(255,255,255,0.05);padding:30px;border-radius:24px;">
+              <h2 style="font-size:22px;font-weight:700;color:#F8FAFC;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:10px;">Premium Content Growth Guides</h2>
+              <div style="display:grid;grid-template-columns:1fr;gap:12px;">
+                ${articleLinks}
+              </div>
+            </section>
+
+            <section style="background:#131926;border:1px solid rgba(255,255,255,0.05);padding:30px;border-radius:24px;">
+              <h2 style="font-size:22px;font-weight:700;color:#F8FAFC;margin-bottom:20px;border-bottom:1px solid rgba(255,255,255,0.05);padding-bottom:10px;">Viral Niche Pillar Guides</h2>
+              <div style="display:grid;grid-template-columns:1fr;gap:12px;">
+                ${nicheLinks}
+              </div>
+            </section>
+          </div>
+        </main>
+      </div>
+    `;
   }
 
   // Rewrite original HTML with replacements
@@ -532,10 +689,10 @@ function renderSeoHtml(urlPath: string, html: string): string {
   revised = revised.replace(/<meta data-rh="true" property="og:description" content=".*?" \/>/, `<meta data-rh="true" property="og:description" content="${description}" />`);
   revised = revised.replace(/<meta data-rh="true" property="og:url" content=".*?" \/>/, `<meta data-rh="true" property="og:url" content="${canonicalUrl}" />`);
 
-  // Handle NoIndex routes (like dashboard, profile, etc.)
-  const isNoIndex = cleanPath.startsWith("/dashboard") || cleanPath.startsWith("/profile");
+  // Handle NoIndex routes (like dashboard, profile, or Tier 2 pages)
+  const isNoIndex = cleanPath.startsWith("/dashboard") || cleanPath.startsWith("/profile") || !isTier1Url(cleanPath);
   if (isNoIndex) {
-    revised = revised.replace(/<meta name="robots" content=".*?" \/>/, '<meta name="robots" content="noindex, nofollow" />');
+    revised = revised.replace(/<meta name="robots" content=".*?" \/>/, '<meta name="robots" content="noindex, follow" />');
   }
 
   if (bodyContent) {
@@ -587,55 +744,84 @@ async function startServer() {
   // sitemap.xml
   app.get("/sitemap.xml", (req, res) => {
     res.type("application/xml");
-    
-    const variations = ["english", "hindi", "hinglish"];
     const lastmod = "2026-07-12";
-    
-    // Generate URLs for main niches
-    const mainNicheUrls = NICHES.flatMap(n => 
-      variations.map(v => `<url><loc>https://www.reelhooks.site/hooks/${n.id}-${v}</loc><lastmod>${lastmod}</lastmod><priority>0.7</priority></url>`)
-    );
 
-    // Generate URLs for subcategories
-    const subcategoryUrls = NICHES.flatMap(n => 
-      n.subcategories.flatMap(s => {
-        const subSlug = s.toLowerCase().replace(/\s+/g, '-').replace(/[^a-z0-9-]/g, '');
-        return variations.map(v => `<url><loc>https://www.reelhooks.site/hooks/${subSlug}-${v}</loc><lastmod>${lastmod}</lastmod><priority>0.6</priority></url>`);
-      })
-    );
+    const paths: string[] = [
+      "/",
+      "/explore",
+      "/about",
+      "/faq",
+      "/contact",
+      "/privacy",
+      "/terms",
+      "/blog",
+      "/sitemap"
+    ];
 
-    // Generate URLs for tools
-    const toolUrls = Object.keys(TOOL_SEO_CONTENT).map(slug => 
-      `<url><loc>https://www.reelhooks.site/tools/${slug}</loc><lastmod>${lastmod}</lastmod><priority>0.8</priority></url>`
-    );
+    // Add blogs
+    BLOG_POSTS.forEach(post => {
+      paths.push(`/blog/${post.slug}`);
+    });
 
-    // Generate URLs for articles (excluding redirected/consolidated ones)
-    const articleUrls = Object.keys(SEO_ARTICLES)
-      .filter(slug => !REDIRECT_MAP[slug])
-      .map(slug => 
-        `<url><loc>https://www.reelhooks.site/${slug}</loc><lastmod>${lastmod}</lastmod><priority>0.8</priority></url>`
-      );
+    // Add whitelisted tools
+    const whitelistedTools = [
+      "instagram-bio-generator",
+      "instagram-caption-generator",
+      "instagram-hashtag-generator",
+      "instagram-reel-generator",
+      "instagram-username-generator",
+      "instagram-dp-generator",
+      "instagram-transcript-generator",
+      "instagram-mockup-generator",
+      "hook-generator"
+    ];
+    whitelistedTools.forEach(tool => {
+      paths.push(`/tools/${tool}`);
+    });
 
-    // Generate URLs for blogs
-    const blogUrls = BLOG_POSTS.map(post => 
-      `<url><loc>https://www.reelhooks.site/blog/${post.slug}</loc><lastmod>${lastmod}</lastmod><priority>0.7</priority></url>`
-    );
+    // Add main niche pillar pages (WITHOUT language suffix, e.g. /hooks/fitness)
+    NICHES.forEach(n => {
+      paths.push(`/hooks/${n.id.toLowerCase()}`);
+    });
 
-    const allUrls = [
-      ...mainNicheUrls, 
-      ...subcategoryUrls, 
-      ...toolUrls, 
-      ...articleUrls, 
-      ...blogUrls
-    ].join("\n  ");
+    // Add premium articles
+    const premiumArticles = [
+      "best-hooks-for-instagram-reels",
+      "viral-hooks-for-instagram-reels",
+      "how-to-go-viral-on-reels-2026",
+      "best-time-to-post-reels-india",
+      "how-to-get-first-1000-followers-instagram",
+      "instagram-algorithm-explained-2026",
+      "how-to-use-ai-for-content-creation",
+      "monetize-instagram-reels-india",
+      "increase-reel-engagement-hacks",
+      "faceless-reel-channel-guide",
+      "instagram-seo-tips-for-creators",
+      "reel-hook-analyzer",
+      "content-ideas-generator",
+      "content-calendar-generator",
+      "free-ai-hook-generator"
+    ];
+    premiumArticles.forEach(slug => {
+      paths.push(`/${slug}`);
+    });
+
+    const urlBlocks = paths.map(p => {
+      let priority = "0.7";
+      if (p === "/") priority = "1.0";
+      else if (p === "/explore" || p.startsWith("/tools/")) priority = "0.9";
+      else if (p.startsWith("/hooks/")) priority = "0.8";
+      
+      return `  <url>
+    <loc>https://www.reelhooks.site${p}</loc>
+    <lastmod>${lastmod}</lastmod>
+    <priority>${priority}</priority>
+  </url>`;
+    }).join("\n");
 
     res.send(`<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-  <url><loc>https://www.reelhooks.site/</loc><lastmod>${lastmod}</lastmod><priority>1.0</priority></url>
-  <url><loc>https://www.reelhooks.site/explore</loc><lastmod>${lastmod}</lastmod><priority>0.9</priority></url>
-  <url><loc>https://www.reelhooks.site/about</loc><lastmod>${lastmod}</lastmod><priority>0.5</priority></url>
-  <url><loc>https://www.reelhooks.site/blog</loc><lastmod>${lastmod}</lastmod><priority>0.7</priority></url>
-  ${allUrls}
+${urlBlocks}
 </urlset>`);
   });
 

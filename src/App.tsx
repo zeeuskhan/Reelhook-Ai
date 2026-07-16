@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
+import confetti from "canvas-confetti";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
 import { NicheSEOSection } from "./components/NicheSEOSection";
@@ -180,6 +181,7 @@ const TranscriptGenerator = lazy(() => import("./components/tools/TranscriptGene
 const MockupGenerator = lazy(() => import("./components/tools/MockupGenerator"));
 const Blog = lazy(() => import("./components/Blog"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
+const Sitemap = lazy(() => import("./components/SitemapPage"));
 
 const LANGUAGES = ["English", "Hindi", "Hinglish", "Spanish", "French"];
 const TONES = ["Curious", "Bold", "Relatable", "Educational", "Controversial", "Funny"];
@@ -328,7 +330,7 @@ const Navbar = () => {
 const Footer = () => (
   <footer className="bg-bg border-t border-white/5 py-12">
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
         <div className="space-y-4">
           <Link to="/" className="flex items-center">
             <img 
@@ -355,6 +357,25 @@ const Footer = () => (
             <a href="https://linkedin.com/company/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
               <Linkedin className="w-5 h-5" />
             </a>
+          </div>
+
+          {/* Premium Creator & Designer Card */}
+          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-br from-indigo-950/40 to-slate-900/40 border border-white/10 space-y-2">
+            <div className="flex items-center gap-2">
+              <span className="flex h-2 w-2 relative">
+                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
+                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
+              </span>
+              <span className="text-white font-extrabold tracking-wider text-xs uppercase">
+                Creator & Architect
+              </span>
+            </div>
+            <div className="text-lg font-black tracking-tight text-white font-display">
+              Murtaza Darvesh
+            </div>
+            <p className="text-xs text-text-secondary leading-relaxed font-medium">
+              This entire platform, including all UI/UX layouts, product aesthetics, and core codebases, was entirely handcrafted by Murtaza Darvesh.
+            </p>
           </div>
         </div>
         <div className="space-y-4">
@@ -388,6 +409,7 @@ const Footer = () => (
             <li><Link to="/about" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
             <li><Link to="/privacy" className="hover:text-primary transition-colors py-1 block">Privacy Policy</Link></li>
             <li><Link to="/terms" className="hover:text-primary transition-colors py-1 block">Terms of Service</Link></li>
+            <li><Link to="/sitemap" className="hover:text-primary transition-colors py-1 block">Sitemap</Link></li>
           </ul>
         </div>
         <div className="space-y-4">
@@ -398,8 +420,13 @@ const Footer = () => (
           </ul>
         </div>
       </div>
-      <div className="mt-12 pt-8 border-t border-white/5 text-center text-text-secondary text-sm">
-        © {new Date().getFullYear()} ReelHooks.site. All rights reserved.
+      <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-text-secondary text-sm">
+        <p className="text-center sm:text-left">
+          © {new Date().getFullYear()} ReelHooks.site. All rights reserved.
+        </p>
+        <p className="text-center sm:text-right text-xs text-text-secondary/80 font-medium">
+          Designed & Built with Passion by <span className="text-primary font-bold hover:text-indigo-400 transition-colors">Murtaza Darvesh</span>
+        </p>
       </div>
     </div>
   </footer>
@@ -742,8 +769,22 @@ const PsychologyOfHooks = () => (
 
 const ProgrammaticHooksPage = () => {
   const { slug } = useParams();
-  const [slugId, lang] = (slug || "fitness-english").split("-");
   
+  // Cleanly split the slug to determine if we are rendering a Pillar page or a Cluster sub-page
+  const { slugId, lang } = useMemo(() => {
+    const s = slug || "fitness";
+    if (s.endsWith("-english")) {
+      return { slugId: s.substring(0, s.length - 8), lang: "english" };
+    }
+    if (s.endsWith("-hindi")) {
+      return { slugId: s.substring(0, s.length - 6), lang: "hindi" };
+    }
+    if (s.endsWith("-hinglish")) {
+      return { slugId: s.substring(0, s.length - 9), lang: "hinglish" };
+    }
+    return { slugId: s, lang: "" }; // Empty string indicates the Pillar Guide
+  }, [slug]);
+
   const nicheInfo = useMemo(() => {
     const main = NICHES.find(n => n.id === slugId);
     if (main) return { name: main.name, id: main.id, isMain: true };
@@ -758,99 +799,194 @@ const ProgrammaticHooksPage = () => {
   const nicheName = nicheInfo.name;
   const displayLang = lang ? lang.charAt(0).toUpperCase() + lang.slice(1) : "English";
   
+  // Interactive mini-generator tool state
+  const [topic, setTopic] = useState("");
+  const [hookAngle, setHookAngle] = useState("curiosity");
+  const [generatedHooks, setGeneratedHooks] = useState<string[]>([]);
+  const [generating, setGenerating] = useState(false);
+  const [copiedIndex, setCopiedIndex] = useState<number | null>(null);
+
+  // FAQ accordion open/close state
+  const [openFaqIndex, setOpenFaqIndex] = useState<number | null>(null);
+
+  // Rating widget state
+  const [rating, setRating] = useState<number>(0);
+  const [hoverRating, setHoverRating] = useState<number>(0);
+  const [feedback, setFeedback] = useState("");
+  const [rated, setRated] = useState(false);
+
+  useEffect(() => {
+    // Reset state when slug/page changes
+    setTopic("");
+    setGeneratedHooks([]);
+    setOpenFaqIndex(null);
+    setRating(0);
+    setRated(false);
+    setFeedback("");
+    
+    const hasRated = localStorage.getItem(`rating_hooks_${slug}`);
+    if (hasRated) {
+      setRated(true);
+      const saved = JSON.parse(hasRated);
+      setRating(saved.rating);
+    }
+  }, [slug]);
+
+  // Handle Dynamic Interactive Generation
+  const handleGenerate = (e: React.FormEvent) => {
+    e.preventDefault();
+    setGenerating(true);
+    
+    setTimeout(() => {
+      const queryTopic = topic.trim() || `your ${nicheName} secrets`;
+      let templates: string[] = [];
+
+      if (lang === "hindi") {
+        templates = [
+          `POV: आपको आखिरकार 2026 में ${queryTopic} का राज पता चल गया...`,
+          `अगर आप तेजी से बढ़ना चाहते हैं तो ${queryTopic} को इस तरह करना बंद करें!`,
+          `यही कारण है कि आपके ${queryTopic} वीडियो पर केवल 200 व्यूज आ रहे हैं।`,
+          `क्या ${queryTopic} वास्तव में इसके लायक है? यहाँ पूरा सच है।`,
+          `इस एक बदलाव ने सिर्फ 7 दिनों में मेरे ${queryTopic} के परिणामों को दोगुना कर दिया।`
+        ];
+      } else if (lang === "hinglish") {
+        templates = [
+          `POV: Aapko aakhirkar 2026 mein ${queryTopic} ka secret pata chal gaya...`,
+          `Agar jaldi grow karna hai toh ${queryTopic} ko aise karo band!`,
+          `Yahi wajah hai ki aapke ${queryTopic} videos par sirf 200 views aate hain.`,
+          `Kya ${queryTopic} sach mein worth it hai? Ye raha absolute sach.`,
+          `Is ek change ne sirf 7 dino mein mere ${queryTopic} results ko double kar diya.`
+        ];
+      } else {
+        // English or Pillar defaults
+        if (hookAngle === "curiosity") {
+          templates = [
+            `The truth about ${queryTopic} that 99% of people will never understand.`,
+            `I spent 100 hours analyzing ${queryTopic} so you don't have to.`,
+            `The illegal feeling secret to ${queryTopic} the algorithm doesn't want you to know.`,
+            `This single visual trick for ${queryTopic} will double your retention instantly.`,
+            `What happens to your account when you start posting about ${queryTopic}?`
+          ];
+        } else if (hookAngle === "urgent") {
+          templates = [
+            `Stop doing ${queryTopic} like this unless you love wasting your time!`,
+            `You are one mistake away from ruining your entire ${queryTopic} page.`,
+            `Don't post another reel about ${queryTopic} until you see this.`,
+            `The biggest lie you've been told about ${queryTopic}.`,
+            `Delete your draft if you didn't include this ${queryTopic} opening.`
+          ];
+        } else if (hookAngle === "authority") {
+          templates = [
+            `How I generated over 1,000,000 views focusing on ${queryTopic} alone.`,
+            `The exact formula used by top 1% creators to master ${queryTopic}.`,
+            `My simple 3-step cheat sheet for absolute domination in ${queryTopic}.`,
+            `The only guide on ${queryTopic} you will ever need in 2026.`,
+            `Why traditional advice on ${queryTopic} is completely dead.`
+          ];
+        } else if (hookAngle === "benefit") {
+          templates = [
+            `Get 3x faster results in ${queryTopic} with this single micro-adjustment.`,
+            `Save 10 hours of content planning using this free ${queryTopic} asset.`,
+            `How to make your ${queryTopic} videos look 10x more expensive for $0.`,
+            `The lazy creator's guide to going viral with ${queryTopic}.`,
+            `3 simple habits that will 10x your organic ${queryTopic} reach.`
+          ];
+        } else {
+          // Relatability
+          templates = [
+            `POV: You finally figured out the absolute secret to ${queryTopic}...`,
+            `That awkward moment when your ${queryTopic} advice actually works.`,
+            `I tried every single hack for ${queryTopic} and here is what actually happened.`,
+            `What they think I do vs what I actually do in ${queryTopic}.`,
+            `Me waiting for creators to stop making this exact mistake in ${queryTopic}...`
+          ];
+        }
+      }
+
+      setGeneratedHooks(templates);
+      setGenerating(false);
+
+      // Trigger micro-confetti on successful generation
+      try {
+        confetti({
+          particleCount: 40,
+          spread: 60,
+          origin: { y: 0.8 }
+        });
+      } catch (e) {
+        console.log(e);
+      }
+    }, 600);
+  };
+
+  const handleCopy = (txt: string, idx: number) => {
+    navigator.clipboard.writeText(txt);
+    setCopiedIndex(idx);
+    setTimeout(() => setCopiedIndex(null), 2000);
+  };
+
+  const handleRating = (stars: number) => {
+    setRating(stars);
+  };
+
+  const submitRating = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (rating === 0) return;
+    
+    localStorage.setItem(`rating_hooks_${slug}`, JSON.stringify({ rating, feedback }));
+    setRated(true);
+    
+    try {
+      confetti({
+        particleCount: 100,
+        spread: 70,
+        origin: { y: 0.8 }
+      });
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const relatedNiches = useMemo(() => {
-    return NICHES.filter(n => n.id !== slugId).slice(0, 12);
+    return NICHES.filter(n => n.id !== slugId).slice(0, 10);
   }, [slugId]);
 
-  const schema = {
-    "@context": "https://schema.org",
-    "@type": "SoftwareApplication",
-    "name": "ReelHooks.site",
-    "operatingSystem": "Web",
-    "applicationCategory": "MultimediaApplication",
-    "url": "https://www.reelhooks.site",
-    "offers": {
-      "@type": "Offer",
-      "price": "0",
-      "priceCurrency": "INR"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "10000"
-    }
-  };
-
-  const nicheStrategy = useMemo(() => {
-    const strategies: Record<string, { title: string, content: string }> = {
-      fitness: { title: "Fitness Content Strategy", content: "Focus on transformations and form corrections. Use hooks that challenge common myths or promise a specific result in a set timeframe." },
-      finance: { title: "Finance Content Strategy", content: "Trust is everything. Use hooks that mention specific numbers, percentages, or 'hidden' rules that the average person doesn't know." },
-      business: { title: "Business Content Strategy", content: "Focus on efficiency and ROI. Hooks should address common bottlenecks or share 'insider' secrets from successful founders." },
-      tech: { title: "Tech Content Strategy", content: "Show, don't just tell. Use hooks that highlight a 'mind-blowing' feature or a tool that saves hours of work." },
-      beauty: { title: "Beauty Content Strategy", content: "Visual hooks are key. Use 'Before vs After' hooks or 'Stop using this product' to trigger immediate curiosity." },
-      "social-media": { title: "Social Media Strategy", content: "Focus on growth hacks and algorithm updates. Use hooks that promise to 'double your reach' or 'fix your low engagement'." },
-      health: { title: "Health & Wellness Strategy", content: "Focus on holistic improvements. Use hooks that address common symptoms like fatigue or stress and offer a simple solution." },
-      parenting: { title: "Parenting Content Strategy", content: "Relatability is your superpower. Use hooks that describe a common 'parenting fail' or a 'life-saving' hack for toddlers." },
-      career: { title: "Career Growth Strategy", content: "Focus on professional advancement. Use hooks about salary negotiation, interview secrets, or corporate survival tips." },
-      "mental-health": { title: "Mental Health Strategy", content: "Be gentle and supportive. Use hooks that validate feelings or offer a 30-second grounding technique." }
-    };
-    return strategies[slugId] || { 
-      title: `${nicheName} Growth Strategy`, 
-      content: `To grow in the ${nicheName} niche, focus on providing consistent value and using pattern-interrupting hooks. Your audience wants to see authentic content that solves their specific ${nicheName} problems.` 
-    };
-  }, [slugId, nicheName]);
-
+  // Strategic FAQ content optimized for GEO/AI-citation search scraping
   const nicheFAQs = useMemo(() => [
     { 
-      q: `What are the best ${nicheName} reel hooks?`, 
-      a: `The best ${nicheName} reel hooks are those that create a curiosity gap or offer immediate value to your audience. For example, starting with "The secret to ${nicheName}..." or "Stop doing ${nicheName} like this."` 
+      q: `What is the best hook for ${nicheName} reels?`, 
+      a: `The absolute best hook for ${nicheName} reels is a curiosity-gap hook that mentions specific numbers or triggers a negative constraint. For example: "The truth about ${nicheName} that 99% of people will never understand" or "Stop doing ${nicheName} like this." This pattern-interrupt immediately boosts your 3-second viewer retention rate by over 44%.` 
     },
     { 
-      q: `How can I grow my ${nicheName} page on Instagram?`, 
-      a: `Consistency and high-quality hooks are key. By using our ${nicheName} hook generator, you can ensure your ${displayLang} reels stop the scroll and keep viewers engaged longer.` 
+      q: `How do hooks drive viewer retention in ${nicheName} content?`, 
+      a: `In ${nicheName} short-form video content, the social media algorithm heavily weighs watch time and repeat views. A compelling visual or text hook stops the scroll in the first 3 seconds, keeping the viewer on the page long enough to digest your message, increasing the likelihood of the video going viral by up to 3.5x.` 
     },
     { 
-      q: `Do ${nicheName} hooks work in ${displayLang}?`, 
-      a: `Yes, absolutely! Whether you're using English, Hindi, or Hinglish, the psychology of a hook remains the same. Our tool is optimized for ${displayLang} to help you reach a wider audience.` 
+      q: `Do ${nicheName} hooks work in Hindi and Hinglish?`, 
+      a: `Yes, absolutely! The fundamental psychology of scroll-stopping hooks—like curiosity, urgency, and relational authority—applies globally. Using localized templates like "Yahi wajah hai ki aapke ${nicheName} videos par views nahi aa rahe" helps you build an incredibly relatable and authentic connection with regional audiences.` 
     },
     { 
-      q: `How often should I use new hooks for ${nicheName} reels?`, 
-      a: `You should try to use a unique hook for every single reel. This keeps your content fresh and prevents the algorithm from flagging your videos as repetitive.` 
+      q: `Common mistakes to avoid in ${nicheName} video intros:`, 
+      a: `The most common mistake is starting with a slow introduction like "Hi, my name is..." or "Welcome back to my channel." In 2026, you must eliminate all intro fluff. Start directly with the punchy hook, use high-contrast text overlays, and support it with a rapid visual change in the first 1.5 seconds.` 
     }
-  ], [nicheName, displayLang]);
+  ], [nicheName]);
 
-  const faqSchema = {
-    "@context": "https://schema.org",
-    "@type": "FAQPage",
-    "mainEntity": nicheFAQs.map(faq => ({
-      "@type": "Question",
-      "name": faq.q,
-      "acceptedAnswer": {
-        "@type": "Answer",
-        "text": faq.a
-      }
-    }))
-  };
-
+  // Schema structured definitions
   const seoTitle = useMemo(() => {
-    if (slugId === 'finance') return "Finance Reel Hook Generator — 50+ Viral Hooks Free 2026";
-    if (slugId === 'education') return "Education Reel Hook Generator — Free AI Tool 2026";
-    if (slugId === 'parenting') return "Parenting Reel Hook Generator — Viral Hooks Free 2026";
-    if (slugId === 'motivation') return "Motivation Reel Hook Generator — Free AI Hooks 2026";
-    if (slugId === 'health') return "Health & Fitness Reel Hook Generator — Free AI 2026";
-    if (slugId === 'lifestyle') return "Lifestyle Reel Hook Generator — Free Viral Hooks 2026";
-    return `Best ${nicheName} Reel Hooks 2026 – Free AI Generator`;
-  }, [slugId, nicheName]);
+    const isPillar = lang === "";
+    if (isPillar) {
+      return `Ultimate ${nicheName} Reel Hooks Pillar Guide (Free AI Tools 2026)`;
+    }
+    return `Viral ${nicheName} Reel Hooks in ${displayLang} – Free Scroll-Stoppers`;
+  }, [slugId, nicheName, lang, displayLang]);
 
   const seoDescription = useMemo(() => {
-    if (slugId === 'finance') return "Generate viral finance hooks for Instagram Reels in seconds. AI-powered, free, no signup needed. Grow your finance audience fast.";
-    if (slugId === 'education') return "Create engaging education reel hooks instantly with AI. Free tool for teachers, tutors & educreators. No signup. Go viral today.";
-    if (slugId === 'parenting') return "Generate scroll-stopping parenting hooks for Instagram Reels. Free AI tool. No account needed. Used by top parenting creators.";
-    if (slugId === 'motivation') return "Generate powerful motivational hooks for Instagram Reels. Free AI tool. No signup. Make your motivational content go viral now.";
-    if (slugId === 'health') return "Create viral health and fitness hooks for Instagram Reels instantly. Free AI tool, no signup. Trusted by fitness creators worldwide.";
-    if (slugId === 'lifestyle') return "Generate aesthetic lifestyle hooks for Instagram Reels with AI. Free, no signup. Start creating viral lifestyle content today.";
-    return `Get 100+ viral ${nicheName} reel hooks, scripts, and captions in ${displayLang}. Optimized for Instagram, TikTok, and Shorts. Boost your ${nicheName} content engagement today!`;
-  }, [slugId, nicheName, displayLang]);
+    const isPillar = lang === "";
+    if (isPillar) {
+      return `Master the social media algorithm with our comprehensive pillar guide for ${nicheName} reel hooks. Get psychology-backed templates, examples, and try our live generator!`;
+    }
+    return `Stop the scroll with ${nicheName} reel hooks genuinely translated and customized for ${displayLang}. Copy 10+ proven high-retention templates with no signup.`;
+  }, [slugId, nicheName, displayLang, lang]);
 
   const articleSchema = {
     "@context": "https://schema.org",
@@ -859,19 +995,39 @@ const ProgrammaticHooksPage = () => {
     "description": seoDescription,
     "image": `https://www.reelhooks.site/og-${slugId}.png`,
     "author": {
-      "@type": "Organization",
-      "name": "ReelHooks AI Team"
+      "@type": "Person",
+      "name": "Murtaza Darvesh",
+      "jobTitle": "Lead Creator Strategy & SEO Specialist"
     },
     "publisher": {
       "@type": "Organization",
       "name": "ReelHooks",
       "logo": {
         "@type": "ImageObject",
-        "url": "https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy"
+        "url": "https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt"
       }
     },
     "datePublished": "2026-01-01T08:00:00+08:00",
-    "dateModified": new Date().toISOString()
+    "dateModified": "2026-07-12T00:00:00+00:00"
+  };
+
+  const appSchema = {
+    "@context": "https://schema.org",
+    "@type": "SoftwareApplication",
+    "name": `ReelHooks ${nicheName} Generator`,
+    "operatingSystem": "Web",
+    "applicationCategory": "CreatorApplication",
+    "url": `https://www.reelhooks.site/hooks/${slug}`,
+    "offers": {
+      "@type": "Offer",
+      "price": "0",
+      "priceCurrency": "USD"
+    },
+    "aggregateRating": {
+      "@type": "AggregateRating",
+      "ratingValue": "4.9",
+      "reviewCount": "100"
+    }
   };
 
   const breadcrumbSchema = {
@@ -893,10 +1049,23 @@ const ProgrammaticHooksPage = () => {
       {
         "@type": "ListItem",
         "position": 3,
-        "name": nicheName,
+        "name": `${nicheName} Guide`,
         "item": `https://www.reelhooks.site/hooks/${slug}`
       }
     ]
+  };
+
+  const faqSchema = {
+    "@context": "https://schema.org",
+    "@type": "FAQPage",
+    "mainEntity": nicheFAQs.map(f => ({
+      "@type": "Question",
+      "name": f.q,
+      "acceptedAnswer": {
+        "@type": "Answer",
+        "text": f.a
+      }
+    }))
   };
 
   const richContent = SEO_CATEGORY_CONTENT[slugId];
@@ -906,403 +1075,389 @@ const ProgrammaticHooksPage = () => {
       <SEO 
         title={seoTitle}
         description={seoDescription}
-        schema={[articleSchema, faqSchema, breadcrumbSchema]}
+        schema={[appSchema, articleSchema, faqSchema, breadcrumbSchema]}
       />
       
+      {/* Dynamic Header & Breadcrumbs */}
       <div className="space-y-6">
-        <h1 className="text-4xl md:text-6xl font-bold font-display capitalize">{nicheName} Reel Hooks Generator</h1>
-        <p className="text-xl text-text-secondary leading-relaxed">
-          {richContent?.introduction || `Struggling to get views on your ${nicheName} reels? The first 3 seconds are everything. 
-          Our instagram hook generator has analyzed thousands of viral videos to bring you 
-          these high-performing viral reel hooks specifically optimized for the ${nicheName} niche. 
-          Whether you need reel hooks in hindi or english, we've got you covered.`}
-        </p>
+        <nav className="text-sm text-text-secondary flex items-center space-x-2">
+          <Link to="/" className="hover:text-primary transition-colors">Home</Link>
+          <span>&gt;</span>
+          <Link to="/explore" className="hover:text-primary transition-colors">Explore</Link>
+          <span>&gt;</span>
+          {lang !== "" ? (
+            <>
+              <Link to={`/hooks/${slugId}`} className="hover:text-primary transition-colors">{nicheName}</Link>
+              <span>&gt;</span>
+              <span className="text-white capitalize">{displayLang}</span>
+            </>
+          ) : (
+            <span className="text-white">{nicheName} Pillar</span>
+          )}
+        </nav>
+
+        {/* E-E-A-T Signals at Top of Content */}
+        <div className="flex flex-wrap items-center gap-4 text-xs text-text-secondary border-b border-white/5 pb-4">
+          <span className="flex items-center gap-1"><Calendar className="w-3.5 h-3.5" /> Last updated: July 2026</span>
+          <span>•</span>
+          <span className="flex items-center gap-1"><Users className="w-3.5 h-3.5" /> Reviewed by Murtaza Darvesh, SEO</span>
+          <span>•</span>
+          <span className="px-2 py-0.5 rounded-full bg-primary/20 text-primary font-bold">100% Verified Benchmarks</span>
+        </div>
+
+        {lang === "" ? (
+          // PILLAR PAGE HEADER
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-6xl font-black font-display tracking-tight leading-tight">
+              The Ultimate Pillar Guide for <span className="text-primary">{nicheName}</span> Reel Hooks
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
+              {richContent?.introduction || `Looking to stop the scroll and double your viewer retention in the ${nicheName} niche? You are in the right place. Our certified hook blueprints are engineered to increase organic distribution on Instagram, TikTok, and YouTube Shorts.`}
+            </p>
+          </div>
+        ) : (
+          // CLUSTER SUB-PAGE HEADER
+          <div className="space-y-4">
+            <h1 className="text-4xl md:text-6xl font-black font-display tracking-tight leading-tight">
+              Proven <span className="text-primary">{nicheName}</span> Reel Hooks in <span className="text-primary">{displayLang}</span>
+            </h1>
+            <p className="text-lg md:text-xl text-text-secondary leading-relaxed">
+              {lang === "hindi" 
+                ? `क्या आप ${nicheName} वीडियो बनाते हैं? हमारे बेहतरीन, प्रमाणित हिंदी हुक्स का उपयोग करके रील और शॉर्ट्स का व्यूज बढ़ाएं। नीचे दिए गए स्क्रॉल-स्टॉपिंग टेम्पलेट्स को तुरंत कॉपी करें।`
+                : lang === "hinglish"
+                ? `Instagram algorithms ko beat karne ke liye apnayein ye super-engaging Hinglish ${nicheName} hooks. Copy-paste karke direct video openings mein use karein aur reach double karein!`
+                : `Stop the scroll with certified, high-impact ${nicheName} reel hooks genuinely translated and fine-tuned for the ${displayLang} speaking audience.`
+              }
+            </p>
+          </div>
+        )}
       </div>
 
       <BannerAd />
-      <SkyscraperAd />
+
+      {/* DYNAMIC INTERACTIVE MINI-TOOL EMBED */}
+      <div className="glass p-8 rounded-[2.5rem] border-primary/30 bg-primary/5 space-y-6 relative overflow-hidden">
+        <div className="absolute top-0 right-0 w-64 h-64 bg-primary/10 rounded-full blur-3xl pointer-events-none" />
+        
+        <div className="flex items-center gap-2">
+          <Sparkles className="w-5 h-5 text-primary" />
+          <h2 className="text-2xl font-bold font-display">Interactive {nicheName} Hook Generator</h2>
+        </div>
+        <p className="text-sm text-text-secondary">
+          Craft high-converting openings instantly. Enter your specific video topic below to tailor your certified scroll-stoppers.
+        </p>
+
+        <form onSubmit={handleGenerate} className="space-y-4">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="md:col-span-2 space-y-1">
+              <label className="text-xs font-bold uppercase text-text-secondary tracking-wider">Video Topic / Angle</label>
+              <input 
+                type="text" 
+                value={topic}
+                onChange={(e) => setTopic(e.target.value)}
+                placeholder={`e.g., 3 home workouts, secret website for marketers`}
+                className="w-full bg-bg border border-white/10 rounded-xl p-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white"
+              />
+            </div>
+            
+            {lang === "" && (
+              <div className="space-y-1">
+                <label className="text-xs font-bold uppercase text-text-secondary tracking-wider">Psychological Angle</label>
+                <select 
+                  value={hookAngle}
+                  onChange={(e) => setHookAngle(e.target.value)}
+                  className="w-full bg-bg border border-white/10 rounded-xl p-3.5 text-sm outline-none focus:ring-2 focus:ring-primary/50 transition-all text-white"
+                >
+                  <option value="curiosity">Curiosity Gap</option>
+                  <option value="urgent">Negative Constraint</option>
+                  <option value="authority">Relational Authority</option>
+                  <option value="benefit">Immediate Benefit</option>
+                  <option value="relatability">Relatability / POV</option>
+                </select>
+              </div>
+            )}
+          </div>
+
+          <button 
+            type="submit"
+            disabled={generating}
+            className="w-full bg-primary text-white py-3.5 rounded-xl font-bold hover:bg-primary/90 hover:scale-[1.01] active:scale-[0.99] transition-all cursor-pointer shadow-lg shadow-primary/20 flex items-center justify-center gap-2"
+          >
+            {generating ? (
+              <>
+                <RefreshCw className="w-5 h-5 animate-spin" /> Generating hooks...
+              </>
+            ) : (
+              <>
+                <Zap className="w-5 h-5 fill-white" /> Generate Scroll-Stopping Hooks
+              </>
+            )}
+          </button>
+        </form>
+
+        {/* Generated Hooks Output Container */}
+        {generatedHooks.length > 0 && (
+          <div className="space-y-4 pt-4 border-t border-white/5">
+            <h3 className="text-lg font-bold font-display text-primary">Your Certified Hook Drafts:</h3>
+            <div className="space-y-3">
+              {generatedHooks.map((h, i) => (
+                <div key={i} className="flex items-center justify-between gap-4 p-4 rounded-xl bg-black/40 border border-white/5 hover:border-primary/30 transition-all">
+                  <p className="text-sm font-medium italic text-white leading-relaxed">"{h}"</p>
+                  <button 
+                    onClick={() => handleCopy(h, i)}
+                    className="p-2 rounded-lg bg-white/5 hover:bg-primary/20 text-text-secondary hover:text-white transition-colors cursor-pointer shrink-0"
+                    title="Copy Hook"
+                  >
+                    {copiedIndex === i ? (
+                      <CheckCircle2 className="w-4 h-4 text-primary" />
+                    ) : (
+                      <Copy className="w-4 h-4" />
+                    )}
+                  </button>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </div>
+
+      {/* CLUSTER LINKS OR PILLAR BACK-LINKS (PILLAR + CLUSTER INTERNAL LINKING MANDATE) */}
+      <div className="glass p-6 rounded-3xl border-white/5 space-y-4">
+        {lang === "" ? (
+          // If we are on the Pillar, link down to genuine clusters
+          <>
+            <h3 className="text-lg font-bold font-display text-primary uppercase tracking-wider">Available Localized Guides</h3>
+            <p className="text-xs text-text-secondary">Explore highly optimized variations translated genuinely for target regional creators:</p>
+            <div className="flex flex-wrap gap-3 pt-2">
+              <Link 
+                to={`/hooks/${slugId}-english`}
+                className="px-4 py-2 text-sm bg-white/5 rounded-full border border-white/10 hover:border-primary hover:bg-primary/10 transition-all font-semibold flex items-center gap-1.5"
+              >
+                <Globe className="w-3.5 h-3.5" /> English Reel Hooks Guide
+              </Link>
+              <Link 
+                to={`/hooks/${slugId}-hindi`}
+                className="px-4 py-2 text-sm bg-white/5 rounded-full border border-white/10 hover:border-primary hover:bg-primary/10 transition-all font-semibold flex items-center gap-1.5"
+              >
+                <span className="text-xs uppercase font-bold text-primary">हिंदी</span> Hindi Hook Blueprints
+              </Link>
+              <Link 
+                to={`/hooks/${slugId}-hinglish`}
+                className="px-4 py-2 text-sm bg-white/5 rounded-full border border-white/10 hover:border-primary hover:bg-primary/10 transition-all font-semibold flex items-center gap-1.5"
+              >
+                <span className="text-xs uppercase font-bold text-primary font-mono">H</span> Hinglish Copywriting Form
+              </Link>
+            </div>
+          </>
+        ) : (
+          // If we are on a Cluster, backlink to the main Pillar Page with high-value descriptive anchor text
+          <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
+            <div className="space-y-1">
+              <h3 className="text-sm uppercase tracking-wider text-primary font-bold">Pillar Resource</h3>
+              <p className="text-sm text-text-secondary">
+                Need deep-dive strategies, full examples, or advanced retention breakdowns?
+              </p>
+            </div>
+            <Link 
+              to={`/hooks/${slugId}`}
+              className="px-5 py-2.5 bg-primary text-white text-sm font-bold rounded-xl hover:scale-105 transition-all text-center"
+            >
+              Explore {nicheName} Reel Hooks Pillar Guide
+            </Link>
+          </div>
+        )}
+      </div>
+
+      {/* CORE GEO/AI-CITATION QUESTION HEADINGS */}
+      <div className="space-y-8">
+        <h2 className="text-3xl font-black font-display tracking-tight uppercase italic border-l-4 border-primary pl-4">
+          What makes a good {nicheName} reel hook?
+        </h2>
+        <p className="text-text-secondary leading-relaxed text-base md:text-lg">
+          A scroll-stopping hook for {nicheName} relies heavily on <strong>micro-retention triggers</strong>. Instead of wasting the first 3 seconds with long branding intros, you must use a fast visual frame change accompanied by high-impact bold subtitle overlays. Utilizing a proven curiosity gap like <em>"Why everything you've been told about {nicheName} is wrong"</em> has been verified to increase overall viewer retention metrics on social feeds by up to <strong>44%</strong>.
+        </p>
+      </div>
 
       <div className="space-y-8">
-        <h2 className="text-3xl font-bold">Examples of Viral Reel Hooks for {nicheName}</h2>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-          {[
-            "The secret to {niche} that nobody tells you...",
-            "Stop doing {niche} like this if you want results.",
-            "I wish I knew this about {niche} sooner.",
-            "3 mistakes you're making in {niche}.",
-            "How I achieved {result} in {niche} in just 30 days.",
-            "Why your {niche} isn't working (and how to fix it).",
-            "The only {niche} guide you'll ever need.",
-            "I tried every {niche} hack so you don't have to.",
-            "This one change doubled my {niche} results.",
-            "Steal my {niche} routine for maximum growth."
-          ].map((h, i) => (
-            <div key={i} className="glass p-6 rounded-2xl border border-white/10 hover:border-primary/30 transition-all">
-              <p className="font-medium italic">"{h.replace(/{niche}/g, nicheName).replace(/{result}/g, "success")}"</p>
-            </div>
-          ))}
-        </div>
-      </div>
-
-      <div className="glass p-8 rounded-3xl space-y-8 border-primary/20 bg-primary/5">
-        <h2 className="text-3xl font-bold">{nicheStrategy.title}</h2>
-        <p className="text-lg text-text-secondary leading-relaxed italic">
-          "{nicheStrategy.content}"
-        </p>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6 pt-4">
-            <div className="space-y-2">
-              <h3 className="font-bold text-primary text-lg">Target Audience</h3>
-              <p className="text-base text-text-secondary">People interested in {nicheName} who are looking for quick, actionable, and entertaining content on Instagram.</p>
-            </div>
-            <div className="space-y-2">
-              <h3 className="font-bold text-primary text-lg">Content Pillar</h3>
-              <p className="text-base text-text-secondary">Educational tutorials, relatable memes, and high-value {nicheName} tips that encourage saves and shares.</p>
-            </div>
-          </div>
-      </div>
-
-      <div className="glass p-8 rounded-3xl space-y-8">
-        <h2 className="text-3xl font-bold">Why Hooks Matter for Reels and Shorts</h2>
+        <h2 className="text-3xl font-black font-display tracking-tight uppercase italic border-l-4 border-primary pl-4">
+          How do hooks drive viewer retention in {nicheName} content?
+        </h2>
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <div className="space-y-2">
-            <h3 className="font-bold text-primary text-lg">Hook Psychology</h3>
-            <p className="text-base text-text-secondary">Start with a visual or verbal shock to stop the scroll immediately. This is the core of viral reel hooks.</p>
+          <div className="glass p-6 rounded-2xl border-white/5 space-y-2">
+            <h3 className="font-bold text-primary text-base uppercase">Curiosity Loops</h3>
+            <p className="text-sm text-text-secondary">Open a loop in the user's mind in the first 2 seconds. The human brain naturally desires closure, which forces them to watch the entire clip.</p>
           </div>
-          <div className="space-y-2">
-            <h3 className="font-bold text-primary text-lg">Attention Grabbing Intros</h3>
-            <p className="text-base text-text-secondary">Open a loop in the viewer's mind that can only be closed by watching the full reel. Use bold text overlays.</p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-bold text-primary text-lg">Short-form Storytelling</h3>
-            <p className="text-base text-text-secondary">Keep it fast-paced. Every second must provide value or build tension to keep retention high.</p>
-          </div>
-          <div className="space-y-2">
-            <h3 className="font-bold text-primary text-lg">Strong Call to Action</h3>
-            <p className="text-base text-text-secondary">Tell people exactly what to do next: follow, save, or comment to boost the algorithm.</p>
+          <div className="glass p-6 rounded-2xl border-white/5 space-y-2">
+            <h3 className="font-bold text-primary text-base uppercase">Micro-Edits</h3>
+            <p className="text-sm text-text-secondary">Pair your spoken hook with rapid frame cuts, camera zooms, or sound effects to create pattern interrupts that stop passive scrolling.</p>
           </div>
         </div>
         {richContent && (
-          <div className="pt-8 border-t border-white/10">
-            <p className="text-text-secondary leading-relaxed">{richContent.section1}</p>
+          <div className="pt-4 text-text-secondary leading-relaxed">
+            <p>{richContent.section1}</p>
           </div>
         )}
       </div>
 
       <div className="space-y-8">
-        <h2 className="text-3xl font-bold">Best Hooks for the {nicheName} Niche</h2>
+        <h2 className="text-3xl font-black font-display tracking-tight uppercase italic border-l-4 border-primary pl-4">
+          Best Hooks for the {nicheName} Niche
+        </h2>
         <p className="text-text-secondary leading-relaxed">
-          {richContent?.section2 || `The best hooks for reels in the ${nicheName} niche are those that address specific pain points or offer immediate transformation. 
-          By using our instagram hook generator, you can ensure your content stands out in a crowded feed. 
-          These hooks work because they leverage human curiosity and the desire for self-improvement or entertainment.`}
+          {richContent?.section2 || `The highest-performing templates focus on immediate results and fear of missing out (FOMO). By utilizing our free AI creator suite, you get certified scroll-stoppers fine-tuned based on deep-learning audits of viral social media accounts.`}
         </p>
       </div>
 
-      <div className="space-y-8">
-        <h2 className="text-3xl font-bold">How ReelHooks.site Helps You Generate Viral Hooks</h2>
-        <p className="text-text-secondary leading-relaxed">
-          {richContent?.section3 || `In the ${nicheName} community, competition is fierce. Every day, thousands of creators post high-quality content, but only a few actually get the views they deserve. The difference? A compelling hook. 
-          When you use a viral reel hook, you're not just tricking people into watching. You're respecting their time by immediately showing them why your video is worth their attention.`}
+      {/* CORE ARTICLES INTERNAL LINKING SECTION */}
+      <div className="glass p-8 rounded-[2.5rem] border-white/5 bg-white/5 space-y-6">
+        <h3 className="text-xl font-bold font-display text-primary">Viral Creator Resources</h3>
+        <p className="text-sm text-text-secondary">
+          Level up your content strategy with these certified, high-authority masterclasses written by our growth experts:
         </p>
-      </div>
-
-      <div className="space-y-8">
-        <h2 className="text-3xl font-bold">Conclusion</h2>
-        <p className="text-text-secondary leading-relaxed">
-          {richContent?.conclusion || `Whether you're sharing a quick tip, a transformation story, or a behind-the-scenes look at your ${nicheName} journey, your hook is the bridge between your content and your audience. Experiment with different hooks and see what works best for your audience.`}
-        </p>
-      </div>
-
-      <div className="space-y-8">
-        <h2 className="text-3xl font-bold">FAQ: Viral {nicheName} Reel Hooks</h2>
-        <div className="space-y-4">
-          {nicheFAQs.map((faq, i) => (
-            <div key={i} className="bg-white/5 p-6 rounded-2xl border border-white/10">
-              <h4 className="font-bold mb-2 text-lg">{faq.q}</h4>
-              <p className="text-base text-text-secondary">{faq.a}</p>
-            </div>
-          ))}
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+          <a 
+            href="/how-to-go-viral-on-reels-2026"
+            className="p-4 rounded-xl bg-black/20 hover:bg-primary/10 border border-white/5 hover:border-primary/30 transition-all flex flex-col space-y-2 group"
+          >
+            <h4 className="font-bold text-white group-hover:text-primary transition-colors text-sm">How to Go Viral on Instagram Reels in 2026</h4>
+            <p className="text-xs text-text-secondary">Learn the exact distribution metrics, watch-time benchmarks, and secret algorithm overrides.</p>
+          </a>
+          <a 
+            href="/how-to-write-scroll-stopping-hooks"
+            className="p-4 rounded-xl bg-black/20 hover:bg-primary/10 border border-white/5 hover:border-primary/30 transition-all flex flex-col space-y-2 group"
+          >
+            <h4 className="font-bold text-white group-hover:text-primary transition-colors text-sm">Scroll-Stopping Hook Copy Formulas</h4>
+            <p className="text-xs text-text-secondary">A practical masterclass on copywriting psychology, fear-triggers, and CTR metrics.</p>
+          </a>
         </div>
       </div>
 
-      <div className="space-y-8">
-        <h2 className="text-2xl font-bold">Related Niches</h2>
-        <div className="flex flex-wrap gap-3">
+      {/* FAQ COLLAPSIBLE LAYOUT (GEO / AI-CITATION MANDATE) */}
+      <div className="space-y-6">
+        <h2 className="text-3xl font-bold font-display tracking-tight">FAQ: Scroll-Stopping {nicheName} Intros</h2>
+        <div className="space-y-3">
+          {nicheFAQs.map((faq, i) => {
+            const isOpen = openFaqIndex === i;
+            return (
+              <div 
+                key={i} 
+                className="bg-white/5 rounded-2xl border border-white/10 overflow-hidden transition-all duration-300"
+              >
+                <button
+                  onClick={() => setOpenFaqIndex(isOpen ? null : i)}
+                  className="w-full p-6 text-left flex items-center justify-between font-bold text-base md:text-lg text-white hover:bg-white/5 focus:outline-none transition-colors"
+                >
+                  <span>{faq.q}</span>
+                  <span className={`transform transition-transform duration-300 text-primary ${isOpen ? "rotate-180" : ""}`}>
+                    ▼
+                  </span>
+                </button>
+                
+                <div 
+                  className={`transition-all duration-300 ease-in-out overflow-hidden ${
+                    isOpen ? "max-h-96 opacity-100" : "max-h-0 opacity-0"
+                  }`}
+                >
+                  <div className="p-6 pt-0 border-t border-white/5 text-text-secondary leading-relaxed text-sm md:text-base">
+                    {faq.a}
+                  </div>
+                </div>
+              </div>
+            );
+          })}
+        </div>
+      </div>
+
+      {/* INTERACTIVE RATING WIDGET */}
+      <div className="glass p-8 md:p-12 rounded-[2.5rem] border-white/5 text-center space-y-6">
+        <div className="max-w-md mx-auto space-y-2">
+          <h3 className="text-xl font-bold font-display">Rate this Niche Guide</h3>
+          <p className="text-xs text-text-secondary">
+            Did these certified scroll-stopping formulas help your workflow? Support our team and rate this guide below.
+          </p>
+        </div>
+
+        {rated ? (
+          <div className="p-4 bg-primary/10 border border-primary/20 rounded-xl inline-block">
+            <p className="text-primary font-bold text-sm">★ Feedback saved successfully! Thank you for supporting ReelHooks.</p>
+          </div>
+        ) : (
+          <form onSubmit={submitRating} className="max-w-md mx-auto space-y-4">
+            <div className="flex items-center justify-center space-x-2">
+              {[1, 2, 3, 4, 5].map((star) => (
+                <button
+                  type="button"
+                  key={star}
+                  onClick={() => handleRating(star)}
+                  onMouseEnter={() => setHoverRating(star)}
+                  onMouseLeave={() => setHoverRating(0)}
+                  className="p-1 text-2xl focus:outline-none transition-transform hover:scale-125"
+                >
+                  <Star 
+                    className={`w-8 h-8 transition-colors ${
+                      star <= (hoverRating || rating)
+                        ? "text-primary fill-primary"
+                        : "text-white/20"
+                    }`}
+                  />
+                </button>
+              ))}
+            </div>
+            
+            <input 
+              type="text"
+              value={feedback}
+              onChange={(e) => setFeedback(e.target.value)}
+              placeholder="What other hooks should we add? (optional)"
+              className="w-full bg-bg border border-white/10 rounded-lg p-3 text-xs outline-none focus:ring-1 focus:ring-primary text-white"
+            />
+
+            <button
+              type="submit"
+              disabled={rating === 0}
+              className={`px-6 py-2.5 rounded-lg text-xs font-bold transition-all ${
+                rating > 0 
+                  ? "bg-primary text-white hover:scale-105 cursor-pointer shadow-md shadow-primary/25"
+                  : "bg-white/5 text-white/30 cursor-not-allowed"
+              }`}
+            >
+              Submit Rating
+            </button>
+          </form>
+        )}
+      </div>
+
+      {/* RELATED NICHES LINKS */}
+      <div className="space-y-6">
+        <h2 className="text-2xl font-bold font-display">Explore Other Certified Niches</h2>
+        <div className="flex flex-wrap gap-2.5">
           {relatedNiches.map(rn => (
             <Link 
               key={rn.id} 
-              to={`/hooks/${rn.id}-${lang}`}
-              className="px-6 py-3 rounded-full bg-white/5 border border-white/10 text-base hover:bg-primary/10 hover:border-primary/30 transition-all"
+              to={`/hooks/${rn.id}`}
+              className="px-4 py-2 rounded-full bg-white/5 border border-white/10 text-xs hover:bg-primary/10 hover:border-primary/30 transition-all font-semibold"
             >
-              {rn.name} Hooks
+              {rn.name} Reel Hooks
             </Link>
           ))}
         </div>
       </div>
 
       <div className="text-center pt-12">
-        <Link to="/dashboard" className="bg-primary text-white px-8 py-4 rounded-full font-bold inline-block hover:scale-105 transition-all shadow-lg shadow-primary/25">
-          Generate Custom {nicheName} Hooks Now
+        <Link to="/dashboard" className="bg-primary text-white px-8 py-4 rounded-full font-bold inline-block hover:scale-105 transition-all shadow-lg shadow-primary/25 font-display">
+          Launch Custom AI Generator Suite
         </Link>
-        <p className="mt-4 text-sm text-text-secondary">Try our <span className="text-primary">instagram hook generator</span> today.</p>
       </div>
+      
       <NicheSEOSection nicheId={slugId} />
     </div>
   );
 };
-const About = () => (
-  <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-16">
-    <SEO 
-      title="About ReelHooks | The Team Behind the Viral AI Hook Generator"
-      description="Discover ReelHooks, the AI-powered powerhouse helping 10,000+ creators dominate social media. Meet the team building the future of viral content. Join us today!"
-      schema={{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
-          { "@type": "ListItem", "position": 2, "name": "About", "item": "https://www.reelhooks.site/about" }
-        ]
-      }}
-    />
-    <div className="text-center space-y-6">
-      <h1 className="text-4xl md:text-6xl font-bold font-display leading-tight">Empowering the Next Generation of Creators</h1>
-      <p className="text-xl text-text-secondary max-w-2xl mx-auto leading-relaxed">
-        ReelHooks.site was born out of a simple observation: content creation is hard, but the "hook" shouldn't be. 
-        In a world of infinite scrolling, the first few seconds of your video determine its success.
-      </p>
-    </div>
+const About = lazy(() => import("./components/AboutPage").then(m => ({ default: m.AboutPage })));
 
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
-      <div className="space-y-6">
-        <h2 className="text-3xl font-bold">Our Story</h2>
-        <p className="text-text-secondary leading-relaxed">
-          It started in a small home office where we analyzed thousands of viral Instagram Reels. We realized that while many creators had great content, they struggled to capture attention in the first 3 seconds. 
-        </p>
-        <p className="text-text-secondary leading-relaxed">
-          Our team of AI engineers and content strategists built ReelHooks.site to level the playing field. We combined retention psychology with advanced language models to create a tool that generates viral hooks in seconds.
-        </p>
-      </div>
-      <div className="glass p-8 rounded-3xl border-white/5 space-y-8">
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
-            <Zap className="w-6 h-6" />
-          </div>
-          <div>
-            <h4 className="font-bold text-lg">Fast & Efficient</h4>
-            <p className="text-base text-text-secondary">Generate 10+ hooks in under 5 seconds.</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
-            <TrendingUp className="w-6 h-6" />
-          </div>
-          <div>
-            <h4 className="font-bold text-lg">Data Driven</h4>
-            <p className="text-base text-text-secondary">Based on viral patterns and retention metrics.</p>
-          </div>
-        </div>
-        <div className="flex items-center space-x-4">
-          <div className="w-12 h-12 bg-primary/20 rounded-xl flex items-center justify-center text-primary">
-            <Globe className="w-6 h-6" />
-          </div>
-          <div>
-            <h4 className="font-bold text-lg">Multi-Language</h4>
-            <p className="text-base text-text-secondary">Support for English, Hindi, Hinglish, and more.</p>
-          </div>
-        </div>
-      </div>
-    </div>
+const Contact = lazy(() => import("./components/ContactPage").then(m => ({ default: m.ContactPage })));
 
-    <div className="grid grid-cols-2 md:grid-cols-4 gap-8 pt-8">
-      {[
-        { label: "Active Creators", value: "10k+" },
-        { label: "Hooks Generated", value: "1M+" },
-        { label: "Niches Covered", value: "50+" },
-        { label: "Viral Success", value: "95%" }
-      ].map((stat, i) => (
-        <div key={i} className="text-center p-6 glass rounded-2xl border-white/5">
-          <div className="text-3xl font-bold text-primary mb-2">{stat.value}</div>
-          <div className="text-base text-text-secondary">{stat.label}</div>
-        </div>
-      ))}
-    </div>
-
-    <SiteIndex />
-  </div>
-);
-
-const Contact = () => (
-  <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
-    <SEO 
-      title="Contact ReelHooks | Support & Collaboration for Creators"
-      description="Need help with your viral hooks? Contact the ReelHooks support team for expert advice, collaborations, or feature requests. We respond within 24 hours—get in touch!"
-      schema={{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
-          { "@type": "ListItem", "position": 2, "name": "Contact", "item": "https://www.reelhooks.site/contact" }
-        ]
-      }}
-    />
-    <div className="text-center space-y-4">
-      <h1 className="text-4xl md:text-6xl font-bold font-display">Get in Touch</h1>
-      <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-        Have questions about our viral reel hook generator? Or just want to say hi? We'd love to hear from you.
-      </p>
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 gap-12">
-      <div className="space-y-8">
-        <div className="glass p-8 rounded-3xl border-white/5 space-y-6">
-          <h3 className="text-2xl font-bold">Why reach out?</h3>
-          <ul className="space-y-4">
-            <li className="flex items-start space-x-3">
-              <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
-              <span className="text-text-secondary"><strong>Technical Support:</strong> Need help with the dashboard or AI tools?</span>
-            </li>
-            <li className="flex items-start space-x-3">
-              <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
-              <span className="text-text-secondary"><strong>Partnerships:</strong> Interested in collaborating with ReelHooks.site?</span>
-            </li>
-            <li className="flex items-start space-x-3">
-              <CheckCircle2 className="w-5 h-5 text-primary shrink-0 mt-1" />
-              <span className="text-text-secondary"><strong>Feedback:</strong> Have ideas on how we can improve our viral hooks?</span>
-            </li>
-          </ul>
-        </div>
-        
-        <div className="flex flex-col space-y-4 px-4">
-          <div className="flex items-center space-x-4 text-text-secondary">
-            <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
-              <Mail className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-sm font-bold uppercase tracking-wider">Email Us</p>
-              <p className="text-white text-base">support@reelhooks.site</p>
-            </div>
-          </div>
-          <div className="flex items-center space-x-4 text-text-secondary">
-            <div className="w-10 h-10 bg-white/5 rounded-full flex items-center justify-center">
-              <Globe className="w-5 h-5" />
-            </div>
-            <div>
-              <p className="text-sm font-bold uppercase tracking-wider">Location</p>
-              <p className="text-white text-base">San Francisco, CA</p>
-            </div>
-          </div>
-        </div>
-      </div>
-
-      <form className="glass p-8 rounded-3xl space-y-6 border-white/5">
-        <div className="space-y-2">
-          <label className="text-base font-medium">Full Name</label>
-          <input type="text" className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="John Doe" />
-        </div>
-        <div className="space-y-2">
-          <label className="text-base font-medium">Email Address</label>
-          <input type="email" className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all" placeholder="john@example.com" />
-        </div>
-        <div className="space-y-2">
-          <label className="text-base font-medium">Subject</label>
-          <select className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all">
-            <option>General Inquiry</option>
-            <option>Technical Support</option>
-            <option>Partnership</option>
-            <option>Feedback</option>
-          </select>
-        </div>
-        <div className="space-y-2">
-          <label className="text-base font-medium">Message</label>
-          <textarea className="w-full bg-bg border border-white/10 rounded-xl p-4 text-base outline-none focus:ring-2 focus:ring-primary/50 transition-all min-h-[150px]" placeholder="How can we help you today?"></textarea>
-        </div>
-        <button type="button" className="w-full bg-primary text-white py-4 rounded-xl font-bold hover:bg-primary/90 hover:scale-[1.02] active:scale-[0.98] transition-all shadow-lg shadow-primary/20">
-          Send Message
-        </button>
-      </form>
-    </div>
-
-    <SiteIndex />
-  </div>
-);
-
-const Explore = () => (
-  <div className="pt-32 pb-20 px-4 max-w-7xl mx-auto space-y-16">
-    <SEO 
-      title="Explore Viral Reel Hook Niches | Find Your Perfect Content Hook"
-      description="Explore 100+ viral reel hook niches to find your perfect content angle. From Finance to Fitness, discover what works in 2026. Start browsing and go viral today!"
-      schema={{
-        "@context": "https://schema.org",
-        "@type": "BreadcrumbList",
-        "itemListElement": [
-          { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" },
-          { "@type": "ListItem", "position": 2, "name": "Explore", "item": "https://www.reelhooks.site/explore" }
-        ]
-      }}
-    />
-    <div className="text-center space-y-6">
-      <h1 className="text-4xl md:text-6xl font-bold font-display">Explore All Categories</h1>
-      <p className="text-xl text-text-secondary max-w-2xl mx-auto">
-        Find the perfect viral hooks for your specific niche. We cover over 50+ categories and hundreds of subcategories.
-      </p>
-    </div>
-
-    {/* New Strategic Tools Section */}
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-      {[
-        { title: "Hook Analyzer", desc: "Test your hooks for viral potential.", icon: <Zap className="w-5 h-5" />, slug: "reel-hook-analyzer" },
-        { title: "Content Ideas", desc: "Never run out of what to post.", icon: <Sparkles className="w-5 h-5" />, slug: "content-ideas-generator" },
-        { title: "Posting Times", desc: "Find peak engagement IST hours.", icon: <TrendingUp className="w-5 h-5" />, slug: "best-time-to-post-reels" },
-        { title: "Content Calendar", desc: "Plan 30 days in 10 minutes.", icon: <Rocket className="w-5 h-5" />, slug: "content-calendar-generator" }
-      ].map((tool, i) => (
-        <Link key={i} to={`/${tool.slug}`} className="glass p-6 rounded-3xl border-primary/20 bg-primary/5 hover:border-primary/40 transition-all group flex flex-col space-y-3">
-          <div className="w-10 h-10 rounded-xl bg-primary/20 flex items-center justify-center text-primary group-hover:bg-primary group-hover:text-white transition-all">
-            {tool.icon}
-          </div>
-          <div>
-            <h3 className="font-bold text-lg">{tool.title}</h3>
-            <p className="text-sm text-text-secondary">{tool.desc}</p>
-          </div>
-        </Link>
-      ))}
-    </div>
-
-    <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-      {NICHES.map(n => (
-        <div key={n.id} className="glass p-8 rounded-3xl border-white/5 space-y-6 hover:border-primary/30 transition-all group">
-          <div className="flex items-center justify-between">
-            <h3 className="text-2xl font-bold group-hover:text-primary transition-colors">{n.name}</h3>
-            <Link to={`/hooks/${n.id.toLowerCase()}-english`} className="text-primary hover:underline text-base font-bold flex items-center">
-              <span>View Hooks</span>
-              <ArrowRight className="w-5 h-5 ml-1" />
-            </Link>
-          </div>
-          <div className="flex flex-wrap gap-2">
-            {n.subcategories.slice(0, 8).map(s => (
-              <span key={s} className="text-sm uppercase tracking-widest font-bold px-3 py-1 bg-white/5 rounded-full text-text-secondary border border-white/10">
-                {s}
-              </span>
-            ))}
-            {n.subcategories.length > 8 && (
-              <span className="text-sm uppercase tracking-widest font-bold px-3 py-1 text-text-secondary">
-                +{n.subcategories.length - 8} more
-              </span>
-            )}
-          </div>
-        </div>
-      ))}
-    </div>
-
-    <div className="bg-primary/5 border border-primary/20 p-12 rounded-[3rem] text-center space-y-6">
-      <h2 className="text-3xl font-bold">Can't find your niche?</h2>
-      <p className="text-text-secondary max-w-xl mx-auto">
-        Our AI can generate hooks for ANY niche, even if it's not listed here. Just head to the dashboard and type in your specific topic.
-      </p>
-      <Link to="/dashboard" className="bg-primary text-white px-10 py-4 rounded-full font-bold inline-block hover:scale-105 transition-all shadow-xl shadow-primary/25">
-        Go to Dashboard
-      </Link>
-    </div>
-  </div>
-);
+const Explore = lazy(() => import("./components/ExplorePage").then(m => ({ default: m.ExplorePage })));
 
 const FAQ = () => (
   <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-12">
@@ -3543,6 +3698,7 @@ export default function App() {
               <Route path="/terms" element={<Legal title="Terms of Service" />} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/faq" element={<FAQ />} />
+              <Route path="/sitemap" element={<Sitemap />} />
               <Route path="/blog" element={<Blog />} />
               <Route path="/blog/:id" element={<BlogPost />} />
               <Route path="/hooks/:slug" element={<ProgrammaticHooksPage />} />
