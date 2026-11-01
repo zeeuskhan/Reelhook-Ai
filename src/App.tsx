@@ -1,8 +1,6 @@
 import React, { useState, useEffect, useMemo, lazy, Suspense } from "react";
-import confetti from "canvas-confetti";
 import { BrowserRouter as Router, Routes, Route, Link, useLocation, useParams } from "react-router-dom";
 import { HelmetProvider, Helmet } from "react-helmet-async";
-import { NicheSEOSection } from "./components/NicheSEOSection";
 import { 
   Sparkles, 
   Search, 
@@ -157,13 +155,13 @@ export const SEO = ({
 
 // --- Constants & Data ---
 import { NICHES, type Niche } from "./data/niches";
-import { SEO_CATEGORY_CONTENT } from "./data/seoContent";
-import { SEO_ARTICLES } from "./data/seoArticles";
 import BannerAd from "./components/BannerAd";
 import PopupAd from "./components/PopupAd";
 import FooterAd from "./components/FooterAd";
 import SkyscraperAd from "./components/SkyscraperAd";
 
+const NicheSEOSection = lazy(() => import("./components/NicheSEOSection").then(m => ({ default: m.NicheSEOSection })));
+const TemplateLibrary = lazy(() => import("./components/TemplateLibrary"));
 const ToolSEOPage = lazy(() => import("./components/ToolSEOPage"));
 const SEOArticlePage = lazy(() => import("./components/SEOArticlePage"));
 const AINewsIndex = lazy(() => import("./components/AINewsIndex"));
@@ -195,8 +193,6 @@ interface Hook {
 }
 
 // --- AI Service ---
-import { generateHooksAI, generateExtraAI } from "./services/ai";
-import TemplateLibrary from "./components/TemplateLibrary";
 
 // --- Components ---
 
@@ -621,15 +617,13 @@ const ProgrammaticHooksPage = () => {
       setGenerating(false);
 
       // Trigger micro-confetti on successful generation
-      try {
-        confetti({
+      import("canvas-confetti")
+        .then(({ default: confetti }) => confetti({
           particleCount: 40,
           spread: 60,
           origin: { y: 0.8 }
-        });
-      } catch (e) {
-        console.log(e);
-      }
+        }))
+        .catch((error) => console.warn("Confetti effect unavailable:", error));
     }, 600);
   };
 
@@ -650,15 +644,13 @@ const ProgrammaticHooksPage = () => {
     localStorage.setItem(`rating_hooks_${slug}`, JSON.stringify({ rating, feedback }));
     setRated(true);
     
-    try {
-      confetti({
+    import("canvas-confetti")
+      .then(({ default: confetti }) => confetti({
         particleCount: 100,
         spread: 70,
         origin: { y: 0.8 }
-      });
-    } catch (e) {
-      console.log(e);
-    }
+      }))
+      .catch((error) => console.warn("Confetti effect unavailable:", error));
   };
 
   const relatedNiches = useMemo(() => {
@@ -777,7 +769,18 @@ const ProgrammaticHooksPage = () => {
     }))
   };
 
-  const richContent = SEO_CATEGORY_CONTENT[slugId];
+  const [richContent, setRichContent] = useState<any>(null);
+
+  useEffect(() => {
+    let isActive = true;
+    import("./data/seoContent").then(({ SEO_CATEGORY_CONTENT }) => {
+      if (isActive) setRichContent(SEO_CATEGORY_CONTENT[slugId] || null);
+    }).catch((error) => {
+      console.error("Unable to load niche SEO content:", error);
+      if (isActive) setRichContent(null);
+    });
+    return () => { isActive = false; };
+  }, [slugId]);
 
   return (
     <div className="pt-32 pb-20 px-4 max-w-4xl mx-auto space-y-16">
@@ -2170,6 +2173,7 @@ const Dashboard = () => {
 
   const handleExtra = async (type: "caption" | "hashtags" | "script" | "ideas" | "improve" | "analyze" | "angle" | "time" | "calendar", context: string) => {
     setModal({ isOpen: true, title: `Generating ${type}...`, content: <div className="flex justify-center py-12"><RefreshCw className="animate-spin w-8 h-8 text-primary" /></div> });
+    const { generateExtraAI } = await import("./services/ai");
     const result = await generateExtraAI(type as any, context);
     
     let content = null;
@@ -2298,6 +2302,7 @@ const Dashboard = () => {
   const handleGenerateIdeas = async () => {
     setIsGenerating(true);
     try {
+      const { generateExtraAI } = await import("./services/ai");
       const result = await generateExtraAI("ideas", niche.name);
       setIdeas(result.ideas || []);
     } catch (err) {
@@ -2311,6 +2316,7 @@ const Dashboard = () => {
     if (!improveInput) return;
     setIsGenerating(true);
     try {
+      const { generateExtraAI } = await import("./services/ai");
       const result = await generateExtraAI("improve", improveInput);
       setImprovedHooks(result.variations || []);
     } catch (err) {
@@ -2355,6 +2361,7 @@ const Dashboard = () => {
     }
 
     try {
+      const { generateHooksAI } = await import("./services/ai");
       const results = await generateHooksAI(targetNiche, targetSub, lang, tone, platform);
       
       if (results.length === 0) {
