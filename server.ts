@@ -21,19 +21,22 @@ const REDIRECT_MAP: Record<string, string> = {
   "reels-hook-generator": "/",
   "reel-hook": "/",
   "best-viral-hook": "/",
-  // Restaurant / spam menus
-  "hook-and-reel-menu": "/",
-  "hook-and-reel-restaurant-menu": "/",
-  "hook-reel-cajun-seafood-bar-el-paso-menu": "/",
-  "hook-and-reel-linden": "/",
-  "hook-reel-cajun-seafood-bar-overland-park-menu": "/",
-  "hook-reel-cajun-seafood-bar-austin-menu": "/",
-  "hook-reel-cajun-seafood-bar-middletown-menu": "/",
-  "hook-reel-cajun-seafood-bar-wichita-menu": "/",
-  "hook-and-reel-cajun-seafood-and-bar-sacramento-menu": "/",
-  "hook-reel-cajun-seafood-bar-killeen-menu": "/",
-  "hooker-electric-80wa-fishing-reel": "/",
-  "hook-and-reel-gift-cards-promo-codes-calories": "/"
+};
+
+// Legacy unrelated/spam URLs should be retired, not redirected to the homepage (soft-404).
+const GONE_PATHS = new Set([
+  "hook-and-reel-menu",
+  "hook-and-reel-restaurant-menu",
+  "hook-reel-cajun-seafood-bar-el-paso-menu",
+  "hook-and-reel-linden",
+  "hook-reel-cajun-seafood-bar-overland-park-menu",
+  "hook-reel-cajun-seafood-bar-austin-menu",
+  "hook-reel-cajun-seafood-bar-middletown-menu",
+  "hook-reel-cajun-seafood-bar-wichita-menu",
+  "hook-and-reel-cajun-seafood-and-bar-sacramento-menu",
+  "hook-reel-cajun-seafood-bar-killeen-menu",
+  "hooker-electric-80wa-fishing-reel",
+  "hook-and-reel-gift-cards-promo-codes-calories"
 };
 
 export function isTier1Url(cleanPath: string): boolean {
@@ -738,6 +741,9 @@ async function startServer() {
   // Redirect Middleware for Consolidated/Duplicate/Unrelated spammey URLs
   app.use((req, res, next) => {
     const cleanPath = req.path.replace(/^\/|\/$/g, ""); // strip leading/trailing slashes
+    if (GONE_PATHS.has(cleanPath)) {
+      return res.status(410).send("This page has been permanently removed.");
+    }
     if (REDIRECT_MAP[cleanPath]) {
       return res.redirect(301, REDIRECT_MAP[cleanPath]);
     }
