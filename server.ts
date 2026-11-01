@@ -11,7 +11,7 @@ import { BLOG_POSTS } from "./src/data/blog.ts";
 import { enhanceArticleContentAndInterlink } from "./src/utils/seoHelper.ts";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);
+const __dirname = path.dirname(__filename);\nconst projectRoot = process.env.VERCEL ? process.cwd() : __dirname;
 
 // Shared Express application for both local hosting and Vercel serverless.
 const app = express();
@@ -881,12 +881,12 @@ ${urlBlocks}
     });
   } else {
     // Serve static files in production with index fallback disabled
-    app.use(express.static(path.join(__dirname, "dist"), { index: false }));
+    app.use(express.static(path.join(projectRoot, "dist"), { index: false }));
     
     app.get("*", (req, res) => {
       const url = req.path;
       try {
-        const indexHtml = fs.readFileSync(path.join(__dirname, "dist", "index.html"), "utf-8");
+        const indexHtml = fs.readFileSync(path.join(projectRoot, "dist", "index.html"), "utf-8");
         const finalHtml = renderSeoHtml(url, indexHtml);
         res.status(200).set({ "Content-Type": "text/html" }).send(finalHtml);
       } catch (e) {
