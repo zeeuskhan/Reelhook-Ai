@@ -36,7 +36,7 @@ const REDIRECT_MAP: Record<string, string> = {
   "hook-and-reel-gift-cards-promo-codes-calories": "/"
 };
 
-function isTier1Url(cleanPath: string): boolean {
+export function isTier1Url(cleanPath: string): boolean {
   if (cleanPath === "/" || cleanPath === "") return true;
 
   const exactTier1Paths = [
@@ -74,11 +74,19 @@ function isTier1Url(cleanPath: string): boolean {
     return whitelistedTools.includes(slug);
   }
 
-  // Check if it is a main niche pillar page (WITHOUT language suffix, e.g. /hooks/fitness)
+  // Main niche and subcategory pages may use an optional language suffix.
   if (cleanPath.startsWith("/hooks/")) {
     const slug = cleanPath.replace("/hooks/", "").toLowerCase();
-    // Must match exactly one of our niche IDs in NICHES
-    return NICHES.some(n => n.id.toLowerCase() === slug);
+    const parts = slug.split("-");
+    const supportedLanguages = new Set(["english", "hindi", "hinglish", "spanish", "french"]);
+    const lastPart = parts[parts.length - 1];
+    const baseSlug = supportedLanguages.has(lastPart) ? parts.slice(0, -1).join("-") : slug;
+    return NICHES.some(n =>
+      n.id.toLowerCase() === baseSlug ||
+      n.subcategories.some(sub =>
+        sub.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") === baseSlug
+      )
+    );
   }
 
   // Check if it is one of our premium articles served at /:slug
@@ -108,7 +116,7 @@ function isTier1Url(cleanPath: string): boolean {
 }
 
 // Pre-rendering wrapper function for SEO
-function renderSeoHtml(urlPath: string, html: string): string {
+export function renderSeoHtml(urlPath: string, html: string): string {
   const cleanPath = urlPath.split("?")[0].split("#")[0];
 
   let title = "Reel Hook Generator: Get Free Scroll-Stopping Reel Hooks (2026)";
@@ -122,8 +130,10 @@ function renderSeoHtml(urlPath: string, html: string): string {
   if (hooksMatch) {
     const slug = hooksMatch[1];
     const parts = slug.split("-");
-    const lang = parts.pop() || "english";
-    const slugId = parts.join("-");
+    const supportedLanguages = new Set(["english", "hindi", "hinglish", "spanish", "french"]);
+    const lastPart = parts[parts.length - 1];
+    const lang = supportedLanguages.has(lastPart) ? (parts.pop() || "english") : "english";
+    const slugId = parts.join("-") || slug;
 
     const main = NICHES.find(n => n.id === slugId);
     let name = slugId.charAt(0).toUpperCase() + slugId.slice(1);
@@ -696,7 +706,16 @@ function renderSeoHtml(urlPath: string, html: string): string {
   }
 
   if (bodyContent) {
-    revised = revised.replace(/<div id="root">([\s\S]*?)<\/div>/, `<div id="root">${bodyContent}</div>`);
+    const rootStart = revised.indexOf('<div id="root">');
+    const moduleScriptStart = revised.indexOf('<script type="module"', rootStart);
+    const rootEnd = moduleScriptStart >= 0
+      ? revised.lastIndexOf("</div>", moduleScriptStart)
+      : revised.lastIndexOf("</div>");
+    if (rootStart >= 0 && rootEnd > rootStart) {
+      revised = revised.slice(0, rootStart) +
+        \`<div id="root">\${bodyContent}</div>\` +
+        revised.slice(rootEnd + "</div>".length);
+    }
   }
 
   if (schemasArray.length > 0) {
@@ -881,4 +900,7 @@ ${urlBlocks}
   });
 }
 
-startServer();
+// Do not start Express when this module is imported by the prerender build script.
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  startServer();
+}
