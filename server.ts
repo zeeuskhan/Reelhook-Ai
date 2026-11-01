@@ -37,7 +37,7 @@ const GONE_PATHS = new Set([
   "hook-reel-cajun-seafood-bar-killeen-menu",
   "hooker-electric-80wa-fishing-reel",
   "hook-and-reel-gift-cards-promo-codes-calories"
-};
+]);
 
 export function isTier1Url(cleanPath: string): boolean {
   if (cleanPath === "/" || cleanPath === "") return true;
