@@ -219,299 +219,7 @@ const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose:
   <AnimatePresence>
     {isOpen && (
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          exit={{ opacity: 0 }}
-          onClick={onClose}
-          className="absolute inset-0 bg-bg/80 backdrop-blur-sm"
-        />
-        <motion.div 
-          initial={{ opacity: 0, scale: 0.95, y: 20 }}
-          animate={{ opacity: 1, scale: 1, y: 0 }}
-          exit={{ opacity: 0, scale: 0.95, y: 20 }}
-          className="relative glass w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-3xl flex flex-col"
-        >
-          <div className="p-6 border-b border-white/10 flex justify-between items-center">
-            <h3 className="text-xl font-bold font-display">{title}</h3>
-            <button onClick={onClose} className="text-text-secondary hover:text-white transition-colors cursor-pointer">
-              <X className="w-6 h-6" />
-            </button>
-          </div>
-          <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
-            {children}
-          </div>
-        </motion.div>
-      </div>
-    )}
-  </AnimatePresence>
-);
-
-const CopyButton = ({ text, className, onCopy }: { text: string, className?: string, onCopy?: () => void }) => {
-  const [copied, setCopied] = useState(false);
-
-  const handleCopy = async () => {
-    try {
-      await navigator.clipboard.writeText(text);
-      setCopied(true);
-      trackEvent("copy_hook", { text_length: text.length });
-      if (onCopy) onCopy();
-      setTimeout(() => setCopied(false), 2000);
-    } catch (err) {
-      console.error("Failed to copy:", err);
-    }
-  };
-
-  return (
-    <button 
-      onClick={handleCopy}
-      data-action="copy"
-      className={cn("p-2 rounded-lg transition-all cursor-pointer", className)}
-      title="Copy to clipboard"
-    >
-      {copied ? <CheckCircle2 className="w-5 h-5 text-green-400" /> : <Copy className="w-5 h-5" />}
-    </button>
-  );
-};
-
-const Navbar = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  return (
-    <nav className="fixed top-0 left-0 right-0 z-50 glass border-b border-white/10">
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="flex justify-between h-16 items-center">
-          <Link to="/" className="flex items-center">
-            <img 
-              src="https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy" 
-              alt="ReelHooks Logo" 
-              className="h-10 w-auto"
-              referrerPolicy="no-referrer"
-              loading="lazy"
-            />
-          </Link>
-          
-          <div className="hidden md:flex items-center space-x-8">
-            <Link to="/tools/hook-generator" className="text-text-secondary hover:text-white transition-colors">Hook Generator</Link>
-            <Link to="/ai-tools-news" className="text-text-secondary hover:text-white transition-colors font-bold text-primary">AI News 2026</Link>
-            <Link to="/explore" className="text-text-secondary hover:text-white transition-colors">Free Tools</Link>
-            <Link to="/blog" className="text-text-secondary hover:text-white transition-colors font-semibold">Viral Blog</Link>
-            <Link to="/dashboard" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-primary/20">
-              Go Viral Now
-            </Link>
-          </div>
-
-          <button onClick={() => setIsOpen(!isOpen)} className="md:hidden text-text-secondary">
-            {isOpen ? <X /> : <Menu />}
-          </button>
-        </div>
-      </div>
-      
-      <AnimatePresence>
-        {isOpen && (
-          <motion.div 
-            initial={{ opacity: 0, y: -20 }}
-            animate={{ opacity: 1, y: 0 }}
-            exit={{ opacity: 0, y: -20 }}
-            className="md:hidden glass border-b border-white/10 px-4 py-6 space-y-4"
-          >
-          <Link to="/tools/hook-generator" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Hook Generator</Link>
-          <Link to="/ai-tools-news" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>AI News</Link>
-          <Link to="/explore" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Explore</Link>
-          <Link to="/blog" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Blog</Link>
-          <Link to="/about" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>About</Link>
-          <Link to="/dashboard" className="block bg-primary text-white px-5 py-4 rounded-full text-center font-bold text-lg" onClick={() => setIsOpen(false)}>Launch App</Link>
-          </motion.div>
-        )}
-      </AnimatePresence>
-    </nav>
-  );
-};
-
-const Footer = () => (
-  <footer className="bg-bg border-t border-white/5 py-12">
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-8">
-        <div className="space-y-4">
-          <Link to="/" className="flex items-center">
-            <img 
-              src="https://lh3.googleusercontent.com/d/1Yv39bPRG3c5koN20sCuYeMRPS_Id23oy" 
-              alt="ReelHooks Logo" 
-              className="h-8 w-auto"
-              referrerPolicy="no-referrer"
-              loading="lazy"
-            />
-          </Link>
-          <p className="text-text-secondary text-base">
-            AI-powered hooks that stop scrolling and boost engagement for creators worldwide.
-          </p>
-          <div className="flex space-x-4 pt-2">
-            <a href="https://instagram.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
-              <Instagram className="w-5 h-5" />
-            </a>
-            <a href="https://twitter.com/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
-              <Twitter className="w-5 h-5" />
-            </a>
-            <a href="https://youtube.com/@reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
-              <Youtube className="w-5 h-5" />
-            </a>
-            <a href="https://linkedin.com/company/reelhooks" target="_blank" rel="noopener noreferrer" className="text-text-secondary hover:text-primary transition-colors">
-              <Linkedin className="w-5 h-5" />
-            </a>
-          </div>
-
-          {/* Premium Creator & Designer Card */}
-          <div className="mt-6 p-4 rounded-2xl bg-gradient-to-br from-indigo-950/40 to-slate-900/40 border border-white/10 space-y-2">
-            <div className="flex items-center gap-2">
-              <span className="flex h-2 w-2 relative">
-                <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                <span className="relative inline-flex rounded-full h-2 w-2 bg-primary"></span>
-              </span>
-              <span className="text-white font-extrabold tracking-wider text-xs uppercase">
-                Creator & Architect
-              </span>
-            </div>
-            <div className="text-lg font-black tracking-tight text-white font-display">
-              Murtaza Darvesh
-            </div>
-            <p className="text-xs text-text-secondary leading-relaxed font-medium">
-              This entire platform, including all UI/UX layouts, product aesthetics, and core codebases, was entirely handcrafted by Murtaza Darvesh.
-            </p>
-          </div>
-        </div>
-        <div className="space-y-4">
-          <h4 className="font-bold mb-4 text-lg">Product</h4>
-          <ul className="space-y-3 text-base text-text-secondary">
-            <li><Link to="/tools/hook-generator" className="hover:text-primary transition-colors py-1 block">Hook Generator</Link></li>
-            <li><Link to="/tools/instagram-caption-generator" className="hover:text-primary transition-colors py-1 block">Caption Builder</Link></li>
-            <li><Link to="/tools/instagram-hashtag-generator" className="hover:text-primary transition-colors py-1 block">Hashtag Packs</Link></li>
-            <li><Link to="/tools/instagram-reel-generator" className="hover:text-primary transition-colors py-1 block">Reel Scripts</Link></li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <h4 className="font-bold mb-4 text-lg">Knowledge Hub</h4>
-          <ul className="space-y-3 text-base text-text-secondary">
-            <li><Link to="/hook-and-reel-menu" className="hover:text-primary transition-colors py-1 block font-bold text-primary">Hook & Reel Menu</Link></li>
-            <li><Link to="/hook-reel-cajun-seafood-bar-killeen-menu" className="hover:text-primary transition-colors py-1 block font-medium text-amber-400">Hook & Reel Killeen Menu 🦀</Link></li>
-            <li><Link to="/hook-reel-cajun-seafood-bar-el-paso-menu" className="hover:text-primary transition-colors py-1 block text-sm">Hook & Reel El Paso Menu</Link></li>
-            <li><Link to="/hook-and-reel-linden" className="hover:text-primary transition-colors py-1 block text-sm">Hook & Reel Linden NJ</Link></li>
-            <li><Link to="/hook-reel-cajun-seafood-bar-overland-park-menu" className="hover:text-primary transition-colors py-1 block text-sm">Hook & Reel Overland Park</Link></li>
-            <li><Link to="/hooker-electric-80wa-fishing-reel" className="hover:text-primary transition-colors py-1 block font-semibold text-emerald-400">Hooker Electric 80WA Guide 🎣</Link></li>
-            <li><Link to="/hook-and-reel-gift-cards-promo-codes-calories" className="hover:text-primary transition-colors py-1 block font-semibold text-rose-400">Hook & Reel Promos & Calories 🏷️</Link></li>
-            <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy Guide</Link></li>
-            <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Reel Hooks in Hindi</Link></li>
-            <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Reel Hooks</Link></li>
-            <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors py-1 block">Finance Reel Hooks</Link></li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <h4 className="font-bold mb-4 text-lg">Company</h4>
-          <ul className="space-y-3 text-base text-text-secondary">
-            <li><Link to="/about" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
-            <li><Link to="/privacy" className="hover:text-primary transition-colors py-1 block">Privacy Policy</Link></li>
-            <li><Link to="/terms" className="hover:text-primary transition-colors py-1 block">Terms of Service</Link></li>
-            <li><Link to="/sitemap" className="hover:text-primary transition-colors py-1 block">Sitemap</Link></li>
-          </ul>
-        </div>
-        <div className="space-y-4">
-          <h4 className="font-bold mb-4 text-lg">Support</h4>
-          <ul className="space-y-3 text-base text-text-secondary">
-            <li><a href="mailto:support@reelhooks.site" className="hover:text-primary transition-colors py-1 block">Contact Us</a></li>
-            <li><Link to="/faq" className="hover:text-primary transition-colors py-1 block">FAQ</Link></li>
-          </ul>
-        </div>
-      </div>
-      <div className="mt-12 pt-8 border-t border-white/5 flex flex-col sm:flex-row items-center justify-between gap-4 text-text-secondary text-sm">
-        <p className="text-center sm:text-left">
-          © {new Date().getFullYear()} ReelHooks.site. All rights reserved.
-        </p>
-        <p className="text-center sm:text-right text-xs text-text-secondary/80 font-medium">
-          Designed & Built with Passion by <span className="text-primary font-bold hover:text-indigo-400 transition-colors">Murtaza Darvesh</span>
-        </p>
-      </div>
-    </div>
-  </footer>
-);
-
-const Hero = () => {
-  const [count, setCount] = useState(0);
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCount(prev => (prev < 10000 ? prev + 123 : 10000));
-    }, 20);
-    return () => clearInterval(interval);
-  }, []);
-
-  return (
-    <section className="pt-32 pb-20 px-4 relative overflow-hidden">
-      <div className="absolute top-0 left-1/2 -translate-x-1/2 w-full h-full bg-[radial-gradient(circle_at_center,rgba(108,92,231,0.15)_0%,transparent_70%)] pointer-events-none" />
-      <div className="max-w-4xl mx-auto text-center space-y-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          className="inline-flex items-center space-x-2 bg-primary/10 border border-primary/20 px-6 py-3 rounded-full text-primary text-xs md:text-sm font-semibold uppercase tracking-wider max-w-max mx-auto"
-        >
-          <Sparkles className="w-5 h-5 shrink-0" />
-          <span>AI Reel Hook Generator • Instagram Reel Hooks • TikTok Hooks & YouTube Shorts Hooks</span>
-        </motion.div>
-        
-        <motion.h1 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.1 }}
-          className="text-5xl md:text-[7rem] font-black font-display leading-[0.85] tracking-tighter uppercase text-white block mt-4"
-        >
-          STOP THE SCROLL. <br />
-          <span className="text-primary text-glow">GO VIRAL FAST.</span>
-        </motion.h1>
-        
-        <motion.p 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.2 }}
-          className="text-xl md:text-3xl text-text-secondary max-w-3xl mx-auto leading-tight"
-        >
-          The #1 <span className="text-white font-bold underline decoration-primary">Free AI Hook Generator</span> for Reels & TikTok. 
-          Stop guessing and start the viral growth today. 
-          <span className="text-primary font-black italic"> 100% Free – No Sign-up Required.</span>
-        </motion.p>
-        
-        <motion.div 
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ delay: 0.3 }}
-          className="flex flex-col sm:flex-row items-center justify-center space-y-4 sm:space-y-0 sm:space-x-6"
-        >
-          <Link to="/dashboard" className="w-full sm:w-auto bg-primary hover:bg-primary/90 text-white px-12 py-6 rounded-full font-black text-2xl flex items-center justify-center space-x-3 transition-all transform hover:scale-110 shadow-[0_0_50px_rgba(108,92,231,0.4)]">
-            <span>GET FREE HOOKS NOW</span>
-            <ArrowRight className="w-8 h-8" />
-          </Link>
-          <div className="flex flex-col items-start text-left">
-            <div className="flex -space-x-2">
-              {[1,2,3,4,5].map(i => (
-                <div key={i} className="w-10 h-10 rounded-full border-2 border-bg bg-accent/20 flex items-center justify-center overflow-hidden">
-                  <img src={`https://picsum.photos/seed/${i+40}/100/100`} alt="User" referrerPolicy="no-referrer" />
-                </div>
-              ))}
-            </div>
-            <p className="text-sm font-bold mt-2"><span className="text-primary">12,500+</span> creators joined this week</p>
-          </div>
-        </motion.div>
-
-        <motion.div 
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          transition={{ delay: 0.5 }}
-          className="pt-12 flex flex-wrap justify-center gap-8 opacity-50 grayscale hover:grayscale-0 transition-all"
-        >
-          <div className="flex items-center space-x-2">
-            <Award className="w-6 h-6" />
-            <span className="text-base font-bold">4.9/5 Rating</span>
-          </div>
-          <div className="flex items-center space-x-2">
-            <Users className="w-6 h-6" />
-            <span className="text-base font-bold">10k+ Creators</span>
-          </div>
-        </motion.div>
+        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="pt-12 flex flex-wrap justify-center gap-8 text-text-secondary"><span className="text-sm font-semibold">Niche-based hook ideas</span><span className="text-sm font-semibold">English, Hindi & Hinglish support</span><span className="text-sm font-semibold">Instagram, TikTok & Shorts</span></motion.div>
       </div>
     </section>
   );
@@ -523,7 +231,7 @@ const WhatIsHookGenerator = () => (
       <div className="text-center space-y-4">
         <h2 className="text-3xl md:text-5xl font-black font-display uppercase tracking-tight">What is a <span className="text-primary">Reel Hook Generator?</span></h2>
         <p className="text-xl text-text-secondary leading-relaxed">
-          A **Reel Hook Generator** is a specialized AI writing tool designed to craft the perfect **reel hook**—the ultra-engaging opening sentence that stops viewers from scrolling. Unlike generic copy tools, our system has analyzed the 3-second retention of over 1.2 million viral Instagram Reels and TikTok videos. This ensures every **reel hook** you create is genetically engineered to hook viewers instantly and signal high-value retention to algorithms in 2026. For optimal performance, you can validate your hooks using our <Link to="/reel-hook-analyzer" className="text-primary hover:underline font-bold">Reel Hook Analyzer</Link>.
+          A **Reel Hook Generator** is an AI-assisted writing tool that helps you draft opening lines for short-form videos. Choose a topic, niche, platform and language, then refine the suggestions to match your audience and the content of your video. A clear, relevant opening can help viewers understand why they should keep watching, but no hook can guarantee reach or retention. Explore our <Link to="/explore" className="text-primary hover:underline font-bold">hook inspiration library</Link>.
         </p>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
@@ -1022,11 +730,6 @@ const ProgrammaticHooksPage = () => {
       "@type": "Offer",
       "price": "0",
       "priceCurrency": "USD"
-    },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "100"
     }
   };
 
@@ -1815,56 +1518,11 @@ const SiteIndex = () => (
 );
 
 const SuccessStories = () => (
-  <section className="py-24 px-4 bg-bg relative overflow-hidden overflow-x-hidden">
-    <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-full h-[500px] bg-primary/5 blur-[120px] rounded-full -z-10" />
-    <div className="max-w-7xl mx-auto space-y-16">
-      <div className="text-center space-y-4">
-        <h2 className="text-3xl md:text-6xl font-black font-display uppercase tracking-tighter">Real Creators. <span className="text-primary">Real Growth.</span></h2>
-        <p className="text-xl text-text-secondary max-w-2xl mx-auto italic">"We stopped guessing and started using ReelHooks. The algorithm finally found us."</p>
-      </div>
-
-      <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-        {[
-          { 
-            name: "Ananya S.", 
-            niche: "Fitness & Wellness", 
-            stat: "+450% Reach", 
-            text: "My Reels used to stuck at 200 views. After using the 'Pattern Interrupt' hooks from ReelHooks, my first video hit 50k views in 3 days. It's like a cheat code.",
-            avatar: "https://picsum.photos/seed/an/100/100"
-          },
-          { 
-            name: "Vikram R.", 
-            niche: "Finance & Fintech", 
-            stat: "12k New Followers", 
-            text: "The Hinglish hooks are perfect for the Indian market. Most AI tools sound like a robot, but ReelHooks sounds like a local. 10/10 would recommend.",
-            avatar: "https://picsum.photos/seed/vk/100/100"
-          },
-          { 
-            name: "Marketing Team @ ZenD", 
-            niche: "SaaS & B2B", 
-            stat: "Lowered CAC by 40%", 
-            text: "We use the Hook Generator for our ad creatives. The curiosity gaps forced users to stop scrolling on our ads, driving much cheaper traffic.",
-            avatar: "https://picsum.photos/seed/zd/100/100"
-          }
-        ].map((story, i) => (
-          <div key={i} className="glass p-10 rounded-[3rem] border-white/5 space-y-6 hover:translate-y-[-10px] transition-all duration-300">
-            <div className="flex items-center gap-4">
-              <div className="w-16 h-16 rounded-2xl overflow-hidden border-2 border-primary/20">
-                <img src={story.avatar} alt={story.name} className="w-full h-full object-cover" referrerPolicy="no-referrer" />
-              </div>
-              <div>
-                <h4 className="font-bold text-white text-lg">{story.name}</h4>
-                <p className="text-xs text-text-secondary uppercase font-black tracking-widest">{story.niche}</p>
-              </div>
-            </div>
-            <p className="text-text-secondary leading-relaxed italic">"{story.text}"</p>
-            <div className="pt-4 flex items-center justify-between border-t border-white/5">
-              <span className="text-primary font-black text-xl">{story.stat}</span>
-              <div className="flex text-accent gap-0.5"><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /><Star className="w-4 h-4 fill-current" /></div>
-            </div>
-          </div>
-        ))}
-      </div>
+  <section className="py-16 px-4 bg-bg">
+    <div className="max-w-4xl mx-auto text-center space-y-4">
+      <h2 className="text-3xl md:text-5xl font-black font-display">Create hooks that fit your content</h2>
+      <p className="text-lg text-text-secondary leading-relaxed">Start with a topic, choose a niche and platform, then edit the suggested opening line so it accurately represents your video. ReelHooks provides ideas, not guaranteed views or follower growth.</p>
+      <Link to="/dashboard" className="inline-flex bg-primary text-white px-8 py-3 rounded-full font-bold">Try the free hook generator</Link>
     </div>
   </section>
 );
@@ -3414,8 +3072,8 @@ export default function App() {
                 <Route path="/" element={
                   <>
                     <SEO 
-                    title="Reel Hook Generator: Free AI Reel Hooks (2026)" 
-                    description="Generate high-retention reel hook ideas instantly with the #1 free AI reel hook generator. Works for Instagram Reels, TikTok, and YouTube Shorts. Grow 10x faster." 
+                    title="Free AI Reel Hook Generator for Instagram, TikTok & YouTube Shorts" 
+                    description="Create opening hook ideas for Instagram Reels, TikTok and YouTube Shorts. Explore niche-based inspiration and generate content in multiple languages." 
                     schema={[
                       {
                         "@context": "https://schema.org",
@@ -3424,11 +3082,7 @@ export default function App() {
                         "operatingSystem": "All",
                         "applicationCategory": "MultimediaApplication",
                         "url": "https://www.reelhooks.site",
-                        "aggregateRating": {
-                          "@type": "AggregateRating",
-                          "ratingValue": "4.9",
-                          "ratingCount": "12500"
-                        },
+                        
                         "offers": {
                           "@type": "Offer",
                           "price": "0",
