@@ -3,7 +3,7 @@
  */
 export function detectLanguage(text: string): string {
   const value = text.toLowerCase();
-  if (/[क्या-हिं]/u.test(value)) return "Hindi";
+  if (value.includes("क्या") || value.includes("हिंदी") || value.includes("वीडियो") || value.includes("हुक")) return "Hindi";
   if (/\b(hinglish|bhai|kaise|karo|apne)\b/.test(value)) return "Hinglish";
   if (/\b(spanish|español)\b/.test(value)) return "Spanish";
   if (/\b(french|français)\b/.test(value)) return "French";
@@ -53,12 +53,7 @@ export function enhanceArticleContentAndInterlink(htmlContent: string, currentSl
     { slug: "how-to-go-viral-on-reels-2026", keywords: ["how to go viral on reels", "grow on reels"] },
     { slug: "best-time-to-post-reels-india", keywords: ["best time to post reels", "posting time for reels"] },
     { slug: "instagram-seo-tips-for-creators", keywords: ["instagram seo", "instagram search optimization"] },
-    { slug: "free-ai-hook-generator", keywords: ["free ai hook generator", "ai hook generator"] },
-    { slug: "reel-ideas-generator", keywords: ["reel ideas generator", "reels ideas"] },
-    { slug: "instagram-caption-generator-free", keywords: ["instagram caption generator", "reel caption generator"] },
-    { slug: "instagram-hashtag-generator-2026", keywords: ["instagram hashtag generator", "reels hashtags"] },
-    { slug: "viral-reel-script-writer-with-hooks", keywords: ["reel script writer", "reel script"] },
-    { slug: "faceless-reel-hooks-generator", keywords: ["faceless reel hooks", "faceless reels"] }
+    { slug: "free-ai-hook-generator", keywords: ["free ai hook generator", "ai hook generator"] }
   ];
 
   const parts = htmlContent.split(/(<[^>]+>)/g);
