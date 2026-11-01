@@ -1,58 +1,15 @@
 /**
- * Dynamic SEO Helper Utility
- * Programmatically generates unique, high-performance meta descriptions and titles
- * to eliminate duplicate content issues and adapt to the specific niche and language.
+ * Conservative SEO helpers: preserve useful metadata and avoid artificial keyword stuffing.
  */
-
 export function detectLanguage(text: string): string {
-  const textLower = text.toLowerCase();
-  
-  if (
-    textLower.includes("क्या") || 
-    textLower.includes("बेहतरीन") || 
-    textLower.includes("वीडियो") || 
-    textLower.includes("हुक्स") ||
-    textLower.includes("बढ़ाएं")
-  ) {
-    return "Hindi (Devanagari)";
-  }
-  
-  if (
-    textLower.includes("hindi") || 
-    textLower.includes("behtareen") || 
-    textLower.includes("kaise") || 
-    textLower.includes("karo") ||
-    textLower.includes("itna")
-  ) {
-    return "Hindi (Latin)";
-  }
-  
-  if (
-    textLower.includes("hinglish") || 
-    textLower.includes("bhai") || 
-    textLower.includes("apne") || 
-    textLower.includes("laga") || 
-    textLower.includes("samajhta") ||
-    textLower.includes("aag")
-  ) {
-    return "Hinglish (Colloquial)";
-  }
-  
-  if (textLower.includes("spanish") || textLower.includes("español") || textLower.includes("espanol")) {
-    return "Spanish";
-  }
-  
-  if (textLower.includes("french") || textLower.includes("français") || textLower.includes("francais")) {
-    return "French";
-  }
-  
+  const value = text.toLowerCase();
+  if (/[क्या-हिं]/u.test(value)) return "Hindi";
+  if (/\b(hinglish|bhai|kaise|karo|apne)\b/.test(value)) return "Hinglish";
+  if (/\b(spanish|español)\b/.test(value)) return "Spanish";
+  if (/\b(french|français)\b/.test(value)) return "French";
   return "English";
 }
 
-/**
- * Keep metadata descriptive and human-readable. Do not append artificial
- * keyword strings or unsupported authority claims to force uniqueness.
- */
 export function detectNiche(text: string): string {
   const value = text.toLowerCase();
   if (/instagram|reel|shorts|tiktok|creator|hook/.test(value)) return "Social Media & Video Creation";
@@ -71,7 +28,7 @@ export function getEnhancedMetaDescription(
   _keywords: string[] = [],
   _h1: string = ""
 ): string {
-  const cleaned = originalDesc.replace(/\\s+/g, " ").trim();
+  const cleaned = originalDesc.replace(/\s+/g, " ").trim();
   if (cleaned.length <= 160) return cleaned;
   const shortened = cleaned.slice(0, 157);
   const lastSpace = shortened.lastIndexOf(" ");
@@ -79,11 +36,11 @@ export function getEnhancedMetaDescription(
 }
 
 export function getEnhancedMetaTitle(title: string, _slug: string): string {
-  return title.trim().replace(/\\s+/g, " ");
+  return title.trim().replace(/\s+/g, " ");
 }
 
 export function getHumanFriendlyTitle(title: string, _slug: string): string {
-  return title.trim().replace(/^Guide:\\s*/i, "");
+  return title.trim().replace(/^Guide:\s*/i, "");
 }
 
 /**
@@ -112,7 +69,7 @@ export function enhanceArticleContentAndInterlink(htmlContent: string, currentSl
   for (let i = 0; i < parts.length; i++) {
     const token = parts[i];
     if (token.startsWith("<")) {
-      const tagMatch = token.match(/^<\\s*(\\/?)(a|script|style)\\b/i);
+      const tagMatch = token.match(/^<\s*(\/?)(a|script|style)\b/i);
       if (tagMatch) {
         const tag = tagMatch[2].toLowerCase();
         if (tagMatch[1] === "/") skipTag = "";
@@ -125,10 +82,9 @@ export function enhanceArticleContentAndInterlink(htmlContent: string, currentSl
     let text = token;
     for (const mapping of linkMappings) {
       if (mapping.slug === currentSlug || linked.has(mapping.slug) || count >= 6) continue;
-      const keyword = mapping.keywords.find((candidate) => new RegExp("\\\\b" + candidate.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&") + "\\\\b", "i").test(text));
+      const keyword = mapping.keywords.find((candidate) => new RegExp("\\b" + candidate + "\\b", "i").test(text));
       if (!keyword) continue;
-      const escapedKeyword = keyword.replace(/[.*+?^${}()|[\\]\\\\]/g, "\\\\$&");
-      text = text.replace(new RegExp("\\\\b(" + escapedKeyword + ")\\\\b", "i"), '<a href="/' + mapping.slug + '" class="text-primary hover:underline font-semibold">$1</a>');
+      text = text.replace(new RegExp("\\b(" + keyword + ")\\b", "i"), '<a href="/' + mapping.slug + '" class="text-primary hover:underline font-semibold">$1</a>');
       linked.add(mapping.slug);
       count++;
     }
