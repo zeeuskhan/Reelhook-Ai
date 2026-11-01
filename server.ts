@@ -783,88 +783,14 @@ async function startServer() {
     res.send("User-agent: *\nAllow: /\nSitemap: https://www.reelhooks.site/sitemap.xml");
   });
 
-  // sitemap.xml
+  // Serve the same sitemap generated during the production build.
   app.get("/sitemap.xml", (req, res) => {
-    res.type("application/xml");
-    const lastmod = "2026-07-12";
-
-    const paths: string[] = [
-      "/",
-      "/explore",
-      "/about",
-      "/faq",
-      "/contact",
-      "/privacy",
-      "/terms",
-      "/blog",
-      "/sitemap"
-    ];
-
-    // Add blogs
-    BLOG_POSTS.forEach(post => {
-      paths.push(`/blog/${post.slug}`);
-    });
-
-    // Add whitelisted tools
-    const whitelistedTools = [
-      "instagram-bio-generator",
-      "instagram-caption-generator",
-      "instagram-hashtag-generator",
-      "instagram-reel-generator",
-      "instagram-username-generator",
-      "instagram-dp-generator",
-      "instagram-transcript-generator",
-      "instagram-mockup-generator",
-      "hook-generator"
-    ];
-    whitelistedTools.forEach(tool => {
-      paths.push(`/tools/${tool}`);
-    });
-
-    // Add main niche pillar pages (WITHOUT language suffix, e.g. /hooks/fitness)
-    NICHES.forEach(n => {
-      paths.push(`/hooks/${n.id.toLowerCase()}`);
-    });
-
-    // Add premium articles
-    const premiumArticles = [
-      "best-hooks-for-instagram-reels",
-      "viral-hooks-for-instagram-reels",
-      "how-to-go-viral-on-reels-2026",
-      "best-time-to-post-reels-india",
-      "how-to-get-first-1000-followers-instagram",
-      "instagram-algorithm-explained-2026",
-      "how-to-use-ai-for-content-creation",
-      "monetize-instagram-reels-india",
-      "increase-reel-engagement-hacks",
-      "faceless-reel-channel-guide",
-      "instagram-seo-tips-for-creators",
-      "reel-hook-analyzer",
-      "content-ideas-generator",
-      "content-calendar-generator",
-      "free-ai-hook-generator"
-    ];
-    premiumArticles.forEach(slug => {
-      paths.push(`/${slug}`);
-    });
-
-    const urlBlocks = paths.map(p => {
-      let priority = "0.7";
-      if (p === "/") priority = "1.0";
-      else if (p === "/explore" || p.startsWith("/tools/")) priority = "0.9";
-      else if (p.startsWith("/hooks/")) priority = "0.8";
-      
-      return `  <url>
-    <loc>https://www.reelhooks.site${p}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <priority>${priority}</priority>
-  </url>`;
-    }).join("\n");
-
-    res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urlBlocks}
-</urlset>`);
+    const sitemapPath = path.join(__dirname, "dist", "sitemap.xml");
+    if (fs.existsSync(sitemapPath)) {
+      res.type("application/xml");
+      return res.sendFile(sitemapPath);
+    }
+    res.status(503).type("text/plain").send("Sitemap is generated during the production build.");
   });
 
   // Programmatic SEO Routes
