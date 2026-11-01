@@ -390,17 +390,11 @@ const Footer = () => (
         <div className="space-y-4">
           <h4 className="font-bold mb-4 text-lg">Knowledge Hub</h4>
           <ul className="space-y-3 text-base text-text-secondary">
-            <li><Link to="/hook-and-reel-menu" className="hover:text-primary transition-colors py-1 block font-bold text-primary">Hook & Reel Menu</Link></li>
-            <li><Link to="/hook-reel-cajun-seafood-bar-killeen-menu" className="hover:text-primary transition-colors py-1 block font-medium text-amber-400">Hook & Reel Killeen Menu 🦀</Link></li>
-            <li><Link to="/hook-reel-cajun-seafood-bar-el-paso-menu" className="hover:text-primary transition-colors py-1 block text-sm">Hook & Reel El Paso Menu</Link></li>
-            <li><Link to="/hook-and-reel-linden" className="hover:text-primary transition-colors py-1 block text-sm">Hook & Reel Linden NJ</Link></li>
-            <li><Link to="/hook-reel-cajun-seafood-bar-overland-park-menu" className="hover:text-primary transition-colors py-1 block text-sm">Hook & Reel Overland Park</Link></li>
-            <li><Link to="/hooker-electric-80wa-fishing-reel" className="hover:text-primary transition-colors py-1 block font-semibold text-emerald-400">Hooker Electric 80WA Guide 🎣</Link></li>
-            <li><Link to="/hook-and-reel-gift-cards-promo-codes-calories" className="hover:text-primary transition-colors py-1 block font-semibold text-rose-400">Hook & Reel Promos & Calories 🏷️</Link></li>
-            <li><Link to="/viral-reel-hooks" className="hover:text-primary transition-colors py-1 block">Viral Strategy Guide</Link></li>
-            <li><Link to="/reel-hooks-hindi" className="hover:text-primary transition-colors py-1 block">Reel Hooks in Hindi</Link></li>
-            <li><Link to="/fitness-reel-hooks" className="hover:text-primary transition-colors py-1 block">Fitness Reel Hooks</Link></li>
-            <li><Link to="/finance-reel-hooks" className="hover:text-primary transition-colors py-1 block">Finance Reel Hooks</Link></li>
+            <li><Link to="/best-hooks-for-instagram-reels" className="hover:text-primary transition-colors py-1 block">Best Instagram Reel Hooks</Link></li>
+            <li><Link to="/how-to-go-viral-on-reels-2026" className="hover:text-primary transition-colors py-1 block">How to Grow with Reels</Link></li>
+            <li><Link to="/instagram-seo-tips-for-creators" className="hover:text-primary transition-colors py-1 block">Instagram SEO Tips</Link></li>
+            <li><Link to="/blog" className="hover:text-primary transition-colors py-1 block">Creator Blog</Link></li>
+            <li><Link to="/sitemap" className="hover:text-primary transition-colors py-1 block">HTML Sitemap</Link></li>
           </ul>
         </div>
         <div className="space-y-4">
@@ -1711,23 +1705,13 @@ const SiteIndex = () => (
           <h3 className="text-xl font-bold">Trending Guides</h3>
           <ul className="space-y-3">
             {[
-              { name: "Hook and Reel Menu", slug: "hook-and-reel-menu" },
-              { name: "Hook & Reel Restaurant Menu", slug: "hook-and-reel-restaurant-menu" },
-              { name: "Hook & Reel Killeen Menu", slug: "hook-reel-cajun-seafood-bar-killeen-menu" },
-              { name: "Hook & Reel El Paso Menu", slug: "hook-reel-cajun-seafood-bar-el-paso-menu" },
-              { name: "Hook & Reel Linden NJ", slug: "hook-and-reel-linden" },
-              { name: "Hook & Reel Overland Park Menu", slug: "hook-reel-cajun-seafood-bar-overland-park-menu" },
-              { name: "Hook & Reel Austin Menu", slug: "hook-reel-cajun-seafood-bar-austin-menu" },
-              { name: "Hook & Reel Middletown Menu", slug: "hook-reel-cajun-seafood-bar-middletown-menu" },
-              { name: "Hook & Reel Wichita Menu", slug: "hook-reel-cajun-seafood-bar-wichita-menu" },
-              { name: "Hook & Reel Sacramento Menu", slug: "hook-and-reel-cajun-seafood-and-bar-sacramento-menu" },
-              { name: "Hooker Electric 80WA Guide", slug: "hooker-electric-80wa-fishing-reel" },
-              { name: "Hook & Reel Promos & Calories", slug: "hook-and-reel-gift-cards-promo-codes-calories" },
-              { name: "Viral Reel Hooks", slug: "viral-reel-hooks" },
-              { name: "Instagram Hook Ideas", slug: "instagram-reel-hooks" },
-              { name: "50+ Hook Examples", slug: "reel-hook-examples" },
-              { name: "Hindi Reel Hooks", slug: "reel-hooks-hindi" },
-              { name: "Hinglish Hooks Guide", slug: "best-viral-hooks-for-reels-hinglish" }
+              { name: "Best Instagram Reel Hooks", slug: "best-hooks-for-instagram-reels" },
+              { name: "How to Go Viral on Reels", slug: "how-to-go-viral-on-reels-2026" },
+              { name: "Instagram Algorithm Explained", slug: "instagram-algorithm-explained-2026" },
+              { name: "Instagram SEO Tips", slug: "instagram-seo-tips-for-creators" },
+              { name: "Free AI Hook Generator", slug: "free-ai-hook-generator" },
+              { name: "Reel Hook Analyzer", slug: "reel-hook-analyzer" },
+              { name: "Content Calendar Generator", slug: "content-calendar-generator" }
             ].map(link => (
               <li key={link.slug}><Link to={`/${link.slug}`} className="text-text-secondary hover:text-primary transition-colors flex items-center gap-2 justify-center md:justify-start">
                 <ArrowRight className="w-3 h-3" /> {link.name}
