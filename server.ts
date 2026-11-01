@@ -11,7 +11,8 @@ import { BLOG_POSTS } from "./src/data/blog.ts";
 import { enhanceArticleContentAndInterlink } from "./src/utils/seoHelper.ts";
 
 const __filename = fileURLToPath(import.meta.url);
-const __dirname = path.dirname(__filename);\nconst projectRoot = process.env.VERCEL ? process.cwd() : __dirname;
+const __dirname = path.dirname(__filename);
+const projectRoot = process.env.VERCEL ? process.cwd() : __dirname;
 
 // Shared Express application for both local hosting and Vercel serverless.
 const app = express();
