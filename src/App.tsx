@@ -219,11 +219,33 @@ const Modal = ({ isOpen, onClose, title, children }: { isOpen: boolean, onClose:
   <AnimatePresence>
     {isOpen && (
       <div className="fixed inset-0 z-[100] flex items-center justify-center p-4">
-        <motion.div initial={{ opacity: 0 }} animate={{ opacity: 1 }} transition={{ delay: 0.5 }} className="pt-12 flex flex-wrap justify-center gap-8 text-text-secondary"><span className="text-sm font-semibold">Niche-based hook ideas</span><span className="text-sm font-semibold">English, Hindi & Hinglish support</span><span className="text-sm font-semibold">Instagram, TikTok & Shorts</span></motion.div>
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          onClick={onClose}
+          className="absolute inset-0 bg-bg/80 backdrop-blur-sm"
+        />
+        <motion.div
+          initial={{ opacity: 0, scale: 0.95, y: 20 }}
+          animate={{ opacity: 1, scale: 1, y: 0 }}
+          exit={{ opacity: 0, scale: 0.95, y: 20 }}
+          className="relative glass w-full max-w-2xl max-h-[80vh] overflow-hidden rounded-3xl flex flex-col"
+        >
+          <div className="p-6 border-b border-white/10 flex justify-between items-center">
+            <h3 className="text-xl font-bold font-display">{title}</h3>
+            <button onClick={onClose} className="text-text-secondary hover:text-white transition-colors cursor-pointer">
+              <X className="w-6 h-6" />
+            </button>
+          </div>
+          <div className="p-6 overflow-y-auto custom-scrollbar flex-1">
+            {children}
+          </div>
+        </motion.div>
       </div>
-    </section>
-  );
-};
+    )}
+  </AnimatePresence>
+);
 
 const WhatIsHookGenerator = () => (
   <section className="py-24 px-4 bg-white/[0.01]">
