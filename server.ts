@@ -122,7 +122,7 @@ export function isTier1Url(cleanPath: string): boolean {
 export function renderSeoHtml(urlPath: string, html: string): string {
   const cleanPath = urlPath.split("?")[0].split("#")[0];
 
-  let title = "Reel Hook Generator: Get Free Scroll-Stopping Reel Hooks (2026)";
+  let title = "Free AI Reel Hook Generator for Instagram, TikTok & YouTube Shorts";
   let description = "Create niche-specific opening lines for Instagram Reels, TikTok and YouTube Shorts. Generate hook ideas and adapt them to your audience and voice.";
   let canonicalUrl = `https://www.reelhooks.site${cleanPath === "/" ? "/" : cleanPath}`;
   let bodyContent = "";
