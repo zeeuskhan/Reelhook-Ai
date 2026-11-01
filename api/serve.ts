@@ -12,7 +12,7 @@ export default function handler(req: Request, res: Response) {
 
   // Prevent path traversal while preserving nested route segments.
   const safePath = forwardedPath
-    .replace(/^\\/+/, "")
+    .replace(/^\/+/, "")
     .split("/")
     .filter((segment) => segment && segment !== "." && segment !== "..")
     .join("/");
