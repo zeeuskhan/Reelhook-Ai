@@ -1,5 +1,5 @@
 import type { Request, Response } from "express";
-import app from "./_server.bundle.js";
+import app from "../server.bundle.js";
 
 // Vercel's non-Next.js API routes do not support [...catch-all] filenames.
 // Vercel rewrites send the original pathname through the __route query value.
