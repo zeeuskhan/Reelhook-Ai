@@ -123,7 +123,7 @@ export function renderSeoHtml(urlPath: string, html: string): string {
   const cleanPath = urlPath.split("?")[0].split("#")[0];
 
   let title = "Reel Hook Generator: Get Free Scroll-Stopping Reel Hooks (2026)";
-  let description = "The #1 free AI reel hook generator online. Instantly create high-retention reel hook ideas for Instagram, TikTok & YouTube. Grow 10x faster with no signup required!";
+  let description = "Create niche-specific opening lines for Instagram Reels, TikTok and YouTube Shorts. Generate hook ideas and adapt them to your audience and voice.";
   let canonicalUrl = `https://www.reelhooks.site${cleanPath === "/" ? "/" : cleanPath}`;
   let bodyContent = "";
   let schemasArray: any[] = [];
@@ -171,7 +171,7 @@ export function renderSeoHtml(urlPath: string, html: string): string {
     }
 
     const richContentSource = SEO_CATEGORY_CONTENT[categoryId] || SEO_CATEGORY_CONTENT["fitness"] || {
-      introduction: `Struggling to get views on your ${name} reels? The first 3 seconds are everything. Our instagram hook generator has analyzed thousands of viral videos to bring you these high-performing viral reel hooks specifically optimized for the ${name} niche.`,
+      introduction: `Struggling to get views on your ${name} reels? The first 3 seconds are everything. Use these examples as starting points, then adapt the wording to your audience, topic and video format.`,
       section1: "", section2: "", section3: "", conclusion: ""
     };
 
@@ -206,11 +206,11 @@ export function renderSeoHtml(urlPath: string, html: string): string {
         `काश मुझे अपनी क्रिएटर यात्रा शुरू करने से पहले ${name} का यह राज पता होता।`,
         `क्या ${name} वास्तव में इसके लायक है? यहाँ पूरा सच है।`,
         `अपने ${name} को बेहतर बनाने के लिए इस रील को स्किप न करें!`,
-        `इस एक बदलाव ने सिर्फ 7 दिनों में मेरे ${name} के परिणामों को दोगुना कर दिया।`,
+        `${name} वीडियो को बेहतर बनाने के लिए एक आसान बदलाव।`,
         `3 बड़ी गलतियाँ जो आप अपने ${name} रील्स में रोज़ाना करते हैं।`,
         `बिना किसी बकवास के, यहाँ ${name} को मास्टर करने के 3 आसान तरीके हैं।`,
         `यह ${name} की सीक्रेट चीट शीट है जो आपको आज ही सेव करनी चाहिए।`,
-        `मेरे ${name} रील्स पर 10 गुना ज़्यादा व्यूज़ लाने का एक आसान राज।`,
+        `${name} रील्स को और स्पष्ट बनाने का एक आसान तरीका।`,
         `रुकिए! क्या आप भी ${name} में ये गलतियाँ कर रहे हैं?`
       ];
     } else if (lang === "hinglish") {
@@ -221,11 +221,11 @@ export function renderSeoHtml(urlPath: string, html: string): string {
         `Kash mujhe apni creator journey start karne se pehle ${name} ka ye secret pata hota.`,
         `Kya ${name} sach mein worth it hai? Ye raha absolute sach.`,
         `Apne ${name} ko improve karne ke liye is reel ko scroll mat karna!`,
-        `Is ek change ne sirf 7 dino mein mere ${name} results ko double kar diya.`,
+        `Ek practical change jo aapke ${name} videos ko aur clear bana sakta hai.`,
         `3 badi galtiyan jo aap apne ${name} reels mein rozana karte ho.`,
         `No non-sense, ye rahe ${name} ko master karne ke 3 simple steps.`,
         `Ye ultimate ${name} cheat sheet aapko aaj hi steal karni chahiye.`,
-        `Mere ${name} reels par 10x zyada engagement lane ka simple secret.`,
+        `${name} reels ko aur engaging banane ka ek simple idea.`,
         `Ruko! Kya aap bhi ${name} mein ye galtiyan kar rahe ho?`
       ];
     } else {
@@ -238,10 +238,10 @@ export function renderSeoHtml(urlPath: string, html: string): string {
         `Here is how to master ${name} in only 3 simple steps.`,
         `3 major mistakes you make daily in your ${name} reels.`,
         `Don't scroll if you are trying to improve your ${name}!`,
-        `This single change doubled my ${name} results in just 7 days.`,
+        `One practical change that can make your ${name} videos clearer.`,
         `Is ${name} actually worth it? Here is the absolute truth.`,
         `The ultimate ${name} cheat sheet you need to steal today.`,
-        `My simple secret for 10x visual engagement in ${name}.`,
+        `A simple way to make your ${name} videos more engaging.`,
         `Stop scrolling if you want to grow your ${name} account.`
       ];
     }
@@ -261,7 +261,7 @@ export function renderSeoHtml(urlPath: string, html: string): string {
       },
       {
         q: `How does the ${name} hook generator work?`,
-        a: `Our generator uses fine-tuned models trained on high-converting social media posts. It identifies patterns and words that trigger interest and puts them into scroll-stopping copy for you.`
+        a: `The generator uses your selected niche and language to suggest opening-line ideas. Review each suggestion for accuracy and make it sound natural for your audience.`
       },
       {
         q: `How do I go viral in the ${name} niche?`,
@@ -692,15 +692,32 @@ export function renderSeoHtml(urlPath: string, html: string): string {
     `;
   }
 
-  // Rewrite original HTML with replacements
+  // Escape metadata before placing it inside HTML attributes.
+  const escapeAttribute = (value: string) => value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
   let revised = html;
-  
-  revised = revised.replace(/<title data-rh="true">.*?<\/title>/, `<title data-rh="true">${title}</title>`);
-  revised = revised.replace(/<meta data-rh="true" name="description" content=".*?" \/>/, `<meta data-rh="true" name="description" content="${description}" />`);
-  revised = revised.replace(/<link data-rh="true" rel="canonical" href=".*?" \/>/, `<link data-rh="true" rel="canonical" href="${canonicalUrl}" />`);
-  revised = revised.replace(/<meta data-rh="true" property="og:title" content=".*?" \/>/, `<meta data-rh="true" property="og:title" content="${title}" />`);
-  revised = revised.replace(/<meta data-rh="true" property="og:description" content=".*?" \/>/, `<meta data-rh="true" property="og:description" content="${description}" />`);
-  revised = revised.replace(/<meta data-rh="true" property="og:url" content=".*?" \/>/, `<meta data-rh="true" property="og:url" content="${canonicalUrl}" />`);
+  const safeTitle = escapeAttribute(title);
+  const safeDescription = escapeAttribute(description);
+  const safeCanonical = escapeAttribute(canonicalUrl);
+  const ogType = cleanPath.startsWith("/blog/") || Boolean(SEO_ARTICLES[cleanPath.slice(1)]) ? "article" : "website";
+
+  revised = revised.replace(/<title(?:\s+data-rh="true")?>.*?<\/title>/i, "<title>" + safeTitle + "</title>");
+  revised = revised.replace(/<meta\s+data-rh="true"\s+name="description"\s+content=".*?"\s*\/>/i, '<meta name="description" content="' + safeDescription + '" />');
+  revised = revised.replace(/<link\s+data-rh="true"\s+rel="canonical"\s+href=".*?"\s*\/>/i, '<link rel="canonical" href="' + safeCanonical + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:title"\s+content=".*?"\s*\/>/i, '<meta property="og:title" content="' + safeTitle + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:description"\s+content=".*?"\s*\/>/i, '<meta property="og:description" content="' + safeDescription + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:url"\s+content=".*?"\s*\/>/i, '<meta property="og:url" content="' + safeCanonical + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:type"\s+content=".*?"\s*\/>/i, '<meta property="og:type" content="' + ogType + '" />');
+
+  const twitterTags = '<meta name="twitter:card" content="summary_large_image" />' +
+    '<meta name="twitter:title" content="' + safeTitle + '" />' +
+    '<meta name="twitter:description" content="' + safeDescription + '" />' +
+    '<meta name="twitter:image" content="https://www.reelhooks.site/og-image.png" />';
+  revised = revised.replace("</head>", twitterTags + "\n</head>");
 
   // Handle NoIndex routes (like dashboard, profile, or Tier 2 pages)
   const isNoIndex = cleanPath.startsWith("/dashboard") || cleanPath.startsWith("/profile") || !isTier1Url(cleanPath);
