@@ -13,6 +13,9 @@ import { enhanceArticleContentAndInterlink } from "./src/utils/seoHelper.ts";
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
+// Shared Express application for both local hosting and Vercel serverless.
+const app = express();
+
 const REDIRECT_MAP: Record<string, string> = {
   "viral-hooks-for-instagram-reels": "/best-hooks-for-instagram-reels",
   "instagram-reel-hooks": "/best-hooks-for-instagram-reels",
@@ -728,8 +731,6 @@ function renderSeoHtml(urlPath: string, html: string): string {
 }
 
 async function startServer() {
-  const app = express();
-  const PORT = 3000;
 
   app.use(express.json());
 
@@ -895,9 +896,13 @@ ${urlBlocks}
     });
   }
 
-  app.listen(PORT, "0.0.0.0", () => {
-    console.log(`Server running on http://localhost:${PORT}`);
-  });
+  if (!process.env.VERCEL) {
+    const PORT = Number(process.env.PORT || 3000);
+    app.listen(PORT, "0.0.0.0", () => {
+      console.log(`Server running on http://localhost:${PORT}`);
+    });
+  }
 }
 
-startServer();
+await startServer();
+export default app;
