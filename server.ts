@@ -74,11 +74,26 @@ function isTier1Url(cleanPath: string): boolean {
     return whitelistedTools.includes(slug);
   }
 
-  // Check if it is a main niche pillar page (WITHOUT language suffix, e.g. /hooks/fitness)
+  // Niche landing pages and their supported language variants.
   if (cleanPath.startsWith("/hooks/")) {
     const slug = cleanPath.replace("/hooks/", "").toLowerCase();
-    // Must match exactly one of our niche IDs in NICHES
-    return NICHES.some(n => n.id.toLowerCase() === slug);
+    const languages = ["english", "hindi", "hinglish", "spanish", "french"];
+
+    // The unsuffixed URL is the English/default pillar page.
+    if (NICHES.some(n => n.id.toLowerCase() === slug)) return true;
+
+    // A language suffix is indexable only when the remaining slug maps to
+    // a real niche or one of its configured subcategories.
+    const language = languages.find(lang => slug.endsWith(`-${lang}`));
+    if (!language) return false;
+
+    const nicheSlug = slug.slice(0, -(language.length + 1));
+    return NICHES.some(n =>
+      n.id.toLowerCase() === nicheSlug ||
+      n.subcategories.some(sub =>
+        sub.toLowerCase().replace(/\\s+/g, "-").replace(/[^a-z0-9-]/g, "") === nicheSlug
+      )
+    );
   }
 
   // Check if it is one of our premium articles served at /:slug
@@ -122,7 +137,9 @@ function renderSeoHtml(urlPath: string, html: string): string {
   if (hooksMatch) {
     const slug = hooksMatch[1];
     const parts = slug.split("-");
-    const lang = parts.pop() || "english";
+    const supportedLanguages = ["english", "hindi", "hinglish", "spanish", "french"];
+    const suffix = parts[parts.length - 1]?.toLowerCase();
+    const lang = supportedLanguages.includes(suffix) ? (parts.pop() || "english") : "english";
     const slugId = parts.join("-");
 
     const main = NICHES.find(n => n.id === slugId);
@@ -744,8 +761,6 @@ async function startServer() {
   // sitemap.xml
   app.get("/sitemap.xml", (req, res) => {
     res.type("application/xml");
-    const lastmod = "2026-07-12";
-
     const paths: string[] = [
       "/",
       "/explore",
@@ -779,9 +794,14 @@ async function startServer() {
       paths.push(`/tools/${tool}`);
     });
 
-    // Add main niche pillar pages (WITHOUT language suffix, e.g. /hooks/fitness)
+    // Add niche pillar pages and supported language variants.
+    const supportedLanguages = ["english", "hindi", "hinglish", "spanish", "french"];
     NICHES.forEach(n => {
-      paths.push(`/hooks/${n.id.toLowerCase()}`);
+      const nicheId = n.id.toLowerCase();
+      paths.push(`/hooks/${nicheId}`);
+      supportedLanguages.forEach(language => {
+        paths.push(`/hooks/${nicheId}-${language}`);
+      });
     });
 
     // Add premium articles
@@ -814,7 +834,6 @@ async function startServer() {
       
       return `  <url>
     <loc>https://www.reelhooks.site${p}</loc>
-    <lastmod>${lastmod}</lastmod>
     <priority>${priority}</priority>
   </url>`;
     }).join("\n");
