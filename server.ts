@@ -713,7 +713,7 @@ export function renderSeoHtml(urlPath: string, html: string): string {
       : revised.lastIndexOf("</div>");
     if (rootStart >= 0 && rootEnd > rootStart) {
       revised = revised.slice(0, rootStart) +
-        \`<div id="root">\${bodyContent}</div>\` +
+        `<div id="root">${bodyContent}</div>` +
         revised.slice(rootEnd + "</div>".length);
     }
   }
