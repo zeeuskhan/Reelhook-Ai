@@ -91,7 +91,7 @@ function isTier1Url(cleanPath: string): boolean {
     return NICHES.some(n =>
       n.id.toLowerCase() === nicheSlug ||
       n.subcategories.some(sub =>
-        sub.toLowerCase().replace(/\\s+/g, "-").replace(/[^a-z0-9-]/g, "") === nicheSlug
+        sub.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") === nicheSlug
       )
     );
   }
