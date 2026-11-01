@@ -21,22 +21,25 @@ const REDIRECT_MAP: Record<string, string> = {
   "reels-hook-generator": "/",
   "reel-hook": "/",
   "best-viral-hook": "/",
-  // Restaurant / spam menus
-  "hook-and-reel-menu": "/",
-  "hook-and-reel-restaurant-menu": "/",
-  "hook-reel-cajun-seafood-bar-el-paso-menu": "/",
-  "hook-and-reel-linden": "/",
-  "hook-reel-cajun-seafood-bar-overland-park-menu": "/",
-  "hook-reel-cajun-seafood-bar-austin-menu": "/",
-  "hook-reel-cajun-seafood-bar-middletown-menu": "/",
-  "hook-reel-cajun-seafood-bar-wichita-menu": "/",
-  "hook-and-reel-cajun-seafood-and-bar-sacramento-menu": "/",
-  "hook-reel-cajun-seafood-bar-killeen-menu": "/",
-  "hooker-electric-80wa-fishing-reel": "/",
-  "hook-and-reel-gift-cards-promo-codes-calories": "/"
 };
 
-function isTier1Url(cleanPath: string): boolean {
+// Legacy unrelated/spam URLs should be retired, not redirected to the homepage (soft-404).
+const GONE_PATHS = new Set([
+  "hook-and-reel-menu",
+  "hook-and-reel-restaurant-menu",
+  "hook-reel-cajun-seafood-bar-el-paso-menu",
+  "hook-and-reel-linden",
+  "hook-reel-cajun-seafood-bar-overland-park-menu",
+  "hook-reel-cajun-seafood-bar-austin-menu",
+  "hook-reel-cajun-seafood-bar-middletown-menu",
+  "hook-reel-cajun-seafood-bar-wichita-menu",
+  "hook-and-reel-cajun-seafood-and-bar-sacramento-menu",
+  "hook-reel-cajun-seafood-bar-killeen-menu",
+  "hooker-electric-80wa-fishing-reel",
+  "hook-and-reel-gift-cards-promo-codes-calories"
+]);
+
+export function isTier1Url(cleanPath: string): boolean {
   if (cleanPath === "/" || cleanPath === "") return true;
 
   const exactTier1Paths = [
@@ -74,11 +77,19 @@ function isTier1Url(cleanPath: string): boolean {
     return whitelistedTools.includes(slug);
   }
 
-  // Check if it is a main niche pillar page (WITHOUT language suffix, e.g. /hooks/fitness)
+  // Main niche and subcategory pages may use an optional language suffix.
   if (cleanPath.startsWith("/hooks/")) {
     const slug = cleanPath.replace("/hooks/", "").toLowerCase();
-    // Must match exactly one of our niche IDs in NICHES
-    return NICHES.some(n => n.id.toLowerCase() === slug);
+    const parts = slug.split("-");
+    const supportedLanguages = new Set(["english", "hindi", "hinglish", "spanish", "french"]);
+    const lastPart = parts[parts.length - 1];
+    const baseSlug = supportedLanguages.has(lastPart) ? parts.slice(0, -1).join("-") : slug;
+    return NICHES.some(n =>
+      n.id.toLowerCase() === baseSlug ||
+      n.subcategories.some(sub =>
+        sub.toLowerCase().replace(/\s+/g, "-").replace(/[^a-z0-9-]/g, "") === baseSlug
+      )
+    );
   }
 
   // Check if it is one of our premium articles served at /:slug
@@ -108,11 +119,11 @@ function isTier1Url(cleanPath: string): boolean {
 }
 
 // Pre-rendering wrapper function for SEO
-function renderSeoHtml(urlPath: string, html: string): string {
+export function renderSeoHtml(urlPath: string, html: string): string {
   const cleanPath = urlPath.split("?")[0].split("#")[0];
 
-  let title = "Reel Hook Generator: Get Free Scroll-Stopping Reel Hooks (2026)";
-  let description = "The #1 free AI reel hook generator online. Instantly create high-retention reel hook ideas for Instagram, TikTok & YouTube. Grow 10x faster with no signup required!";
+  let title = "Free AI Reel Hook Generator for Instagram, TikTok & YouTube Shorts";
+  let description = "Create niche-specific opening lines for Instagram Reels, TikTok and YouTube Shorts. Generate hook ideas and adapt them to your audience and voice.";
   let canonicalUrl = `https://www.reelhooks.site${cleanPath === "/" ? "/" : cleanPath}`;
   let bodyContent = "";
   let schemasArray: any[] = [];
@@ -122,8 +133,10 @@ function renderSeoHtml(urlPath: string, html: string): string {
   if (hooksMatch) {
     const slug = hooksMatch[1];
     const parts = slug.split("-");
-    const lang = parts.pop() || "english";
-    const slugId = parts.join("-");
+    const supportedLanguages = new Set(["english", "hindi", "hinglish", "spanish", "french"]);
+    const lastPart = parts[parts.length - 1];
+    const lang = supportedLanguages.has(lastPart) ? (parts.pop() || "english") : "english";
+    const slugId = parts.join("-") || slug;
 
     const main = NICHES.find(n => n.id === slugId);
     let name = slugId.charAt(0).toUpperCase() + slugId.slice(1);
@@ -158,7 +171,7 @@ function renderSeoHtml(urlPath: string, html: string): string {
     }
 
     const richContentSource = SEO_CATEGORY_CONTENT[categoryId] || SEO_CATEGORY_CONTENT["fitness"] || {
-      introduction: `Struggling to get views on your ${name} reels? The first 3 seconds are everything. Our instagram hook generator has analyzed thousands of viral videos to bring you these high-performing viral reel hooks specifically optimized for the ${name} niche.`,
+      introduction: `Struggling to get views on your ${name} reels? The first 3 seconds are everything. Use these examples as starting points, then adapt the wording to your audience, topic and video format.`,
       section1: "", section2: "", section3: "", conclusion: ""
     };
 
@@ -193,11 +206,11 @@ function renderSeoHtml(urlPath: string, html: string): string {
         `काश मुझे अपनी क्रिएटर यात्रा शुरू करने से पहले ${name} का यह राज पता होता।`,
         `क्या ${name} वास्तव में इसके लायक है? यहाँ पूरा सच है।`,
         `अपने ${name} को बेहतर बनाने के लिए इस रील को स्किप न करें!`,
-        `इस एक बदलाव ने सिर्फ 7 दिनों में मेरे ${name} के परिणामों को दोगुना कर दिया।`,
+        `${name} वीडियो को बेहतर बनाने के लिए एक आसान बदलाव।`,
         `3 बड़ी गलतियाँ जो आप अपने ${name} रील्स में रोज़ाना करते हैं।`,
         `बिना किसी बकवास के, यहाँ ${name} को मास्टर करने के 3 आसान तरीके हैं।`,
         `यह ${name} की सीक्रेट चीट शीट है जो आपको आज ही सेव करनी चाहिए।`,
-        `मेरे ${name} रील्स पर 10 गुना ज़्यादा व्यूज़ लाने का एक आसान राज।`,
+        `${name} रील्स को और स्पष्ट बनाने का एक आसान तरीका।`,
         `रुकिए! क्या आप भी ${name} में ये गलतियाँ कर रहे हैं?`
       ];
     } else if (lang === "hinglish") {
@@ -208,11 +221,11 @@ function renderSeoHtml(urlPath: string, html: string): string {
         `Kash mujhe apni creator journey start karne se pehle ${name} ka ye secret pata hota.`,
         `Kya ${name} sach mein worth it hai? Ye raha absolute sach.`,
         `Apne ${name} ko improve karne ke liye is reel ko scroll mat karna!`,
-        `Is ek change ne sirf 7 dino mein mere ${name} results ko double kar diya.`,
+        `Ek practical change jo aapke ${name} videos ko aur clear bana sakta hai.`,
         `3 badi galtiyan jo aap apne ${name} reels mein rozana karte ho.`,
         `No non-sense, ye rahe ${name} ko master karne ke 3 simple steps.`,
         `Ye ultimate ${name} cheat sheet aapko aaj hi steal karni chahiye.`,
-        `Mere ${name} reels par 10x zyada engagement lane ka simple secret.`,
+        `${name} reels ko aur engaging banane ka ek simple idea.`,
         `Ruko! Kya aap bhi ${name} mein ye galtiyan kar rahe ho?`
       ];
     } else {
@@ -225,10 +238,10 @@ function renderSeoHtml(urlPath: string, html: string): string {
         `Here is how to master ${name} in only 3 simple steps.`,
         `3 major mistakes you make daily in your ${name} reels.`,
         `Don't scroll if you are trying to improve your ${name}!`,
-        `This single change doubled my ${name} results in just 7 days.`,
+        `One practical change that can make your ${name} videos clearer.`,
         `Is ${name} actually worth it? Here is the absolute truth.`,
         `The ultimate ${name} cheat sheet you need to steal today.`,
-        `My simple secret for 10x visual engagement in ${name}.`,
+        `A simple way to make your ${name} videos more engaging.`,
         `Stop scrolling if you want to grow your ${name} account.`
       ];
     }
@@ -248,7 +261,7 @@ function renderSeoHtml(urlPath: string, html: string): string {
       },
       {
         q: `How does the ${name} hook generator work?`,
-        a: `Our generator uses fine-tuned models trained on high-converting social media posts. It identifies patterns and words that trigger interest and puts them into scroll-stopping copy for you.`
+        a: `The generator uses your selected niche and language to suggest opening-line ideas. Review each suggestion for accuracy and make it sound natural for your audience.`
       },
       {
         q: `How do I go viral in the ${name} niche?`,
@@ -679,15 +692,32 @@ function renderSeoHtml(urlPath: string, html: string): string {
     `;
   }
 
-  // Rewrite original HTML with replacements
+  // Escape metadata before placing it inside HTML attributes.
+  const escapeAttribute = (value: string) => value
+    .replace(/&/g, "&amp;")
+    .replace(/"/g, "&quot;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;");
+
   let revised = html;
-  
-  revised = revised.replace(/<title data-rh="true">.*?<\/title>/, `<title data-rh="true">${title}</title>`);
-  revised = revised.replace(/<meta data-rh="true" name="description" content=".*?" \/>/, `<meta data-rh="true" name="description" content="${description}" />`);
-  revised = revised.replace(/<link data-rh="true" rel="canonical" href=".*?" \/>/, `<link data-rh="true" rel="canonical" href="${canonicalUrl}" />`);
-  revised = revised.replace(/<meta data-rh="true" property="og:title" content=".*?" \/>/, `<meta data-rh="true" property="og:title" content="${title}" />`);
-  revised = revised.replace(/<meta data-rh="true" property="og:description" content=".*?" \/>/, `<meta data-rh="true" property="og:description" content="${description}" />`);
-  revised = revised.replace(/<meta data-rh="true" property="og:url" content=".*?" \/>/, `<meta data-rh="true" property="og:url" content="${canonicalUrl}" />`);
+  const safeTitle = escapeAttribute(title);
+  const safeDescription = escapeAttribute(description);
+  const safeCanonical = escapeAttribute(canonicalUrl);
+  const ogType = cleanPath.startsWith("/blog/") || Boolean(SEO_ARTICLES[cleanPath.slice(1)]) ? "article" : "website";
+
+  revised = revised.replace(/<title(?:\s+data-rh="true")?>.*?<\/title>/i, "<title>" + safeTitle + "</title>");
+  revised = revised.replace(/<meta\s+data-rh="true"\s+name="description"\s+content=".*?"\s*\/>/i, '<meta name="description" content="' + safeDescription + '" />');
+  revised = revised.replace(/<link\s+data-rh="true"\s+rel="canonical"\s+href=".*?"\s*\/>/i, '<link rel="canonical" href="' + safeCanonical + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:title"\s+content=".*?"\s*\/>/i, '<meta property="og:title" content="' + safeTitle + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:description"\s+content=".*?"\s*\/>/i, '<meta property="og:description" content="' + safeDescription + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:url"\s+content=".*?"\s*\/>/i, '<meta property="og:url" content="' + safeCanonical + '" />');
+  revised = revised.replace(/<meta\s+data-rh="true"\s+property="og:type"\s+content=".*?"\s*\/>/i, '<meta property="og:type" content="' + ogType + '" />');
+
+  const twitterTags = '<meta name="twitter:card" content="summary_large_image" />' +
+    '<meta name="twitter:title" content="' + safeTitle + '" />' +
+    '<meta name="twitter:description" content="' + safeDescription + '" />' +
+    '<meta name="twitter:image" content="https://www.reelhooks.site/og-image.png" />';
+  revised = revised.replace("</head>", twitterTags + "\n</head>");
 
   // Handle NoIndex routes (like dashboard, profile, or Tier 2 pages)
   const isNoIndex = cleanPath.startsWith("/dashboard") || cleanPath.startsWith("/profile") || !isTier1Url(cleanPath);
@@ -696,7 +726,16 @@ function renderSeoHtml(urlPath: string, html: string): string {
   }
 
   if (bodyContent) {
-    revised = revised.replace(/<div id="root">([\s\S]*?)<\/div>/, `<div id="root">${bodyContent}</div>`);
+    const rootStart = revised.indexOf('<div id="root">');
+    const moduleScriptStart = revised.indexOf('<script type="module"', rootStart);
+    const rootEnd = moduleScriptStart >= 0
+      ? revised.lastIndexOf("</div>", moduleScriptStart)
+      : revised.lastIndexOf("</div>");
+    if (rootStart >= 0 && rootEnd > rootStart) {
+      revised = revised.slice(0, rootStart) +
+        `<div id="root">${bodyContent}</div>` +
+        revised.slice(rootEnd + "</div>".length);
+    }
   }
 
   if (schemasArray.length > 0) {
@@ -719,6 +758,9 @@ async function startServer() {
   // Redirect Middleware for Consolidated/Duplicate/Unrelated spammey URLs
   app.use((req, res, next) => {
     const cleanPath = req.path.replace(/^\/|\/$/g, ""); // strip leading/trailing slashes
+    if (GONE_PATHS.has(cleanPath)) {
+      return res.status(410).send("This page has been permanently removed.");
+    }
     if (REDIRECT_MAP[cleanPath]) {
       return res.redirect(301, REDIRECT_MAP[cleanPath]);
     }
@@ -741,88 +783,14 @@ async function startServer() {
     res.send("User-agent: *\nAllow: /\nSitemap: https://www.reelhooks.site/sitemap.xml");
   });
 
-  // sitemap.xml
+  // Serve the same sitemap generated during the production build.
   app.get("/sitemap.xml", (req, res) => {
-    res.type("application/xml");
-    const lastmod = "2026-07-12";
-
-    const paths: string[] = [
-      "/",
-      "/explore",
-      "/about",
-      "/faq",
-      "/contact",
-      "/privacy",
-      "/terms",
-      "/blog",
-      "/sitemap"
-    ];
-
-    // Add blogs
-    BLOG_POSTS.forEach(post => {
-      paths.push(`/blog/${post.slug}`);
-    });
-
-    // Add whitelisted tools
-    const whitelistedTools = [
-      "instagram-bio-generator",
-      "instagram-caption-generator",
-      "instagram-hashtag-generator",
-      "instagram-reel-generator",
-      "instagram-username-generator",
-      "instagram-dp-generator",
-      "instagram-transcript-generator",
-      "instagram-mockup-generator",
-      "hook-generator"
-    ];
-    whitelistedTools.forEach(tool => {
-      paths.push(`/tools/${tool}`);
-    });
-
-    // Add main niche pillar pages (WITHOUT language suffix, e.g. /hooks/fitness)
-    NICHES.forEach(n => {
-      paths.push(`/hooks/${n.id.toLowerCase()}`);
-    });
-
-    // Add premium articles
-    const premiumArticles = [
-      "best-hooks-for-instagram-reels",
-      "viral-hooks-for-instagram-reels",
-      "how-to-go-viral-on-reels-2026",
-      "best-time-to-post-reels-india",
-      "how-to-get-first-1000-followers-instagram",
-      "instagram-algorithm-explained-2026",
-      "how-to-use-ai-for-content-creation",
-      "monetize-instagram-reels-india",
-      "increase-reel-engagement-hacks",
-      "faceless-reel-channel-guide",
-      "instagram-seo-tips-for-creators",
-      "reel-hook-analyzer",
-      "content-ideas-generator",
-      "content-calendar-generator",
-      "free-ai-hook-generator"
-    ];
-    premiumArticles.forEach(slug => {
-      paths.push(`/${slug}`);
-    });
-
-    const urlBlocks = paths.map(p => {
-      let priority = "0.7";
-      if (p === "/") priority = "1.0";
-      else if (p === "/explore" || p.startsWith("/tools/")) priority = "0.9";
-      else if (p.startsWith("/hooks/")) priority = "0.8";
-      
-      return `  <url>
-    <loc>https://www.reelhooks.site${p}</loc>
-    <lastmod>${lastmod}</lastmod>
-    <priority>${priority}</priority>
-  </url>`;
-    }).join("\n");
-
-    res.send(`<?xml version="1.0" encoding="UTF-8"?>
-<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
-${urlBlocks}
-</urlset>`);
+    const sitemapPath = path.join(__dirname, "dist", "sitemap.xml");
+    if (fs.existsSync(sitemapPath)) {
+      res.type("application/xml");
+      return res.sendFile(sitemapPath);
+    }
+    res.status(503).type("text/plain").send("Sitemap is generated during the production build.");
   });
 
   // Programmatic SEO Routes
@@ -881,4 +849,7 @@ ${urlBlocks}
   });
 }
 
-startServer();
+// Do not start Express when this module is imported by the prerender build script.
+if (process.argv[1] && path.resolve(process.argv[1]) === __filename) {
+  startServer();
+}
