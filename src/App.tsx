@@ -352,25 +352,9 @@ const WhosItFor = () => (
           ))}
         </div>
       </div>
-      <div className="relative">
-        <div className="absolute inset-0 bg-primary/20 blur-[100px] rounded-full" />
-        <div className="glass p-12 rounded-[4rem] border-white/5 relative bg-bg/80 animate-float">
-          <blockquote className="space-y-6">
-            <Quote className="text-primary w-12 h-12" />
-            <p className="text-2xl font-medium leading-relaxed italic text-white/90">
-              "Maine pehle Copy.ai use kiya tha, but woh Indian audience ke liye thoda boring hooks deta tha. ReelHooks transition mere liye game-changer raha. Reach doubled within 2 weeks!"
-            </p>
-            <footer className="flex items-center gap-4">
-              <div className="w-14 h-14 rounded-full bg-primary/20 overflow-hidden">
-                <img src="https://picsum.photos/seed/rk/100/100" alt="Testimonial" referrerPolicy="no-referrer" />
-              </div>
-              <div>
-                <cite className="font-bold text-white not-italic text-lg">Rahul K.</cite>
-                <p className="text-sm text-text-secondary">Tech Content Creator (500k+ Followers)</p>
-              </div>
-            </footer>
-          </blockquote>
-        </div>
+      <div className="relative glass p-10 rounded-[2rem] border-white/5">
+        <h3 className="text-2xl font-bold text-white mb-3">Useful opening lines, shaped around your topic</h3>
+        <p className="text-text-secondary leading-relaxed">Use the suggestions as a starting point. Review every hook for accuracy, originality and fit with the video before publishing.</p>
       </div>
     </div>
   </section>
