@@ -1,5 +1,14 @@
 {
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "functions": {
+    "api/serve.ts": {
+      "includeFiles": "dist/**"
+    }
+  },
   "rewrites": [
-    { "source": "/(.*)", "destination": "/api/serve/$1" }
+    {
+      "source": "/(.*)",
+      "destination": "/api/serve?__route=$1"
+    }
   ]
 }
