@@ -8,7 +8,7 @@ type Sex = "male" | "female";
 type Goal = "maintain" | "mild-loss" | "loss" | "gain";
 const SITE = "https://www.reelhooks.site";
 const pageTitle = "TDEE Calculator: Estimate Your Daily Calories Free";
-const pageDescription = "Estimate your TDEE, BMR and daily calorie targets with three proven formulas. Choose activity, units and goals in this free calculator.";
+const pageDescription = "Estimate your TDEE, BMR and daily calorie targets with three established formulas. Choose activity, units and goals in this free online calculator today.";
 const faqs = [
  {q:"What is the difference between TDEE and BMR?",a:"BMR estimates the energy your body uses at rest to support essential functions. TDEE estimates total daily energy use after accounting for movement, exercise and digestion. TDEE is the more useful starting estimate for daily calorie planning."},
  {q:"How accurate is a TDEE calculator?",a:"It is an estimate, not a measurement. Equations can differ from an individual's actual energy use because of body composition, health, sleep, medication, daily movement and imperfect activity estimates. Compare the estimate with several weeks of consistent weight and intake trends."},
