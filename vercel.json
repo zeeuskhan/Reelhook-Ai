@@ -1,5 +1,7 @@
 {
   "rewrites": [
+    { "source": "/tdee-calculator", "destination": "/api/tdee-calculator" },
+    { "source": "/tdee-calculator/", "destination": "/api/tdee-calculator" },
     { "source": "/(.*)", "destination": "/api/serve/$1" }
   ]
 }
