@@ -789,7 +789,7 @@ function renderSeoHtml(urlPath: string, html: string): string {
   revised = revised.replace(/<meta data-rh="true" property="og:url" content=".*?" \/>/, `<meta data-rh="true" property="og:url" content="${canonicalUrl}" />`);
   if (cleanPath === "/tdee-calculator") {
     revised = revised.replace(/<meta data-rh="true" property="og:image" content=".*?" \/>/, '<meta data-rh="true" property="og:image" content="https://www.reelhooks.site/og-tdee-calculator.svg" />');
-    revised = revised.replace("</head>", '<meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="TDEE Calculator: Estimate Your Daily Calories Free" /><meta name="twitter:description" content="Estimate your TDEE, BMR and daily calorie targets with three established formulas. Choose activity, units and goals in this free calculator." /><meta name="twitter:image" content="https://www.reelhooks.site/og-tdee-calculator.svg" /></head>');
+    revised = revised.replace("</head>", '<meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="TDEE Calculator: Estimate Your Daily Calories Free" /><meta name="twitter:description" content="Estimate your TDEE, BMR and daily calorie targets with three established formulas. Choose activity, units and goals in this free online calculator today." /><meta name="twitter:image" content="https://www.reelhooks.site/og-tdee-calculator.svg" /></head>');
   }
 
   // Handle NoIndex routes (like dashboard, profile, or Tier 2 pages)
