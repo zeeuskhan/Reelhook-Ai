@@ -84,11 +84,6 @@ const ToolSEOPage: React.FC = () => {
       "price": "0",
       "priceCurrency": "INR"
     },
-    "aggregateRating": {
-      "@type": "AggregateRating",
-      "ratingValue": "4.9",
-      "reviewCount": "10000"
-    }
   };
 
   const faqSchema = {
@@ -187,7 +182,7 @@ const ToolSEOPage: React.FC = () => {
                     />
                   ))}
                 </div>
-                <span>Joined by 10k+ creators</span>
+                <span>Free resources for content creators</span>
               </div>
             </div>
           </motion.div>
@@ -233,8 +228,7 @@ const ToolSEOPage: React.FC = () => {
                     <div className="flex justify-center space-x-1">
                       {[1, 2, 3, 4, 5].map(i => <Star key={i} className="w-4 h-4 text-yellow-500 fill-yellow-500" />)}
                     </div>
-                    <p className="text-base font-medium">4.9/5 Rating</p>
-                    <p className="text-sm text-text-secondary uppercase tracking-widest">Based on 10,000+ reviews</p>
+                    <p className="text-base font-medium">Free creator tools</p><p className="text-sm text-text-secondary uppercase tracking-widest">Practical guides and generators</p>
                   </div>
                 </div>
               </div>
