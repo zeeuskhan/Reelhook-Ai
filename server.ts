@@ -962,7 +962,8 @@ ${urlBlocks}
         const indexHtml = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
         let template = await vite.transformIndexHtml(url, indexHtml);
         const finalHtml = renderSeoHtml(url, template);
-        res.status(200).set({ "Content-Type": "text/html" }).end(finalHtml);
+        const routeKnown = isTier1Url(req.path) || req.path === "/dashboard" || req.path === "/profile" || req.path === "/ai-tools-news" || req.path.startsWith("/ai-tools-news/") || Boolean(SEO_ARTICLES[req.path.replace(/^\\/+/, "")]);
+        res.status(routeKnown ? 200 : 404).set({ "Content-Type": "text/html" }).end(finalHtml);
       } catch (e) {
         vite.ssrFixStacktrace(e as Error);
         next(e);
@@ -977,7 +978,8 @@ ${urlBlocks}
       try {
         const indexHtml = fs.readFileSync(path.join(__dirname, "dist", "index.html"), "utf-8");
         const finalHtml = renderSeoHtml(url, indexHtml);
-        res.status(200).set({ "Content-Type": "text/html" }).send(finalHtml);
+        const routeKnown = isTier1Url(req.path) || req.path === "/dashboard" || req.path === "/profile" || req.path === "/ai-tools-news" || req.path.startsWith("/ai-tools-news/") || Boolean(SEO_ARTICLES[req.path.replace(/^\\/+/, "")]);
+        res.status(routeKnown ? 200 : 404).set({ "Content-Type": "text/html" }).send(finalHtml);
       } catch (e) {
         console.error("Error serving production HTML:", e);
         res.status(500).send("Internal Server Error");
