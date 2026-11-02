@@ -50,7 +50,8 @@ function isTier1Url(cleanPath: string): boolean {
     "/privacy",
     "/terms",
     "/blog",
-    "/sitemap"
+    "/sitemap",
+    "/tdee-calculator"
   ];
   if (exactTier1Paths.includes(cleanPath)) return true;
 
@@ -393,6 +394,25 @@ function renderSeoHtml(urlPath: string, html: string): string {
           }
         ]
       }
+    ];
+
+  // Dedicated TDEE calculator landing page: render useful HTML before React hydrates.
+  } else if (cleanPath === "/tdee-calculator") {
+    title = "Free TDEE Calculator: Daily Calorie Needs & BMR | ReelHooks";
+    description = "Estimate your total daily energy expenditure (TDEE), resting energy needs and activity-adjusted calories with a free metric and imperial calculator. Results are estimates, not medical advice.";
+    bodyContent = `
+      <main style="max-width:900px;margin:40px auto;padding:24px;color:#F8FAFC;font-family:Inter,sans-serif;line-height:1.75;">
+        <nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>TDEE Calculator</span></nav>
+        <h1 style="font-size:38px;font-weight:800;margin:28px 0 16px;">Free TDEE Calculator</h1>
+        <p>Estimate your total daily energy expenditure (TDEE), the energy your body uses across an average day. The calculator supports metric and imperial measurements and explains estimated resting energy expenditure, activity assumptions and limitations.</p>
+        <p><strong>How it works:</strong> It estimates resting energy expenditure using the Mifflin–St Jeor equation and applies an activity multiplier. This is a prediction, not a direct measurement of metabolism.</p>
+        <h2>What you can calculate</h2><ul><li>Estimated resting energy expenditure (often labelled BMR)</li><li>Estimated daily energy expenditure based on activity</li><li>Illustrative maintenance and goal-based calorie figures</li><li>Estimated macronutrient breakdown</li></ul>
+        <h2>Important limitations</h2><p>This general adult calculator is not intended to prescribe nutrition for anyone under 18, during pregnancy or breastfeeding, for eating-disorder recovery, or for medical nutrition therapy. Consult a qualified healthcare professional or registered dietitian for individual advice.</p>
+        <p><a href="/blog/tdee-calculator-formula-mifflin-st-jeor-explained">Read how the TDEE formula works</a> · <a href="/blog/tdee-calculator-weight-loss-calorie-deficit-guide">Understand calorie-deficit estimates</a></p>
+      </main>`;
+    schemasArray = [
+      { "@context": "https://schema.org", "@type": "WebApplication", "name": "Free TDEE Calculator", "url": "https://www.reelhooks.site/tdee-calculator", "applicationCategory": "HealthApplication", "operatingSystem": "Any", "offers": { "@type": "Offer", "price": "0", "priceCurrency": "USD" }, "description": description },
+      { "@context": "https://schema.org", "@type": "BreadcrumbList", "itemListElement": [ { "@type": "ListItem", "position": 1, "name": "Home", "item": "https://www.reelhooks.site/" }, { "@type": "ListItem", "position": 2, "name": "TDEE Calculator", "item": "https://www.reelhooks.site/tdee-calculator" } ] }
     ];
 
   // 2. SEO Article pages: /:slug
@@ -771,7 +791,8 @@ async function startServer() {
       "/privacy",
       "/terms",
       "/blog",
-      "/sitemap"
+      "/sitemap",
+      "/tdee-calculator"
     ];
 
     // Add blogs
