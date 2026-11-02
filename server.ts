@@ -408,7 +408,7 @@ function renderSeoHtml(urlPath: string, html: string): string {
         <h1 style="font-size:38px;font-weight:800;margin:28px 0 16px;">Free Online Calculators</h1>
         <p>Browse practical calculators and guides. Results are estimates based on the assumptions explained on each page. Health-related tools are educational and do not replace advice from a qualified professional.</p>
         <section><h2><a href="/tdee-calculator">TDEE Calculator</a></h2><p>Estimate BMR, total daily energy expenditure and illustrative calorie targets with three equations.</p></section>
-        <section><h2>Related reading</h2><ul><li><a href="/blog/tdee-calculator-formula-mifflin-st-jeor-explained">Understand the TDEE formula</a></li><li><a href="/blog/tdee-calculator-weight-loss-calorie-deficit-guide">Learn about calorie-deficit estimates</a></li></ul></section>
+        <section><h2>Related reading</h2><ul><li><a href="/blog/tdee-calculator-daily-energy-needs-guide">Understand the TDEE formula</a></li><li><a href="/blog/how-to-use-your-tdee-calculator-result">Learn about calorie-deficit estimates</a></li></ul></section>
         <p>More calculators will be listed when they are available and tested. We do not link to unfinished tools.</p>
       </main>`;
     schemasArray = [{ "@context":"https://schema.org","@type":"CollectionPage","name":"Free Online Calculators","url":"https://www.reelhooks.site/calculators","description":description },{ "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.reelhooks.site/"},{"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.reelhooks.site/calculators"}]}];
@@ -799,7 +799,7 @@ function renderSeoHtml(urlPath: string, html: string): string {
   }
 
   if (bodyContent) {
-    revised = revised.replace(/<div id="root">([\s\S]*?)<\/div>/, `<div id="root">${bodyContent}</div>`);
+    revised = revised.replace(/<div id="root">[\s\S]*?(?=\s*<script type="module" src="\/src\/main\.tsx")/, `<div id="root">${bodyContent}</div>\n    `);
   }
 
   if (schemasArray.length > 0) {
