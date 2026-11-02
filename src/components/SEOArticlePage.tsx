@@ -63,8 +63,8 @@ const SEOArticlePage: React.FC = () => {
         <div className="text-center space-y-4">
           <h1 className="text-4xl font-bold">Page Not Found</h1>
           <p className="text-text-secondary">The requested SEO article does not exist.</p>
-          <Link to="/" className="btn-primary inline-flex items-center space-x-2">
-            <span>Go Home</span>
+          <Link to="/calculators" className="btn-primary inline-flex items-center space-x-2">
+            <span>Browse Calculators</span>
             <ArrowRight className="w-4 h-4" />
           </Link>
         </div>
