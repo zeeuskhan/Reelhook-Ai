@@ -295,6 +295,7 @@ const Navbar = () => {
             <Link to="/tools/hook-generator" className="text-text-secondary hover:text-white transition-colors">Hook Generator</Link>
             <Link to="/ai-tools-news" className="text-text-secondary hover:text-white transition-colors font-bold text-primary">AI News 2026</Link>
             <Link to="/explore" className="text-text-secondary hover:text-white transition-colors">Free Tools</Link>
+            <Link to="/tdee-calculator" className="text-text-secondary hover:text-white transition-colors">Calculator</Link>
             <Link to="/blog" className="text-text-secondary hover:text-white transition-colors font-semibold">Viral Blog</Link>
             <Link to="/dashboard" className="bg-primary hover:bg-primary/90 text-white px-5 py-2 rounded-full font-bold transition-all transform hover:scale-105 shadow-lg shadow-primary/20">
               Go Viral Now
@@ -318,6 +319,7 @@ const Navbar = () => {
           <Link to="/tools/hook-generator" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Hook Generator</Link>
           <Link to="/ai-tools-news" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>AI News</Link>
           <Link to="/explore" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Explore</Link>
+          <Link to="/tdee-calculator" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>TDEE Calculator</Link>
           <Link to="/blog" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>Blog</Link>
           <Link to="/about" className="block text-text-secondary text-lg py-2" onClick={() => setIsOpen(false)}>About</Link>
           <Link to="/dashboard" className="block bg-primary text-white px-5 py-4 rounded-full text-center font-bold text-lg" onClick={() => setIsOpen(false)}>Launch App</Link>
