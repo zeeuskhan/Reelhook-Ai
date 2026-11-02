@@ -51,6 +51,8 @@ function isTier1Url(cleanPath: string): boolean {
     "/terms",
     "/blog",
     "/sitemap",
+    "/calculators",
+    "/medical-disclaimer",
     "/tdee-calculator"
   ];
   if (exactTier1Paths.includes(cleanPath)) return true;
@@ -791,12 +793,14 @@ async function startServer() {
 
   app.use(express.json());
 
-  // Redirect Middleware for Consolidated/Duplicate/Unrelated spammey URLs
+  // Canonical host and clean calculator URL redirects.
+  app.set("trust proxy", true);
   app.use((req, res, next) => {
-    const cleanPath = req.path.replace(/^\/|\/$/g, ""); // strip leading/trailing slashes
-    if (REDIRECT_MAP[cleanPath]) {
-      return res.redirect(301, REDIRECT_MAP[cleanPath]);
-    }
+    const host = String(req.headers["x-forwarded-host"] || req.headers.host || "").split(",")[0].trim().toLowerCase();
+    if (host === "reelhooks.site") return res.redirect(301, `https://www.reelhooks.site${req.originalUrl}`);
+    if (req.path === "/tdee-calculator/") return res.redirect(301, `/tdee-calculator${req.url.slice(req.path.length)}`);
+    const cleanPath = req.path.replace(/^\\/|\\/$/g, "");
+    if (REDIRECT_MAP[cleanPath]) return res.redirect(301, REDIRECT_MAP[cleanPath]);
     next();
   });
 
@@ -829,6 +833,8 @@ async function startServer() {
       "/terms",
       "/blog",
       "/sitemap",
+      "/calculators",
+      "/medical-disclaimer",
       "/tdee-calculator"
     ];
 
@@ -894,6 +900,7 @@ async function startServer() {
       return `  <url>
     <loc>https://www.reelhooks.site${p}</loc>
     <priority>${priority}</priority>
+    ${p === "/tdee-calculator" || p === "/calculators" ? "<lastmod>2026-11-02</lastmod>" : ""}
   </url>`;
     }).join("\n");
 
