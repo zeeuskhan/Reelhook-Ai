@@ -413,8 +413,10 @@ const Footer = () => (
           <h4 className="font-bold mb-4 text-lg">Company</h4>
           <ul className="space-y-3 text-base text-text-secondary">
             <li><Link to="/about" className="hover:text-primary transition-colors py-1 block">About Us</Link></li>
+            <li><Link to="/contact" className="hover:text-primary transition-colors py-1 block">Contact</Link></li>
             <li><Link to="/privacy" className="hover:text-primary transition-colors py-1 block">Privacy Policy</Link></li>
             <li><Link to="/terms" className="hover:text-primary transition-colors py-1 block">Terms of Service</Link></li>
+            <li><Link to="/medical-disclaimer" className="hover:text-primary transition-colors py-1 block">Medical & Health Disclaimer</Link></li>
             <li><Link to="/sitemap" className="hover:text-primary transition-colors py-1 block">Sitemap</Link></li>
           </ul>
         </div>
