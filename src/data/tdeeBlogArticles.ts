@@ -439,7 +439,7 @@ export const TDEE_BLOG_ARTICLES = [
       }
     ]
   }
-]).map((article) => ({
+].map((article) => ({
   date: "November 2, 2026",
   author: "ReelHooks Editorial Team",
   readTime: "6 min read",
