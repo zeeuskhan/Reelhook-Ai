@@ -1,7 +1,19 @@
 {
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [{ "type": "host", "value": "reelhooks.site" }],
+      "destination": "https://www.reelhooks.site/:path*",
+      "permanent": true
+    },
+    {
+      "source": "/tdee-calculator/",
+      "destination": "/tdee-calculator",
+      "permanent": true
+    }
+  ],
   "rewrites": [
     { "source": "/tdee-calculator", "destination": "/api/tdee-calculator" },
-    { "source": "/tdee-calculator/", "destination": "/api/tdee-calculator" },
     { "source": "/(.*)", "destination": "/api/serve/$1" }
   ]
 }
