@@ -1,4 +1,5 @@
 import React from 'react';
+import { Helmet } from 'react-helmet-async';
 import { Link } from 'react-router-dom';
 import { motion } from 'motion/react';
 import { 
@@ -15,6 +16,7 @@ import { BLOG_POSTS } from '../data/blog';
 const Blog: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-text-primary pt-32 pb-20">
+      <Helmet><title>Free TDEE, BMR & Fitness Calculator Guides | ReelHooks Blog</title><meta name="description" content="Read practical guides to TDEE, BMR, calorie estimates, activity multipliers and online calculator methods. Understand the science and limitations behind daily energy estimates."/><link rel="canonical" href="https://www.reelhooks.site/blog"/><meta name="robots" content="index,follow"/></Helmet>
       <div className="max-w-7xl mx-auto px-4 space-y-16">
         <div className="text-center space-y-6">
           <motion.div 
