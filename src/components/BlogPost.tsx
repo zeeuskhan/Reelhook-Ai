@@ -151,11 +151,11 @@ const BlogPost: React.FC = () => {
               <h3 className="text-xl font-bold font-display uppercase italic">Grow <span className="text-primary">Faster</span></h3>
               <p className="text-sm text-text-secondary leading-relaxed">Use our free AI Hook Generator to create viral content in seconds.</p>
               <Link 
-                to="/dashboard"
+                to={post.slug.includes("tdee") || post.slug.includes("bmr") || post.slug.includes("macro") ? "/tdee-calculator" : "/dashboard"}
                 className="w-full py-4 bg-primary text-white rounded-2xl font-black text-sm uppercase tracking-widest flex items-center justify-center space-x-2 hover:scale-[1.05] transition-all shadow-xl shadow-primary/30"
               >
                 <Sparkles className="w-4 h-4" />
-                <span>Try Generator</span>
+                <span>{post.slug.includes("tdee") || post.slug.includes("bmr") || post.slug.includes("macro") ? "Open TDEE Calculator" : "Try Generator"}</span>
               </Link>
 
               <div className="space-y-4 pt-6 border-t border-white/5">
