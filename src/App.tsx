@@ -177,6 +177,7 @@ const MockupGenerator = lazy(() => import("./components/tools/MockupGenerator"))
 const TDEECalculator = lazy(() => import("./components/TDEECalculator"));
 const CalculatorsHub = lazy(() => import("./components/CalculatorsHub"));
 const MedicalDisclaimer = lazy(() => import("./components/MedicalDisclaimer"));
+const NotFoundPage = lazy(() => import("./components/NotFoundPage"));
 const Blog = lazy(() => import("./components/Blog"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
 const Sitemap = lazy(() => import("./components/SitemapPage"));
@@ -3697,6 +3698,7 @@ export default function App() {
               <Route path="/ai-tools-news/:category" element={<AINewsIndex />} />
               <Route path="/ai-tools-news/:category/:slug" element={<AINewsArticlePage />} />
               <Route path="/:slug" element={<SEOArticlePage />} />
+              <Route path="*" element={<NotFoundPage />} />
             </Routes>
           </Suspense>
           </main>
