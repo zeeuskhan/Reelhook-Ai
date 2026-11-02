@@ -83,16 +83,11 @@ export const SEO = ({
   
   const fullTitle = enhancedTitle.includes("ReelHooks.site") ? enhancedTitle : `${enhancedTitle} | ReelHooks.site`;
   const fullCanonical = canonical || `${siteUrl}${currentPath}`;
-  
-  // 2026 Semantic Keywords
-  const keywords = "hook generator, viral hook generator, best hook generator, ai hook generator, instagram hook generator, tiktok hook generator, reel hook generator, hook generator for reels, viral hooks for content creators, short form video hooks, hook generator free, best hooks for instagram reels, viral hooks for instagram reels, instagram reel hook examples, how to write hooks for reels, reel opening hook ideas, viral instagram hook generator, instagram reel hook templates, short hooks for instagram reels, catchy hooks for reels, scroll stopping hooks for instagram, hooks to start instagram reels, engaging hooks for instagram videos, instagram hook writing tips, hook ideas for short form videos, viral hook examples for creators, instagram hook generator free, reel hook writing formula, powerful hooks for instagram reels, hook ideas for viral reels, instagram reel opening lines, best first line for reels, hooks that make reels go viral, engaging instagram hook ideas, viral hook ideas for influencers, reel hook ideas for beginners, instagram hooks for business reels, reels hook ideas for marketing, instagram reel hook strategy, reel intro hook examples, viral hook phrases for reels, instagram reel hook tricks, hook lines for short videos, instagram reel hook list, hook examples for social media videos, reel hook writing tips, viral reel intro ideas, hooks to stop scrolling instagram, instagram reel attention grabbers, viral hooks for instagram creators, hooks for educational reels, instagram reel storytelling hooks, viral intro hooks for reels, hook ideas for motivational reels, hook ideas for fitness reels, hook ideas for business reels, instagram hook copywriting tips, hooks for viral instagram content, engaging hooks for reels videos, instagram hook script ideas";
-
   return (
     <Helmet>
       {/* Basic Metadata */}
       <title>{fullTitle}</title>
       <meta name="description" content={enhancedDesc} />
-      <meta name="keywords" content={keywords} />
       <meta name="google-site-verification" content="X3VhNru6pUg4Jwkr9GZDBtGK_m0u8SK7rOe7md4LAZ8" />
       <link rel="canonical" href={fullCanonical} />
       <link rel="icon" href="https://lh3.googleusercontent.com/d/1DgUBQfN4OlaAYmhqX7ZGgPj7389xzkVt" />
