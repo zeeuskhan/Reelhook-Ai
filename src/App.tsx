@@ -180,6 +180,7 @@ const DPGenerator = lazy(() => import("./components/tools/DPGenerator"));
 const TranscriptGenerator = lazy(() => import("./components/tools/TranscriptGenerator"));
 const MockupGenerator = lazy(() => import("./components/tools/MockupGenerator"));
 const TDEECalculator = lazy(() => import("./components/TDEECalculator"));
+const CalculatorsHub = lazy(() => import("./components/CalculatorsHub"));
 const Blog = lazy(() => import("./components/Blog"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
 const Sitemap = lazy(() => import("./components/SitemapPage"));
@@ -3691,6 +3692,7 @@ export default function App() {
               <Route path="/tools/instagram-transcript-generator" element={<TranscriptGenerator />} />
               <Route path="/tools/instagram-mockup-generator" element={<MockupGenerator />} />
               <Route path="/tools/hook-generator" element={<ToolSEOPage />} />
+              <Route path="/calculators" element={<CalculatorsHub />} />
               <Route path="/tdee-calculator" element={<TDEECalculator />} />
               <Route path="/ai-tools-news" element={<AINewsIndex />} />
               <Route path="/ai-tools-news/:category" element={<AINewsIndex />} />
