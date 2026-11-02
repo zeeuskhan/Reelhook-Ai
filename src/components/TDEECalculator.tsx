@@ -1,144 +1,110 @@
-import React, { useMemo, useState } from "react";
+import React, { useMemo, useState, useEffect } from "react";
 import { Helmet } from "react-helmet-async";
-import { Activity, ArrowDown, ArrowUp, Minus, RotateCcw } from "lucide-react";
+import { Activity, Copy, RotateCcw, Check, ArrowUpRight } from "lucide-react";
+import { ACTIVITY_LEVELS, calculateTdee, inchesToCm, poundsToKg, type TdeeFormula } from "../utils/tdee";
 
 type Unit = "metric" | "imperial";
-type Gender = "male" | "female";
-type Goal = "lose" | "maintain" | "gain";
-
-const activityOptions = [
-  { value: 1.2, label: "Sedentary", detail: "Little or no exercise" },
-  { value: 1.375, label: "Lightly active", detail: "Light exercise 1–3 days/week" },
-  { value: 1.55, label: "Moderately active", detail: "Moderate exercise 3–5 days/week" },
-  { value: 1.725, label: "Very active", detail: "Hard exercise 6–7 days/week" },
-  { value: 1.9, label: "Extra active", detail: "Very hard exercise or physical job" }
-];
-
+type Sex = "male" | "female";
+type Goal = "maintain" | "mild-loss" | "loss" | "gain";
+const SITE = "https://www.reelhooks.site";
+const pageTitle = "TDEE Calculator: Estimate Your Daily Calories Free";
+const pageDescription = "Estimate your TDEE, BMR and daily calorie targets with three proven formulas. Choose activity, units and goals in this free calculator.";
 const faqs = [
-  { q: "What is a TDEE calculator?", a: "A TDEE calculator estimates your total daily energy expenditure: the calories your body uses in a typical day, including activity and exercise." },
-  { q: "How is TDEE calculated?", a: "This calculator estimates basal metabolic rate with the Mifflin–St Jeor equation, then multiplies it by an activity factor to estimate daily calorie needs." },
-  { q: "How many calories should I eat to lose weight?", a: "A modest calorie deficit is commonly used for gradual weight loss. This calculator shows an illustrative 500-calorie daily deficit; individual needs vary, and the result is only an estimate." },
-  { q: "What is the difference between BMR and TDEE?", a: "BMR estimates the energy your body uses at rest. TDEE includes BMR plus the energy used for daily movement, exercise and digestion." },
-  { q: "Are TDEE calculator results exact?", a: "No. Equations and activity multipliers provide estimates. Your actual energy needs can differ with body composition, health, sleep and daily movement." }
+ {q:"What is the difference between TDEE and BMR?",a:"BMR estimates the energy your body uses at rest to support essential functions. TDEE estimates total daily energy use after accounting for movement, exercise and digestion. TDEE is the more useful starting estimate for daily calorie planning."},
+ {q:"How accurate is a TDEE calculator?",a:"It is an estimate, not a measurement. Equations can differ from an individual's actual energy use because of body composition, health, sleep, medication, daily movement and imperfect activity estimates. Compare the estimate with several weeks of consistent weight and intake trends."},
+ {q:"How often should I recalculate my TDEE?",a:"Recalculate after a meaningful change in body weight, activity routine or other relevant circumstances. For many people, checking every 4–8 weeks during a changing plan is practical, but there is no universal schedule."},
+ {q:"How many calories should I eat to lose 0.5 kg per week?",a:"A rough planning estimate is a daily deficit near 500 kcal, but the result varies and weight change is not perfectly linear. The calculator shows this as an illustrative option, not a promise or prescription. Seek professional advice before making substantial changes."},
+ {q:"Which activity level should I choose?",a:"Choose the description that best matches your whole week, not only your gym sessions. If you work at a desk and exercise occasionally, a lower activity setting may be more realistic than a high multiplier. When uncertain, start conservatively and review your trend."},
+ {q:"Which BMR formula is best?",a:"Mifflin–St Jeor is a widely used general adult estimate. Revised Harris–Benedict is another established option. Katch–McArdle uses lean body mass and depends on a reasonably reliable body-fat estimate. No formula is best for every person."},
+ {q:"Does muscle mass change TDEE?",a:"Body composition can affect resting energy needs, and muscle tissue uses energy. However, the effect varies and total daily expenditure also depends on body size, movement, training and other factors. A body-fat estimate can help the Katch–McArdle equation account for lean mass."},
+ {q:"Is eating below TDEE safe?",a:"A calorie deficit is one approach used for weight loss, but the appropriate size depends on the person. A calculator cannot assess medical history, nutritional adequacy or individual risk. Avoid aggressive restriction and get professional guidance, especially if you have a medical condition or a history of disordered eating."},
+ {q:"How can I find my body-fat percentage?",a:"Possible methods include a trained skinfold assessment, bioelectrical impedance scales, DEXA or other body-composition assessments. Each has limitations and measurement error. If you do not have a credible estimate, use Mifflin–St Jeor or Harris–Benedict instead."}
 ];
-
+const schema = [
+ {"@context":"https://schema.org","@type":"WebApplication","name":"Free TDEE Calculator","url":SITE+"/tdee-calculator","description":pageDescription,"applicationCategory":"HealthApplication","operatingSystem":"Any","offers":{"@type":"Offer","price":"0","priceCurrency":"USD"}},
+ {"@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":SITE+"/"},{"@type":"ListItem","position":2,"name":"Calculators","item":SITE+"/calculators"},{"@type":"ListItem","position":3,"name":"TDEE Calculator","item":SITE+"/tdee-calculator"}]},
+ {"@context":"https://schema.org","@type":"FAQPage","mainEntity":faqs.map(f=>({"@type":"Question","name":f.q,"acceptedAnswer":{"@type":"Answer","text":f.a}}))}
+];
+function track(name:string,params:Record<string,unknown>={}) { try { (window as any).gtag?.("event",name,params); } catch {} }
+const fmt=(n:number)=>Math.round(n).toLocaleString("en-IN");
 export default function TDEECalculator() {
-  const [unit, setUnit] = useState<Unit>("metric");
-  const [gender, setGender] = useState<Gender>("male");
-  const [age, setAge] = useState("25");
-  const [weight, setWeight] = useState("70");
-  const [height, setHeight] = useState("170");
-  const [feet, setFeet] = useState("5");
-  const [inches, setInches] = useState("7");
-  const [activity, setActivity] = useState("1.55");
-  const [goal, setGoal] = useState<Goal>("maintain");
-
-  const result = useMemo(() => {
-    const a = Number(age);
-    const rawWeight = Number(weight);
-    const rawHeight = unit === "metric" ? Number(height) : (Number(feet) * 12 + Number(inches)) * 2.54;
-    const kg = unit === "metric" ? rawWeight : rawWeight * 0.45359237;
-    if (!Number.isFinite(a) || !Number.isFinite(kg) || !Number.isFinite(rawHeight) || a < 18 || a > 100 || kg < 25 || kg > 350 || rawHeight < 120 || rawHeight > 230) return null;
-    const bmr = 10 * kg + 6.25 * rawHeight - 5 * a + (gender === "male" ? 5 : -161);
-    const tdee = bmr * Number(activity);
-    const calories = goal === "lose" ? tdee - 500 : goal === "gain" ? tdee + 300 : tdee;
-    const protein = Math.round(kg * (goal === "lose" ? 1.8 : 1.6));
-    const fat = Math.round((calories * 0.27) / 9);
-    const carbs = Math.max(0, Math.round((calories - protein * 4 - fat * 9) / 4));
-    return { bmr: Math.round(bmr), tdee: Math.round(tdee), calories: Math.round(calories), protein, fat, carbs, bmi: kg / ((rawHeight / 100) ** 2) };
-  }, [age, weight, height, feet, inches, unit, gender, activity, goal]);
-
-  const reset = () => { setUnit("metric"); setGender("male"); setAge("25"); setWeight("70"); setHeight("170"); setFeet("5"); setInches("7"); setActivity("1.55"); setGoal("maintain"); };
-  const field = "w-full rounded-xl border border-white/10 bg-slate-900/70 px-4 py-3 text-white outline-none transition focus:border-primary focus:ring-2 focus:ring-primary/20";
-  const label = "mb-2 block text-sm font-semibold text-slate-300";
-
-  return (
-    <div className="min-h-screen bg-bg pb-20 pt-28 text-white">
-      <Helmet>
-        <title>Free TDEE Calculator: Daily Calorie Needs & BMR | ReelHooks</title>
-        <meta name="description" content="Use our free TDEE calculator to estimate daily calorie needs, BMR and calories for weight loss, maintenance or weight gain. Includes activity levels and macro estimates." />
-        <meta name="keywords" content="tdee calculator, free tdee calculator, daily calorie calculator, calorie maintenance calculator, bmr calculator, tdee calculator for weight loss, calories to maintain weight" />
-        <link rel="canonical" href="https://www.reelhooks.site/tdee-calculator" />
-        <meta property="og:title" content="Free TDEE Calculator: Daily Calorie Needs & BMR" />
-        <meta property="og:description" content="Estimate your daily calorie needs with a free TDEE and BMR calculator." />
-        <meta property="og:url" content="https://www.reelhooks.site/tdee-calculator" />
-        <meta name="robots" content="index,follow,max-image-preview:large" />
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org", "@type": "WebApplication", name: "Free TDEE Calculator",
-          url: "https://www.reelhooks.site/tdee-calculator", applicationCategory: "HealthApplication",
-          operatingSystem: "Any", offers: { "@type": "Offer", price: "0", priceCurrency: "USD" },
-          description: "Estimate basal metabolic rate, total daily energy expenditure and daily calorie targets."
-        })}</script>
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org", "@type": "FAQPage",
-          mainEntity: faqs.map(({q,a}) => ({ "@type": "Question", name: q, acceptedAnswer: { "@type": "Answer", text: a } }))
-        })}</script>
-        <script type="application/ld+json">{JSON.stringify({
-          "@context": "https://schema.org", "@type": "BreadcrumbList",
-          itemListElement: [
-            { "@type": "ListItem", position: 1, name: "Home", item: "https://www.reelhooks.site/" },
-            { "@type": "ListItem", position: 2, name: "TDEE Calculator", item: "https://www.reelhooks.site/tdee-calculator" }
-          ]
-        })}</script>
-      </Helmet>
-
-      <div className="mx-auto max-w-6xl px-4 sm:px-6">
-        <nav aria-label="Breadcrumb" className="mb-6 text-sm text-slate-400"><a href="/" className="hover:text-primary">Home</a><span className="mx-2">/</span><span className="text-slate-200">TDEE Calculator</span></nav>
-        <header className="mx-auto mb-10 max-w-3xl text-center">
-          <div className="mb-4 inline-flex items-center gap-2 rounded-full border border-primary/30 bg-primary/10 px-4 py-2 text-sm font-semibold text-primary"><Activity size={16}/> Free health & fitness calculator</div>
-          <h1 className="mb-4 text-4xl font-extrabold tracking-tight sm:text-5xl">TDEE Calculator</h1>
-          <p className="text-lg leading-relaxed text-slate-300">Estimate how many calories you burn each day. Calculate your BMR, daily maintenance calories and a starting calorie target for weight loss or weight gain.</p>
-        </header>
-
-        <div className="grid items-start gap-6 lg:grid-cols-[1.05fr_.95fr]">
-          <section className="rounded-3xl border border-white/10 bg-white/[0.035] p-5 shadow-2xl sm:p-8" aria-labelledby="calculator-heading">
-            <div className="mb-6 flex items-center justify-between gap-3"><h2 id="calculator-heading" className="text-2xl font-bold">Your details</h2><button onClick={reset} className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-400 hover:bg-white/5 hover:text-white"><RotateCcw size={15}/> Reset</button></div>
-            <div className="mb-6 grid grid-cols-2 rounded-xl bg-slate-900 p-1" role="group" aria-label="Measurement units">
-              <button onClick={() => setUnit("metric")} className={`rounded-lg px-4 py-2.5 text-sm font-bold transition ${unit === "metric" ? "bg-primary text-white" : "text-slate-400 hover:text-white"}`}>Metric (kg, cm)</button>
-              <button onClick={() => setUnit("imperial")} className={`rounded-lg px-4 py-2.5 text-sm font-bold transition ${unit === "imperial" ? "bg-primary text-white" : "text-slate-400 hover:text-white"}`}>Imperial (lb, ft)</button>
-            </div>
-            <div className="grid gap-5 sm:grid-cols-2">
-              <div><label className={label} htmlFor="tdee-gender">Sex used for equation</label><select id="tdee-gender" className={field} value={gender} onChange={e=>setGender(e.target.value as Gender)}><option value="male">Male</option><option value="female">Female</option></select></div>
-              <div><label className={label} htmlFor="tdee-age">Age (18–100)</label><input id="tdee-age" className={field} type="number" min="18" max="100" value={age} onChange={e=>setAge(e.target.value)} /></div>
-              <div><label className={label} htmlFor="tdee-weight">Weight ({unit === "metric" ? "kg" : "lb"})</label><input id="tdee-weight" className={field} type="number" min="25" max={unit === "metric" ? "350" : "770"} step="0.1" value={weight} onChange={e=>setWeight(e.target.value)} /></div>
-              {unit === "metric" ? <div><label className={label} htmlFor="tdee-height">Height (cm)</label><input id="tdee-height" className={field} type="number" min="120" max="230" value={height} onChange={e=>setHeight(e.target.value)} /></div> : <div><label className={label}>Height (ft / in)</label><div className="grid grid-cols-2 gap-2"><input aria-label="Height feet" className={field} type="number" min="4" max="7" value={feet} onChange={e=>setFeet(e.target.value)} placeholder="Feet"/><input aria-label="Height inches" className={field} type="number" min="0" max="11" value={inches} onChange={e=>setInches(e.target.value)} placeholder="Inches"/></div></div>}
-              <div className="sm:col-span-2"><label className={label} htmlFor="tdee-activity">Activity level</label><select id="tdee-activity" className={field} value={activity} onChange={e=>setActivity(e.target.value)}>{activityOptions.map(o=><option key={o.value} value={o.value}>{o.label} · {o.detail}</option>)}</select></div>
-              <div className="sm:col-span-2"><span className={label}>Your goal</span><div className="grid grid-cols-3 gap-2">
-                {([{value:"lose",name:"Lose weight",icon:<ArrowDown size={16}/>},{value:"maintain",name:"Maintain",icon:<Minus size={16}/>},{value:"gain",name:"Gain weight",icon:<ArrowUp size={16}/>}] as const).map(g=><button key={g.value} type="button" onClick={()=>setGoal(g.value)} className={`flex flex-col items-center gap-2 rounded-xl border px-2 py-3 text-xs font-bold transition sm:flex-row sm:justify-center sm:text-sm ${goal===g.value ? "border-primary bg-primary/15 text-white" : "border-white/10 bg-slate-900/60 text-slate-400 hover:border-white/30"}`}>{g.icon}{g.name}</button>)}
-              </div></div>
-            </div>
-            <p className="mt-6 text-xs leading-relaxed text-slate-500">Estimates are for adults and are not medical advice. This calculator uses the Mifflin–St Jeor equation.</p>
-          </section>
-
-          <section className="space-y-5" aria-live="polite">
-            {result ? <>
-              <div className="rounded-3xl border border-primary/30 bg-gradient-to-br from-primary/20 to-slate-900 p-6 sm:p-8">
-                <p className="mb-2 text-sm font-semibold uppercase tracking-wider text-slate-300">{goal === "lose" ? "Suggested weight-loss target" : goal === "gain" ? "Suggested weight-gain target" : "Daily maintenance calories"}</p>
-                <div className="flex flex-wrap items-end gap-2"><strong className="text-5xl font-black tracking-tight sm:text-6xl">{result.calories.toLocaleString()}</strong><span className="pb-2 text-slate-300">kcal / day</span></div>
-                <p className="mt-3 text-sm text-slate-300">Estimated TDEE: {result.tdee.toLocaleString()} kcal/day</p>
-              </div>
-              <div className="grid grid-cols-2 gap-3">
-                <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5"><p className="text-sm text-slate-400">BMR</p><p className="mt-1 text-2xl font-extrabold">{result.bmr.toLocaleString()}</p><p className="text-xs text-slate-500">Calories at rest / day</p></div>
-                <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5"><p className="text-sm text-slate-400">BMI (estimate)</p><p className="mt-1 text-2xl font-extrabold">{result.bmi.toFixed(1)}</p><p className="text-xs text-slate-500">Screening measure only</p></div>
-              </div>
-              <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5 sm:p-6"><h3 className="mb-4 text-lg font-bold">Estimated daily macros</h3><div className="grid grid-cols-3 gap-3 text-center">
-                <div><p className="text-2xl font-extrabold text-primary">{result.protein}g</p><p className="text-xs text-slate-400">Protein</p></div>
-                <div><p className="text-2xl font-extrabold text-primary">{result.carbs}g</p><p className="text-xs text-slate-400">Carbs</p></div>
-                <div><p className="text-2xl font-extrabold text-primary">{result.fat}g</p><p className="text-xs text-slate-400">Fat</p></div>
-              </div><p className="mt-4 text-xs leading-relaxed text-slate-500">Macro amounts are illustrative starting estimates, not individualized nutrition prescriptions.</p></div>
-              <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5"><h3 className="mb-2 font-bold">How to use your estimate</h3><p className="text-sm leading-relaxed text-slate-400">Track your average intake and body-weight trend over several weeks. Adjust gradually if needed. Daily energy needs vary, so treat this result as a starting estimate rather than an exact target.</p></div>
-            </> : <div className="rounded-2xl border border-amber-400/30 bg-amber-400/10 p-5 text-sm text-amber-200">Please enter valid details: age 18–100, weight 25–350 kg (or equivalent), and height 120–230 cm.</div>}
-          </section>
-        </div>
-
-        <article className="mx-auto mt-16 max-w-4xl space-y-10 text-slate-300">
-          <section className="space-y-3"><h2 className="text-2xl font-bold text-white">What is TDEE?</h2><p className="leading-8">Total Daily Energy Expenditure (TDEE) is an estimate of the calories your body uses over a full day. It includes your basal metabolic rate, everyday movement, planned exercise and the energy used to digest food. Knowing your estimated TDEE can help you understand a starting point for calorie planning.</p></section>
-          <section className="space-y-3"><h2 className="text-2xl font-bold text-white">How this TDEE calculator works</h2><p className="leading-8">First, the calculator estimates your Basal Metabolic Rate (BMR) using the Mifflin–St Jeor equation. It then multiplies BMR by an activity factor to estimate TDEE. The goal selector displays maintenance calories, an illustrative 500-calorie deficit for weight loss, or a 300-calorie surplus for weight gain.</p><div className="overflow-x-auto rounded-xl border border-white/10"><table className="w-full text-left text-sm"><thead className="bg-white/5 text-white"><tr><th className="p-3">Activity level</th><th className="p-3">Multiplier</th><th className="p-3">Description</th></tr></thead><tbody>{activityOptions.map(o=><tr key={o.value} className="border-t border-white/10"><td className="p-3">{o.label}</td><td className="p-3">{o.value.toFixed(3)}</td><td className="p-3">{o.detail}</td></tr>)}</tbody></table></div></section>
-          <section className="space-y-3"><h2 className="text-2xl font-bold text-white">BMR vs TDEE: what is the difference?</h2><p className="leading-8">BMR is the estimated energy your body needs at rest to support essential functions. TDEE is higher because it also accounts for activity and digestion. For daily calorie planning, TDEE is generally the more useful estimate.</p></section>
-          <section className="space-y-5"><h2 className="text-2xl font-bold text-white">TDEE calculator FAQs</h2>{faqs.map(f=><details key={f.q} className="rounded-xl border border-white/10 bg-white/[0.025] p-5"><summary className="cursor-pointer font-bold text-white">{f.q}</summary><p className="mt-3 leading-7 text-slate-400">{f.a}</p></details>)}</section>
-          <p className="border-t border-white/10 pt-6 text-sm leading-7 text-slate-500">Health note: This tool provides general educational estimates only. It is not designed for children, pregnancy, eating-disorder recovery or medical nutrition therapy. Speak with a qualified healthcare professional or registered dietitian for personal guidance.</p>
-        </article>
-      </div>
+ const [unit,setUnit]=useState<Unit>("metric"),[sex,setSex]=useState<Sex>("male");
+ const [age,setAge]=useState("30"),[weight,setWeight]=useState("80"),[height,setHeight]=useState("180");
+ const [activity,setActivity]=useState("1.55"),[formula,setFormula]=useState<TdeeFormula>("mifflin"),[bodyFat,setBodyFat]=useState("");
+ const [goal,setGoal]=useState<Goal>("maintain"),[copied,setCopied]=useState(false);
+ const computed=useMemo(()=>{
+  if(!age.trim()||!weight.trim()||!height.trim()) return {error:"Complete your age, weight and height to calculate."} as const;
+  const a=Number(age),w=Number(weight),h=Number(height);
+  if(![a,w,h].every(Number.isFinite)||!age.trim()||!weight.trim()||!height.trim()) return {error:"Enter valid numbers in all required fields."} as const;
+  const weightKg=unit==="metric"?w:poundsToKg(w),heightCm=unit==="metric"?h:inchesToCm(h);
+  try {
+   const result=calculateTdee({sex,age:a,weightKg,heightCm,activity:Number(activity),formula,bodyFatPercent:bodyFat.trim()?Number(bodyFat):undefined});
+   return {result,weightKg,heightCm} as const;
+  } catch(e) { return {error:e instanceof Error?e.message:"Check your entries and try again."} as const; }
+ },[age,weight,height,unit,sex,activity,formula,bodyFat]);
+ useEffect(()=>{if("result" in computed) track("calculation_performed",{formula,unit});},[computed,formula,unit]);
+ const result="result" in computed?computed.result:null;
+ const goalCalories=result?(goal==="mild-loss"?result.fatLossMild:goal==="loss"?result.fatLoss:goal==="gain"?result.muscleGain:result.tdee):0;
+ const reset=()=>{setUnit("metric");setSex("male");setAge("30");setWeight("80");setHeight("180");setActivity("1.55");setFormula("mifflin");setBodyFat("");setGoal("maintain");setCopied(false);};
+ const copy=async()=>{if(!result)return;const txt=`TDEE estimate: ${result.tdee} kcal/day\nBMR estimate: ${result.bmr} kcal/day\nSelected goal: ${goalCalories} kcal/day\nFormula: ${formula}\nActivity multiplier: ${activity}\nEstimate only, not medical advice.`;try{await navigator.clipboard.writeText(txt);setCopied(true);track("result_copied");window.setTimeout(()=>setCopied(false),1800);}catch{setCopied(false);}};
+ const field="w-full rounded-xl border border-slate-600 bg-slate-900 px-4 py-3 text-white outline-none focus:border-violet-400 focus:ring-2 focus:ring-violet-400/30";
+ const label="mb-2 block text-sm font-semibold text-slate-200";
+ const related=[["BMR Calculator","/bmr-calculator","Estimate energy use at rest"],["BMI Calculator","/bmi-calculator","Calculate body mass index"],["Calorie Calculator","/calorie-calculator","Plan a daily calorie estimate"],["Macro Calculator","/macro-calculator","Explore protein, fat and carbohydrate targets"],["Ideal Weight Calculator","/ideal-weight-calculator","Compare common reference estimates"],["Water Intake Calculator","/water-intake-calculator","Estimate everyday fluid needs"]];
+ return <div className="min-h-screen bg-bg pb-20 pt-28 text-white">
+  <Helmet>
+   <html lang="en"/><title>{pageTitle}</title><meta name="description" content={pageDescription}/>
+   <meta name="robots" content="index, follow, max-image-preview:large"/>
+   <link rel="canonical" href={SITE+"/tdee-calculator"}/>
+   <meta property="og:type" content="website"/><meta property="og:title" content={pageTitle}/><meta property="og:description" content={pageDescription}/><meta property="og:url" content={SITE+"/tdee-calculator"}/><meta property="og:image" content={SITE+"/og-tdee-calculator.svg"}/><meta property="og:image:width" content="1200"/><meta property="og:image:height" content="630"/>
+   <meta name="twitter:card" content="summary_large_image"/><meta name="twitter:title" content={pageTitle}/><meta name="twitter:description" content={pageDescription}/><meta name="twitter:image" content={SITE+"/og-tdee-calculator.svg"}/>
+   {schema.map((s,i)=><script key={i} type="application/ld+json">{JSON.stringify(s)}</script>)}
+  </Helmet>
+  <main className="mx-auto max-w-6xl px-4 sm:px-6">
+   <nav aria-label="Breadcrumb" className="mb-5 text-sm text-slate-400"><a href="/" className="hover:text-white">Home</a><span className="mx-2">/</span><a href="/calculators" className="hover:text-white">Calculators</a><span className="mx-2">/</span><span className="text-slate-200">TDEE Calculator</span></nav>
+   <header className="mx-auto mb-8 max-w-3xl text-center"><div className="mb-3 inline-flex items-center gap-2 rounded-full border border-violet-400/30 bg-violet-400/10 px-4 py-2 text-sm font-semibold text-violet-200"><Activity size={16}/> Free daily calorie estimate</div><h1 className="mb-3 text-4xl font-extrabold tracking-tight sm:text-5xl">TDEE Calculator</h1><p className="text-lg leading-relaxed text-slate-300">Use this TDEE calculator to estimate your total daily energy expenditure, resting calorie needs and a practical starting point for maintenance, fat-loss or muscle-gain planning. Choose from three equations and metric or imperial units.</p></header>
+   <section className="grid items-start gap-6 lg:grid-cols-[1.05fr_.95fr]" aria-label="TDEE calculator">
+    <div className="rounded-3xl border border-white/10 bg-white/[0.04] p-5 shadow-2xl sm:p-7">
+     <div className="mb-5 flex items-center justify-between"><h2 className="text-2xl font-bold">Your details</h2><button onClick={reset} type="button" className="inline-flex items-center gap-2 rounded-lg px-3 py-2 text-sm text-slate-300 hover:bg-white/10"><RotateCcw size={15}/> Reset</button></div>
+     <div className="mb-5 grid grid-cols-2 rounded-xl bg-slate-900 p-1"><button type="button" onClick={()=>{setUnit("metric");track("unit_toggled",{unit:"metric"});}} aria-pressed={unit==="metric"} className={`rounded-lg px-3 py-2.5 text-sm font-bold ${unit==="metric"?"bg-violet-600 text-white":"text-slate-300"}`}>Metric (kg, cm)</button><button type="button" onClick={()=>{setUnit("imperial");track("unit_toggled",{unit:"imperial"});}} aria-pressed={unit==="imperial"} className={`rounded-lg px-3 py-2.5 text-sm font-bold ${unit==="imperial"?"bg-violet-600 text-white":"text-slate-300"}`}>Imperial (lb, in)</button></div>
+     <div className="grid gap-4 sm:grid-cols-2">
+      <div><label className={label} htmlFor="tdee-sex">Sex used by equation</label><select id="tdee-sex" className={field} value={sex} onChange={e=>setSex(e.target.value as Sex)}><option value="male">Male</option><option value="female">Female</option></select></div>
+      <div><label className={label} htmlFor="tdee-age">Age (18–100 years)</label><input id="tdee-age" className={field} inputMode="decimal" type="number" min="18" max="100" value={age} onChange={e=>setAge(e.target.value)}/></div>
+      <div><label className={label} htmlFor="tdee-weight">Weight ({unit==="metric"?"kg":"lb"})</label><input id="tdee-weight" className={field} inputMode="decimal" type="number" min={unit==="metric"?"25":"55"} max={unit==="metric"?"350":"772"} step="0.1" value={weight} onChange={e=>setWeight(e.target.value)}/></div>
+      <div><label className={label} htmlFor="tdee-height">Height ({unit==="metric"?"cm":"inches"})</label><input id="tdee-height" className={field} inputMode="decimal" type="number" min={unit==="metric"?"120":"47.25"} max={unit==="metric"?"230":"90.55"} step="0.1" value={height} onChange={e=>setHeight(e.target.value)}/></div>
+      <div className="sm:col-span-2"><label className={label} htmlFor="tdee-activity">Activity level</label><select id="tdee-activity" className={field} value={activity} onChange={e=>setActivity(e.target.value)}>{ACTIVITY_LEVELS.map(x=><option key={x.value} value={x.value}>{x.label} · {x.description}</option>)}</select></div>
+      <div className="sm:col-span-2"><label className={label} htmlFor="tdee-formula">BMR formula</label><select id="tdee-formula" className={field} value={formula} onChange={e=>{setFormula(e.target.value as TdeeFormula);track("formula_changed",{formula:e.target.value});}}><option value="mifflin">Mifflin–St Jeor (default)</option><option value="harris">Revised Harris–Benedict</option><option value="katch">Katch–McArdle (requires body fat %)</option></select></div>
+      {formula==="katch"&&<div className="sm:col-span-2"><label className={label} htmlFor="tdee-bodyfat">Estimated body-fat percentage (%)</label><input id="tdee-bodyfat" className={field} inputMode="decimal" type="number" min="1" max="74.9" step="0.1" placeholder="Example: 20" value={bodyFat} onChange={e=>setBodyFat(e.target.value)}/><p className="mt-1 text-xs text-slate-400">Use this formula only if you have a reasonably reliable body-fat estimate.</p></div>}
+     </div>
+     <div className="mt-5"><p className={label}>Daily calorie goal</p><div className="grid grid-cols-2 gap-2 sm:grid-cols-4">{([{v:"maintain",t:"Maintain"},{v:"mild-loss",t:"Mild loss"},{v:"loss",t:"Fat loss"},{v:"gain",t:"Muscle gain"}] as const).map(x=><button key={x.v} type="button" onClick={()=>setGoal(x.v)} aria-pressed={goal===x.v} className={`rounded-xl border px-3 py-3 text-sm font-semibold ${goal===x.v?"border-violet-400 bg-violet-500/20 text-white":"border-white/15 bg-slate-900 text-slate-300"}`}>{x.t}</button>)}</div></div>
+     {"error" in computed&&<p role="alert" className="mt-4 rounded-xl border border-amber-400/40 bg-amber-400/10 p-3 text-sm text-amber-100">{computed.error}</p>}
+     <p className="mt-5 text-xs leading-relaxed text-slate-400">Your entered measurements are processed in this browser by the calculator and are not stored or sent to our server. Analytics, if enabled, records interaction events only, not your measurements or calorie result.</p>
     </div>
-  );
+    <section className="space-y-4" aria-live="polite" aria-atomic="true">
+     {result?<><div className="rounded-3xl border border-violet-400/30 bg-gradient-to-br from-violet-500/20 to-slate-900 p-6 sm:p-8"><p className="mb-2 text-sm font-semibold uppercase tracking-wider text-slate-300">Your selected daily target</p><div className="flex flex-wrap items-end gap-2"><strong className="text-5xl font-black sm:text-6xl">{fmt(goalCalories)}</strong><span className="pb-2 text-slate-300">kcal / day</span></div><p className="mt-2 text-sm text-slate-300">{goal==="maintain"?"Estimated maintenance calories":goal==="mild-loss"?"Illustrative 250 kcal daily deficit":goal==="loss"?"Illustrative 500 kcal daily deficit":"Illustrative 250 kcal daily surplus"}</p></div>
+      <div className="grid grid-cols-2 gap-3"><div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"><p className="text-sm text-slate-400">Estimated BMR</p><p className="mt-1 text-3xl font-extrabold">{fmt(result.bmr)}</p><p className="text-xs text-slate-400">kcal / day at rest</p></div><div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"><p className="text-sm text-slate-400">Estimated TDEE</p><p className="mt-1 text-3xl font-extrabold">{fmt(result.tdee)}</p><p className="text-xs text-slate-400">kcal / day total</p></div></div>
+      <div className="rounded-2xl border border-white/10 bg-white/[0.04] p-5"><h3 className="mb-3 font-bold">Compare daily targets</h3><dl className="space-y-2 text-sm"><div className="flex justify-between gap-3"><dt className="text-slate-300">Mild deficit (−250)</dt><dd className="font-bold">{fmt(result.fatLossMild)} kcal</dd></div><div className="flex justify-between gap-3"><dt className="text-slate-300">Deficit (−500)</dt><dd className="font-bold">{fmt(result.fatLoss)} kcal</dd></div><div className="flex justify-between gap-3"><dt className="text-slate-300">Maintenance</dt><dd className="font-bold">{fmt(result.tdee)} kcal</dd></div><div className="flex justify-between gap-3"><dt className="text-slate-300">Surplus (+250)</dt><dd className="font-bold">{fmt(result.muscleGain)} kcal</dd></div></dl><p className="mt-3 text-xs text-slate-400">These are arithmetic examples, not individualized diet prescriptions. Avoid aggressive restriction and seek professional guidance before changing intake substantially.</p></div>
+      <button type="button" onClick={copy} className="flex w-full items-center justify-center gap-2 rounded-xl bg-violet-600 px-4 py-3 font-bold text-white hover:bg-violet-500">{copied?<Check size={18}/>:<Copy size={18}/>} {copied?"Copied":"Copy results"}</button>
+     </>:<div className="rounded-2xl border border-white/10 bg-white/[0.04] p-6 text-slate-300">Enter your details to see estimated BMR and TDEE. Example values are already filled in, so you can explore the calculator immediately.</div>}
+    </section>
+   </section>
+   <article className="mx-auto mt-16 max-w-4xl space-y-10 text-slate-300">
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">What is TDEE?</h2><p className="leading-8">Total Daily Energy Expenditure (TDEE) is the estimated amount of energy your body uses over an entire day. It includes resting energy needs, planned exercise, everyday movement and the energy used to digest food. A TDEE calculator combines a resting metabolic estimate with an activity multiplier to create a starting estimate of daily calorie needs. It cannot measure your metabolism directly, but it can help you understand the relationship between activity and energy intake.</p></section>
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">How to use this TDEE calculator</h2><ol className="list-decimal space-y-2 pl-6 leading-8"><li>Select metric or imperial units, then enter your current weight and height.</li><li>Enter your age and select the sex category used by the chosen equation.</li><li>Choose an activity level that reflects your typical full week, including work and routine movement.</li><li>Keep Mifflin–St Jeor selected for a general estimate, or compare the revised Harris–Benedict equation. Choose Katch–McArdle only when you have a credible body-fat estimate.</li><li>Review BMR, maintenance TDEE and the illustrative goal options. Copy the result if you want to save it for your own notes.</li></ol></section>
+    <section className="space-y-4"><h2 className="text-2xl font-bold text-white">How TDEE is calculated</h2><p className="leading-8">The first step is estimating basal metabolic rate (BMR), sometimes described as resting energy expenditure. The second step is multiplying that estimate by an activity factor. The result is an approximate daily energy expenditure, not a laboratory measurement.</p>
+     <h3 className="text-xl font-bold text-white">1. Mifflin–St Jeor equation</h3><p className="leading-7">Men: BMR = 10 × weight (kg) + 6.25 × height (cm) − 5 × age (years) + 5. Women: BMR = 10 × weight (kg) + 6.25 × height (cm) − 5 × age (years) − 161.</p>
+     <h3 className="text-xl font-bold text-white">2. Revised Harris–Benedict equation (Roza–Shizgal, 1984)</h3><p className="leading-7">Men: BMR = 88.362 + (13.397 × weight in kg) + (4.799 × height in cm) − (5.677 × age). Women: BMR = 447.593 + (9.247 × weight in kg) + (3.098 × height in cm) − (4.330 × age).</p>
+     <h3 className="text-xl font-bold text-white">3. Katch–McArdle equation</h3><p className="leading-7">BMR = 370 + (21.6 × lean body mass in kg). Lean body mass = body weight × (1 − body-fat percentage ÷ 100). This equation does not use sex, age or height directly, but it depends on body-fat percentage being reasonably accurate.</p>
+     <p className="leading-7">For all three methods: <strong className="text-white">TDEE = BMR × activity multiplier.</strong> These equations estimate resting energy expenditure. The Mifflin–St Jeor simplified sex-specific equations match the published 1990 paper. The revised Harris–Benedict coefficients supplied here match the Roza and Shizgal 1984 revision. Katch–McArdle is a commonly used lean-mass equation; body-fat measurement error flows directly into its result.</p>
+    </section>
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">Activity multipliers explained</h2><p className="leading-7">Select a multiplier based on your usual movement across the whole week. Exercise frequency is only one clue: a physically demanding job can change daily energy use, while long periods of sitting can make a high multiplier unrealistic.</p><div className="overflow-x-auto rounded-xl border border-white/10"><table className="w-full text-left text-sm"><thead className="bg-white/10 text-white"><tr><th className="p-3">Activity level</th><th className="p-3">Multiplier</th><th className="p-3">Plain-language guide</th></tr></thead><tbody>{ACTIVITY_LEVELS.map(x=><tr key={x.value} className="border-t border-white/10"><td className="p-3">{x.label}</td><td className="p-3">{x.value}</td><td className="p-3">{x.description}</td></tr>)}</tbody></table></div></section>
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">Worked examples: checking the arithmetic</h2><p className="leading-7">Example A, a 30-year-old man who weighs 80 kg, is 180 cm tall and selects moderate activity (1.55): Mifflin BMR = (10 × 80) + (6.25 × 180) − (5 × 30) + 5 = 800 + 1,125 − 150 + 5 = 1,780 kcal/day. TDEE = 1,780 × 1.55 = 2,759 kcal/day (rounded).</p><p className="leading-7">Example B, a 30-year-old woman who weighs 65 kg, is 165 cm tall and selects moderate activity (1.55): Mifflin BMR = (10 × 65) + (6.25 × 165) − (5 × 30) − 161 = 650 + 1,031.25 − 150 − 161 = 1,370.25 kcal/day. TDEE = 1,370.25 × 1.55 = 2,123.89, or about 2,124 kcal/day.</p><p className="text-sm text-slate-400">The calculator uses the same equations and rounds displayed calorie totals to whole kcal. These examples are illustrative adults, not recommended intake targets.</p></section>
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">What your TDEE result means</h2><p className="leading-7">Maintenance is the estimated intake at which body weight may remain broadly stable over time, although daily weight naturally fluctuates. A modest deficit, such as 250–500 kcal/day, is sometimes used as a starting point for fat loss. A modest surplus, such as around 150–300 kcal/day, may be used when trying to support gradual weight gain alongside resistance training. The right approach depends on your health, goals and circumstances. Do not treat the displayed deficit or surplus as a prescription. Do not deliberately eat below your estimated BMR without supervision from a qualified healthcare professional or registered dietitian; BMR is not a universal minimum intake threshold, but very low intake can create nutritional and medical risks.</p></section>
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">Why your real energy needs may differ</h2><p className="leading-7">Two people with the same age, height and weight can have different energy needs. Differences in lean mass, body-fat distribution, sleep, medication, health conditions, temperature, stress and spontaneous movement all matter. Activity multipliers are broad averages, and it is easy to overestimate exercise or underestimate time spent sitting. If your weight changes or your daily routine changes, recalculate as a fresh estimate. Use a multi-week trend rather than reacting to one day's scale reading.</p></section>
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">Limitations and health disclaimer</h2><p className="leading-7">This tool is designed for general adult education. It is not intended for anyone under 18, people who are pregnant or breastfeeding, people with a diagnosed medical condition requiring nutrition care, or people living with or recovering from an eating disorder. Do not use a calculator to replace an assessment by a clinician or registered dietitian. If you have a health concern, take medication that affects appetite or metabolism, or are unsure whether calorie tracking is appropriate, speak with a qualified professional first.</p><p className="rounded-xl border border-amber-300/30 bg-amber-300/10 p-4 font-semibold text-amber-100">Health disclaimer: Results are estimates for educational purposes only and are not medical advice, diagnosis or treatment. Consult a doctor or registered dietitian before making significant dietary changes.</p></section>
+    <section className="space-y-5"><h2 className="text-2xl font-bold text-white">TDEE calculator FAQs</h2>{faqs.map(f=><details key={f.q} className="rounded-xl border border-white/10 bg-white/[0.025] p-5"><summary className="cursor-pointer font-bold text-white">{f.q}</summary><p className="mt-3 leading-7 text-slate-300">{f.a}</p></details>)}</section>
+    <section className="space-y-3"><h2 className="text-2xl font-bold text-white">Related calculators</h2><p className="leading-7">Explore other tools to understand different parts of everyday health and fitness planning. Each calculator has its own assumptions and limitations.</p><div className="grid gap-3 sm:grid-cols-2">{related.map(([name,href,desc])=><a key={href} href={href} onClick={()=>track("related_calculator_clicked",{destination:href})} className="rounded-xl border border-white/10 bg-white/[0.03] p-4 hover:border-violet-400/50"><span className="flex items-center justify-between font-bold text-white">{name}<ArrowUpRight size={16}/></span><span className="mt-1 block text-sm text-slate-400">{desc}</span></a>)}</div></section>
+    <section className="border-t border-white/10 pt-6 text-sm leading-7 text-slate-400"><p><strong className="text-slate-200">Last updated: 2 November 2026.</strong> How we built this calculator: the calculation runs locally in your browser using the equations and activity factors described above. No measurement fields or calculated calorie values are sent to our server by this calculator. Analytics events, where enabled, record interaction types without including your entered measurements.</p><p className="mt-3">Sources: Mifflin et al., “A new predictive equation for resting energy expenditure in healthy individuals,” American Journal of Clinical Nutrition (1990), PMID 2305711; Roza & Shizgal, “The Harris Benedict equation reevaluated,” American Journal of Clinical Nutrition (1984), PMID 6741850. Formula outputs remain estimates and should be interpreted with care.</p></section>
+   </article>
+  </main>
+ </div>;
 }
