@@ -50,8 +50,8 @@ const BlogPost: React.FC = () => {
           headline: post.title,
           description: post.excerpt,
           image: post.image,
-          datePublished: "2026-11-02",
-          dateModified: "2026-11-02",
+          datePublished: new Date(post.date).toISOString(),
+          dateModified: new Date(post.date).toISOString(),
           author: { "@type": "Organization", name: post.author, url: "https://www.reelhooks.site/about" },
           publisher: { "@type": "Organization", name: "ReelHooks", url: "https://www.reelhooks.site" },
           mainEntityOfPage: `https://www.reelhooks.site/blog/${post.slug}`
