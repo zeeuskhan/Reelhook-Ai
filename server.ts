@@ -623,7 +623,8 @@ function renderSeoHtml(urlPath: string, html: string): string {
           "@type": "BlogPosting",
           "headline": post.title,
           "description": post.excerpt,
-          "datePublished": "2026-05-10T08:00:00+08:00",
+          "datePublished": new Date(post.date).toISOString(),
+          "dateModified": new Date(post.date).toISOString(),
           "author": {
             "@type": "Person",
             "name": post.author
