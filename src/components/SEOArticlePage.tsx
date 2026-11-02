@@ -141,14 +141,9 @@ const SEOArticlePage: React.FC = () => {
             <h1 className="text-4xl md:text-6xl font-bold font-display tracking-tight leading-tight">
               {humanFriendlyH1}
             </h1>
-            <div className="flex items-center justify-center space-x-4 text-base text-text-secondary">
-              <div className="flex items-center space-x-1">
-                <Star className="w-5 h-5 text-yellow-500 fill-yellow-500" />
-                <span className="font-bold">4.9/5 Rating</span>
-              </div>
-              <span>•</span>
-              <span>10k+ Happy Creators</span>
-            </div>
+            <p className="mx-auto max-w-2xl text-sm text-text-secondary">
+              Practical guidance for creators, with examples and resources you can review and adapt.
+            </p>
           </motion.div>
         </div>
       </section>
