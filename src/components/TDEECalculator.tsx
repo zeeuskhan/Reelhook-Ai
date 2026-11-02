@@ -38,7 +38,7 @@ export default function TDEECalculator() {
     const rawWeight = Number(weight);
     const rawHeight = unit === "metric" ? Number(height) : (Number(feet) * 12 + Number(inches)) * 2.54;
     const kg = unit === "metric" ? rawWeight : rawWeight * 0.45359237;
-    if (!Number.isFinite(a) || !Number.isFinite(kg) || !Number.isFinite(rawHeight) || a < 15 || a > 100 || kg < 25 || kg > 350 || rawHeight < 120 || rawHeight > 230) return null;
+    if (!Number.isFinite(a) || !Number.isFinite(kg) || !Number.isFinite(rawHeight) || a < 18 || a > 100 || kg < 25 || kg > 350 || rawHeight < 120 || rawHeight > 230) return null;
     const bmr = 10 * kg + 6.25 * rawHeight - 5 * a + (gender === "male" ? 5 : -161);
     const tdee = bmr * Number(activity);
     const calories = goal === "lose" ? tdee - 500 : goal === "gain" ? tdee + 300 : tdee;
@@ -99,7 +99,7 @@ export default function TDEECalculator() {
             </div>
             <div className="grid gap-5 sm:grid-cols-2">
               <div><label className={label} htmlFor="tdee-gender">Sex used for equation</label><select id="tdee-gender" className={field} value={gender} onChange={e=>setGender(e.target.value as Gender)}><option value="male">Male</option><option value="female">Female</option></select></div>
-              <div><label className={label} htmlFor="tdee-age">Age (15–100)</label><input id="tdee-age" className={field} type="number" min="15" max="100" value={age} onChange={e=>setAge(e.target.value)} /></div>
+              <div><label className={label} htmlFor="tdee-age">Age (18–100)</label><input id="tdee-age" className={field} type="number" min="18" max="100" value={age} onChange={e=>setAge(e.target.value)} /></div>
               <div><label className={label} htmlFor="tdee-weight">Weight ({unit === "metric" ? "kg" : "lb"})</label><input id="tdee-weight" className={field} type="number" min="25" max={unit === "metric" ? "350" : "770"} step="0.1" value={weight} onChange={e=>setWeight(e.target.value)} /></div>
               {unit === "metric" ? <div><label className={label} htmlFor="tdee-height">Height (cm)</label><input id="tdee-height" className={field} type="number" min="120" max="230" value={height} onChange={e=>setHeight(e.target.value)} /></div> : <div><label className={label}>Height (ft / in)</label><div className="grid grid-cols-2 gap-2"><input aria-label="Height feet" className={field} type="number" min="4" max="7" value={feet} onChange={e=>setFeet(e.target.value)} placeholder="Feet"/><input aria-label="Height inches" className={field} type="number" min="0" max="11" value={inches} onChange={e=>setInches(e.target.value)} placeholder="Inches"/></div></div>}
               <div className="sm:col-span-2"><label className={label} htmlFor="tdee-activity">Activity level</label><select id="tdee-activity" className={field} value={activity} onChange={e=>setActivity(e.target.value)}>{activityOptions.map(o=><option key={o.value} value={o.value}>{o.label} · {o.detail}</option>)}</select></div>
@@ -127,7 +127,7 @@ export default function TDEECalculator() {
                 <div><p className="text-2xl font-extrabold text-primary">{result.fat}g</p><p className="text-xs text-slate-400">Fat</p></div>
               </div><p className="mt-4 text-xs leading-relaxed text-slate-500">Macro amounts are illustrative starting estimates, not individualized nutrition prescriptions.</p></div>
               <div className="rounded-2xl border border-white/10 bg-white/[0.035] p-5"><h3 className="mb-2 font-bold">How to use your estimate</h3><p className="text-sm leading-relaxed text-slate-400">Track your average intake and body-weight trend over several weeks. Adjust gradually if needed. Daily energy needs vary, so treat this result as a starting estimate rather than an exact target.</p></div>
-            </> : <div className="rounded-2xl border border-amber-400/30 bg-amber-400/10 p-5 text-sm text-amber-200">Please enter valid details: age 15–100, weight 25–350 kg (or equivalent), and height 120–230 cm.</div>}
+            </> : <div className="rounded-2xl border border-amber-400/30 bg-amber-400/10 p-5 text-sm text-amber-200">Please enter valid details: age 18–100, weight 25–350 kg (or equivalent), and height 120–230 cm.</div>}
           </section>
         </div>
 
