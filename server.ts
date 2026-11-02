@@ -962,7 +962,7 @@ ${urlBlocks}
         const indexHtml = fs.readFileSync(path.join(__dirname, "index.html"), "utf-8");
         let template = await vite.transformIndexHtml(url, indexHtml);
         const finalHtml = renderSeoHtml(url, template);
-        const routeKnown = isTier1Url(req.path) || req.path === "/dashboard" || req.path === "/profile" || req.path === "/ai-tools-news" || req.path.startsWith("/ai-tools-news/") || Boolean(SEO_ARTICLES[req.path.replace(/^\\/+/, "")]);
+        const routeKnown = isTier1Url(req.path) || req.path === "/dashboard" || req.path === "/profile" || req.path === "/ai-tools-news" || req.path.startsWith("/ai-tools-news/") || Boolean(SEO_ARTICLES[req.path.slice(1)]);
         res.status(routeKnown ? 200 : 404).set({ "Content-Type": "text/html" }).end(finalHtml);
       } catch (e) {
         vite.ssrFixStacktrace(e as Error);
