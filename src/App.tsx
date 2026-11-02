@@ -181,6 +181,7 @@ const TranscriptGenerator = lazy(() => import("./components/tools/TranscriptGene
 const MockupGenerator = lazy(() => import("./components/tools/MockupGenerator"));
 const TDEECalculator = lazy(() => import("./components/TDEECalculator"));
 const CalculatorsHub = lazy(() => import("./components/CalculatorsHub"));
+const MedicalDisclaimer = lazy(() => import("./components/MedicalDisclaimer"));
 const Blog = lazy(() => import("./components/Blog"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
 const Sitemap = lazy(() => import("./components/SitemapPage"));
@@ -3677,6 +3678,7 @@ export default function App() {
               <Route path="/contact" element={<Contact />} />
               <Route path="/privacy" element={<Legal title="Privacy Policy" />} />
               <Route path="/terms" element={<Legal title="Terms of Service" />} />
+              <Route path="/medical-disclaimer" element={<MedicalDisclaimer />} />
               <Route path="/explore" element={<Explore />} />
               <Route path="/faq" element={<FAQ />} />
               <Route path="/sitemap" element={<Sitemap />} />
