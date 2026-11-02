@@ -439,4 +439,10 @@ export const TDEE_BLOG_ARTICLES = [
       }
     ]
   }
-];
+]).map((article) => ({
+  date: "November 2, 2026",
+  author: "ReelHooks Editorial Team",
+  readTime: "6 min read",
+  image: "https://images.unsplash.com/photo-1490645935967-10de6ba17061?q=80&w=1000&auto=format&fit=crop",
+  ...article
+}));
