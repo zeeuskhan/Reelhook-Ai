@@ -416,7 +416,7 @@ function renderSeoHtml(urlPath: string, html: string): string {
   // Dedicated TDEE calculator landing page: complete crawler-readable content.
   } else if (cleanPath === "/tdee-calculator") {
     title = "TDEE Calculator: Estimate Your Daily Calories Free";
-    description = "Estimate your TDEE, BMR and daily calorie targets with three established formulas. Choose activity, units and goals in this free calculator.";
+    description = "Estimate your TDEE, BMR and daily calorie targets with three established formulas. Choose activity, units and goals in this free online calculator today.";
     bodyContent = `
       <main style="max-width:960px;margin:32px auto;padding:24px;color:#F8FAFC;font-family:Inter,sans-serif;line-height:1.75;">
         <nav aria-label="Breadcrumb"><a href="/">Home</a> / <a href="/calculators">Calculators</a> / <span>TDEE Calculator</span></nav>
