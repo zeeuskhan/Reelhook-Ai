@@ -35,8 +35,36 @@ const BlogPost: React.FC = () => {
   return (
     <div className="min-h-screen bg-background text-text-primary pt-32 pb-20">
       <Helmet>
-        <title>{post.title} | ReelHooks Blog</title>
+        <title>{post.title} | ReelHooks</title>
         <meta name="description" content={post.excerpt} />
+        <link rel="canonical" href={`https://www.reelhooks.site/blog/${post.slug}`} />
+        <meta property="og:type" content="article" />
+        <meta property="og:title" content={post.title} />
+        <meta property="og:description" content={post.excerpt} />
+        <meta property="og:url" content={`https://www.reelhooks.site/blog/${post.slug}`} />
+        <meta property="og:image" content={post.image} />
+        <meta name="robots" content="index,follow,max-image-preview:large" />
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "BlogPosting",
+          headline: post.title,
+          description: post.excerpt,
+          image: post.image,
+          datePublished: "2026-11-02",
+          dateModified: "2026-11-02",
+          author: { "@type": "Organization", name: post.author, url: "https://www.reelhooks.site/about" },
+          publisher: { "@type": "Organization", name: "ReelHooks", url: "https://www.reelhooks.site" },
+          mainEntityOfPage: `https://www.reelhooks.site/blog/${post.slug}`
+        })}</script>
+        <script type="application/ld+json">{JSON.stringify({
+          "@context": "https://schema.org",
+          "@type": "FAQPage",
+          mainEntity: post.faqs.map(faq => ({
+            "@type": "Question",
+            name: faq.q,
+            acceptedAnswer: { "@type": "Answer", text: faq.a }
+          }))
+        })}</script>
       </Helmet>
 
       <div className="max-w-4xl mx-auto px-4">
