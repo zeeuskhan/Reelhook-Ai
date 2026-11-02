@@ -398,6 +398,21 @@ function renderSeoHtml(urlPath: string, html: string): string {
       }
     ];
 
+  // Calculators hub with crawlable links to available tools.
+  } else if (cleanPath === "/calculators") {
+    title = "Free Online Calculators | ReelHooks";
+    description = "Explore free online calculators and practical guides from ReelHooks, including the TDEE calculator for daily calorie and energy estimates.";
+    bodyContent = `
+      <main style="max-width:900px;margin:40px auto;padding:24px;color:#F8FAFC;font-family:Inter,sans-serif;line-height:1.75;">
+        <nav aria-label="Breadcrumb"><a href="/">Home</a> / <span>Calculators</span></nav>
+        <h1 style="font-size:38px;font-weight:800;margin:28px 0 16px;">Free Online Calculators</h1>
+        <p>Browse practical calculators and guides. Results are estimates based on the assumptions explained on each page. Health-related tools are educational and do not replace advice from a qualified professional.</p>
+        <section><h2><a href="/tdee-calculator">TDEE Calculator</a></h2><p>Estimate BMR, total daily energy expenditure and illustrative calorie targets with three equations.</p></section>
+        <section><h2>Related reading</h2><ul><li><a href="/blog/tdee-calculator-formula-mifflin-st-jeor-explained">Understand the TDEE formula</a></li><li><a href="/blog/tdee-calculator-weight-loss-calorie-deficit-guide">Learn about calorie-deficit estimates</a></li></ul></section>
+        <p>More calculators will be listed when they are available and tested. We do not link to unfinished tools.</p>
+      </main>`;
+    schemasArray = [{ "@context":"https://schema.org","@type":"CollectionPage","name":"Free Online Calculators","url":"https://www.reelhooks.site/calculators","description":description },{ "@context":"https://schema.org","@type":"BreadcrumbList","itemListElement":[{"@type":"ListItem","position":1,"name":"Home","item":"https://www.reelhooks.site/"},{"@type":"ListItem","position":2,"name":"Calculators","item":"https://www.reelhooks.site/calculators"}]}];
+
   // Dedicated TDEE calculator landing page: complete crawler-readable content.
   } else if (cleanPath === "/tdee-calculator") {
     title = "TDEE Calculator: Estimate Your Daily Calories Free";
@@ -452,6 +467,11 @@ function renderSeoHtml(urlPath: string, html: string): string {
         { "@type": "Question", "name": "How can I find my body-fat percentage?", "acceptedAnswer": { "@type": "Answer", "text": "Options include trained skinfold assessment, bioelectrical impedance, DEXA or other body-composition assessments. Each method has limitations. If you lack a credible estimate, choose another equation." } }
       ] }
     ];
+
+  } else if (cleanPath === "/medical-disclaimer") {
+    title = "Medical & Health Disclaimer | ReelHooks";
+    description = "Read the health and medical disclaimer for ReelHooks calculators and educational content.";
+    bodyContent = `<main style="max-width:800px;margin:40px auto;padding:24px;color:#F8FAFC;line-height:1.75;"><nav><a href="/">Home</a> / Medical &amp; Health Disclaimer</nav><h1>Medical &amp; Health Disclaimer</h1><p>ReelHooks provides general educational information and calculation tools. We are not a hospital, clinic, medical practice or provider of individualized medical care.</p><h2>Estimates, not medical advice</h2><p>Outputs from the TDEE calculator and other health-related tools are estimates based on mathematical equations and user-entered information. They are not a diagnosis, treatment plan, prescription or substitute for a consultation with a qualified doctor or registered dietitian.</p><h2>Who should seek professional guidance</h2><p>Do not rely on general calorie calculators if you are under 18, pregnant or breastfeeding, managing a medical condition that affects nutrition or metabolism, or living with or recovering from an eating disorder. Ask a qualified healthcare professional whether calorie tracking or dietary changes are appropriate for you.</p><h2>No guaranteed outcomes</h2><p>Actual energy needs and health outcomes vary. We do not guarantee weight loss, weight gain, fitness results or any particular outcome. Do not make major changes to food intake, medication or treatment based only on a calculator result.</p><p>Last updated: 2 November 2026. For website questions, use our <a href="/contact">Contact page</a>.</p></main>`;
 
   // 2. SEO Article pages: /:slug
   } else if (cleanPath !== "/" && SEO_ARTICLES[cleanPath.substring(1)]) {
@@ -767,6 +787,10 @@ function renderSeoHtml(urlPath: string, html: string): string {
   revised = revised.replace(/<meta data-rh="true" property="og:title" content=".*?" \/>/, `<meta data-rh="true" property="og:title" content="${title}" />`);
   revised = revised.replace(/<meta data-rh="true" property="og:description" content=".*?" \/>/, `<meta data-rh="true" property="og:description" content="${description}" />`);
   revised = revised.replace(/<meta data-rh="true" property="og:url" content=".*?" \/>/, `<meta data-rh="true" property="og:url" content="${canonicalUrl}" />`);
+  if (cleanPath === "/tdee-calculator") {
+    revised = revised.replace(/<meta data-rh="true" property="og:image" content=".*?" \/>/, '<meta data-rh="true" property="og:image" content="https://www.reelhooks.site/og-tdee-calculator.svg" />');
+    revised = revised.replace("</head>", '<meta name="twitter:card" content="summary_large_image" /><meta name="twitter:title" content="TDEE Calculator: Estimate Your Daily Calories Free" /><meta name="twitter:description" content="Estimate your TDEE, BMR and daily calorie targets with three established formulas. Choose activity, units and goals in this free calculator." /><meta name="twitter:image" content="https://www.reelhooks.site/og-tdee-calculator.svg" /></head>');
+  }
 
   // Handle NoIndex routes (like dashboard, profile, or Tier 2 pages)
   const isNoIndex = cleanPath.startsWith("/dashboard") || cleanPath.startsWith("/profile") || !isTier1Url(cleanPath);
