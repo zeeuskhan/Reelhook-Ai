@@ -179,6 +179,7 @@ const UsernameGenerator = lazy(() => import("./components/tools/UsernameGenerato
 const DPGenerator = lazy(() => import("./components/tools/DPGenerator"));
 const TranscriptGenerator = lazy(() => import("./components/tools/TranscriptGenerator"));
 const MockupGenerator = lazy(() => import("./components/tools/MockupGenerator"));
+const TDEECalculator = lazy(() => import("./components/TDEECalculator"));
 const Blog = lazy(() => import("./components/Blog"));
 const BlogPost = lazy(() => import("./components/BlogPost"));
 const Sitemap = lazy(() => import("./components/SitemapPage"));
@@ -385,6 +386,7 @@ const Footer = () => (
             <li><Link to="/tools/instagram-caption-generator" className="hover:text-primary transition-colors py-1 block">Caption Builder</Link></li>
             <li><Link to="/tools/instagram-hashtag-generator" className="hover:text-primary transition-colors py-1 block">Hashtag Packs</Link></li>
             <li><Link to="/tools/instagram-reel-generator" className="hover:text-primary transition-colors py-1 block">Reel Scripts</Link></li>
+            <li><Link to="/tdee-calculator" className="hover:text-primary transition-colors py-1 block">TDEE & Calorie Calculator</Link></li>
           </ul>
         </div>
         <div className="space-y-4">
@@ -3711,6 +3713,7 @@ export default function App() {
               <Route path="/tools/instagram-transcript-generator" element={<TranscriptGenerator />} />
               <Route path="/tools/instagram-mockup-generator" element={<MockupGenerator />} />
               <Route path="/tools/hook-generator" element={<ToolSEOPage />} />
+              <Route path="/tdee-calculator" element={<TDEECalculator />} />
               <Route path="/ai-tools-news" element={<AINewsIndex />} />
               <Route path="/ai-tools-news/:category" element={<AINewsIndex />} />
               <Route path="/ai-tools-news/:category/:slug" element={<AINewsArticlePage />} />
