@@ -120,7 +120,9 @@ function isTier1Url(cleanPath: string): boolean {
       "reel-hook-analyzer",
       "content-ideas-generator",
       "content-calendar-generator",
-      "free-ai-hook-generator"
+      "free-ai-hook-generator",
+      "viral-hook-examples-generator",
+      "reel-hooks-hindi"
     ];
     return premiumArticles.includes(slug) && !REDIRECT_MAP[slug];
   }
@@ -909,7 +911,9 @@ async function startServer() {
       "reel-hook-analyzer",
       "content-ideas-generator",
       "content-calendar-generator",
-      "free-ai-hook-generator"
+      "free-ai-hook-generator",
+      "viral-hook-examples-generator",
+      "reel-hooks-hindi"
     ];
     premiumArticles.forEach(slug => {
       paths.push(`/${slug}`);
