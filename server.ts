@@ -825,7 +825,7 @@ async function startServer() {
     const host = String(req.headers["x-forwarded-host"] || req.headers.host || "").split(",")[0].trim().toLowerCase();
     if (host === "reelhooks.site") return res.redirect(301, `https://www.reelhooks.site${req.originalUrl}`);
     if (req.path === "/tdee-calculator/") return res.redirect(301, `/tdee-calculator${req.url.slice(req.path.length)}`);
-    const cleanPath = req.path.replace(/^\\/|\\/$/g, "");
+    const cleanPath = req.path.replace(/^\/|\/$/g, "");
     if (REDIRECT_MAP[cleanPath]) return res.redirect(301, REDIRECT_MAP[cleanPath]);
     next();
   });
@@ -982,7 +982,7 @@ ${urlBlocks}
       try {
         const indexHtml = fs.readFileSync(path.join(__dirname, "dist", "index.html"), "utf-8");
         const finalHtml = renderSeoHtml(url, indexHtml);
-        const routeKnown = isTier1Url(req.path) || req.path === "/dashboard" || req.path === "/profile" || req.path === "/ai-tools-news" || req.path.startsWith("/ai-tools-news/") || Boolean(SEO_ARTICLES[req.path.replace(/^\\/+/, "")]);
+        const routeKnown = isTier1Url(req.path) || req.path === "/dashboard" || req.path === "/profile" || req.path === "/ai-tools-news" || req.path.startsWith("/ai-tools-news/") || Boolean(SEO_ARTICLES[req.path.replace(/^\/+/, "")]);
         res.status(routeKnown ? 200 : 404).set({ "Content-Type": "text/html" }).send(finalHtml);
       } catch (e) {
         console.error("Error serving production HTML:", e);
